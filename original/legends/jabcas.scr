@@ -1,0 +1,1928 @@
+MLIST 45 133 30 3 
+MLIST 45 134 30 3
+MLIST 46 131 40 2
+MLIST 46 132 40 2
+;
+; This is the magic-user of the group. It should appear in the tower.
+;
+MNUMBER 131
+MADJDEF 37 chaos
+ADJECTIVE 37
+NAME mage
+PART 0
+PART 1
+PART 5
+PART 6
+PART 7
+PART 8
+PART 13
+PART 14
+ALIGNMENT -100
+BODY 300
+EXTRABODY 300
+ATTACK1 200
+DEFENSE 150
+STRATEGY 550
+IMMUNITY 3 1
+IMMUNITY 4 0
+IMMUNITY 5 1
+IMMUNITY 6 0
+IMMUNITY 7 0
+RACE 21
+WEAPON 477 107 10
+WEAPONPLUS 5
+ARMOR 25
+MAGICWEAPON 3
+SKINADJ 246
+SKINITEM 515 75 500 0
+SKINITEM 520 75 1000 0
+SKINITEM 523 75 1500 0
+GENDER 2
+RESIST 700
+PSIRESIST 250
+TREASURE 60
+SPEED 1
+*DESCRIPTION_START
+Before you stands a dark-robed figure, surrounded by an eerie nimbus of pure,
+chaotic energy. Two pinpoints of intense, flickering light shine out from
+beneath its cowl, framed by long shimmering hair of no definable color. Wildly
+shifting distortions ripple through the air as the creature passes, making it
+impossible to determine its true race or even gender.
+*DESCRIPTION_END
+STRENGTH 225
+MANA 1000
+SPELLUSE 70
+SPELLSKILL 700
+CASTLEVEL 99
+NONDISRUPTABLE
+SILENCEIGNORE
+SPELL 112 
+; Call Meteor
+SPELL 103 
+; Lightning Bolt
+SPELL 121 
+; Freezing Sphere
+SPELL 230 
+; Disjunct
+SPELL 219 
+; Silence
+SPELL 231 
+; Imprison
+SPELL 315 
+; BD III
+SPELL 312 
+; Wail of the Banshee
+SPELL 522 
+; Insect Swarm
+SPELL 519 
+; Sunray
+SPECUSE 20
+SPECUSES 25
+SPECBASE 20
+SPECDMG 30
+SPECDMGTYPE ELECTRIC
+TEXX %s briefly extends its strange aura to engulf %s.
+TEXE A chaos mage paces in with a spinechilling maniacal laugh.
+TEXM A chaos mage strides
+TEXG A brief tear in the fabric of reality opens to admit a chaos mage.
+TEXB A chaos mage rides in on the back of its bizarre pet beast.
+TEXC A chaos mage lashes its mount into motion and rides
+TEXI A chaos mage sneers at the ineffectual attack.
+TEX1 In a weirdly distorted voice, a mage shouts, "Slay all the Mages of the Rose!"
+TEX2 A chaos mage shudders as a brief, inexplicable convulsion wracks its body.
+TEXD slowly collapses, as though gravity affects it less than normal.
+TEXA A chaos mage walks boldly up to
+TEXR A chaos mage falters and takes a step backward.
+TEXF A chaos mage turns and runs
+TEXS A chaos mage raises its arms high and screams an insane incantation.
+TEXL A chaos mage snickers triumphantly as it casts its spell
+TEXQ It lowers its arms again, cocking its head as though baffled by its failure.
+;
+; This is the fighter of the group. It should appear in the tower. It guards the mage.
+;
+MNUMBER 132
+MADJDEF 38 shimmering
+ADJECTIVE 38
+NAME creature
+PART 0
+PART 1
+PART 2
+PART 9
+PART 10
+PART 11
+PART 12
+PART 13
+PART 14
+PART 17
+PART 18
+PART 19
+ALIGNMENT 0
+BODY 500
+EXTRABODY 500
+ATTACK1 300
+DEFENSE 300
+STRATEGY 550
+IMMUNITY 1 1
+IMMUNITY 2 1
+IMMUNITY 6 0
+IMMUNITY 7 0
+RACE 21
+WEAPON 528 144 70
+WEAPON 280 144 70
+WEAPON 1703 144 70
+WEAPON 1968 144 70
+WEAPON 680 144 70
+WEAPONPLUS 15
+ARMOR 75
+MAGICWEAPON 3
+SKINADJ 287
+SKINITEM 505 75 1000 0
+SKINITEM 509 75 0 0
+SKINITEM 510 75 1500 0
+SKINITEM 519 75 2000 0
+SKINITEM 528 75 2500 0
+FATIGUE 50 20
+GENDER 2
+RESIST 200
+PSIRESIST 200
+TREASURE 60
+SPEED 1
+*DESCRIPTION_START
+You see what appears to be an animate shadow wreathed in colorless distortion,
+like heat waves pouring off of its form. The outlines of this bizarre beast
+constantly blur and change in subtle ways, almost as though it is having some
+trouble maintaining its shape in this plane. It fights in eerie silence,
+making no sound other than the scrape of its claws against the ground as it
+leaps to the attack.
+*DESCRIPTION_END
+STRENGTH 85
+GUARD 131
+MANA 250
+SPELLUSE 10
+SPELLSKILL 750
+CASTLEVEL 99
+NONDISRUPTABLE
+SILENCEIGNORE
+SPELL 105 
+; Globe of Protection I
+SPELL 102 
+; Mystic Armor
+SPECUSE 20
+SPECUSES 25
+SPECBASE 20
+SPECDMG 30
+SPECDMGTYPE HEAT
+TEXX %s reaches out with a glittering tendril of its essence toward %s.
+TEXE A shimmering creature wavers into existence from out of thin air.
+TEXM A shimmering creature moves erratically
+TEXG A nearby ripple in the ether suddenly takes on a life of its own.
+TEXI The creature simply stares at you as the weapon passes harmlessly through.
+TEX1 A creature's form fluctuates wildly, forcing it to pause and stabilize itself.
+TEX2 Reeling, a creature staggers in sudden confusion at its surroundings.
+TEXD falls heavily to the ground, with scarcely a sound at all.
+TEXA A shimmering creature billows toward
+TEXR A shimmering creature shrinks away from its opponent.
+TEXF A shimmering creature darts frantically
+TEXL A shimmering creature looms darker and more solid for a moment
+TEXS A creature weaves some of the ether around itself into an enchantment.
+TEXQ The buildup of power around a creature disperses harmlessly.
+;
+; This is the psi-user of the group. It should appear outside the tower.
+;
+MNUMBER 133
+NAME mindbender
+PART 0
+PART 1
+PART 5
+PART 6
+PART 7
+PART 8
+PART 13
+PART 14
+*DESCRIPTION_START
+Milky white eyes gaze dispassionately out from gaunt, deathly pale features as
+this strange being examines the world around it. Colorless silken hair flows
+down its back nearly to the ground, stirring with faint rustling whispers when
+it turns its head. Long, sharply pointed ears show through the shifting mane
+when they swivel to detect a new sound. Voluminous robes of a mysterious
+silvery-white fabric obscure further details of race and gender. 
+*DESCRIPTION_END
+ALIGNMENT 0
+STRENGTH 295
+SCRIPTMACRO 86
+BODY 200
+EXTRABODY 200
+ATTACK1 200
+DEFENSE 100
+STRATEGY 400
+TREASURE 50
+IMMUNITY 3 1
+IMMUNITY 4 1
+IMMUNITY 5 0
+IMMUNITY 6 0
+IMMUNITY 7 0
+WEAPON 27 647 10
+WEAPONPLUS 5
+ARMOR 25
+MAGICWEAPON 3
+SKINADJ 1132
+SKINITEM 506 75 500 0
+SKINITEM 508 75 1000 0
+SKINITEM 523 75 1500 0
+SKINITEM 525 75 1500 0
+GENDER 2
+RESIST 700
+PSIRESIST 700
+SPEED 1
+PSI 500
+PSIUSE 60
+PSISKILL 700
+PSILEVEL 99
+DISCIPLINE 2
+DISCIPLINE 4
+DISCIPLINE 5
+DISCIPLINE 7
+DISCIPLINE 10
+DISCIPLINE 16
+DISCIPLINE 41
+MANA 50
+SPELLUSE 20
+SPELLSKILL 300
+CASTLEVEL 99
+SPELL 105
+; Globe of Protection I
+NONDISRUPTABLE
+SILENCEIGNORE
+SPECUSE 10
+SPECUSE 20
+SPECUSES 25
+SPECBASE 20
+SPECDMG 30
+SPECDMGTYPE COLD
+TEXX %s lightly brushes its fingertips across the forehead of %s.
+TEXE The temperature drops when a mindbender paces in.
+TEXM A mindbender paces
+TEXG Tiny ice crystals condense out of the air into the form of a mindbender.
+TEXB A rogue shape skitters in ahead of a mindbender.
+TEXC A rogue shape accompanies a mindbender as it strides
+TEXI A mindbender deflects the attack with a casual kinetic parry.
+TEX1 With a slight frown, a mindbender gazes calculatingly across the area.
+TEX2 A mindbender pauses for a moment to consider its next move.
+TEXD falls to the ground, its robes settling softly around its body.
+TEXA A mindbender steps up to confront
+TEXR A mindbender steps back from its opponent.
+TEXF With a slight bow, a mindbender swiftly walks
+TEXS A mindbender bends the ether to its will, shaping a spell.
+TEXL A mindbender narrows its cold white eyes in concentration
+TEXQ It furrows its brow briefly as the spell fails to take effect.
+;
+; This is the backstabber of the group. It should appear outside the tower.
+;
+MNUMBER 134
+MADJDEF 39 rogue
+ADJECTIVE 39
+NAME shape
+PART 0
+PART 1
+PART 2
+PART 9
+PART 10
+PART 11
+PART 12
+PART 13
+PART 14
+PART 17
+PART 18
+PART 19
+ALIGNMENT 0
+BODY 300
+EXTRABODY 300
+ATTACK1 275
+DEFENSE 225
+STRATEGY 550
+IMMUNITY 6 0
+IMMUNITY 7 0
+RACE 21
+HIDESKILL 90
+WEAPON 12 170 70
+WEAPON 711 170 70
+WEAPON 32 170 70
+WEAPON 501 170 70
+WEAPON 503 170 70
+WEAPONPLUS 15
+ARMOR 50
+MAGICWEAPON 3
+SKINADJ 287
+DISCORPORATE
+FATIGUE 50 20
+GENDER 2
+RESIST 125
+PSIRESIST 125
+TREASURE 0
+SPEED 1
+*DESCRIPTION_START
+It is literally impossible to make a fixed description of this bizarre being,
+other than the fact that it remains vaguely humanoid. Most of the time. Its
+limbs, shape, and even size are in a constant state of change. Amazingly, this
+seems not to cause it any discomfort, nor hinder its erratic movements in any
+noticeable way whatsoever.
+*DESCRIPTION_END
+STRENGTH 99
+MANA 250
+SPELLUSE 10
+SPELLSKILL 500
+CASTLEVEL 99
+NONDISRUPTABLE
+SILENCEIGNORE
+SPELL 511 
+; Carapace
+SPELL 102 
+; Mystic Armor
+SPECUSE 20
+SPECUSES 25
+SPECBASE 20
+SPECDMG 30
+SPECDMGTYPE SLASH
+TEXX %s forms a sharp edge out of its substance and lashes out at %s!
+TEXE A rogue shape slithers in, its limbs changing form as it moves.
+TEXM A rogue shape careens
+TEXG What seemed like an ordinary object suddenly turns out to be a rogue shape.
+TEXI A rogue shape's fluid form simply parts around the weapon.
+TEX1 A rogue shape grows and loses several random body parts in rapid succession.
+TEX2 Eyes grow in the back of a rogue shape's head, rather than turning to look.
+TEXD dissolves into noxious slime that quickly seeps into the ground.
+TEXA A rogue shape lurches toward
+TEXR A rogue shape shrieks and backpedals away from its opponent.
+TEXF Wailing, a rogue shape staggers
+TEXS Some tentacles on a rogue shape contort in the gestures of preparing a spell.
+TEXL Power shudders through a rogue shape as it casts its enchantment
+TEXQ A rogue shape flails a few limbs in frustration.
+;
+CEVENT 6 3 3349  
+;Training film counter
+VARIABLE JABFILM
+;damage counter
+VARIABLE JABDMG
+;sets room to which to  echo atmospherics, and to which to move players on random move.
+VARIABLE JABROOM     
+;room to send damage string to
+VARIABLE JABROOM2
+;move timer
+VARIABLE JABMVE
+;atmospheric echo string
+VARIABLE JABSTR
+;Lightshow timer
+VARIABLE LIGHTSHOW
+;lightshow string
+VARIABLE LIGHTS
+VARIABLE JABDMGTYPE
+;
+IFVAR JABFILM < 30
+  ADD JABFILM 1
+  ELSE
+  EQUAL JABFILM 0
+ENDIF     
+AFFECT 3306
+IFVAR JABFILM = 0
+  ECHO ALL There is a whirring sputter, and the light on the mist comes to life, swirling into a maze of color.
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 1
+  ECHO ALL A voice issues from the swirling colors, droning monotonously.
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 2
+  ECHO ALL It intones, "After centuries of exile, a scouting party has discovered a portal to return us to our home...
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 3
+  ECHO ALL ...and fate has delivered our ancient enemies into our hands.
+  ECHO ALL What follows are reports from the scouting party on each of  the members of the Order.
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 4
+  ECHO ALL The swirling colors coalesce, forming a picture of the Meeting Hall of the Arcana Tower. The focus slowly tightens until the silver rose fills the screen.
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 5
+  ECHO ALL The voice continues, "This is the meeting hall of the Order of the White Rose."
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 6
+  ECHO ALL The focus widens again to encompass the entire table, showing a meeting in progress.
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 7
+  ECHO ALL The focus begins to narrow again, until the face of Lianna fills the mist.
+ENDIF      
+AFFECT 3306
+IFVAR JABFILM = 8
+  ECHO ALL The voice over intones, "This is Lianna, Mistress of the  Order. Should you encounter her, your surest strategy is to...
+ENDIF      
+AFFECT 3306
+IFVAR JABFILM = 9
+  ECHO ALL ...cast silence immediately, before she has a chance to  envelop herself and her companions in protective bubbles.
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 10
+  ECHO ALL The focus moves slowly to the left until the wavering form of  Myrdhyn is centered.
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 11
+  ECHO ALL The voice over intones, "This disembodied aelf is known as  Myrdhyn Wenthal. His knowledge of lore and sagecraft is legendary, as is...
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 12
+  ECHO ALL his penchant for reasonable discussion over violence. The scouts suggest distracting him with discourse while a shape positions itself for attack."
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 13
+  ECHO ALL Once again the focus shifts left, bringing Mariella into view.
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 14
+  ECHO ALL The voice over drones, "This wolfling is Mariella Silverleaf, a mage of better than average ability.
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 15
+  ECHO ALL She is often guarded by her husband, Emanon Demonslayer. She was an apprentice of this man..."
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 16
+  ECHO ALL The focus again shifts left moving to show the smoke-wreathed form of Linnaeus Wanderfar.
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 18
+  ECHO ALL "...Linnaeus Wanderfar, former Grand Master of the Order. Be extremely careful of casting magic near him...
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 19
+  ECHO ALL "...as something in his aura seems to warp spells, causing unexpected results."
+ENDIF      
+AFFECT 3306
+IFVAR JABFILM = 20
+  ECHO ALL The focus continues to move to the left, around the side of  the table, bringing Cabot into view.
+ENDIF      
+AFFECT 3306
+IFVAR JABFILM = 21
+  ECHO ALL The voice over intones, "Somewhat unusual in an order devoted  to magic is this man, Cabot. He is a powerful psionist..
+ENDIF      
+AFFECT 3306
+IFVAR JABFILM = 22
+ ECHO ALL "...akin to the mindbenders of this plane. One of our scouts observed him fashioning a chair of the molecules in the air..
+ ECHO ALL "and sitting in it."
+ENDIF      
+AFFECT 3306
+IFVAR JABFILM = 23
+  ECHO ALL As the focus continues to move left, the voice intones, "Seated next to Cabot is the ephemeral known as Tigre.."
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 24
+  ECHO ALL "...the rumor is that he was a familiar belonging to a former member of the Order..
+  ECHO ALL "Despite his rather ridiculous appearance, he should not be  taken lightly. He is a mage of no small ability."
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 25
+  ECHO ALL Once again, the focus shifts left, onto the pert face of Sun. The voice intones, "Sun Light.."
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 26
+  ECHO ALL "...a female mage of considerable ability. Our scout suggests silencing her on sight...
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 27
+  ECHO ALL "as much for your own sanity as to prevent her from incanting spells."
+ENDIF
+IFVAR JABFILM = 28
+  ECHO ALL Sun's face is replaced by that of Chronis. The voice over intones...
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 29
+  ECHO ALL "The mage, Chronis. Our scouts were able to learn little about this mysterious mage, but advise extreme caution."
+ENDIF
+AFFECT 3306
+IFVAR JABFILM = 30
+  ECHO ALL The picture fades into a swirl of color, as the voice over  intones, "These are our enemy, study them well and be prepared!"
+  ECHO ALL The light on the mist dims and a soft whir suggests the end of the film.
+ENDIF
+AFFECT 3349
+;damage timer.. can you beat the clock?
+;adds random number from 1 to 5 to JABDMG, which serves as trigger for random 
+;damage to players in the area.
+;
+IFVAR JABDMG < 60
+   RANDOM DUMMY1 1 5 0
+   ADD JABDMG DUMMY1
+ ELSE
+  RANDOM JABROOM2 1 50 0
+  ADD JABROOM2 3300
+  EQUAL JABDMG 0
+ENDIF
+;sets damage type for random damage to players when the jabdmg clock runs out                                                                 
+IFVAR JABDMG > 59
+      RANDOM JABDMGTYPE 1 500 0
+      MOD JABDMGTYPE 5
+      AFFECT JABROOM2
+      IFVAR PLRSINROOM ! 0
+         RANDOM DUMMY1 1 500 0 
+         MOD DUMMY1 50
+         ADD DUMMY1 35
+         IFVAR JABDMGTYPE = 0
+           DAMAGEPLR COLD dummy1 A bolt of nearly black lightning sears you with bonechilling cold.
+           ECHO OTHERS %n is struck by a bolt of black lightning.
+         ENDIF
+         IFVAR JABDMGTYPE = 1
+           DAMAGEPLR COLD DUMMY1 An icy wind whirls around you, nearly flaying your skin with cold.
+           ECHO OTHERS %n is caught up in an icy whirlwind.
+         ENDIF
+         IFVAR JABDMGTYPE = 2
+           DAMAGEPLR CRUSH DUMMY1 The air suddenly implodes, crushing you with bruising force.
+           ECHO OTHERS %n suddenly staggers as if hit by an enormous force.
+         ENDIF
+         IFVAR JABDMGTYPE = 3
+           DAMAGEPLR CRUSH DUMMY1 There is a whirr of wings, and something strikes you, knocking you over.
+           POSITION LAY
+           ECHO OTHERS %n is knocked to the ground by an unseen force.
+         ENDIF
+         IFVAR JABDMGTYPE = 4
+           DAMAGEPLR ELECTRIC DUMMY1 LIghtning arcs up from the ground through the soles of your feet.
+         ENDIF
+         RANDOM DUMMY1 1 10 0                 
+         EQUAL JABDMG DUMMY1
+      ENDIF               
+ENDIF
+;timer for random moves from rms 3306, 3315, 3324, 3333 and 3342 to JABROOM
+IFVAR JABMVE < 80
+  RANDOM DUMMY1 1 5 0  
+  ADD JABMVE DUMMY1
+ENDIF
+IFVAR JABMVE > 79
+;chooses one of ten echoes to be sent to a room determined randomly
+  RANDOM JABSTR 1 10 0
+  RANDOM JABROOM 1 50 0
+  ADD JABROOM 3300   
+  AFFECT JABROOM
+  ECHO ALL There is a nearly imperceptible shift in the ether. %0
+  AFFECT 3350
+  ECHO ALL There is a nearly imperceptible shift in the ether. %0
+  AFFECT 3349
+  EQUAL JABMVE 0
+ENDIF
+;
+;yep, these are the echoes.. if you add more, change the preceding RANDOM to 
+;reflect the total number of echoes  e.g. 15 echoes would be RANDOM DUMMY1 1 
+;15 0
+;
+IFVAR JABSTR = 1
+  STRCPY 0 "The_ground_beneath_your_feet_suddenly_turns_to_quagmire.
+ENDIF
+;
+IFVAR JABSTR = 2
+  STRCPY 0 "Your_surroundings_are_bathed_in_iridescence_as_a_flash_of_dark_lightning_arcs_nearby.
+ENDIF
+IFVAR JABSTR = 3
+  STRCPY 0 "Dark_shadows_gather_around,_their_hunger_a_palpable_thing.
+ENDIF
+IFVAR JABSTR = 4
+  STRCPY 0 "Out_of_the_corner_of_your_eye,_you_catch_a_glimpse_of_something_horribly_misshapen.
+ENDIF
+IFVAR JABSTR = 5
+  STRCPY 0 "A_flash_of_lightning_illuminates_strange_transparent_shapes_floating_in_the_air.
+ENDIF
+IFVAR JABSTR = 6
+  STRCPY 0 "The_air_around_you_shimmers_and_shifts_briefly.
+ENDIF
+IFVAR JABSTR = 7
+  STRCPY 0 "The_surrounding_shadows_take_on_more_substance_and_a_dark_voice_intones_"Beware!".
+ENDIF
+IFVAR JABSTR = 8
+  STRCPY 0 "A_sudden_drop_in_temperature_chills_you_to_the_bone.
+ENDIF
+IFVAR JABSTR = 9
+  STRCPY 0 "A_chorus_of_howls_echoes_and_hangs_eerily_in_the_air.
+ENDIF
+IFVAR JABSTR = 10
+  STRCPY 0 "A_disembodied_claw_rips_through_the_air,_leaving_behind_a_tear_that_slowly_knits_back_together.      
+ENDIF           
+RANDOM DUMMY2 1 5 0
+ADD LIGHTSHOW DUMMY2
+IFVAR LIGHTSHOW > 60     
+   RANDOM LIGHTS 1 10 0
+   IFVAR LIGHTS = 1
+     STRCPY 1 "indigo
+   ENDIF
+   IFVAR LIGHTS = 2
+     STRCPY 1 "brilliant_yellow
+   ENDIF
+   IFVAR LIGHTS = 3
+     STRCPY 1 "deep_scarlet
+   ENDIF
+   IFVAR LIGHTS = 4
+     STRCPY 1 "emerald_green
+   ENDIF
+   IFVAR LIGHTS = 5
+     STRCPY 1 "rich_cobalt_blue
+   ENDIF
+   IFVAR LIGHTS = 6
+     STRCPY 1 "pale_rose
+   ENDIF
+   IFVAR LIGHTS = 7
+     STRCPY 1 "pure_white
+   ENDIF
+   IFVAR LIGHTS = 8
+     STRCPY 1 "iridescent_black
+   ENDIF
+   IFVAR LIGHTS = 9
+     STRCPY 1 "shimmering_orange
+   ENDIF
+   IFVAR LIGHTS = 10
+     STRCPY 1 "flickering_violet
+   ENDIF
+   AFFECT 3301
+     ECHO ALL The silvery mist suddenly flares %1.
+     EQUAL LIGHTSHOW 0
+   AFFECT 3312
+     ECHO ALL The dark mist suddenly flares %1.
+     EQUAL LIGHTSHOW 0
+   AFFECT 3323 
+     ECHO ALL The brilliant mist suddenly flares %1.     
+   EQUAL LIGHTSHOW 0
+ENDIF   
+;    
+MACRO 19
+;             
+;checks player aura on prep, and sets flag for mana drain when player casts prepped spell.
+;fyi, player can safely cast the prepared spell if they leave the room where 
+;it was prepped before casting.
+;
+IFVAR SPELLNUM ! 0
+  IFVAR FLAG1 = 0
+    IFVAR ALIGN > 49
+      EQUAL FLAG1 1
+    ENDIF
+    IFVAR ALIGN > 9
+      IFVAR ALIGN < 50
+        EQUAL FLAG1 4
+      ENDIF
+    ENDIF
+    IFVAR ALIGN < 10
+      IFVAR ALIGN > 5
+         EQUAL FLAG1 2
+      ENDIF
+    ENDIF
+    IFVAR ALIGN < 6
+      IFVAR ALIGN > -1
+        EQUAL FLAG1 3
+       ENDIF
+     ENDIF
+   ENDIF
+ENDIF
+;drains mana on cast, based on aura -- lighter the aura, more the drain
+VARIABLE JABMANA                                  
+VARIABLE JABMANA1
+VARIABLE JABMANA2
+IFPREVERB CAST -1               
+  IFVAR FLAG1 ! 0
+    ECHO PLAYER You feel the shadows feeding hungrily on the mana you've released.
+    IFVAR FLAG1 = 1
+       RANDOM JABMANA2 20 50 0
+       SUB MANAPOINTS JABMANA2
+    ENDIF
+    IFVAR FLAG1 = 2         
+      RANDOM JABMANA1 10 30 0                       
+      SUB MANAPOINTS JABMANA1
+    ENDIF
+    IFVAR FLAG1 = 3             
+      RANDOM JABMANA 1 32000 0
+      MOD JABMANA 10
+      ADD JABMANA 5 
+      STRCVT 1 JABMANA
+      GMMSG JABMANA = %1 
+      SUB MANAPOINTS JABMANA
+    ENDIF                   
+    IFVAR FLAG1 = 4
+      RANDOM JABMANA 1 32000 0
+      mod jabmana 10
+      ADD JABMANA 10
+      SUB MANAPOINTS JABMANA
+    ENDIF
+  ENDIF                      
+  EQUAL FLAG1 0
+ENDIF
+;
+IFVAR JABMVE > 80
+  IFVAR RNUM = 3306
+    ECHO ALL There is a slight shimmer in the air...
+    MOVEALL JABROOM
+    AFFECT JABROOM
+    ECHO ALL ...and when it clears, your surroundings have shifted. 
+    STRCVT 2 JABROOM
+    GMMSG A group has been moved to %2.
+    AFFECT 3306
+  ENDIF
+  IFVAR RNUM = 3315
+    ECHO ALL There is a slight shimmer in the air...
+    MOVEALL JABROOM
+    AFFECT JABROOM
+    ECHO ALL ...and when it clears, your surroundings have shifted.
+    STRCVT 2 JABROOM
+    GMMSG A group has been moved to %2.
+    AFFECT 3315
+  ENDIF
+  IFVAR RNUM = 3324
+    ECHO ALL There is a slight shimmer in the air...
+    MOVEALL JABROOM
+    AFFECT JABROOM
+    ECHO ALL ...and when it clears, your surroundings have shifted.
+    STRCVT 2 JABROOM
+    GMMSG A group has been moved to %2.
+    AFFECT 3324
+  ENDIF
+    IFVAR RNUM = 3333
+    ECHO ALL There is a slight shimmer in the air...
+    MOVEALL JABROOM
+    AFFECT JABROOM
+    ECHO ALL ...and when it clears, your surroundings have shifted.
+    STRCVT 1 JABROOM
+    GMMSG A group has been moved to %2.
+    AFFECT 3333
+  ENDIF
+  IFVAR RNUM = 3342
+    ECHO ALL There is a slight shimmer in the air...
+    MOVEALL JABROOM
+    AFFECT JABROOM
+    ECHO ALL ...and when it clears, your surroundings have shifted.
+    STRCVT 2 JABROOM
+    GMMSG A group has been moved to %2.
+    AFFECT 3342
+  ENDIF
+ENDIF
+;
+;
+;Da Mane Event!
+; 
+VARIABLE JAB2NDROOM
+;
+NUMBER 3300 
+NAME Miasma
+REGION 15
+CHANNEL 72  
+ASTRAL
+EXIT W 3301
+;
+CALL 19    
+;
+*DESCRIPTION_START 
+Tendrils of mist rise from all sides, though there seem to be no walls, no 
+floor, no trees, nothing to mark this place as anything at all but a misty 
+void. In the direction that seems to be west, an occasional shimmer of 
+scarlet or cerulean flickers for a moment in a vague arch shape before fading.
+*Description_END
+;        
+;arch     
+ITEM 0 60 VAL2=3301 
+;                 
+IFPREVERB EXAM 0
+  CLEARVERB
+  ECHO PLAYER The misty arch shape flickers in and out of existence as you watch.
+ENDIF
+IFPREVERB GO 0    
+    CLEARVERB
+    RANDOM JAB2NDROOM 1 50 0
+    ADD JAB2NDROOM 3300
+    ECHO PLAYER You sense a subtle shift in the atmosphere.
+    DISBAND
+    MOVE JAB2NDROOM
+    ECHO ALL %n steps through the arch and disappears.
+    AFFECT JAB2NDROOM
+    ECHO OTHERS %n arrives through a rift in the ether.
+ENDIF
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+NUMBER 3301 
+NAME Miasma 
+REGION 15                                                           
+CHANNEL 72 
+ASTRAL
+FIXED_LIGHT
+EXIT E 3302                
+EXIT N 3304      
+MONSTER_GROUP 45
+;
+*DESCRIPTION_START
+A semi-solid stairway rises from the mist as if carved from it, its upper 
+steps shrouded in a wreath of silvery, pulsing light. A burnished gold 
+railing spirals along beside the stair, with no visible means of support. 
+Outside the circle of light cast from above, the mist shimmers and changes 
+color constantly with no seeming pattern to it.
+*DESCRIPTION_END
+CALL 19
+;     
+;stair
+ITEM 0 81 VAL2=3305
+;railing
+ITEM 1 1050
+;mist
+ITEM 2 451 
+;         
+*DESCRIPTION_START ITEM EXAM 2
+Silvery tendrils twist around each other into chains and cables supporting 
+a stairway that seems to be carved of mist. It extends up out of sight, 
+disappearing into the gathering mist far above you.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 2
+The mist pulses and swirls occasionally flaring brightly in a rainbow of 
+colors. It both obscures and is transparent, allowing you to catch glimpses 
+of things that simply shouldn't be there.
+*DESCRIPTION_END
+IFPREVERB EXAM 2
+  RANDOM DUMMY1 1 5 0
+  IFVAR DUMMY1 = 1
+    ECHO PLAYER A disembodied head floats by, laughing uproariously.
+  ENDIF
+  IFVAR DUMMY1 = 2
+    ECHO PLAYER Through the mist, you see a battle of epic proportions. As you watch, the mist 
+    ECHO PLAYER swirls, and the battleground is gone.
+  ENDIF
+  IFVAR DUMMY1 = 3
+    ECHO PLAYER A crystal tower rises against a midnight sky, reflecting the light of a myriad shooting stars.
+  ENDIF
+  IFVAR DUMMY1 = 4
+    ECHO PLAYER Ten black-robed mages stand, each at an intersection point of a pentagram 
+    ECHO PLAYER inscribed in light. In the center stands a radiant woman robed in white 
+    ECHO PLAYER and silver conversing with a demon.
+  ENDIF
+  IFVAR DUMMY1 = 5
+    ECHO PLAYER A single mage stands, his black robes a stark contrast to the shimmering 
+    ECHO PLAYER mists. As he raises his arms, a single crystal on the ground before him 
+    ECHO PLAYER begins to grow, forming itself into a crystal spire that catches the 
+    ECHO PLAYER flashes of light.
+  ENDIF
+ENDIF
+IFPREVERB E -1
+   DISBAND
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+NUMBER 3302 
+NAME Behind the Stairs
+REGION 15
+CHANNEL 72
+ASTRAL
+PARTIAL_DARKNESS
+EXIT O 3301
+MONSTER_GROUP 45
+CALL 19
+;
+*DESCRIPTION_START
+On one side, a solid wall of mist rises in a diagonal far out of sight. 
+Although there are no boundaries in any other direction, it seems cramped 
+here, and shimmering webs crisscross the area, appended to nothing.
+*DESCRIPTION_END
+;
+IFENTRY
+  ECHO PLAYER You catch the outline of a door out of the corner of your eye, but when you look again, it's gone.
+ENDIF
+;
+ITEM 0 199 VAL2=3303
+;
+IFTOUCH 0      
+  IFVAR FLAG1 ! 1
+    CLEARVERB
+    ECHO PLAYER What are you referring to? Please be more specific.
+  ENDIF  
+ENDIF
+IFPREVERB EXAM 0
+  IFVAR FLAG1 ! 1
+    CLEARVERB
+    ECHO PLAYER What are you referring to? Please be more specific.
+  ENDIF
+ENDIF
+IFPREVERB OPEN 0
+  IFVAR FLAG1 ! 1
+    CLEARVERB
+    ECHO PLAYER What are you referring to? Please be more specific.
+  ENDIF
+ENDIF
+IFPREVERB CLOSE 0
+  IFVAR FLAG1 ! 1
+    CLEARVERB
+    ECHO PLAYER What are you referring to? Please be more specific.
+  ENDIF
+ENDIF
+IFPREVERB GAZE 0
+  IFVAR FLAG1 ! 1
+    CLEARVERB
+    ECHO PLAYER What are you referring to? Please be more specific.
+  ENDIF
+ENDIF
+IFPREVERB SEARCH -1
+    IFVAR PER < 126
+     RANDOM DUMMY1 1 100 0
+     MOD DUMMY1 2
+       IFVAR DUMMY1 = 0
+         CLEARVERB
+         EQUAL FLAG1 1
+         ECHO PLAYER You are barely able to make out the luminous outline of a door.
+         ECHO OTHERS %n searches the area.
+       ENDIF
+       IFVAR DUMMY1 = 1
+         CLEARVERB
+         ECHO PLAYER You look carefully, but the outline of a door fades everytime you look at it.
+         ECHO OTHERS %n searches the area.
+       ENDIF
+   ENDIF
+   IFVAR PER > 125
+     RANDOM DUMMY1 1 100 0
+     MOD DUMMY1 4
+     IFVAR DUMMY1 < 3
+       CLEARVERB     
+       EQUAL FLAG1 1
+       ECHO PLAYER The luminous outline of a door slowly fades into view until it is glowing brightly.
+       ECHO OTHERS %n searches the area.
+     ENDIF
+     IFVAR DUMMY1 = 3
+       CLEARVERB
+       ECHO PLAYER You look carefully, but the outline of a door fades from view every time you try to look at it.
+       ECHO OTHERS %n searches the area.
+     ENDIF
+   ENDIF            
+   EQUAL ROUNDTIME 5
+ENDIF      
+IFPREVERB GO 0
+  IFVAR FLAG1 ! 1
+    CLEARVERB
+    ECHO PLAYER What are you referring to? Please be more specific.
+  ENDIF
+ENDIF
+       
+VARIABLE JABOPENDOOR
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3303 
+NAME Broom Closet 
+REGION 15
+CHANNEL 72
+ASTRAL
+PARTIAL_DARKNESS
+EXIT O 3302
+;
+CALL 19
+*DESCRIPTION_START
+A tall mop and broom hang from two of the three hooks on the wall opposite 
+the door. A set of wooden shelves are built into the space beneath the stairs, 
+to hold cleaning supplies -- detergent, rags, buckets. 
+*DESCRIPTION_END 
+;
+ITEM 0 1122
+ITEM 1 341
+ITEM 2 949 
+;
+IFPREVERB LEAN 1
+  CLEARVERB
+  ECHO PLAYER As you rest your weight on the shelves, you feel them shift slightly.
+  ECHO OTHERS %n leans on some shelves.
+ENDIF                                  
+IFPREVERB PUSH 1    
+  IFVAR JABOPENDOOR = 1
+    CLEARVERB
+    ECHO PLAYER As you push the shelves, they slide into a recessed pocket, revealing a dark opening.
+    ECHO OTHERS %n pushes the shelves and they slide into a recessed pocket, revealing a dark opening.
+    REMOVEITEM 1
+    NEWITEM 3 72 VAL2=3322
+    EQUAL JABOPENDOOR 2
+    GMMSG %n opened the door to the secret passage into the Crystal Tower
+    AFFECT 3322
+    NEWITEM 2 72 VAL2=3303
+  ENDIF
+ENDIF
+IFPREVERB TURN 0
+  IFVAR JABOPENDOOR = 0
+    CLEARVERB
+    ECHO PLAYER You hear a click as the hook turns.
+    ECHO OTHERS %n turns the hook and you hear tumblers falling into place.
+    PLREVENT 1
+    CONTPLREVENT
+    EQUAL JABOPENDOOR 1    
+  ENDIF
+  IFVAR JABOPENDOOR = 1
+    CLEARVERB
+    ECHO PLAYER You hear a click as the hook turns.
+    ECHO OTHERS %n turns the hook and you hear a soft click.
+    PLREVENT 1
+    CONTPLREVENT
+    EQUAL JABOPENDOOR 0    
+  ENDIF                
+  IFVAR JABOPENDOOR = 2
+    CLEARVERB
+    ECHO PLAYER The shelves glide silently closed over the opening.
+    ECHO OTHERS %n turns the hook and the shelves glide silently across the opening.
+    EQUAL JABOPENDOOR 0
+    REMOVEITEM 3
+    NEWITEM 1 341
+    AFFECT 3322
+    REMOVEITEM 2
+  ENDIF
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3304 
+NAME In the Mists
+REGION 15
+CHANNEL 72
+ASTRAL
+EXIT S 3301
+EXIT N 3307
+MONSTER_GROUP 45
+*DESCRIPTION_START
+Vague shapes barely discernible through the thick mist suggest trees hung 
+with heavy moss. From the south, occasional bright flares of light cast 
+luminous shadows in a rainbow of colors. To the north, the mist darkens 
+ominously.
+*DESCRIPTION_END
+MONSTER_GROUP 45
+CALL 19      
+ITEM 0 229
+*DESCRIPTION_START ITEM EXAM 0
+Dark against the mist, the shapes raise spindly limbs to what would be sky if 
+there were sky in this place. Thick moss drapes over branches and hangs 
+nearly to the ground, reminding you of mages' robes.
+*DESCRIPTION_END
+IFVERB RECALL -1
+  ECHO PLAYER An old tale tickles your subconscious, bringing the trees to your attention.
+ENDIF
+IFVERB RECALL 0
+  IFVAR SKILL32 > 0
+    ECHO PLAYER You vaguely recall a tale of mages set to guard a path.
+    ECHO OTHERS %n frowns slightly as if something eludes %h grasp.
+  ENDIF
+  IFVAR SKILL32 > 5
+    ECHO PLAYER Casting about in your memory, you recall a few more details.
+    ECHO PLAYER The mages were transformed into trees by an order of dark mages. 
+    ECHO OTHERS %S furrows %h brow in concentration.
+  ENDIF
+  IFVAR SKILL32 > 10
+    ECHO PLAYER Concentrating further on the shapes, you pull a name from their vague unease...
+    ECHO PLAYER ...The Left Hand of Chaos.          
+    ECHO OTHERS After a moment, %s closes %h eyes, concentrating more deeply.
+  ENDIF
+  IFVAR SKILL32 > 20
+    ECHO PLAYER Increasing your concentration, you draw out the name of those the trees guard against...
+    ECHO PLAYER ...The Order of the White Rose.                              
+    ECHO OTHERS %S slips into a light trance, %h face going completely blank.
+    ECHO OTHERS %S murmurs something softly, then repeats it more loudly.
+    ECHO OTHERS %n says, "The Order of the White Rose."
+  ENDIF
+ENDIF
+  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3305 
+NAME Silver Landing
+REGION 15
+CHANNEL 72    
+ASTRAL
+;
+*DESCRIPTION_START
+The stairs end abruptly at a wide landing with burnished gold railings. A 
+flight of black marble stairs rises to the right. A fine silver chain is 
+hooked to posts on either side, blocking access to the steps. Directly 
+across from the stairway leading down is a boarded window.
+*DESCRIPTION_END
+CALL 19
+;
+;stairs down
+ITEM 0 81 VAL2=3301
+;black stairs
+ITEM 1 81 ADJ1=25 ADJ2=187 VAL2=3306
+;window
+ITEM 3 475
+;chain
+ITEM 4 332 ADJ1=657 ADJ2=292
+;
+*DESCRIPTION_START ITEM EXAM 3
+Oddly, the boards are inside the window, though the glass looks far too heavy 
+to break easily. A slot about 4 inches high is cut out of the bottom of the 
+glass, and a round metal grille is set into its center. A small sign in the 
+corner reads, "Continuous Showings -- Tickets: 5 Gold."
+*DESCRIPTION_END
+IFPREVERB CLIMB 1    
+  CLEARVERB
+  IFCARRY 758 -1
+    ECHO PLAYER A ghostly hand takes your ticket and tears it in half, then unclips the chain for you to pass.
+    REMOVEITEM -1
+    MOVE 3306
+    ECHO OTHERS A ghostly hand unclips the chain from the stairs and allows %n to pass.
+    AFFECT 3306
+    ECHO OTHERS A ghostly attendant shows %n to a seat.
+  ELSE
+    ECHO PLAYER You start to climb over the chain.
+    DAMAGEPLR COLD 25 The chain brightens suddenly sending a blast of icy malevolence toward you.
+    ECHO OTHERS As %n starts to climb over the chain, it suddenly brightens.
+  ENDIF
+ENDIF
+IFPREVERB TAP 3
+   CLEARVERB
+   ECHO PLAYER You tap lightly on the closed window.
+   ECHO OTHERS %n taps lightly on the closed window.
+   ECHO ALL A booming voice calls from within, "Go away! I ain't sellin no tickets tonight!"
+ENDIF
+IFPREVERB THUMP 3
+  CLEARVERB
+  ECHO PLAYER You pound on the closed window.
+  ECHO OTHERS %n pounds on the closed window.
+  ECHO ALL A booming voice shouts, "Get lost! I ain't got no more tickets!"
+ENDIF
+IFSAY tickets?
+  ECHO ALL The voice impatiently says, "Yeah, ya gotta buy a ticket ta go up ta the balcony!"
+ENDIF
+IFSAY ticket?
+  ECHO ALL The voice impatiently says, "Yeah, ya gotta buy a ticket ta go up ta the balcony!"
+ENDIF
+IFSAY ticket
+  ECHO ALL The voice impatiently says, "Yeah, ya gotta buy a ticket ta go up ta the balcony! 5 gold!"
+ENDIF
+;
+STOREITEM 758 839 5
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+NUMBER 3306 
+NAME Silver Balcony 
+REGION 15
+CHANNEL 72
+ASTRAL
+OUTOFBODY
+;
+CALL 19
+;
+*DESCRIPTION_START
+A burnished gold railing runs along the top of a silver wall at about
+waist height. Several rows of seats upholstered in red velvet line both
+sides of a carpeted aisle that leads from the baize doors to the
+railing. Beyond the railing, you see nothing but a solid wall of mist. A 
+shimmering beam of light from behind you plays on the mist.
+*DESCRIPTION_END
+ITEM 0 199 VAL2=3305
+ITEM 1 1050 
+ITEM 2 1802
+IFENTRY
+  ECHO PLAYER A ghostly attendant wearing a red jacket seats you without a word. 
+  POSITION SIT
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3307 
+NAME Sentry Mound
+REGION 15
+CHANNEL 72
+ASTRAL
+EXIT S 3304
+EXIT N 3308
+CALL 19
+*DESCRIPTION_START
+Several thin trees stand sentry over a small mound, their roots sunk in a 
+foot of fetid water. Above their straggly branches, the sky is a sickly pale 
+yellow with glowering gray clouds. At the base of the mound, the water 
+gives way to oozing mud that is nearly indistinguishable from the scum that 
+covers the small pool's surface. The eerie stillness is broken by an 
+occassional plop as a bubble rises to the top of the thick water and pops.
+*DESCRIPTION_END
+;mound
+ITEM 0 916
+;pool
+ITEM 1 324
+;tree
+ITEM 2 881 ADJ1=628
+*DESCRIPTION_START ITEM EXAM 0
+At first glance, the mound appears to be no more than a small upheaval of 
+the firmament. Closer inspection shows that the top of the mound is sheared 
+off to leave a flat surface that has been polished till it gleams darkly even 
+in this gloom. Embedded below the surface is the stylized depiction of a 
+single rose being shredded by a disembodied left hand.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 2
+The shape of the trees is disturbingly familiar, branches raised like arms 
+mid-incantation. The movement of the air stirs the outermost tips of the 
+branches, reminding you of fingers tracing the patterns of a magical spell.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 1
+The scummy surface of the pool stirs and bubbles uneasily, wafting sulfurous 
+fumes into the air. The mud around the pool is littered with the skeletons of 
+small animals, mixed here and there with bones that appear to have come from 
+creatures much larger than birds or rabbits.
+*DESCRIPTION_END
+IFTOUCH 0
+  CLEARVERB
+  DAMAGEPLR BURN 30 The mound gleams darker for a moment, then flares brightly.
+  ECHO OTHERS As %n approaches the mound, it gleams darker, then suddenly flares brightly.
+ENDIF
+IFTOUCH 1
+  CLEARVERB
+  DAMAGEPLR BURN 30 The water in the pool bubbles fiercely, eating at your skin.
+  ECHO OTHERS As %n comes in contact with the pool, it bubbles fiercely, eating at %i skin.
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3308 
+NAME Tangled Forest 
+REGION 15
+CHANNEL 72
+ASTRAL
+EXIT S 3307
+EXIT NE 3309
+EXIT NW 3313
+CALL 19           
+MONSTER_GROUP 45
+*DESCRIPTION_START
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3309 
+NAME Room      3309 
+REGION 15
+CHANNEL 72
+ASTRAL
+EXIT SW 3308
+CALL 19 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3310 
+NAME Varian's Study
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+;
+*DESCRIPTION_START
+An enormous desk stands on a dais in the center of the room, dominating
+the space around it. Shimmering tapestries hang on three walls, and the
+third is a massive window, looking out on an everchanging landscape. A
+carved ebony pedestal stands to one side of the desk, holding an assortment
+of books covered in various skins and hides. In one corner, a shimmering mist 
+partially obscures a stairway leading down.
+*DESCRIPTION_END
+;stairway
+ITEM 0 81 VAL2=3312
+;enormous obsidian desk
+ITEM 1 201 ADJ1=451 ADJ2=218 VAL5=1000
+;black marble pedestal
+ITEM 2 292 ADJ1=25 ADJ2=187 VAL5=1000
+;ancient book
+ITEM 3 423 ADJ1=7 VAL5=1000
+EXTEND 3 covered in iridescent crimson scales
+;enormous book
+ITEM 4 423 ADJ1=451 VAL5=1000
+EXTEND 4 bound with pale green skin and inscribed with ancient runes
+;tiny book
+ITEM 5 423 ADJ1=327 VAL5=1000
+EXTEND 5 bound with a pale skin lightly furred with downy blond hairs
+ITEM 6 1230 VAL2=3311
+IFPREVERB Go 6
+  CLEARVERB
+  ECHO PLAYER You step into the mist, and lose all sense of direction.
+  MOVE 3311
+  AFFECT 3311 
+  ECHO OTHERS You sense that someone has entered the mist.
+ENDIF
+IFPREVERB CLIMB 0
+  CLEARVERB
+  ECHO PLAYER You climb down the stairway.
+  ECHO OTHERS %n climbs down the stairway.
+  MOVE 3312
+  AFFECT 3312
+  ECHO OTHERS %n appears through the mist at the top of the stairs and climbs down to join you.
+  AFFECT 3310
+ENDIF
+IFTOUCH -1
+  IFVAR ITEMVAL5 = 1000
+    CLEARVERB
+    DAMAGEPLR ELECTRIC 20 A sudden flare of lightning sears you.
+    ECHO OTHERS As %n reaches out, a flare of lightning sears %i.
+  ENDIF
+ENDIF    
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3311 
+NAME In the Mist 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19         
+EXIT O 3310
+DARKNESS
+IFENTRY
+  IFVAR MONINROOM < 2
+    GENMON 131
+    EQUAL ROUNDTIME 20
+    ECHO PLAYER [Round: 20 sec]
+  ENDIF
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3312 
+NAME Misty Stairs
+REGION 15
+CHANNEL 72
+ASTRAL
+MONSTER_GROUP 46
+;
+*DESCRIPTION_START
+Rising from the center of the hallway is a stairway carved of heavy mist, the  
+steps shrouded in a wreath of dark, pulsing light. A burnished gold railing s
+pirals along beside the stair, with no visible means of support. 
+Outside the circle of light cast from above, the mist shimmers and changes 
+color constantly with no seeming pattern to it.
+*DESCRIPTION_END
+ITEM 0 81 VAL2=3310
+CALL 19
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3313 
+NAME Woods Path
+REGION 15
+CHANNEL 72
+ASTRAL
+EXIT SE 3308
+EXIT N 3314
+CALL 19
+
+NUMBER 3314 
+NAME Thinning Mist
+REGION 15
+CHANNEL 72
+ASTRAL
+EXIT S 3313
+EXIT SE 3315
+CALL 19
+
+NUMBER 3315 
+NAME Moat, Far side 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19        
+EXIT NW 3314     
+
+*DESCRIPTION_START
+Rising from the misty void, a glittering crystal tower refracts what 
+little light there is, casting shimmering rainbows over the moat that 
+surrounds it. Shadowy shapes move beneath the water's surface, occasionally 
+rising to snap at a dragonfly hovering just out of reach. Sounds of everday 
+living echo from behind the wall, unnaturally loud after the silence of the 
+misty plane.
+*DESCRIPTION_END
+;
+ITEM 0 405 ADJ1=635 ADJ2=77
+EXTEND 0 that casts shimmering prisms of light over the landscape
+;moat
+ITEM 1 1231
+;water.. really shouldn't drink this stuff ;)
+ITEM 2 1062 VAL2=3315
+;
+*DESCRIPTION_START ITEM EXAM 0
+The walls appear to be made of some sort of crystal that refracts the light, 
+making it difficult to look directly at the castle. They tower above you, 
+nearly eight times the height of a tall human, and appear to be completely 
+seamless. 
+*DESCRIPTION_END
+;
+*DESCRIPTION_START ITEM EXAM 1
+The water in the moat is nearly crystal clear, but the rainbows reflected off 
+the castle walls make it impossible to see through the surface clearly. The 
+moat itself is nearly 20 feet deep, and wide enough to make jumping it    
+impossible for all but the most agile.
+*DESCRIPTION_END
+;                                                      
+IFTOUCH 0
+  CLEARVERB
+  ECHO PLAYER You can't touch that from here.
+ENDIF     
+IFVERB JUMP 1
+  CLEARVERB
+   ECHO PLAYER You take three running steps...
+   ECHO OTHERS %n takes three running steps...
+   PLREVENT 1
+   CONTPLREVENT
+   ECHO PLAYER ...then launch yourself into the air...
+   ECHO OTHERS ...then launches %iself into the air...
+   IFVAR AGI > 200
+     ECHO PLAYER ...and land safely on the other side of the moat.
+     ECHO OTHERS ...and lands safely on the other side of the moat.
+     MOVE 3316   
+     AFFECT 3316
+     ECHO OTHERS %n lands lightly beside you.
+   ENDIF
+   IFVAR AGI < 201
+     ECHO PLAYER ...and miss the edge of the moat completely.
+     ECHO OTHERS ...and misses the edge of the moat completely.
+     MOVE 3317
+     AFFECT 3317
+     ECHO OTHERS %n lands in the water with a splat.
+     DAMAGEPLR CRUSH 20 You hit the water with bruising force.
+   ENDIF
+ENDIF
+IFPREVERB DRINK 2
+    CLEARVERB
+    ECHO PLAYER You scoop up some water in your hand and sip it. The taste is somehow sweet and spicy at once.
+    ECHO OTHERS %n scoops some water from the moat and drinks it.
+    SPELL 321
+    SPELL 218
+ENDIF
+IFPREVERB GO 1
+  CLEARVERB
+  ECHO PLAYER You look down and realize there is no way to safely navigate the steep sides of the moat.
+  ECHO OTHERS %n looks down at the steep sides of the moat.
+ENDIF
+IFPREVERB CLIMB 1
+  CLEARVERB
+  ECHO PLAYER You lower yourself over the edge of the moat, and realize your mistake too late.
+  ECHO OTHERS %n lowers %iself over the side of the moat, only to slip and fall.
+  DAMAGEPLR CRUSH 25 You hit the water with bruising force.
+  MOVE 3317
+  AFFECT 3317
+  ECHO OTHERS %n hits the water with a loud SPLAT!
+ENDIF                
+IFPREVERB GO 3
+  CLEARVERB
+  ECHO PLAYER You can't go there.
+ENDIF
+*DESCRIPTION_START ITEM EXAM 3
+The drawbridge is made of one seamless sheet of crystal. It extends exactly 
+to the edge of this side of the moat, making a transparent walkway directly 
+into the castle courtyard.
+*DESCRIPTION_END
+IFPREVERB GO 3
+  CLEARVERB
+  DISBAND
+  ECHO PLAYER You walk across the glittering crystal drawbridge and into the tower's courtyard.
+  ECHO OTHERS %n walks across the crystal drawbridge.
+  MOVE 3318
+  AFFECT 3318
+  ECHO OTHERS %n steps off the end of the crystal drawbridge.
+ENDIF
+;one player may lower the drawbridge from here
+NUMBER 3316 
+NAME Moat, Before the Tower
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+*DESCRIPTION_START
+The crystal walls of the tower rise from the mist that wreathes its 
+foundation, sheer and perfectly straight. 
+*DESCRIPTION_END
+;wall
+ITEM 0 420
+;moat
+ITEM 1 1231
+;opening
+ITEM 2 1557
+;lever
+ITEM 3 641        
+*DESCRIPTION_START ITEM EXAM 0
+Looking closely at the wall is difficult, but you think you discern a small 
+opening at about shoulder height next to a nearly imperceptible seam in the 
+crystal.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 2
+Light refracts off the walls of the opening, making it difficult to see 
+clearly, but there seems to be a lever protruding from the side.
+*DESCRIPTION_END
+IFPREVERB PULL 3
+    AFFECT 3315
+    IFNOITEM 3       
+      CLEARVERB
+      AFFECT 3316
+      ECHO PLAYER As you pull the lever, you sense more than hear a soft grinding in the walls.
+      ECHO OTHERS %n reaches into the opening.
+      PLREVENT 1
+      CONTPLREVENT
+      ECHO ALL A section of the wall slowly descends, extending a drawbridge across the moat and revealing an opening.
+      NEWITEM 4 653
+      NEWITEM 5 716 VAL2=3318
+      AFFECT 3315
+      ECHO ALL Prisms of light dance crazily as a crystal drawbridge slowly descends.
+      NEWITEM 3 653
+      AFFECT 3316
+      ECHO ALL You hear the lever snap back into place.
+    ENDIF
+ENDIF
+IFPREVERB PUSH 3
+    AFFECT 3315
+    IFITEM 3
+      AFFECT 3316
+      CLEARVERB
+      ECHO PLAYER As you pull the lever, the drawbridge slowly ascends.
+      ECHO OTHERS %n reaches into the opening.
+      REMOVEITEM 4
+      REMOVEITEM 5
+      AFFECT 3315
+      REMOVEITEM 3
+      ECHO ALL The drawbridge slowly ascends out of sight.
+      AFFECT 3316
+      ECHO ALL You hear the lever snap back into place.
+  ENDIF
+ENDIF
+IFPREVERB GO 4
+  CLEARVERB
+  ECHO PLAYER You walk across the drawbridge.
+  ECHO OTHERS %n walks across the drawbridge.
+  MOVE 3315
+  AFFECT 3315
+  ECHO OTHERS %n steps off the end of the drawbridge.
+ENDIF
+;;;
+;needs a wall to climb
+VARIABLE JABWALCLI
+NUMBER 3317 
+NAME In the Moat
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19         
+;
+ITEM 0 83 VAL2=3315
+IFPREVERB CLIMB 0
+  CLEARVERB
+  RANDOM JABWALCLI 1 100 0
+  MOD JABWALCLI 2
+  IFVAR JABWALCLI = 0
+     ECHO PLAYER You scramble up the wall, and pull yourself over the edge.
+     ECHO OTHERS %n scrambles up the wall.
+     MOVE 3315
+     AFFECT 3315
+     ECHO OTHERS %n hauls %iself over the edge of the moat.
+     POSITION SIT
+   ENDIF
+   IFVAR JABWALCLI = 1
+     ECHO PLAYER You scramble up the wall, and pull yourself over the edge.
+     ECHO OTHERS %n scrambles up the wall.
+     MOVE 3316
+     AFFECT 3316
+     ECHO OTHERS %n hauls %iself over the edge of the moat.
+     POSITION SIT
+   ENDIF
+ ENDIF
+IFENTRY
+  IFVAR MONINROOM = 0
+    GENMON 165
+    ECHO ALL With a monstrous roar, a kraken swirls up from the bottom of the moat.
+  ENDIF
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3318 
+NAME Room Crystal Tower, Courtyard
+REGION 15
+CHANNEL 72
+ASTRAL
+EXIT W 3319
+EXIT E 3320
+MONSTER_GROUP 46
+CALL 19                                                              
+ITEM 0 773 val2=3321                                        
+*DESCRIPTION_START
+In stark contrast to the misty chaos outside the tower gates, the courtyard 
+is laid out in precise patterns. Low walls of fieldstone outline raised beds 
+of herbs and flowers, every specimen carefully labeled. A flagstone walkway 
+leads both east and west and to the open front doors.
+*DESCRIPTION_END
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3319 
+NAME Crystal Fountain
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+EXIT E 3318
+MONSTER_GROUP 46
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3320
+NAME Rose Garden
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+EXIT W 3318
+MONSTER_GROUP 46
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3321 
+NAME Crystal Tower, Foyer
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+EXIT W 3324
+
+ITEM 0 773 VAL2=3318
+ITEM 1 81 VAL2=3323
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;arrive through opening from room 3303, the broom closet
+NUMBER 3322 
+NAME Storage Room 
+REGION 15
+CHANNEL 72  
+ASTRAL
+PARTIAL_DARKNESS
+;
+*DESCRIPTION_START
+Somewhere at the edges of your perception, you sense a dank horror made up of 
+more than just the stench of wet rot and the sounds of something scuttling in 
+the corners. Dimly seen shapes are stacked along the walls, and piled 
+haphazardly around the floor, leaving only a narrow path between them.
+*DESCRIPTION_END                                       
+;
+CALL 19
+;
+ITEM 0 74 VAL2=3323
+ITEM 1 641
+;
+IFENTRY
+  GENMON 27
+  GENMON 27
+  GENMON 1
+  GENMON 20
+ENDIF
+IFVERB SEARCH -1
+  ECHO PLAYER Your search disturbs a nest of insects, but you do find a lever on the wall.
+  ECHO OTHERS %n pokes among the boxes, disturbing a nest of insects.
+  SPELL 522
+ENDIF
+;
+IFPREVERB GO 0
+  CLEARVERB
+  DISBAND
+  ECHO PLAYER You slowly make your way through the narrow path, brushing against objects that squirm oddly out of your way.
+  EQUAL ROUNDTIME 10
+  ECHO PLAYER [Round: 10 sec]
+  PLREVENT 3
+  CONTPLREVENT
+  MOVE 3323
+  SHOWROOM 3323
+  AFFECT 3323
+  ECHO OTHERS %n emerges from between two stacks of boxes.
+ENDIF
+IFPREVERB PULL 1
+  IFNOITEM 2
+    ECHO PLAYER As you pull the lever, a section of wall slides into a recessed pocket, revealing an opening.
+    ECHO OTHERS %n pulls a lever, and a section of wall slides into a recessed pocket, revealing an opening.
+    NEWITEM 2 72 VAL2=3303                                    
+    AFFECT 3303 
+    NEWITEM 3 72 VAL2=3322
+    ECHO ALL The shelves glide silently into a recessed pocket, revealing an opening.
+    AFFECT 3322
+  ENDIF
+ENDIF
+IFPREVERB PUSH 1
+  IFITEM 2
+    ECHO PLAYER You push the lever down, and a section of wall slides over the opening.
+    ECHO OTHERS %n pushes the lever, and a section of wall slides over the opening.
+    REMOVEITEM 2
+    AFFECT 3303
+    REMOVEITEM 3
+    ECHO ALL The shelves glide silently closed over the opening.
+  ENDIF
+ENDIF    
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3323 
+NAME Misty Stairs, Basement Level
+REGION 15
+CHANNEL 72                  
+ASTRAL
+MONSTER_GROUP 45
+EXIT O 3322
+ITEM 0 81 VAL2=3321
+CALL 19
+;
+*DESCRIPTION_START
+A semi-solid stairway rises from the mist as if carved from it, its upper 
+steps shrouded in a wreath of brilliant, pulsing light. A burnished gold 
+railing spirals along beside the stair, with no visible means of support. 
+Outside the circle of light cast from above, the mist shimmers and changes 
+color constantly with no seeming pattern to it.
+*DESCRIPTION_END
+IFPREVERB CLIMB 0
+  IFVAR FLAG1 ! 1
+    CLEARVERB
+    ECHO PLAYER As you step toward the stairs, a figure forms from the mist and bars your way.
+    IFNOITEM 1
+      NEWITEM 1 639 ADJ1=197
+    ENDIF
+    ECHO ALL The figure shimmers slightly and you sense in your mind that it seeks a password.
+  ENDIF
+ENDIF
+IFTOUCH 1
+  CLEARVERB
+  ECHO PLAYER The mist thins slightly and the figure reforms, unaffected by your touch.
+ENDIF
+IFPREVERB LISTEN 1
+  CLEARVERB
+  ECHO PLAYER You sense in your mind that the password is the symbol of the Left Hand's ancient enemies.
+  ECHO OTHERS The figure turns toward %n.
+ENDIF
+IFSAY white_rose
+  ECHO PLAYER The figure nods slightly to you and steps aside to let you pass.
+  ECHO OTHERS The figure nods slightly to %n and steps aside.
+  EQUAL FLAG1 1
+ENDIF
+IFSAY a_white_rose
+  ECHO PLAYER The figure nods slightly to you and steps aside to let you pass.
+  ECHO OTHERS The figure nods slightly to %n and steps aside.
+  EQUAL FLAG1 1
+ENDIF
+IFSAY white_rose?
+  ECHO PLAYER The figure nods slightly to you and steps aside to let you pass.
+  ECHO OTHERS The figure nods slightly to %n and steps aside.
+  EQUAL FLAG1 1
+ENDIF
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 3324 
+NAME Room      3324 
+REGION 15
+CHANNEL 72
+ASTRAL
+EXIT E 3321
+CALL 19
+
+NUMBER 3325 
+NAME Room      3325 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3326 
+NAME Room      3326 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3327 
+NAME Room      3327 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3328 
+NAME Room      3328 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3329 
+NAME Room      3329 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3330 
+NAME Room      3330 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3331 
+NAME Room      3331 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3332 
+NAME Room      3332 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3333 
+NAME Room      3333 
+REGION 15
+CHANNEL 72
+ASTRAL
+OUTOFBODY
+CALL 19
+
+NUMBER 3334 
+NAME Room      3334 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3335 
+NAME Room      3335 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3336 
+NAME Room      3336 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3337 
+NAME Room      3337 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3338 
+NAME Room      3338 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3339 
+NAME Room      3339 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3340 
+NAME Room      3340 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3341 
+NAME Room      3341 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3342 
+NAME Room      3342 
+REGION 15
+CHANNEL 72
+ASTRAL
+OUTOFBODY
+CALL 19
+
+NUMBER 3343 
+NAME Room      3343 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3344 
+NAME Room      3344 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3345 
+NAME Room      3345 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3346 
+NAME Room      3346 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3347 
+NAME Room      3347 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3348 
+NAME Room      3348 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3349 
+NAME CEVENT controls 
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+NUMBER 3350
+NAME Room 3350
+REGION 15
+CHANNEL 72
+ASTRAL
+CALL 19
+
+
+
+
+

@@ -1,0 +1,17 @@
+server:
+  port: 8080
+  frontend_url: "${FRONTEND_URL:https://lofp.fly.dev}"
+
+mongodb:
+  uri: "${MONGODB_URI}"
+  database: "${MONGODB_DATABASE:lofp}"
+
+game:
+  scripts_dir: "${LOFP_SCRIPTS_DIR:/app/scripts}"
+  config_file: "${LOFP_CONFIG_FILE:/app/scripts/LEGENDS.CFG}"
+  start_room: 3950
+  bump_room: 201
+
+auth:
+  google_client_id: "${GOOGLE_CLIENT_ID}"
+  jwt_secret: "${JWT_SECRET}"

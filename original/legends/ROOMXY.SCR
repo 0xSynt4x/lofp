@@ -1,0 +1,25 @@
+; Sample Room X Script
+
+;Ressurects anyone dead in Region 0
+IFVAR DEAD = 1
+	IFVAR REGION = 0
+		EQUAL DEAD 0
+		EQUAL BODYPOINTS MAXBODY
+		ECHO PLAYER You were dead. But now you're not. Isn't that special?
+		ECHO OTHERS %N was dead. Now %s isn't. Isn't that special?
+	ENDIF
+ENDIF
+
+; Sample Room Y Script
+
+; Keeps people from attacking in Region 0
+
+IFVAR REGION = 0
+
+	IFPREVERB ATTACK -1
+		CLEARVERB
+		ECHO PLAYER You can't do that here.
+	ENDIF
+
+ENDIF
+

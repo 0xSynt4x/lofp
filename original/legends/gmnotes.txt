@@ -1,0 +1,43 @@
+IFITEM -1 WIELDED
+IFVERB RUB -1
+IFPREVERB PUT -1
+IFSEEK 180
+IFVAR SHOOTER > 20
+IFSAY I_have_the_power!
+IFVAR POSITION = 1
+ENDIF
+CLEARVERB
+SPELL 318
+SPELL 113 50
+POSITION SIT
+ECHO OTHERS The bow flares with a brilliant blue light that coalesces into
+VARIABLE SHOOTER
+EQUAL ITEMVAL5 TIM
+EQUAL ROUNDTIME 20
+ADD SHOOTER 1
+RANDOM <variable> <starting num> <ending num> <modifier>
+
+INUMBER 1617
+NAME 32
+WEIGHT 4
+VOLUME 4
+BOW_WEAPON
+PARAMETER1 15
+PARAMETER2 0
+WORN_DON
+SUBSTANCE INDESTRUCTABLE
+
+ECHO PLAYER (sends text to active player)
+ECHO OTHERS (sends text to everyone but the active player)
+ECHO GROUP (sends text to active player and everyone in his group)
+ECHO OTHGROUP (send text to everyone but the active player and his group)
+ECHO ALL (sends text to everyone in the room)
+
+%n = Name of active player
+%h = his/her/its
+%s = she/he/it
+%i = him/her/it
+%p = Name of active player when a group (ect. Dave's group)
+%a = Name of active item (plus its adjectives and extended text)
+%m = Name of monster
+%c = a return

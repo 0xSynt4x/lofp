@@ -1,0 +1,82 @@
+Shane:
+
+Below is a description of the room and objects that I would like to have
+created.  Lines following a percent (%) are comments.  All items should be
+fixed (weight=9999?) except the candle and pillows.  I've included some
+items I haven't seen before, so I'll understand if you can't provide them.
+None of the items should show in the object list (You see...), as they are
+in the room description or intended to be unobvious. 
+
+Thanks,
+Taliesin Pendragon (brnghurst)
+
+
+[Taliesin's Place]
+Like its owner, the room is whimsical but neat.  A bed is provided for
+guests who don't levitate during sleep.  Bookshelves hold works of fiction,
+philosophy and mental principles, plus mementos of friends and past
+exploits.  On the wall is a mirror decorated with a silver wave, next to the 
+painting of a wolf chasing a scared rabbit across a meadow in winter.  An
+incense burner, a candle and a crystal orb rest on a low table in the corner 
+for meditation.  Water trickles down a sculpture of seashells, tinkling in
+the manner of a babbling brook.  Through the window can be seen a simple,
+well-tended garden. 
+Obvious exits: out. 
+% Is there a garden near the room that the window could look out on?
+% I'd like it if no-one can MARK the room except me.
+
+[Bed]
+You see a simple bed with pillows and a bedspread.
+% Things may be placed on or under bed.  You can GO BED
+
+[Chair]
+You see nothing extraordinary.
+% You can PULL CHAIR to sit down.  Like chairs in Saloon.
+
+[Bookshelf]
+You see several shelves filled with works of fiction, philosophy and mental
+powers, interspersed with mementos of friends and past exploits.
+
+[Candle]
+You see nothing extraordinary.
+% While the candle is lit, all magic should be suppressed.
+% The candle flame should flicker if anyone hidden arrives or is present.
+
+[Green Door]
+You see nothing extraordinay.
+% The door should not be pickable, and I should have the key.
+
+[Mirror]
+You see your reflection.  A %color% aura surrounds you.
+%It would be nice if the mirror could reflect the viewer's aura.
+
+[Painting]
+You see a beautiful painting of a snow-covered meadow with a female wolf
+chasing a frightened rabbit.  The word "Winter" is carved into the frame.
+% PULL PAINTING should reveal a safe.
+
+[Pillow]
+You see nothing extraordinary.
+% I'd like it if the two or three pillows could be wielded for pillow 
+% fights.  A weapons clash would result in a cloud of feathers, without
+% damaging the pillow.
+
+[Safe]
+You see nothing extraordinary.
+% The safe should be a chest which can't be picked or taken, for which
+% I have the key.
+
+[Shelf]
+You see nothing extraordinary.
+% Things can be placed on the shelf.  (Like shelf at sign in Kvantar woods.)
+% Two or three shelves would be nice.
+
+[A Low Table]
+You see nothing extraordinary.
+% Basically just another shelf on which to place a candle, orb and incense.
+
+[Water]
+You see nothing extraordinary.
+% FILL CONTAINER WITH WATER should work.  DRINK WATER should work.
+% Like water in BC fountain.
+

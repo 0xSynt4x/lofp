@@ -1,0 +1,18 @@
+136 Naked
+ 75 Force Field
+ 25 Wall of Force
+ 35 Eldritch diamontine shield
+ 32 Kraken skin boots with eagle feathers hanging from tassles along the sides
+ 23 A black mesh combat vest with titanium armor plates worked into the liner
+ 20 A shimmering robe which seems to glow
+ 15 An eldritch helm
+ 15 Eldritch titanium armor
+  6 Some sturdy gauntlets crafted with layer upon layer of lizard scales
+  5 Black randar shoulder guards of fine chain mail, each ring highlighted
+       with icy silver
+  5 A heavy gold ring
+  3 Some black ietain banded bracers
+  3 Some black ietain parrying bracers
+  3 A mysterious ring
+---
+401

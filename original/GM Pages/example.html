@@ -1,0 +1,349 @@
+<HTML>
+<HEAD>
+
+<TITLE>Examples of Items</TITLE>
+
+
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+<H1>Examples</H1>
+<OL>
+        <LI><A HREF="#items">Examples of Items</A>
+        <LI><A HREF="#rooms">Examples of Rooms</A>
+        <LI><A HREF="#scripts">Examples of Scripts</A>
+</OL>
+<HR>
+<A NAME="items"><H2>Examples of items</H2></A>
+<PRE>
+Example 1:  Sword (long based)
+            INUMBER 46
+            NAME 201
+            WEAIGHT 4
+            VOLUME 6
+            PARAMETER1 8
+            SLASH_WEAPON
+            SUBSTANCE HARDMETAL
+
+Example 2:  Mail (double chain based)
+            INUMBER 53
+            NAME 130
+            WEIGHT 40
+            VOLUME 5
+            PARAMETER1 35
+            WORN_ARMOR
+            ARMOR
+            ARTICLE SOME
+            SUBSTANCE HARDMETAL
+
+Example 3:  Arch
+            INUMBER 60
+            NAME 7
+            PORTAL
+            WEIGHT 1000
+            VOLUME 28
+            HIDDEN
+
+Example 4:  Chest (small based)
+            INUMBER 87
+            NAME 49
+            WEIGHT 10
+            VOLUME 6
+            INTERIOR 10
+            CONTAINER IN
+            MISC
+            LOCKABLE
+            OPENABLE
+            SUBSTANCE SOFTMETAL
+
+Example 5: The following is a complex example of item scripting. It
+           contains a number of  advanced principles that will be
+           explained later in  this document.
+
+INUMBER 1617
+NAME 32
+WEIGHT 4
+VOLUME 4
+BOW_WEAPON
+PARAMETER1 15
+PARAMETER2 0
+WORN_DON
+SUBSTANCE INDESTRUCTABLE
+VARIABLE SHOOTER
+
+IFSEEK 180
+  IFVERB CONCENTRATE -1
+    IFVAR ITEMVAL5 ! TIM
+      ADD SHOOTER 1
+      IFVAR SHOOTER [ 20
+      ECHO PLAYER May your aim be true.
+      SPELL 512 30
+      ECHO Player Let your enemies not harm you.
+      SPELL 133 50
+    ENDIF
+    IFVAR SHOOTER ] 20
+      EQUAL ITEMVAL5 TIM
+    ENDIF
+  ENDIF
+ENDIF
+
+IFVERB LISTEN -1
+  ECHO PLAYER For you and only for you I shall reveal the full extent
+  ECHO PLAYER of my powers.If you have need of protection and steady
+  ECHO player hands you have only to concentrate on me. Should you
+  ECHO player need your health restored polish me to a high luster.
+  ECHO PLAYER If you are bleeding and in need of staunching the flow
+  ECHO PLAYER of blood then sling me onto your back.If you ever need
+  ECHO PLAYER light to see by gain my attention by tapping me.
+ENDIF
+
+IFVERB WEAR -1
+  ECHO PLAYER You sling the bow over your shoulder.
+  SPELL 342 50
+ENDIF
+
+IFPREVERB GIVE -1
+  ECHO PLAYER I am for you and no other.I shall be touched by no
+  ECHO PLAYER other hand.
+  ECHO OTHERS %n gets a glazed look for a moment and then nods his
+  ECHO OTHERS head absently.
+  CLEARVERB
+ENDIF
+
+IFPREVERB DROP -1
+  ECHO PLAYER I shall not leave your hand we are as one now.
+  ECHO OTHERS %n looks like he is about to set the bow down and then
+  ECHO OTHERS changes his mind.
+  CLEARVERB
+ENDIF
+
+IFPREVERB PUT -1
+  ECHO PLAYER No, I will not be seperated from you.
+  ECHO OTHERS %n grasps the bow tightly.
+  CLEARVERB
+ENDIF
+
+IFITEM -1 WIELDED
+  IFVERB LOAD -1
+    ECHO ALL As the bow is loaded the arrow shimmers magically.
+  ENDIF
+  IFVERB RUB -1
+    ECHO PLAYER As you polish the bow lovingly, it glows a soft blue
+    ECHO PLAYER and speaks to you: Let my power heal thy wounds.
+    ECHO OTHERS %n polishes the bow to a high luster, a soft blue
+    ECHO OTHERS glow surrounds him.
+    EQUAL ROUNDTIME 20
+    SPELL 318
+  ENDIF
+  IFVERB TAP -1
+    ECHO OTHERS The bow flares and a brilliant blue light coalesces
+    ECHO OTHERS into a floating orb.
+    SPELL 113 50
+  ENDIF
+ENDIF
+</PRE>
+<HR>
+<A NAME="rooms"><H2>Examples of Rooms</H2></A>
+<PRE>
+Simple Room
+
+NUMBER 165
+NAME Matriarch tree, hallway
+*DESCRIPTION_START
+A long hallway allows you to travers the full width of this huge
+tree. Its wooden floors are deeply polished. Delicately papered with
+a pink flocking and finished with marble panels, the corridor speaks of a
+long forgotten time of opulence.
+*DESCRIPTION_END
+EXIT O 101
+EXIT W 166
+INDOOR_FLOOR
+DARKNESS
+
+Example room containing an ITEM (portal);
+
+NUMBER 120
+NAME Grymwood, bone yard.
+MONSTER_GROUP 9
+*DESCRIPTION_START
+A rocky clearing opens from a narrow crevice to the south and a
+well-marked trail to the west. The ground appears to be covered with a
+coarse white gravel. On close inspection, however, you discover that it is
+made up of millions of sun bleached bone fragments.
+*DESCRIPTION_END
+EXIT W 107
+EXIT ABOVE 2125
+ITEM 0 63 ADJ1=210 VAL2=119
+FOREST
+DAY_LIGHT
+
+Example of room with many items;
+
+NUMBER 385
+NAME Palace, throne room
+MONSTER_GROUP 15
+INDOOR_FLOOR
+FIXED_LIGHT
+*DESCRIPTION_START
+A red silk rug leads to the Royal Throne at the northern end of this room.
+The carpet is arrayed with smooth blue stone pillars at even intervals on
+each side. A solid gold throne sits on top og a dais. Soft purple velvet
+pillows are spread out at its feet. A stylized shield hangs above the
+throne, suspended on two chains with the Royal Creast engraved upon its
+face. The dais also accomodates two similar thrones for the Queen and
+Prince.
+*DESCRIPTION_END
+ITEM 0 65 ADJ1=468 VAL2=382
+ITEM 1 362 ADJ1=259 ADJ2=291
+ITEM 2 542 ADJ1=147
+ITEM 3 542 ADJ1= 294
+ITEM 4 542 ADJ1=294
+ITEM 5 59
+ITEM 6 193 ADJ1=298 ADJ2=248 ADJ3=337
+EXTEND 5 with the Royal Crest engraved on it
+
+Example of a room with many items, some PUT in others and some spell casting;
+
+NUMBER 2329
+NAME Citidel, Tunnel
+MONSTER_GROUP 20
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+A pool of rancid  water has formed where condensing moisture collects as it
+ran off the walls. The red stones of the citidal are particularly slick
+here. A black fungus covers some of the stones.
+*DESCRIPTION_END
+EXIT E 2328
+EXIT W 2330
+ITEM 0 324
+EXTEND 0 of rancid water
+PUT 0 198 ADJ1=255 VAL2=100 VAL3=226
+ITEM 1 327 ADJ1=25
+
+Example of multiple if statements in a room;
+
+NUMBER 3524
+NAME Deep forest, grove
+*DESCRIPTION_START
+As you enter the grove the first thing you notice is the wildly dancing
+balls of light that surround the strange shadowy being that stands before
+you. The grove, itself, fills you with a sense of peace and well being that
+you haven't felt since you entered the heart of the forest.
+*DESCRIPTION_END
+FOREST
+DAY_LIGHT
+
+IFPREVERB CAST -1
+  ECHO PLAYER For some reason you can't bring yourself to break the
+  ECHO PLAYER harmony ofthis place.
+  CLEARVERB
+ENDIF
+
+IFPREVERB ADVANCE -1
+  ECHO PLAYER You don't want to disturb this peacefull place with
+  ECHO PLAYER such hostile action.
+  CLEARVERB
+ENDIF
+
+IFPREVERB HEAT -1
+  ECHO PLAYER You can't seem to focus properly.
+  CLEARVERB
+ENDIF
+
+IFPREVERB FREEZE -1
+  ECHO PLAYER You can't seem to focus properly.
+  CLEARVERB
+ENDIF
+
+VARIABLE GENME
+IFENTRY -1
+  IFVAR GENME [ 1
+    ADD GENME 2
+    ECHO ALL You see the shadowy figure of the PathMaster before you.
+    GENMON 282
+  ENDIF
+ENDIF
+
+IFSAY SAMARDAZ_WERESLAYER?
+  ECHO ALL The PathMaster says, "Yes, I know of him. His body is gone
+  ECHO ALL the grove."
+ENDIF
+
+IFSAY WHERE_IS_HE?
+  ECHO ALL The PathMaster says, "His body now rests in the room with
+  ECHO ALL no enterance and only one exit. I can open the way for
+  ECHO ALL you."
+ENDIF
+
+IFSAY WAY?
+  ECHO ALL The PathMaster says, "Very well, but the path is not
+  ECHO ALL without its own risks."
+  ECHO ALL The PathMaster then waves his arms in a wide arching
+  ECHO ALL motion and  before you a shimmering arch appears.
+  NEWITEM 0 60 ADJ1=287 VAL2=3525
+ENDIF
+</PRE>
+<HR>
+<A NAME="scripts"><H2>Examples of Script</H2></A>
+<PRE>
+Example of IFVERB
+
+INUMBER 1622
+NAME 166
+WEIGHT 5
+VOLUME 5
+SUBSTANCE HARDMETAL
+BOW_WEAPON
+
+IFVERB CONCENTRATE -1
+  ECHO ALL The rifle comes to life and shoots a stream of bubbles all
+  ECHO ALL over.
+ENDIF
+
+Example of a CEVENT and IFSEEK
+
+CEVENT 17 30 312
+   IFSEEK 110
+      IFITEM -1 WIELDED
+         RANDOM MUMBOJUM 1 5 0
+         IFVAR MUMBOJUM = 1
+            ECHO ALL The soulsword exudes a bone chilling aura.
+         ENDIF
+         IFVAR MUMBOJUM = 2
+            ECHO ALL The soulsword flashes with black flames.
+         ENDIF
+        IFVAR MUMBOJUM = 3
+            ECHO ALL The soulsword blasts your mind with thoughts of
+            ECHO ALL battle.
+        ENDIF
+        IFVAR MUMBOJUM = 4
+            ECHO ALL The soulsword quivers with excitement at the
+            ECHO ALL thought of a battle.
+        ENDIF
+        IFVAR MUMBOJUM = 5
+            ECHO ALL The soulsword groans with a need to taste blood.
+        ENDIF
+      ENDIF
+   ENDIF
+   </PRE>
+   <HR>
+<BR>
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+</BODY>
+</HTML>
+
+
+

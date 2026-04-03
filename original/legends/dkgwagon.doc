@@ -1,0 +1,53 @@
+; Notes:
+;   A wagon that can travel thru normal rooms or through a land
+;   with dozens of simulated rooms (100 rooms in this version).
+;   Station Alpha is the station near Fayd where people board the wagon.
+;   Type RECALL for gm help.
+;   Item 0 at any room the wagon travels to must be reserved for the wagon.
+; To Do:
+;   Have multiple wagons in a caravan
+;   Have other wagons in other parts of the map
+;   Allow someone to mount the wagon or an animal as the pilot
+;   Allow travel thru normal rooms
+;   Set up automatic travel
+;   Allow a player to act as the driver with n,s,e,w verbs.
+; Bugs:
+;   Using a single room for any arbitrary stop means that unless the
+;   players are prevented from dropping things, it will look odd to find
+;   the same dropped items at a 'different' stop. Perhaps Stop! should
+;   be reserved for gm's.
+; Sequence:
+;   If someone enters and variables aren't initialized, initialize them
+;   Set some variables for this pass
+;   If something is put in the window, delete it and reduce the load, if any
+;   Process spoken commands
+;   If direction given
+;     Ignore if already in motion
+;     Report if wagon still stuck in rut, or fallen into rut
+;     Test limits of travel
+;     Have driver acknowledge the direction, or tell of error
+;   If we're going to move
+;     If we're leaving a station
+;       Remove wagon from station and echo that it's left
+;       Remove the exit from the wagon
+;     If new room has obstacle, prevent motion
+;     Echo that the wagon is moving
+;     Set flag to ignore motion commands
+;     Put player in round time
+;     After delay clear flag so driver listens again
+;     Adjust current 'location' based on directions
+;   If we're showing a scene (from looking or moving)
+;     If we've arrived at a station
+;       Add the wagon to the station
+;       Change the wagon's exit to the station room
+;       Unlock the door
+;     Set the terrain based on longitude and use as 1st description fragment
+;     Set the vegetation based on latitude and use as 2nd description fragment
+;     Select a 3rd description fragment from current location somewhat randomly
+;     Show the room to the player (if they looked) or everyone (if we moved)
+; Variables:
+;  DUMMY1 holds random numbers and other temporaries
+;  DUMMY2 hold the current command
+;  DUMMY3 holds the number of the third phrase.
+;  DUMMY4 is the X direction
+;  DUMMY5 is the Y direction

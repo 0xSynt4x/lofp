@@ -1,0 +1,69 @@
+@activate                    Activates a "monster" that you have @GENMON'ed.
+@additem <archnum>           Adds an item into the room you are in.
+@announce <MODE> <MESSAGE>   Announce msg to 1:global 2:mindlink
+@assist?                     Answers/removes an ASSIST, teleports you there
+@close <item name>           Closes an item with no echo.
+@delete <item name>          Deletes an item.
+@echoplr <job #> <text>      Echoes text to a Cafe patron.
+@editem <item name>          Edit item parameters.
+@edplayer <job #>            Edits players parameters.
+@edn <item record #>         Edits an item by record number (from @pinv).
+@eds <Job#> <Skill#> <Level#>Adds a skill.
+@entry [text]                Changes your entry echo.
+@examine <#>                 Lets you see what types correspond with a number. 
+@exclude <job #> <text>      Echoes text to everyone in a room EXCEPT job #.
+@exp <job #> <points>        Grant experience to a player.
+@exit [text]                 Changes your exit echo.
+@find <ARCHNUM>              Finds all of a particular item that is active.
+@genmon <Monster #>          Generates a monster in the room with you.
+@get <RECORD #>              GETs an item that you've found with @FIND.
+@gm                          Puts on your "Host Hat", listing you as a gm.
+@go <Room #>                 Lets you teleport to a room.
+@goplr <Job #>               Lets you teleport to a player.
+@glossary <word>             Let's you look up words for their number.
+@grantsp <Job #> <spell>     Gives a spell to a player.
+@heal <Job #>                Heals a patron.
+@hide                        Removes you from the WHO list.
+@invis                       Makes you invisible.
+@kill <Job #>                Kills a patron.
+@line1 <Job #>               Changes line 1 of a player's description.
+@line2 <Job #>               Changes line 2 of a player's description.
+@line3 <Job #>               Changes line 3 of a player's description.
+@list                        List all the items.
+@lock <item name>            Locks an item with no echo.
+@look <Record #>             Let's you look inside of a container.
+@lwho                        Lists everyone including job and room #'s.
+@msg                         Let's you toggle the viewing of Host messages.
+@num <Patron Name>           Shows you a Patron's job number.
+@oldcomp <script name>       Compiles a script from your home directory.
+@open <item name>            Like @CLOSE and @LOCK. It opens an item.
+@peek <variable name>        Allows you to view the value of a variable.
+@pinv <Job #>                Allows you to view a patron's inventory.
+@psi <Job #> <discipline #>  Gives a psi technique to a player.
+@queue itemnum counter       Puts something in the monster queue.
+@qstat <player #>            Show a "quick" version of the players stats.
+@rdata <Room #>              Shows you room data.
+@register <player #>         Registers a player for paramutual betting.
+@restore <NPC #>             Loads a character from an NPC slot. @Save first!
+@rflag                       This is the opposite of @GM.
+@rnd <#>                     Generates a random number based on 1 to #.
+@save <NPC #>                Saves your persona in an NPC slot.
+@script                      No longer operative.
+@sedate <Monster name>       This is the opposite of @ACTIVATE.
+@set <variable> <value>      This allows you to set the value of a variable.
+@snd <text>                  This echos text into the room you are in.
+@spawn <Monster #>           Gen a monster already activated.
+@speech <Job #> <text>       This changes the speech pattern of a patron.
+@suggest <text>              Adds a suggestion to the suggestion file.
+@trace                       Debugging tool.
+@unhide                      Puts you back on the WHO list.
+@unlock                      The opposite of @LOCK.
+@unqueue itemnum             Remove an item from the monster queue.
+@vis                         The opposite of @INVIS. Makes you visible.
+@whisper <Job #> <text>      Lets you whisper to a person not in the room.
+@who                         Shows all patrons and monsters and their job #'s.
+@yank <Job #>                Yanks a patron into the room with you.
+@zap <monster name>          Zaps a monster that is in the room with you.
+
+
+@set SPELLNUM x              Preps a spell

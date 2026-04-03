@@ -1,0 +1,36 @@
+I've attached a file, SCRIPT.ZIP to this letter. It contains a list
+of Host commands, the very lacking SCRIPT.DOC (you thought I was
+joking when I said "What documentation?", didn't you?) and an very
+simple example script. I will also send you the scripts for any
+room you request, to give you examples on scripting.    
+
+I recommend Programmer's File Editor for creating scripts. There are
+32bit Win95/NT and 16bit Windows 3.11 versions. You can download it
+from my home directory on sutr by doing the following...
+
+        1. Type /GO SHELL
+
+        2. Type /usr/home/azure/pfe
+
+        3. If you want the 32 bit version, type sz pfe0602i.zip
+           If you want the 16 bit version, type sz pfe0602.zip
+
+There is a directory called scripts in your home directory on sutr.
+This is where all of your script files should be kept. Only you and
+users in group NORMAC can enter this directory. Script files MUST
+end in .SCR in order for them to be compiled by the Cafe.
+
+To compile a script in the Cafe, you use the @OLDCOMP command. When
+specifying the script file to compile, you leave off the .SCR. So if
+you want to compile a script called myoffice.scr, you would type...
+
+        @old scripts/myoffice
+
+The first thing I want you to do is to script a 2-room office with
+at least 3 room items in each, trapping at least 5 verbs in your
+office. After that, you can pretty much work on any area that you
+want, though I'd like you to check with me first before starting
+anything. Can't wait to see what you come up with.
+
+-- Mark
+

@@ -1,0 +1,134 @@
+; dkghome.scr 4/6/98 Taliesin Pendragon [Dave Goodman dgoodman@pacbell.net]
+
+; Hiya Shadow...
+; Here's my request for what I'd like in my house. I played with it in beta
+; to get stuff working, but please double-check everything, especially item
+; numbers since I'm not sure what the differences are between the different
+; doors and mirrors, etc., and let me know if I'm getting carried away here.
+; It doesn't have the endless ale, the pullaway altar or the critter in the
+; hole of the original home, but it has a magic mirror you may not approve.
+; The mirror casts See Hidden and Aura Sense when you look at it. There's a
+; door to the bedroom I'd like to add in the future, it can remain unusable
+; here. I'd like to get two keys to the front door, and have it impermeable
+; to mists and so forth. Can the room be made unmarkable, but give Delight
+; and I the marks? And it would be nice to get a parchment or note
+; labeled 'Property Deed' granting ownership to Taliesin Pendragon.
+; What would it cost to make it a loom room?
+; I tweaked the gazebo and Park Ave since the house is no longer a dump.
+; Please be sure just to use the descriptions: I worked from the appearance, 
+; I didn't have the scripts. Thanks a bunch!
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 757
+NAME Living Area
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+*DESCRIPTION_START
+The front rooms of this simple yet elegant home flow together without walls
+for an open, spacious feeling. Conveniently placed next to the tidy kitchen is 
+a long dining room table surrounded by high-backed chairs. The other side of
+the room features a large, comfortable sofa and easy chair adjoining a coffee
+table and fur rug. Bookshelves holding tomes and tools related to healing,
+alchemy, psionics and weaving line the richly appointed study to the left of
+the brick fireplace, while a sewing area occupies the corner to its right. 
+*DESCRIPTION_END
+
+; front door with window
+ITEM 0 65 VAL2=265
+EXTEND 0 with a window to the front yard
+; bedroom door
+ITEM 1 65 VAL2=-1
+EXTEND 1 to the bedroom
+; back window
+ITEM 2 249
+; table
+ITEM 3 396
+; chair
+ITEM 4 86
+; fireplace
+ITEM 5 195
+EXTEND 5 with a mantle
+; mirror
+ITEM 6 360
+EXTEND 6 in an ornate frame carved with mystical runes
+; wooden desk
+ITEM 7 201 ADJ1=355
+; sofa
+ITEM 8 1304 ADJ1=63
+; ucantsee
+ITEM 9 693
+
+; if looking at the front door
+IFPREVERB LOOK 0
+  ECHO PLAYER Through the window of the front door you see:
+  SHOWROOM ITEMVAL2
+  ECHO OTHERS %N looks out the window of the front door.
+  CLEARVERB
+ENDIF
+
+; if looking in the mirror
+IFPREVERB LOOK 6
+  ECHO PLAYER Looking in the mirror, you see the room.
+  ECHO OTHERS %N gazes into the mirror.
+  SHOWROOM 757
+  SPELL 405
+  SPELL 404
+  CLEARVERB
+ENDIF
+
+IFVERB SNIFF -1
+  IFVAR ARCHNUM = -1
+    ECHO PLAYER You smell the wonderful aroma of a homecooked meal, with a slight scent of alchemy potions emanating from the study.
+  ENDIF
+ENDIF
+
+IFVERB RECALL -1
+  IFVAR ARCHNUM = -1
+    ECHO PLAYER ...and remember that this is the home of Taliesin and Delight.
+  ENDIF
+ENDIF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 265
+NAME Park Avenue
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+; arch
+; ITEM 0
+; door
+ITEM 1 65 VAL2=757
+; ucantsee
+ITEM 9 693
+
+*DESCRIPTION_START
+Flowerbeds with violets and budding rose bushes grow by the side of the road
+surrounding a newly remodeled house. Lush grape vines twine up the side of a
+quaint gazebo, visible through its arch just to the north. A small stand with
+a sign displays the price of the flowers in season.
+*DESCRIPTION_END
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 363
+NAME Gazebo
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+; ucantsee
+ITEM 9 693
+
+*DESCRIPTION_START
+Large hanging pots containing lush plants grace the ceiling of the gazebo.
+Their foliage cascades down, displaying groups of brightly colored, tubular
+flowers. A heady perfume fills the air. An iron chair sits on the ground,
+surrounded by vines. 
+*DESCRIPTION_END
+
+EXIT O 265

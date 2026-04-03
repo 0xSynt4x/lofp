@@ -1,0 +1,66 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2352
+NAME Undersall Junkyard
+REGION 12
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT E 2353
+*DESCRIPTION_START
+You're surrounded by an astounding collection of odds, ends and castoffs. To
+one side a pile of rotting fishnets towers and sways with the current,
+bumping against a stack of rusty chests and soggy shipping crates. Toys,
+anchors, ship's masts and bottles of every size, shape and color are festooned
+around you in an almost artistic arrangement of the land-dwellers' detritus
+and the jetsam of floundering ships.
+*DESCRIPTION_END
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2353
+NAME Temple of Amilor Undersea Garden
+REGION 12
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT W 2352
+ITEM 0 60 VAL2=2354
+*DESCRIPTION_START
+An arch formed of sparkling pink and blue coral beckons you from this magical
+garden into the Temple of Amilor. Colorful sea anemones waving their tendrils
+sinuously in search of food line the pathway to the arch. Farther back a wall
+of kelp reaches overhead beyond the reach of sight. Bright schools of yellow
+tangs, blue damsels and silvery barracuda swim in a hypnotic dance.
+*DESCRIPTION_END
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2354
+NAME Undersall Temple of Amilor, Foyer
+REGION 12
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT N 2355
+;; ARCH to 2353
+ITEM 0 60 VAL2=2353
+*DESCRIPTION_START
+Pearly statues of priests and knights stand on either side of the temple foyer
+illuminated by glowing tapestries of bioluminescent life. The coral arch
+leading out glitters with the light. To the north you can make out a library
+of plaques being read by scholars and students.
+*DESCRIPTION_END
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2355
+NAME Undersall Temple of Amilor, Training Hall
+REGION 12
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT S 2354
+*DESCRIPTION_START
+Plaques and tablets describing the temple teachings are mounted on the walls
+and stacked on shelves of hewn rock for all to read. Scholars and students
+walk from place to place, studying, memorizing and practicing the teachings
+of Amilor.
+*DESCRIPTION_END
+

@@ -1,0 +1,125 @@
+> look Taliesin
+You gaze upon your own reflection...
+The tall, dark-haired man you see is Taliesin Pendragon, Field Medic and Knight
+of Amilor. His eyes are pools of glittering gold that glow with psionic power,
+missing nothing. His friendly face betrays the humor and pain that lies within.
+He is wearing a polished silver helm with an enormous amethyst set into the
+brow, a golden amulet with a silver wave inscribed upon it, some eldritch
+titanium armor, some black steel sunglasses, a giant beard, a gulivira skin
+cloak, some deeplander boots and a black crystal amulet.
+He has singed eyebrows and his face is a bit charred.
+He appears to be healthy.
+
+> inventory
+You are carrying: 
+  A jade flask (open)
+  A bag (open)
+  A stainless steel surgical knife
+  A black leather satchel (open)
+  A sack (open)
+  A green flask engraved with the writing, "Taliesin's Marvelous Body Restorer
+(tm)" (open)
+  A glass flask (open)
+  A flask engraved with the writing, "Brewing Flask" (open)
+  A glass engraved with the writing, "Slimey lives here!" (open)
+  An eldritch titanium shield engraved with the writing, "Psi Powered"
+  A small brass feather charm
+  A crystal jar engraved with the writing, "Taliesin's Medical Leeches (tm)"
+(open)
+  A polished silver helm with an enormous amethyst set into the brow (worn)
+  A golden amulet with a silver wave inscribed upon it (worn)
+  An eleraan (open)
+  Some eldritch titanium armor (worn)
+  A backpack
+  Some mandrake root
+  A shiny blue pin with "Save our friends the racoons! They're cleaner than
+most of us."
+  A bright red felt pennant with the words Taliesin's healing <<WHILE YOU
+WAIT!>> in shocking gold letters
+  Some black steel sunglasses (worn)
+  A burning torch
+  Some black breeches (worn)
+  A dark purple silk shirt (worn)
+  A deep brown leather waistpack (open)
+  A giant beard (worn)
+  Your object belonging to Taliesin
+  A gulivira skin cloak (worn) (open)
+  Some deeplander boots (worn)
+  A black crystal amulet (worn)
+  A glass vial (open)
+  A tiny silver key
+
+> look in bag
+In the bag you see a partners eye, some ash, an iron lockpick, a magician's
+diamond, a black plush wolfling puppet that resembles Demetrius and howls when
+thumped, a clue, a furry ear, a small plastic action figure that resembles
+Taliesin, whose eyes glow at you, a black crystal cube, some large golden dice
+with sapphire pips, a quill pen inscribed with the writing, "The Bank of Fayd"
+in blue, some wool, a token, a pin that says, "It's all in your mind!", a pin
+that says, "Wounds healed...while you wait!", a bottle engraved with the
+writing, "Specimen Bottle", a long sharp needle with black stitching string
+attached, a glass engraved with the writing, "Taliesin Pendragon: Midwife to
+the Queen", some pearl handled tweezers, a dagger engraved with the writing, "I
+don't need no stinkin' haste! ;)" and some silver shackles.
+
+> look in sack
+In the sack you see a skrag scale, a muur crystal, a muur crystal, some garlic,
+some garlic, an ettin beard, an ettin beard, a golden flower, some arachen
+fangs, some spider fangs, a beetle hair, an ant hair, an ant hair, a skrag
+tongue, a marble bottle, some spider fangs, an ant hair, a manango pit, a
+moonstone, a manango pit, some onoki moss, a roseate eggshell, a manango pit, a
+pearl, an emerald, an ant leg, some spider fangs, some beetle saliva, an ant
+leg, an ant hair, an ant leg and an ant hair.
+
+> look in waistpack
+You notice a nearly invisible mystic sigil on it.
+In the waistpack you see a riyong mushroom, a cocooned larva, a tricana
+seedlings, a manango fruit, a riyong mushroom, a tricana seedlings, a manango
+fruit, a riyong mushroom, a tricana seedlings, a manango fruit, a manango
+fruit, a thesnia leaf, a rowik berry, a rowik berry, a rowik berry, some
+fragrant sori, some fragrant sori, some fragrant sori, some fragrant sori, some
+fragrant sori, some fragrant sori, some fragrant sori, some fragrant sori, some
+fragrant sori, some fragrant sori, some fragrant sori, some fragrant sori, some
+fragrant sori, some fragrant sori, some fragrant sori, some fragrant sori, some
+fragrant sori, some fragrant sori, some fragrant sori, some fragrant sori, some
+fragrant sori, some fragrant sori, some fragrant sori, some fragrant sori, a
+maufra lichen, some fragrant sori, a manango fruit, a riyong mushroom, a maufra
+lichen, a tricana seedlings, some mirmach bark, a rowik berry, a maufra lichen,
+a maufra lichen, a maufra lichen, a maufra lichen, a maufra lichen, a manango
+fruit, a manango fruit, a manango fruit, a maufra lichen, a manango fruit, a
+maufra lichen, a riyong mushroom, a cocooned larva, a cocooned larva, a manango
+fruit, some fragrant sori, a tricana seedlings, a riyong mushroom, a tricana
+seedlings, a cocooned larva and a maufra lichen.
+
+> open backpack
+You open a backpack, revealing a tiny silver key, a golden brown fruit, a
+wrinkled mushroom, a blank key, a damaged aquamarine, a note, a human scalp, a
+lens, some black lace panties that used to belong to Zyphini, some mandrake
+root, some beetle saliva, some black silk panties that used to belong to
+Winnowill, a deep blue crystal key, some mandrake root, some mandrake root and
+some mandrake root.
+
+> info
+You are a journeyman of the Temple of Amilor.
+Level: 65
+Build Points to date: 675
+Unspent Build Points: 4
+Experience Points until next Build Point: 12039
+Quickness: 130    Constitution: 131    Strength:  131    Agility: 95 
+Willpower: 130    Perception:   131    Empathy:   53 
+Age:       32     Height:       6'1    Weight:    165    Load: 275
+
+Current Attack Modifier: -79 [Wary]
+Current Defend Modifier: 251
+
+Body Points: 232/232
+Mana: 104/104
+Psi: 243/256
+Fatigue: 231/231
+
+Cyberware:
+Omega Cyberplate Armor
+Alpha Telepathor
+
+[Type SPELLS or SKILLS for more information.]
+

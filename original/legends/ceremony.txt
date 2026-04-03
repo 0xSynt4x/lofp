@@ -1,0 +1,53 @@
+                              Knight Initiate
+
+'Hsiang, please kneel before the altar, and repeat after me.
+
+reci I swear to devote my life to Amilor, Lord of the Deep, seeking to serve His will above all else. 
+
+reci I promise to prove in myself an example of our Lord, Amilor, at all times, and to forever strive to develop myself to my full potential. 
+
+reci I promise to pursue the truth and its understanding, and always seek the path of light, no matter where it leads. 
+
+'Thank you. Having sworn these oaths before Amilor and all present, I pronounce you Knight Initiate in the temple of Amilor. You may rise.
+
+                               Knight Squire
+
+                                  Knight
+
+<Don the ceremonial sword.>
+
+'Please be seated.
+
+gaze
+'We are gathered here to give witness to a joyful occasion, the promotion of a squire to the rank of Knight. I ask the audience to please remain quiet and keep motions to a minimum during the vows. 
+smi at you.
+
+gaze [Name]
+'[Name], as an initiate, you swore to devote your life to Amilor, Lord of the Deep, seeking to serve His will above all else. You vowed to defend His realms and servants with your life and to protect those entrusted into your care as well as innocents in peril of darkness. 
+
+'By your deeds and by accomplishing the task set to you, you have proven yourself worthy of becoming a Knight of Amilor.
+
+'[Name], please kneel before the altar and repeat after me:
+
+recite I vow to be an example of the beliefs and ideals of Amilor, to the best of my ability. 
+
+Recite I vow to spread the light of Amilor by my actions and words, inviting any who seem worthy and able to join the temple as I deem appropriate.
+
+Recite I vow to serve Amilor and my superiors to the best of my ability.
+
+Recite I vow to instruct those who serve me, guiding them in honing their skills and in the ways of Amilor. 
+
+Recite I will lead with strength, wisdom and compassion. 
+
+report After the touch that's coming, please @snd A white light shines upon [name] to the sound of crashing waves.
+Take sword
+Act raises the sword over [name]'s head and touches it to [name]'s left shoulder.
+
+Report After the next touch, please @snd The light slowly fades, leaving the fresh scent of the sea.
+Act raises the sword overhead and touches it to [name]'s right shoulder.
+
+'Having sworn these oaths before Amilor and all present, I hereby pronounce you...
+'Sir [name], Knight of Amilor!
+
+'Please rise, Sir [name].
+smile

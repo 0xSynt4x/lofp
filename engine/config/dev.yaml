@@ -1,0 +1,17 @@
+server:
+  port: 4993
+  frontend_url: "http://localhost:4992"
+
+mongodb:
+  uri: "${MONGODB_URI:mongodb://localhost:27017}"
+  database: "lofp"
+
+game:
+  scripts_dir: "${LOFP_SCRIPTS_DIR:../original/scripts}"
+  config_file: "${LOFP_CONFIG_FILE:../original/scripts/LEGENDS.CFG}"
+  start_room: 3950
+  bump_room: 201
+
+auth:
+  google_client_id: "${GOOGLE_CLIENT_ID:}"
+  jwt_secret: "${JWT_SECRET:lofp-dev-secret-change-in-production}"

@@ -1,0 +1,173 @@
+<HTML>
+<HEAD>
+
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+<TITLE>Listing of Variables</TITLE>
+
+
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<H2>Listing Of Variables</H2>
+<HR>
+<UL>
+<LI><B>CON</B> - Constitution
+<LI><B>STR</B> - Strenght
+<LI><B>AGI</B> - Agility
+<LI><B>WIL</B> - Willpower
+<LI><B>QUI</B> - Quickness
+<LI><B>PER</B> - Perception
+<LI><B>EMP</B> - Empathy
+<LI><B>WEI</B> - Weight
+<LI><B>HEI</B> - Height
+<LI><B>LEV</B> - Level
+<LI><B>RAC</B> - <A HREF="general.htm#race">Race</A>
+<LI><B>GEN</B> - Gender
+<LI><B>AGE</B> - Age
+<LI><B>TIM</B> - Time
+<LI><B>WEA</B> - Weather
+</UL>
+Unsure if these are the TEMP versions or the TRUE versions of the variables
+listed above.
+<UL>
+<LI><B>CONT</B>
+<LI><B>STRT</B>
+<LI><B>AGIT</B>
+<LI><B>WILT</B>
+<LI><B>QUIT</B>
+<LI><B>PERT</B>
+<LI><B>EMPT</B>
+<LI><B>WEIT</B>
+<LI><B>HEIT</B>
+<LI><B>AGET</B>
+<LI><B>GENT</B>
+</UL>
+These are counter variables that get reset every time the player moves to
+another room
+or exits and re-enters Legends. I am unsure what the GFLAG variables are for.
+<UL>
+<LI><B>FLAG1</B>
+<LI><B>FLAG2</B>
+<LI><B>FLAG3</B>
+<LI><B>FLAG4</B>
+<P>
+<LI><B>GFLAG1</B>
+<LI><B>GFLAG2</B>
+<LI><B>GFLAG3</B>
+<LI><B>GFLAG4</B>
+<P>
+<LI><B>ORG</B> - <A HREF="orgs.htm">Organization</A>
+<LI><B>ALIGN</B> - Alignment
+<P>
+<LI>NUMPLRS - Unknown?
+<LI>PLRSINROOMROOM - Number of players in the room, both visible and unvisible
+<LI>WEIGHTWEQ
+<LI>WEALTH - current amount of coins player is carrying in copper coins
+<LI>TWEIGHT
+<LI>RNUM - Room number
+<LI>WILDERNESS - 1 = wilderness, 0 = non-wilderness
+<LI>ASTRAL - 1 = astral, 0 = non-astral
+<LI>OUTDOOR - 1 = outdoors, 0 = non-outdoors
+<LI>TERRAIN - Terrain type
+</UL>
+<H4>Item variables</H4>
+<UL>
+<LI>ITEMADJ1 - First adjective
+<LI>ITEMADJ2 - Second adjective
+<LI>ITEMADJ3 - Third adjective
+<P>
+<LI>ITEMVAL1 - First variable
+<LI>ITEMVAL2 - Second variable
+<LI>ITEMVAL3 - Third variable
+<LI>ITEMVAL4 - Fourth variable
+<LI>ITEMVAL5 - Fifth variable
+<P>
+<LI>ARCHNUM - Archtype number of item
+</UL>
+<H4>Miscellaneous variables</H4>
+<UL>
+<LI>PLAYERNUM - Players number
+<LI>NPCHOSTILEE - unkown
+<LI>NPCMOVING - unknown
+<LI>NPCMOVESETT - unknown
+<LI>NPCSTOP - unknown
+<LI>HOSTILITY - unknown
+<LI>NPCREG - unknown
+<LI>ROUNDTIME - Roundtime
+<LI>DEAD - 1 = dead, 0 = non-dead
+<LI>ARENADEATH - unknown
+<P>
+<LI>DAY - 1 = day, 0 = night
+<LI>NIGHT - 1 = night, 0 = day
+<LI>MONTH - Month of the year (1-12)
+<LI>DATE - Day of the month (-28)
+<LI>YEAR - Year
+<LI>OBJWEIGHT - Weight of an object in pounds
+<LI>SLEEPING - 1 = sleeping, 0 = awake
+<LI>MOVEABLE - 1 = moveable, 0 = non-moveable
+<LI>TEMP - unknown
+<LI>MISTFORM - 1 = in mistform, 0 = not in mistform
+<LI>WOLFFORM - 1 = in wolfform, 0 = nont in wolfform
+<LI>SLIMEFORM - 1 = in slimeform, 0 = not in slimeform
+<LI>OTHERFORM - 1 = not in orginal form, 0 = in orginal form (?)
+<LI>UNDEAD - 1 = undead, 0 = not undead
+<LI>SUBMITTING - 1 = submitting, 0 = not submitting
+<LI>SPELLNUM - Spell number that has been prepped
+<P>
+<LI>REGION - Region number (<A HREF="regions.htm">Regions</A>)
+<LI>DEPARTROOM - Room number for the place people depart to for that region
+
+
+<P>
+<LI>WEALTH1 - gold, silver, copper
+<LI>WEALTH2 - kragenmarks
+<LI>WEALTH3 - drannirs?
+<LI>WEALTH4 - dollars?
+<LI>WEALTH5 - ?
+<LI>WEALTH6 - ?
+<LI>WEALTH7 - ?
+<LI>WEALTH8 - ?
+<LI>WEALTH9 - ?
+<P>
+<LI>WIELDED - 0 = not wielding anything, otherwise returns archnumber of
+item wielded
+<LI>DISGUISED - 1 = disguised, 0 = not disguised
+<LI>MONINROOM - returns the number of monsters in a room
+<P>
+<LI>SKILL0-30 - holds the level of the skill
+<P>
+<LI>INTNUM1-100 - special per-player variables
+<P>
+<LI>PVAL1-100 - special variables that DO NOT reset at system restarts
+<P>
+<LI>ITEMBIT1-19 - 20 special bit fields that hold either 1 or 0
+<P>
+<LI>FLYING - 1 = flying, 0 = on ground
+<LI>POSITION - 0 = standing, 1 = sitting, 2 = laying, 3 = kneeling
+<P>
+<LI>PSIPOINTS - number of PSI points a player has
+<LI>BODYPOINTS - number of BODY points a player has
+<LI>MANAPOINTS - number of MANA points a player has
+<LI>FATPOINTS - number of FATIGUE points a player has
+</UL>
+<HR>
+<BR>
+
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+</BODY>
+</HTML>
+
+
+
+

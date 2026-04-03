@@ -1,0 +1,412 @@
+; Hotel Rooms 4/5/97
+; 144 - Rm 401 hallway
+; 145 - Rm 402 hallway
+; 146 - Rm 403 hallway
+; 147 - Rm 404 hallway
+; 148 - Rm 401
+; 149 - Rm 402
+; 150 - Rm 403
+; 151 - Rm 404
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 144
+NAME Hotel Escapades, Hallway
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+EXIT N 145
+
+ITEM 0 352 val2=148
+ITEM 1 767 ADJ1=726 ADJ2=101
+ITEM 2 929
+ITEM 3 913
+
+*DESCRIPTION_START
+Soft gray carpet and discreet stenciling lend an air of elegance to this
+wide hallway. Simple gold and crystal wall sconces flank an oak door directly
+in front of you. A polished brass plaque on the door is engraved with the
+room number. The hallway extends north from here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+The oak door is set into the wall about six inches. A small brass plaque
+reads "Room 401". Just above the knob is another polished brass plaque with a
+slot in the center for your key card. A small sign on the door has
+instructions for renting the room.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 1
+Etched in the center of the elegant plaque are the numbers "401".
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 3
+You read:
+    To rent a hotel room, please purchase a key card at the front desk.
+    To enter the room, put the key card in the slot.
+    Enjoy your stay at the Hotel Escapades.
+                     The Management.
+*DESCRIPTION_END
+
+;archnum 567 is a key item.
+IFPREVERB2 PUT -1 in 2
+ IFVAR ARCHNUM = 567
+  CLEARVERB
+  AFFECT 148
+  EQUAL DUMMY1 PLRSINROOM
+  AFFECT 144
+  IFVAR DUMMY1 ! 0
+   ECHO PLAYER You start to insert the card, but a panel lights up with the word 'Occupied' on it.
+  ELSE
+   ECHO PLAYER You slide the card into the slot. After a moment, you hear a click and the door swings open.
+   REMOVEITEM -1
+   OPEN 0
+   AFFECT 148
+   OPEN 0
+   ECHO ALL You see a door open.
+  ENDIF
+ ENDIF
+ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 145
+NAME Hotel Escapades, Hallway
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+EXIT N 146
+EXIT S 144
+
+ITEM 0 352 val2=149
+ITEM 1 767 ADJ1=726 ADJ2=101
+ITEM 2 929
+ITEM 3 913
+
+*DESCRIPTION_START
+Soft gray carpet and discreet stenciling lend an air of elegance to this
+wide hallway. Simple gold and crystal wall sconces flank an oak door directly
+in front of you. A polished brass plaque on the door is engraved with the
+room number. The hallway extends north from here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+The oak door is set into the wall about six inches. A small brass plaque
+reads "Room 402". Just above the knob is another polished brass plaque with a
+slot in the center for your key card. A small sign on the door has
+instructions for renting the room.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 1
+Etched in the center of the elegant plaque are the numbers "402".
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 3
+You read:
+    To rent a hotel room, please purchase a key card at the front desk.
+    To enter the room, put the key card in the slot.
+    Enjoy your stay at the Hotel Escapades.
+                     The Management.
+*DESCRIPTION_END
+
+;archnum 567 is a key item.
+IFPREVERB2 PUT -1 in 2
+ IFVAR ARCHNUM = 567
+  CLEARVERB
+  AFFECT 149
+  EQUAL DUMMY1 PLRSINROOM
+  AFFECT 145
+  IFVAR DUMMY1 ! 0
+   ECHO PLAYER You start to insert the card, but a panel lights up with the word 'Occupied' on it.
+  ELSE
+   ECHO PLAYER You slide the card into the slot. After a moment, you hear a click and the door swings open.
+   REMOVEITEM -1
+   OPEN 0
+   AFFECT 149
+   OPEN 0
+   ECHO ALL You see a door open.
+  ENDIF
+ ENDIF
+ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 146
+NAME Hotel Escapades, Hallway
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+EXIT N 147
+EXIT S 145
+
+ITEM 0 352 val2=150
+ITEM 1 767 ADJ1=726 ADJ2=101
+ITEM 2 929
+ITEM 3 913
+
+*DESCRIPTION_START
+Soft gray carpet and discreet stenciling lend an air of elegance to this
+wide hallway. Simple gold and crystal wall sconces flank an oak door directly
+in front of you. A polished brass plaque on the door is engraved with the
+room number. The hallway extends north from here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+The oak door is set into the wall about six inches. A small brass plaque
+reads "Room 403". Just above the knob is another polished brass plaque with a
+slot in the center for your key card. A small sign on the door has
+instructions for renting the room.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 1
+Etched in the center of the elegant plaque are the numbers "403".
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 3
+You read:
+    To rent a hotel room, please purchase a key card at the front desk.
+    To enter the room, put the key card in the slot.
+    Enjoy your stay at the Hotel Escapades.
+                     The Management.
+*DESCRIPTION_END
+
+;archnum 567 is a key item.
+IFPREVERB2 PUT -1 in 2
+ IFVAR ARCHNUM = 567
+  CLEARVERB
+  AFFECT 150
+  EQUAL DUMMY1 PLRSINROOM
+  AFFECT 146
+  IFVAR DUMMY1 ! 0
+   ECHO PLAYER You start to insert the card, but a panel lights up with the word 'Occupied' on it.
+  ELSE
+   ECHO PLAYER You slide the card into the slot. After a moment, you hear a click and the door swings open.
+   REMOVEITEM -1
+   OPEN 0
+   AFFECT 150
+   OPEN 0
+   ECHO ALL You see a door open.
+  ENDIF
+ ENDIF
+ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 147
+NAME Hotel Escapades, Hallway
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+EXIT S 146
+
+ITEM 0 352 val2=151
+ITEM 1 767 ADJ1=726 ADJ2=101
+ITEM 2 929
+ITEM 3 913
+
+*DESCRIPTION_START
+Soft gray carpet and discreet stenciling lend an air of elegance to this
+wide hallway. Simple gold and crystal wall sconces flank an oak door directly
+in front of you. A polished brass plaque on the door is engraved with the
+room number. The hallway extends north from here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+The oak door is set into the wall about six inches. A small brass plaque
+reads "Room 404". Just above the knob is another polished brass plaque with a
+slot in the center for your key card. A small sign on the door has
+instructions for renting the room.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 1
+Etched in the center of the elegant plaque are the numbers "404".
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 3
+You read:
+    To rent a hotel room, please purchase a key card at the front desk.
+    To enter the room, put the key card in the slot.
+    Enjoy your stay at the Hotel Escapades.
+                     The Management.
+*DESCRIPTION_END
+
+;archnum 567 is a key item.
+IFPREVERB2 PUT -1 in 2
+ IFVAR ARCHNUM = 567
+  CLEARVERB
+  AFFECT 151
+  EQUAL DUMMY1 PLRSINROOM
+  AFFECT 147
+  IFVAR DUMMY1 ! 0
+   ECHO PLAYER You start to insert the card, but a panel lights up with the word 'Occupied' on it.
+  ELSE
+   ECHO PLAYER You slide the card into the slot. After a moment, you hear a click and the door swings open.
+   REMOVEITEM -1
+   OPEN 0
+   AFFECT 151
+   OPEN 0
+   ECHO ALL You see a door open.
+  ENDIF
+ ENDIF
+ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Room 401
+NUMBER 148
+ NAME Hotel Escapades, Room 401
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+Across from an elegant king-sized bed stands a wooden dresser beneath a framed 
+mirror that makes the room seem larger. Nightstands on either side of the
+comfortable bed support lamps with green shades. Next to the large simulated
+picture window a wooden desk provides hotel stationery.
+*DESCRIPTION_END
+
+ EXIT O 144
+ ; Hallway door
+ ITEM 0 350 VAL2=144 UNLOCKED
+ ; Bed
+ ITEM 1 74
+ ; Nightstand
+ ITEM 2 1401
+ ; Dresser
+ ITEM 3 1402
+ ; Mirror
+ ITEM 4 657
+ ; Chair
+ ITEM 5 215 ADJ1=311
+ ; Desk, wooden
+ ITEM 6 328 ADJ1=1101
+ ; Window
+ ITEM 7 1123
+
+ IFPREVERB LOOK 7
+  CLEARVERB
+
+  RANDOM ITEMVAL5 1 2 0
+
+  IFVAR ITEMVAL5 = 1
+   STRCPY 0 "The_view_from_the_window_reveals_an_enchanting_landscape.
+  ENDIF
+
+  IFVAR ITEMVAL5 = 2
+   STRCPY 0 "Gazing_out_the_window_from_four_stories_high,_you_feel_as_if_surveying_your_domain.
+  ENDIF
+
+  RANDOM ITEMVAL5 1 4 0
+
+  IFVAR ITEMVAL5 = 1
+   STRCPY 1 "You_notice_a_flock_of_birds_circling_in_the_sky.
+  ENDIF
+
+  IFVAR ITEMVAL5 = 2
+   STRCPY 1 "You_watch_two_people_on_the_sidewalk_below_embrace_passionately.
+  ENDIF
+
+  IFVAR ITEMVAL5 = 3
+   STRCPY 1 "Your_hazy_reflection_is_superimposed_on_the_landscape.
+  ENDIF
+
+  IFVAR ITEMVAL5 = 4
+   STRCPY 1 "A_hawk_glides_in_lazy_circles_with_placid_wings_as_it_rides_a_thermal.
+  ENDIF
+
+  ECHO OTHERS %N gazes at a simulated window.
+  ECHO PLAYER %0 %1
+
+ ENDIF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Room 402
+NUMBER 149
+ NAME Hotel Escapades, Room 402
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+The furnishings in this spartan room consist only of a simple bed, a dresser
+and a nightstand. The stained carpets and dingy walls suggest that this room
+has been kept for those who need minimal comforts.
+*DESCRIPTION_END
+
+ EXIT O 145
+ ; Hallway door
+ ITEM 0 350 VAL2=145 UNLOCKED
+ ; Bed
+ ITEM 1 74
+ ; Nightstand
+ ITEM 2 1401
+ ; Dresser
+ ITEM 3 1402
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Room 403
+NUMBER 150
+ NAME Hotel Escapades, Room 403
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+From the gold carpet and bedspread to the gilt-framed paintings and wallpaper
+of velvet and gold foil, this room has been decorated to give an impression of
+wealth that doesn't seem to ring true. The king-sized bed sags slightly from
+frequent use.
+*DESCRIPTION_END
+
+ EXIT O 146
+ ; Hallway door
+ ITEM 0 350 VAL2=146 UNLOCKED
+ ; Bed
+ ITEM 1 74
+ ; Nightstand
+ ITEM 2 1401
+ ; Dresser
+ ITEM 3 1402
+ ; Mirror
+ ITEM 4 657
+ ; Chair
+ ITEM 5 215 ADJ1=311
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Room 404
+NUMBER 151
+ NAME Hotel Escapades, Room 404
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+Velvety crimson wallpaper and fringed lampshades combine with a canopied bed
+to make this Victorian style room a romantic setting.
+*DESCRIPTION_END
+
+ EXIT O 147
+ ; Hallway door
+ ITEM 0 350 VAL2=147 UNLOCKED
+ ; Bed
+ ITEM 1 74
+ ; Nightstand
+ ITEM 2 1401
+ ; Dresser
+ ITEM 3 1402
+ ; Mirror
+ ITEM 4 657
+ ; Chair
+ ITEM 5 215 ADJ1=311
+ ; Desk
+ ITEM 6 328 ADJ1=1101
+
+

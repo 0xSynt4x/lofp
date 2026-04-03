@@ -1,0 +1,321 @@
+                            How to Use AI Cards
+                            Written and Created
+                            by David K Goodman
+
+INTRODUCTION
+
+AI Cards are an attempt to simulate human personality using a collection of
+models of human behavior.  The system below is a minimal prototype only.
+Qualities can have a minimum, maximum, typical and current value.  These are
+denoted by the following symbols:
+
+  xxx <=  Minimum. Must be greater than or equal to the xxx minimum level.
+  <= xxx  Maximum. Must be less or equal to the xxx maximum level.
+  = xxx   Current. The quality is currently at the xxx level.
+    xxx   Typical. The quality when unmodified is at the xxx typical level.
+ cur/typ  The current and typical values.
+
+This may also be shown as:  min <= typ <= max = cur
+
+
+TYPES OF CARDS
+
+BODY cards represent the physical condition of the body.  The card reflects
+its ability and current state.  Body qualities include:
+  Characteristics:
+   Hair color
+   Hair length
+   Hair style
+   Eye color
+   Weight
+   Height
+   Build
+   Age
+
+  Movement:
+   STAM  Stamina          Maximum energy
+   RECP  Recuperation     Energy regeneration rate
+   STRN  Strength         Power of movement
+   AGIL  Agility          Speed of movement
+   DEXT  Dexterity        Accuracy of movement
+  An action exerts STRN force and reduces STAM by the same amount.  Each 
+  period the STAM is increased by the RECP amount.  As stamina drops, 
+  strength, dexterity and agility can be reduced.  When the stamina reaches
+  zero or below, the subject is stunned.  Agility determines how quickly
+  actions can be performed.  Dexterity determines the success of the action.
+
+  Health:
+   CONS  Constitution      Ability to withstand physical damage
+   VITL  Vitality          A combination of vital signs
+   RESP  Respiration       The rate of breathing
+   PRES  Blood pressure    The blood pressure reading
+   PULS  Pulse rate        The current pulse rate
+   DAMG  Damage            The amount of damage to all the vital organs
+   BVOL  Volume of blood   The amount of blood left
+   TOXC  Toxicity level    The level of poison in the blood
+   OXYG  Oxygen            The level of oxygen in the blood
+   
+
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³                                    ³³                                    ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³               BODY                 ³³           MENTAL STATE             ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ ___ ___ Strength                   ³³ ___ ___ Anger                      ³
+³ ___ ___ Constitution               ³³ ___ ___ Fear                       ³
+³ ___ ___ Weight                     ³³ ___ ___ Joy                        ³
+³ ___ ___ Height                     ³³ ___ ___ Confidence                 ³
+³ ___ ___ Damage                     ³³ ___ ___ Flight                     ³
+³ ___ ___ Agility                    ³³ ___ ___ Fight                      ³
+³ ___ ___                            ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³             STRATEGY               ³³            RESPONSE                ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ PROBLEM:                           ³³ TRIGGER:                           ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³ SOLUTION:                          ³³ RESPONSE:                          ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³              EVENT                 ³³              DOMAIN                ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+³                                    ³³                                    ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³              HABITS                ³ ³                                    ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´ ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ "Hiya!"                            ³ ³                                    ³
+³ "Hi there."                        ³ ³                                    ³
+³ "See ya."                          ³ ³                                    ³
+³ Rolls eyes                         ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³                                    ³ ³                                    ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´ ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³                                    ³ ³                                    ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´ ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³                                    ³ ³                                    ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´ ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³                                    ³ ³                                    ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´ ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+³                                    ³ ³                                    ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+

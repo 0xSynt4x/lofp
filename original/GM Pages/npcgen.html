@@ -1,0 +1,259 @@
+<html><head><title>NPC Generator</title></head>
+
+<body bgcolor="#FFFFFF" text="#000000" FONT FACE="Comic Sans MS">
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+
+<script language="JavaScript">
+<!--
+
+function snr(str, pnum)
+{
+	var strup = str.toUpperCase()
+	var pos = strup.indexOf('PNUM')
+	if (pos == -1)
+		return str
+	return str.substring(0, pos) + pnum + str.substring(pos + 4)
+}
+
+function Make(form)
+{
+	if (form.PNum.value < 1)
+	{
+		alert("No player number specified!")
+		return
+	}
+
+	var wWnd = window.open("","test","toolbar=no,width=300,height=300,directories=no,status=no,scrollbars=yes,resizable=yes,menubar=no");
+	if (wWnd == null)
+		return
+
+	wWnd.document.writeln('@edp ' + form.PNum.value + ' 1 ' + form.FirstName.value + '<br>')
+	wWnd.document.writeln('@edp ' + form.PNum.value + ' 2 ' + form.LastName.value + '<br>')
+	wWnd.document.writeln('@edp ' + form.PNum.value + ' 3 ' + form.TempName.value + '<br>')
+	wWnd.document.writeln('@speech ' + form.PNum.value + ' ' + form.Speech.value + '<br>')
+	wWnd.document.writeln('@line1 ' + form.PNum.value + ' ' + form.Line1.value + '<br>')
+	wWnd.document.writeln('@line2 ' + form.PNum.value + ' ' + form.Line2.value + '<br>')
+	wWnd.document.writeln('@line3 ' + form.PNum.value + ' ' + form.Line3.value + '<br>')
+	wWnd.document.writeln('@edp ' + form.PNum.value + ' 15 ' + form.Weight.value + '<br>')
+	var formindex = form.Type.selectedIndex
+	wWnd.document.writeln('@edp ' + form.PNum.value + ' 17 ' + form.Type.options[formindex].value + '<br>')
+	formindex = form.Gender.selectedIndex
+	wWnd.document.writeln('@edp ' + form.PNum.value + ' 18 ' + form.Gender.options[formindex].value + '<br>')
+	if (form.Misc1.value.length > 0)
+		wWnd.document.writeln( snr(form.Misc1.value, form.PNum.value) + '<br>')
+	if (form.Misc2.value.length > 0)
+		wWnd.document.writeln( snr(form.Misc2.value, form.PNum.value) + '<br>')
+	if (form.Misc3.value.length > 0)
+		wWnd.document.writeln( snr(form.Misc3.value, form.PNum.value) + '<br>')
+    wWnd.document.close()
+}
+
+function SetChar(form)
+{
+	var formindex = form.Preset.selectedIndex
+	if (formindex == 1)
+	{
+		form.FirstName.value = "Figment"
+		form.LastName.value = "O'Imagination"
+		form.TempName.value = "Figment"
+		form.Speech.value = "suggest"
+		form.Line1.value = "You try to look closer at the flickery form that caught your eye, but it shifts"
+		form.Line2.value = "and fades out of sight each time, preventing you from looking at it directly."
+		form.Line3.value = "-none-"
+		form.Weight.value = "0"
+		form.Type.selectedIndex = 3
+		form.Gender.selectedIndex = 2
+		form.Misc1.value = "appear"
+		form.Misc2.value = ""
+		form.Misc3.value = ""
+	}
+	if (formindex == 2)
+	{
+		form.FirstName.value = "Khimsana"
+		form.LastName.value = "Darkheart"
+		form.TempName.value = "Khimsana"
+		form.Speech.value = "say"
+		form.Line1.value = "Khimsana's dark violet eyes sparkle and flash at your glance, and she turns her"
+		form.Line2.value = "head, sending her long, raven hair swirling with glints of silver at the roots."
+		form.Line3.value = "Her long legs distract you from her aelfen ears and glowing, ebon skin."
+		form.Weight.value = "150"
+		form.Type.selectedIndex = 4
+		form.Gender.selectedIndex = 1
+		form.Misc1.value = ""
+		form.Misc2.value = ""
+		form.Misc3.value = ""
+	}
+	if (formindex == 3)
+	{
+		form.FirstName.value = "Arshaq"
+		form.LastName.value = "Minayin"
+		form.TempName.value = "Arshaq"
+		form.Speech.value = "confide"
+		form.Line1.value = "Arshaq Minayin's liquid, dark eyes twinkle with his slow smiles. He has long,"
+		form.Line2.value = "dark hair, falling past his shoulders and framing his muscular arms. Despite"
+		form.Line3.value = "his strong physique, he exudes an overwhelming sense of peace and warmth."
+		form.Weight.value = "190"
+		form.Type.selectedIndex = 4
+		form.Gender.selectedIndex = 0
+		form.Misc1.value = ""
+		form.Misc2.value = ""
+		form.Misc3.value = ""
+	}
+	if (formindex == 4)
+	{
+		form.FirstName.value = "A_dog"
+		form.LastName.value = "named_Cartin"
+		form.TempName.value = "A_dog"
+		form.Speech.value = "growl"
+		form.Line1.value = "You see a dog."
+		form.Line2.value = "-none-"
+		form.Line3.value = "-none-"
+		form.Weight.value = "90"
+		form.Type.selectedIndex = 8
+		form.Gender.selectedIndex = 0
+		form.Misc1.value = ""
+		form.Misc2.value = ""
+		form.Misc3.value = ""
+	}
+	if (formindex == 5)
+	{
+		form.FirstName.value = "Kerlane"
+		form.LastName.value = "Oscura"
+		form.TempName.value = "Kerlane"
+		form.Speech.value = "say"
+		form.Line1.value = "You see a handsome wolfling with a seductive smile and flashing eyes, but"
+		form.Line2.value = "his face also betrays darkness and pain. His chestnut hair falls to well-"
+		form.Line3.value = "muscled shoulders, matching his strong physique."
+		form.Weight.value = "190"
+		form.Type.selectedIndex = 8
+		form.Gender.selectedIndex = 0
+		form.Misc1.value = ""
+		form.Misc2.value = ""
+		form.Misc3.value = ""
+	}
+	if (formindex == 6)
+	{
+		form.FirstName.value = "Gere"
+		form.LastName.value = "Box"
+		form.TempName.value = "Gere"
+		form.Speech.value = "say"
+		form.Line1.value = "The superbly muscled male mechanoid before you is Gere, a tall, well-built"
+		form.Line2.value = "specimen. The living flesh covering his frame is a deep tan and his eyes are"
+		form.Line3.value = "an electric blue, set in an expressionless face."
+		form.Weight.value = "190"
+		form.Type.selectedIndex = 5
+		form.Gender.selectedIndex = 0
+		form.Misc1.value = "appear He is branded with a strange tattoo."
+		form.Misc2.value = ""
+		form.Misc3.value = ""
+	}
+	if (formindex == 7)
+	{
+		form.FirstName.value = "Simshallah"
+		form.LastName.value = "Rashak"
+		form.TempName.value = "Simshallah"
+		form.Speech.value = "cackle"
+		form.Line1.value = "Lines on Simshallah's face that once indicated humor now reflect a deep pain"
+		form.Line2.value = "and bitterness, reinforced by the hostile glare of his steely grey eyes."
+		form.Line3.value = "His thick, curly hair and beard are graying, and his hands are veined."
+		form.Weight.value = "190"
+		form.Type.selectedIndex = 3
+		form.Gender.selectedIndex = 0
+		form.Misc1.value = ""
+		form.Misc2.value = ""
+		form.Misc3.value = ""
+	}
+	if (formindex == 8)
+	{
+		form.FirstName.value = "Finagle"
+		form.LastName.value = "Youras"
+		form.TempName.value = "Finagle"
+		form.Speech.value = "say"
+		form.Line1.value = "Finagle's small dark eyes dart around, missing little from behind the unruly"
+		form.Line2.value = "strands of greasy black hair that seemed to escape combing. His fingers are"
+		form.Line3.value = "always twitching, and his large hairy ears seem to always turn towards you."
+		form.Weight.value = "190"
+		form.Type.selectedIndex = 3
+		form.Gender.selectedIndex = 0
+		form.Misc1.value = ""
+		form.Misc2.value = ""
+		form.Misc3.value = ""
+	}
+}
+
+// -->
+</script>
+
+<center>
+<h3>NPC Generator</h3>
+
+<FORM>
+<table border=0 cellpadding=1 cellspacing=1>
+ <tr><td>Player Number:</td><td><input type="text" size="20" name="PNum"></td></tr>
+ <tr><td>Preset Character:</td>
+  <td><select name="Preset" size="1" onChange="SetChar(this.form)">
+   <option value="N">-none-</option>
+   <option value="F">Figment</option>
+   <option value="K">Khimsana</option>
+   <option value="A">Arshaq</option>
+   <option value="D">A dog</option>
+   <option value="R">Kerlane</option>
+   <option value="G">Gere</option>
+   <option value="S">Simshallah</option>
+   <option value="F">Finagle</option>
+   </select></td></tr>
+ <tr><td>NPC First Name:</td><td><input type="text" size="20" name="FirstName"></td></tr>
+ <tr><td>NPC Last Name:</td><td><input type="text" size="20" name="LastName"></td></tr>
+ <tr><td>NPC Temp Name:</td><td><input type="text" size="20" name="TempName"></td></tr>
+ <tr><td>Speech:</td><td><input type="text" size="20" name="Speech"></td></tr>
+ <tr><td>&nbsp;</td><td>Description:</td><td>Length</td></tr>
+ <tr><td>Line1:</td><td><input type="text" size="70" name="Line1" onBlur="Line1Len.value = Line1.value.length"></td><td><input type="text" size="3" name="Line1Len"></td></tr>
+ <tr><td>Line2 (or -none-):</td><td><input type="text" size="70" name="Line2" onBlur="Line2Len.value = Line2.value.length"></td><td><input type="text" size="3" name="Line2Len"></td></td></tr>
+ <tr><td>Line3 (or -none-):</td><td><input type="text" size="70" name="Line3" onBlur="Line3Len.value = Line3.value.length"></td><td><input type="text" size="3" name="Line3Len"></td></td></tr>
+ <tr><td>&nbsp;</td></tr>
+ <tr><td>Misc 1:</td><td><input type="text" size="20" name="Misc1"></td></tr>
+ <tr><td>Misc 2:</td><td><input type="text" size="20" name="Misc2"></td></tr>
+ <tr><td>Misc 3:</td><td><input type="text" size="20" name="Misc3"></td></tr>
+ <tr><td>Weight (lbs.):</td><td><input type="text" size="20" name="Weight"></td></tr>
+ <tr>
+  <td>Race:</td>
+  <td><select name="Type" size="1">
+   <option value="D">D-Drakin</option>
+   <option value="E">E-Ephemeral</option>
+   <option value="I">I-Highlander</option>
+   <option value="H">H-Human</option>
+   <option value="L">L-Aelfen</option>
+   <option value="M">M-Mechanoid</option>
+   <option value="U">U-Murg</option>
+   <option value="V">V-Vampire</option>
+   <option value="W">W-Wolfling</option>
+   <option value="!">!-Shrew</option>
+   </select></td></tr>
+ <tr>
+  <td>Gender:</td>
+  <td><select name="Gender" size="1">
+   <option value="0">0-Male</option>
+   <option value="1">1-Female</option>
+   <option value="2">2-Neuter</option>
+   </select></td></tr>
+
+ <tr><td align=center colspan=2><input type="button" value="Create NPC" onclick="Make(this.form)"></td></tr>
+
+</table>
+</FORM>
+Don't forget to @save and @restore.<br><br>
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+</center>
+</body></html>

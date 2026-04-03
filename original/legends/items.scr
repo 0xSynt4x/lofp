@@ -1,0 +1,42 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;nightstand
+INUMBER 1401
+NAME 1401
+ARTICLE a
+WEIGHT 1000
+SUBSTANCE WOOD
+HIDDEN
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;dresser
+INUMBER 1402
+NAME 1402
+ARTICLE a
+WEIGHT 1000
+SUBSTANCE WOOD
+HIDDEN
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;bannister
+INUMBER 1403
+NAME 1403
+ARTICLE a
+WEIGHT 1000
+SUBSTANCE WOOD
+HIDDEN
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; a masseuse
+INUMBER 1404
+NAME 1404
+ARTICLE a
+WEIGHT 1000
+SUBSTANCE WOOD
+
+; a masseur
+INUMBER 1405
+NAME 1405
+ARTICLE a
+WEIGHT 1000
+SUBSTANCE WOOD
+

@@ -1,0 +1,125 @@
+Estara Pendragon
+
+You see Estara Pendragon, a battle-firmed young woman of fierce beauty.  Her
+well-muscled body moves with the fluid grace of an experienced fighter. Long
+flowing tresses of deep red frame her exquisite and piercing lavender eyes.
+She is wearing a beautiful white gold anklet with black and white pearl that
+weaves around the star sapphires that adorn it, a white sash with the words
+Diplomatic Guest on it, some eldritch titanium mail, a delicate gold wedding
+ring with diamonds that twinkle like stars in the night orbiting a star
+sapphire, a slender solid gold gorget intricately filigreed and inset with
+perfect white pearls, a black silk pouch, a gold hairpin, a gulivira skin
+cloak, a black leather satchel, a white silk turban, some deeplander boots,
+some gauntlets, some silver earrings encrusted with star sapphires, a heavy
+black iron ring shaped like the head of a snarling panther and a thick silver
+bracelet painted with a scene depicting the desert sky at midnight.
+
+Skills:
+ Backstab (skill #2, up to level 15).
+ Dodging & Parrying (skill #6, up to level 25).
+ Conjuration (skill #7, up to level 5).
+ Combat Maneuvering (skill #10, up to level 10).
+ Trap & Poison Lore (skill #12, up to level 1).
+ Edged Weapons (skill #13, up to level 100).
+ Lockpicking (skill #22, up to level 1).
+ Psionics (skill #26, up to level 1).
+ Mind over Mind (skill #27, up to lev
+ Mind over Matter (skill #28, up to level 20).
+ Transcendence (skill #29, up to level 47).
+ Stealth (skill #33, up to level 2).
+ Spellcraft (skill #23, up to level 11).
+ Necromancy (skill #30, up to level 12).
+ Enchantment (skill #14, up to level 5).
+ Druidic Magic (skill #17, up to level 8).
+
+Enchantment Spells
+------------------
+200: Fear: Lev=1
+201: Charm: Lev=3
+202: Enchantment I: Lev=4
+207: Strength I: Lev=4
+210: Haste: Lev=5
+211: Slow: Lev=5
+216: Slumber I: Lev=2
+220: Dancing Blade: Lev=1
+226: Paranoia: Lev=3
+
+Necromancy
+-----------------
+301: Turn Undead I: Lev=2
+302: Turn Undead II: Lev=8
+303: Cure Poison: Lev=11
+306: Animate Skeleton: Lev=6
+307: Animate Zombie: Lev=10
+308: Control Undead I: Lev=7
+311: Speak with Dead: Lev=3
+313: Body Destruction I: Lev=1
+314: Body Destruction II: Lev=5
+315: Bond Destruction III: Lev=10
+316: Body Restoration I: Lev=1
+317: Body Restoration II: Lev=5
+318: Body Restoration III: Lev=10
+319: Cure Disease: Lev 12
+323: Spectral Fist: Lev=3
+326: Spectral Shield: Lev=9
+334: Invigoration I: Lev=2
+335: Invigoration II: Lev=9
+337: Reconstruction: Lev=4
+338: Unstun: Lev=9
+339: Destroy Undead I: Lev=3
+340: Destroy Undead II: Lev=8
+345: Spectral Sword: Lev=7
+347: Divine Blessing: Lev=10
+
+Druidic Spells
+------------------
+500: Plant Snare: Lev=4
+504: Call Animal: Lev=1
+506: Resist Weather: Lev=3
+507: Heat Shield: Lev=7
+508: Cold Shield: Lev=6
+511: Carapace: Lev=8
+513: Agility I: Lev=4
+517: Stick to Snake: Lev=5 
+518: Claw Growth: Lev=2
+520: Night Vision: Lev=1
+521: Camouflage: Lev=7
+523: Earth Spike: Lev=5
+
+
+Hunts:
+ Mal's World
+ Demon Ship
+ UK
+ Bios
+
+Associates:
+ Married to Taliesin Pendragon (and Shalana'al Shazraadi)
+ Close friends with Veronica Rullon and all Rakes.
+ Way members by dint of her membership.
+ Seen hunting often with Jayd and Jared.
+ Strange feeling of a connection with Brett Meron.
+ Possible residual link to Phule.
+
+Background:
+ Raised by foster father Grey far to the south of the wastes.
+ Parents unknown.
+ Found as a small child wandering the streets by Grey.
+ Grey was like a Rake for the royalty there.
+ When Grey died, Estara left the town and came to Fayd, around age 10.
+ Mentored by Thalion and inducted into the Rakes.
+ Her only memento from childhood is a blue and silver button 
+    (Ysardan?) with a black rim.
+
+Recent history:
+
+Habits:
+ Giggles from hiding.
+ Teases Taliesin about buying more blades.
+ Hugs people.
+ Kisses and nuzzles Taliesin.
+ Frowns when upset.
+ Grins.
+ Uses smileys. :)
+ Eager to join attacks.
+ Unconcerned about wounds.

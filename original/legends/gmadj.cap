@@ -1,0 +1,1258 @@
+*--*  4/5/98  -  12:46:01 AM  *--*
+@adj
+Adjectives in use:
+0: acid
+1: aelfen
+2: alexandrite
+3: alkaline
+4: amazing
+5: alzyron
+6: amethyst
+7: ancient
+8: aquamarine
+9: arcane
+10: archaic
+11: arid
+12: aromatic
+13: argent
+14: artificial
+15: assault
+16: astounding
+17: automatic
+18: awesome
+19: azure
+20: baby
+21: battered
+22: bejeweled
+23: birds
+24: bitter
+25: black
+26: blaster
+27: bloody
+28: blow
+29: blue
+30: body
+31: bone
+32: brass
+33: brick
+34: briny
+35: brocade
+36: bright
+37: brilliant
+38: broad
+39: bronze
+40: brown
+41: bruised
+42: bubbling
+43: burlap
+44: burnt
+45: canopied
+46: carved
+47: caustic
+48: cement
+49: cerulean
+50: champagne
+51: charged
+52: childlike
+53: chipped
+54: chocolate
+55: citrine
+56: clear
+57: cloth
+58: cloudy
+59: coal
+60: coarse
+61: cold
+62: colorless
+63: comfortable
+64: composite
+65: concrete
+66: conical
+67: cool
+68: copper
+69: coral
+70: cork
+71: corroded
+72: cotton
+73: craggy
+74: cream
+75: crimson
+76: crumpled
+77: crystal
+78: cut
+79: cyan
+80: cyberplate
+81: cylindrical
+82: dainty
+83: damaged
+84: damp
+85: dangerous
+86: dank
+87: dark
+88: decaying
+89: decrepit
+90: delicate
+91: deep
+92: deformed
+93: diamond
+94: dingy
+95: dirty
+96: doeskin
+97: double
+98: dove
+99: dragon
+100: drakin
+101: dreary
+102: dry
+103: dull
+104: dun
+105: dusty
+106: earthen
+107: ebony
+108: effervescent
+109: elkyri
+110: embroidered
+111: emerald
+112: empty
+113: energy
+114: encrusted
+115: engraved
+116: evil
+117: eye
+118: faceted
+119: faint
+120: fake
+121: fallow
+122: faydish
+123: felt
+124: fetid
+125: fiery
+126: fire
+127: fishy
+128: flame
+129: flawless
+130: flaxen
+131: flowing
+132: force
+133: forest
+134: foul
+135: fragrant
+136: fuming
+137: funky
+138: fur
+139: garnet
+140: gauze
+141: gem
+142: giant
+143: glass
+144: glimmering
+145: glowing
+146: gnarled
+147: gold
+148: granite
+149: grassy
+150: gray
+151: greasy
+152: green
+153: grimy
+154: hard
+155: hazardous
+156: heavy
+157: hemp
+158: hexagonal
+159: hidden
+160: highlander
+161: hollow
+162: hot
+163: huge
+164: human
+165: ice
+166: icy
+167: inky
+168: inlaid
+169: iron
+170: ivory
+171: jacinth
+172: jade
+173: jagged
+174: jet
+175: jeweled
+176: lace
+177: lavender
+178: large
+179: laser
+180: leather
+181: light
+182: linen
+183: long
+184: magenta
+185: malachite
+186: malodorous
+187: marble
+188: marvelous
+189: massive
+190: mayten
+191: mechanoid
+192: metal
+193: midnight
+194: mildewy
+195: milky
+196: mirmach
+197: misty
+198: modo
+199: moist
+200: moonstone
+201: morning
+202: mossy
+203: mottled
+204: mucky
+205: murg
+206: musical
+207: musty
+208: mutant
+209: mysterious
+210: narrow
+211: nasty
+212: needler
+213: neoprene
+214: new
+215: nylon
+216: oak
+217: obscured
+218: obsidian
+219: ochre
+220: octagonal
+221: oily
+222: old
+223: olive
+224: onyx
+225: orange
+226: overgrown
+227: painted
+228: panel
+229: patchwork
+230: pearl
+231: pentagonal
+232: perfumed
+233: personal
+234: pine
+235: placid
+236: plaster
+237: plate
+238: plexiglass
+239: plush
+240: poison
+241: polished
+242: polyester
+243: pointy
+244: porcelain
+245: precarious
+246: prismatic
+247: pungent
+248: purple
+249: putrid
+250: pyramidal
+251: quartz
+252: queer
+253: radical
+254: ragged
+255: rancid
+256: randar
+257: rank
+258: rayon
+259: red
+260: reeking
+261: reinforced
+262: rickety
+263: rigid
+264: rocky
+265: round
+266: rotten
+267: rough
+268: rubber
+269: ruby
+270: rugged
+271: runic
+272: rusty
+273: salty
+274: sandy
+275: sapphire
+276: sardonyx
+277: satin
+278: scarlet
+279: scented
+280: scorching
+281: sea
+282: secret
+283: shadowy
+284: shaky
+285: shartan
+286: sheer
+287: shimmering
+288: shiny
+289: shoddy
+290: short
+291: silk
+292: silver
+293: slippery
+294: small
+295: smelling
+296: smoky
+297: smooth
+298: soft
+299: soggy
+300: sour
+301: sooty
+302: spandex
+303: sparkling
+304: spherical
+305: spicy
+306: spiral
+307: square
+308: stained
+309: star
+310: steel
+311: sticky
+312: stone
+313: studded
+314: suede
+315: sweet
+316: syrupy
+317: tall
+318: tarnished
+319: teak
+320: threadbare
+321: taffeta
+322: tainted
+323: tangy
+324: tasting
+325: tiger
+326: tinted
+327: tiny
+328: titanium
+329: towering
+330: tourmaline
+331: translucent
+332: treacherous
+333: tree
+334: truesteel
+335: uncut
+336: urimar
+337: velvet
+338: vertical
+339: vindalar
+340: violet
+341: visored
+342: vorpal
+343: vulgar
+344: warm
+345: water
+346: wet
+347: white
+348: wide
+349: wildflower
+350: winding
+351: wine
+352: wobbly
+353: wolfling
+354: wondrous
+355: wooden
+356: wool
+357: woven
+358: yellow
+359: zesty
+360: zigzag
+361: parchment
+362: vellum
+363: papyrus
+364: ricepaper
+365: radiant
+366: rosewood
+367: fluffy
+368: insurance
+369: alpha
+370: beta
+371: gamma
+372: omega
+373: high-heeled
+374: broken
+375: blizzard
+376: thunder
+377: stalker
+378: serrated
+379: crescent
+380: waist
+381: floppy
+382: mountain
+383: diamontine
+384: cracked
+385: willow
+386: collapsed
+387: honey
+388: gas
+389: clockwork
+390: brimmed
+391: feathered
+392: plumed
+393: bridal
+394: engagement
+395: wedding
+396: low
+397: thesnia
+398: moldy
+399: forester
+400: yew
+401: left
+402: right
+403: soot
+404: blackened
+405: dead
+406: wart
+407: covered
+408: metallic
+409: boar
+410: hide
+411: stunning
+412: frost
+413: giant-skin
+414: birthday
+415: worn
+416: ravager
+417: nightsteed
+418: pure
+419: cobalt
+420: coloring
+421: blood
+422: dripping
+423: gleaming
+424: signet
+425: colorful
+426: hilted
+427: well-worn
+428: torn
+429: flight
+430: phase
+431: goblin
+432: ogre
+433: troll
+434: adamantine
+435: snug
+436: twilight
+437: spidersilk
+438: merchant
+439: wagon
+440: natural
+441: murky
+442: shallow
+443: thick
+444: oval
+445: silver-barked
+446: lacquered
+447: oaken
+448: enamelled
+449: peeling
+450: faded
+451: enormous
+452: concealed
+453: vandalized
+454: shattered
+455: sand
+456: varnished
+457: great
+458: racoon
+459: silvered
+460: blank
+461: ring
+462: of
+463: vanity
+464: pink
+465: creamy
+466: feather
+467: lead
+468: golden
+469: bevel
+470: edged
+471: braided
+472: cryptic
+473: average
+474: luscious
+475: stuffed
+476: rabbit
+477: flickering
+478: blinding
+479: straw
+480: coffee
+481: rat
+482: oil
+483: watercolor
+484: chrome
+485: sleeping
+486: mangy
+487: beautiful
+488: unidentifiable
+489: farm
+490: pile
+491: flat
+492: up
+493: down
+494: realistic
+495: horrible
+496: gruesome
+497: canvas
+498: clean
+499: steaming
+500: elemental
+501: offering
+502: crude
+503: spear
+504: crudely
+505: wrought
+506: chain
+507: intact
+508: smashed
+509: china
+510: snow
+511: game
+512: credit
+513: mechanical
+514: resinous
+515: medicine
+516: rakishly
+517: leopard
+518: tight-fitting
+519: wooly
+520: stocking
+521: peach
+522: dragonslayer
+523: enchanted
+524: ensorcelled
+525: eldritch
+526: burning
+527: domed
+528: elm
+529: paper
+530: rowik
+531: babich
+532: alms
+533: crumbling
+534: ornate
+535: revolving
+536: wolf
+537: royal
+538: luminescent
+539: simple
+540: clawed
+541: boiled
+542: mandrake
+543: viper
+544: rat
+545: spider
+546: ghoul
+547: wight
+548: kvantar
+549: rattlesnake
+550: lizard
+551: shoulder
+552: kitten
+553: mutt
+554: deadly
+555: thigh
+556: skrag
+557: heart-shaped
+558: collared
+559: shadow
+560: hooded
+561: greater
+562: pulsing
+563: platinum
+564: sparkstone
+565: imp
+566: fuzzy
+567: ettin
+568: werewolf
+569: yarrow
+570: quillim
+571: malatrin
+572: shay-ahm
+573: zarus
+574: coriam
+575: kurkan
+576: penetine
+577: uquart
+578: hewn
+579: solid
+580: still
+581: ceremonial
+582: rubble
+583: steep
+584: weatherbeaten
+585: peculiar
+586: rotting
+587: plastic
+588: bulky
+589: lo-fat
+590: bladed
+591: silly
+592: and
+593: fish
+594: plaid
+595: nail
+596: many
+597: seaweed
+598: swivel
+599: sterling
+600: lab
+601: first
+602: bastard
+603: rakshasha
+604: zovembie
+605: aid
+606: shoulder
+607: mauve
+608: roseate
+609: onoki
+610: ultralight
+611: paisley
+612: checkered
+613: polka-dotted
+614: striped
+615: harlequin
+616: batik
+617: floral
+618: organza
+619: sequined
+620: beaded
+621: taffetta
+622: flannel
+623: chiffon
+624: mummified
+625: perfectly
+626: breastplate
+627: ordinary
+628: thin
+629: ornamental
+630: scale
+631: mail
+632: blankety
+633: ritual
+634: power
+635: glittering
+636: supple
+637: bee
+638: concussion
+639: alien
+640: shin
+641: electric
+642: night
+643: shadowsteel
+644: demonbone
+645: crushing
+646: unobtrusive
+647: crystalline
+648: wrapped
+649: unwrapped
+650: inset
+651: cherry
+652: stately
+653: ant
+654: beetle
+655: snakeskin
+656: skeleton
+657: fine
+658: silvery
+659: filthy
+660: cowboy
+661: blonde
+662: brunette
+663: magnificent
+664: roller
+665: corncob
+666: horned
+667: sacrificial
+668: leaning
+669: gilt
+670: claw
+671: darkened
+672: silver-shod
+673: full
+674: holy
+675: guardian
+676: handled
+677: worm
+678: ietain
+679: parrying
+680: mesh
+681: illithium
+682: membership
+683: pogo
+684: oiled
+685: fortune
+686: cavernous
+687: tangled
+688: warped
+689: twisted
+690: nissa's
+691: draw
+692: mangled
+693: circular
+694: ayeskrok
+695: intricately
+696: lame'
+697: mage's
+698: clump
+699: multi-purpose
+700: do-nothing
+701: triangular
+702: skinning
+703: damn
+704: sorrotine
+705: swirling
+706: thorn
+707: thorny
+708: rum
+709: pet
+710: semicircular
+711: hiking
+712: reptilian
+713: silver-edged
+714: skull
+715: low-cut
+716: fabric
+717: gargantuan
+718: chip
+719: theth'khandin
+720: three-piece
+721: gultark
+722: paper
+723: sharkhor
+724: tight
+725: form-fitting
+726: prime
+727: scorched
+728: tattered
+729: deer
+730: jupaaskri
+731: lock
+732: vile
+733: fish-net
+734: string
+735: flintlock
+736: shukenja
+737: folding
+738: transluscent
+739: lusterous
+740: lacy
+741: sunburst
+742: bat
+743: squid
+744: tin
+745: spinach
+746: beribboned
+747: exotic
+748: wicker
+749: hair
+750: juicy
+751: pastel
+752: iridescent
+753: vending
+754: cybernetic
+755: blazing
+756: forcefield
+757: heart
+758: pulse
+759: sonic
+760: crotchless
+761: lucky
+762: fuchsia
+763: smoldering
+764: dagger
+765: pseudo
+766: devil
+767: seashell
+768: lupo
+769: magician's
+770: mantico
+771: dart
+772: twister
+773: dapple
+774: chamois
+775: brainbeast
+776: tanzir
+777: demonic
+778: zharkier
+779: beef
+780: chicken
+781: vegetable
+782: cliff
+783: spirit
+784: vine
+785: hero
+786: tidy
+787: faintly
+788: forged
+789: hunter
+790: hunting
+791: druidic
+792: backless
+793: strapless
+794: figure
+795: flattering
+796: miner's
+797: guest
+798: spriggan
+799: toad
+800: nocturpede
+801: falcon
+802: beaver
+803: reed
+804: prismatic
+805: little
+806: wood
+807: decorative
+808: fishnet
+809: edible
+810: filmy
+811: dignified
+812: lined
+813: monkey
+814: picnic
+815: framed
+816: body-hugging
+817: crab
+818: squid
+819: eel
+820: rose
+821: rough-textured
+822: thief's
+823: silken
+824: scroll
+825: gulivira
+826: crafted
+827: finely
+828: hued
+829: sexy
+830: crimson-red
+831: dark-blue
+832: whisp
+833: slender
+834: bright-green
+835: rag
+836: szol
+837: endir
+838: ruby-encrusted
+839: transparent
+840: harem
+841: thigh-high
+842: knee-high
+843: skin
+844: tooled
+845: sky
+846: wide-brimmed
+847: ilzarian
+848: illusionist's
+849: bachelor
+850: short-sleeved
+851: antique
+852: termite
+853: technological
+854: thong
+855: scarab
+856: partners
+857: pearl-handled
+858: .45
+859: s&w
+860: .357
+861: plasteel
+862: sawed-off
+863: cyber
+864: 9mm
+865: scarecrow
+866: holuvaen
+867: hand-tooled
+868: ursine
+869: winchester
+870: reinforced
+871: bonded
+872: grilled
+873: bluish
+874: badly
+875: computer
+876: oddly
+877: lightly
+878: toasted
+879: bent
+880: snake
+881: fathomless
+882: hunter's
+883: folded
+884: goat's
+885: taser
+886: exquisitely
+887: duelling
+888: hardened
+889: high-powered
+890: armored
+891: tie-dyed
+892: comic
+893: graphite
+894: tooth
+895: maple
+896: mailed
+897: whitewashed
+898: weeping
+899: apartment
+900: picket
+901: lily
+902: bay
+903: link
+904: loose-fitting
+905: hoop
+906: sleeveless
+907: oatmeal
+908: old-fashioned
+909: cashmere
+910: coconut
+911: lead
+912: rectangular
+913: frozen
+914: banana
+915: blueberry
+916: toffee
+917: eagle
+918: bekk-ite
+919: sawtoothed
+920: elastic
+921: piece
+922: of
+923: crimson
+924: rocking
+925: etched
+926: molded
+927: slinky
+928: slick
+929: decorative
+930: pointed
+931: intricate
+932: sterling
+933: candy
+934: but
+935: faerie
+936: panther
+937: opaque
+938: furry
+939: stiff
+940: business
+941: elegant
+942: blank
+943: chartreuse
+944: glistening
+945: glossy
+946: blank
+947: perfect
+948: blank
+949: dump
+950: toy
+951: chef's
+952: winged
+953: quill
+954: fingernail
+955: cuticle
+956: cloisonne
+957: deformed
+958: crockery
+959: potent
+960: homebrewed
+961: high
+962: lorekeeper
+963: sergeant
+964: overstuffed
+965: merovik
+966: picture
+967: cheese
+968: fruit
+969: apple
+970: strawberry
+971: pumpkin
+972: bran
+973: colored
+974: bomber
+975: fallen
+976: raised
+977: battle
+978: cleaning
+979: at
+980: arms
+981: c-shaped
+982: lord
+983: private
+984: cast
+985: guest
+986: scorpion
+987: chameleon
+988: band
+989: initiate
+990: ruffled
+991: music
+992: tool
+993: socket
+994: can
+995: pair
+996: lunch
+997: stout
+998: crystaline
+999: adventurers'
+1000: flowered
+1001: blank
+1002: blank
+1003: blank
+1004: climbing
+1005: burnished
+1006: razor
+1007: chantilly
+1008: fringed
+1009: skimpy
+1010: sleek
+1011: tower
+1012: miniature
+1013: crafters'
+1014: blank
+1015: blank
+1016: blank
+1017: blank
+1018: blank
+1019: blank
+1020: blank
+1021: elastic
+1022: clean
+1023: arena
+1024: gate
+1025: ruby-studded
+1026: smiley-face
+1027: greased
+1028: steam-baked
+1029: bread
+1030: custard
+1031: nut
+1032: jeweler's
+1033: gradrak
+1034: elm
+1035: blank
+1036: blank
+1037: birch
+1038: strange
+1039: baroque
+1040: ephemeral
+1041: burgundy
+1042: gaudy
+1043: archer's
+1044: fizzing
+1045: long-toed
+1046: vith
+1047: quivering
+1048: tuxedo
+1049: creod
+1050: stainless
+1051: bonecutter's
+1052: salted
+1053: roast
+1054: smoked
+1055: rainbow
+1056: ice-cream
+1057: storm
+1058: memarin
+1059: floogle
+1060: molten
+1061: fingerless
+1062: steel-rimmed
+1063: cardboard
+1064: swinging
+1065: floor-length
+1066: wrymwood
+1067: heart-shaped
+1068: blank
+1069: tailored
+1070: sugar
+1071: abalone
+1072: doubloon
+1073: parrot
+1074: deathcat
+1075: bull
+1076: blank
+1077: blank
+1078: dress
+1079: nice
+1080: haunting
+1081: wire-framed
+1082: baggy
+1083: ratty
+1084: laced
+1085: amber
+1086: thoraic
+1087: ursine-skin
+1088: sharkhor-skin
+1089: rabbit-skin
+1090: combat
+1091: kevlar
+1092: two-piece
+1093: blank
+1094: black-grey
+1095: conservative
+1096: highly
+1097: charcoal
+1098: blank
+1099: organdy
+1100: saffron
+1101: russet
+1102: bleaching
+1103: muur
+1104: meteoric
+1105: newt
+1106: si-kri
+1107: imperial
+1108: snow-white
+1109: calcified
+1110: limestone
+1111: leathery
+1112: gorgalask
+1113: gurkan
+1114: fossilized
+1115: fungal
+1116: lurker
+1117: sekleth
+1118: primitive
+1119: blank
+1120: blank
+1121: tan
+1122: spinning
+1123: majestic
+1124: raw
+1125: vermillion
+1126: crispy
+1127: turkey
+1128: khaki
+1129: teal
+1130: albescent
+1131: harpy
+1132: pale
+1133: beige
+1134: yulman
+1135: worg
+1136: yeti
+1137: owl
+1138: blank
+1139: blank
+1140: sporago
+1141: crisp
+1142: navy-blue
+1143: blank
+1144: bear-skin
+1145: king-size
+1146: four-poster
+1147: mourning
+1148: blank
+1149: palm
+1150: soultaker
+1151: serpentine
+1152: terminator
+1153: darakoth
+1154: tarokka
+1155: vulture
+1156: withered
+1157: gull
+1158: constrictor
+1159: demon
+1160: ratman
+1161: arachen
+1162: paned
+1163: lantern
+1164: dented
+1165: cast
+1166: pounded
+1167: citrine
+1168: deeplander
+1169: rod
+1170: end
+1171: granite
+1172: tattered
+1173: chameleon
+1174: polymer
+1175: plasma
+1176: wolverine
+1177: phase
+1178: electrified
+1179: magically
+1180: mystic
+1181: blank
+1182: leaf
+1183: apatois
+1184: meat
+1185: muldragun
+1186: bulging
+1187: sliced
+1188: leafy
+1189: mashed
+1190: shovelfoot
+1191: roulette
+1192: industrial
+1193: surgical
+1194: jelly
+1195: creme-filled
+1196: glazed
+1197: action
+1198: happy
+1199: fun
+1200: freshwater
+1201: poplin
+1202: tartan
+1203: seersucker
+1204: houndstooth
+1205: tweed
+1206: fur
+1207: merchandised
+1208: trademarked
+1209: immaculate
+1210: desert
+1211: plated
+1212: other
+1213: reddish
+1214: antlered
+1215: sanguine
+1216: blank
+1217: blank
+1218: mountaineer's
+1219: blank
+1220: skinny
+1221: mint
+1222: potted
+1223: slim
+1224: sharp
+1225: sturdy
+1226: long-stemmed
+1227: lounge
+1228: scorpion
+1229: tick
+1230: sepia
+1231: dodo
+1232: muricana
+1233: specimen
+1234: jaguma
+1235: riyong
+1236: manango
+1237: sufa
+1238: lizardskin
+1239: mulberry
+1240: mahogany
+1241: sienna
+1242: breast
+1243: indigo
+1244: tricana
+1245: gooey
+1246: azurine
+1247: nashimi
+1248: maufra
+1249: shemrite
+1250: serving
+1251: jilka
+1252: charm
+
+I> I> 

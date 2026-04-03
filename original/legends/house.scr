@@ -1,0 +1,1085 @@
+; Hide n Seek House - 3/20/97
+
+
+;   First Floor
+; +------------------+
+; |                  |
+; | Dining Room      |
+; |                  |
+; +-----+  +-+  +----+
+; |Clost| K  |    ---|
+; + +---+ i  |    ---|
+; | | ||| t  |    ---|
+; + + +-+ c  +    ---|
+; |\ \    h          |
+; |     + e  +       |
+; |Lndry| n  |Foyer  |
+; +-----+----+-+ +---+
+
+;   Second Floor
+; +------+----+------+
+; |      |Clst|Closet|
+; |      + +--+----+ +
+; |      |\   |     /|
+; |Attic |    +      |
+; |      |   /   BR  |
+; |      |    +------+
+; |      |    |  BR  |
+; |      |    +      |
+; |      |   /      \|
+; +------+    +----+ +
+; | Bath  /   |Closet|
+; +------+----+------+
+
+; 1201 Front lawn
+; 1202 Side of home
+; 1203 Cellar
+; 1204 Laundry room
+; 1205 Mop closet
+; 1206 Kitchen
+; 1207 Dining room
+; 1208 Foyer
+; 1209 Hallway, south end
+; 1210 Hallway, north end
+; 1211 Hall closet
+; 1212 Study
+; 1213 Bedroom, south
+; 1214 Bedroom, north
+; 1215 Bathroom
+; 1216 Bedroom closet, south
+; 1217 Bedroom closet, north
+; 1218 Attic
+; 1219 Coat closet
+
+; 1401 Nightstand
+; 1402 Dresser
+; 1403 bannister
+
+; 1203 Cellar
+; AFFECT 1203
+; ECHO OTHERS %0.
+; 1204 Laundry room
+; AFFECT 1204
+; ECHO OTHERS %0.
+; 1205 Mop closet
+; AFFECT 1205
+; ECHO OTHERS %0.
+; 1206 Kitchen
+; AFFECT 1206
+; ECHO OTHERS %0.
+; 1207 Dining room
+; AFFECT 1207
+; ECHO OTHERS %0.
+; 1208 Foyer
+; AFFECT 1208
+; ECHO OTHERS %0.
+; 1209 Hallway, south end
+; AFFECT 1209
+; ECHO OTHERS %0.
+; 1210 Hallway, north end
+; AFFECT 1210
+; ECHO OTHERS %0.
+; 1211 Hall closet
+; AFFECT 1211
+; ECHO OTHERS %0.
+; 1212 Study
+; AFFECT 1212
+; ECHO OTHERS %0.
+; 1213 Bedroom, south
+; AFFECT 1213
+; ECHO OTHERS %0.
+; 1214 Bedroom, north
+; AFFECT 1214
+; ECHO OTHERS %0.
+; 1215 Bathroom
+; AFFECT 1215
+; ECHO OTHERS %0.
+; 1216 Bedroom closet, south
+; AFFECT 1216
+; ECHO OTHERS %0.
+; 1217 Bedroom closet, north
+; AFFECT 1217
+; ECHO OTHERS %0.
+; 1218 Attic
+; AFFECT 1218
+; ECHO OTHERS %0.
+; 1219 Coat closet
+; AFFECT 1219
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Front lawn
+NUMBER 1201
+ NAME Herlighy Home
+ REGION 0
+ OUTDOOR_FLOOR
+ CHANNEL 1
+ FIXED_LIGHT
+
+ EXIT N 1202
+
+;      tree,    Dead      Oak
+ITEM 0 1062 ADJ1=261 ADJ2=646
+;      door
+ITEM 1 351 VAL2=0 LOCKED
+
+*DESCRIPTION_START
+The yard's dead grass and gnarled oak trees are dwarfed by the dark,
+hulking mass of the long abandoned Herlighy home. The door, warped and
+losing its paint, is boarded shut, as are the windows. The yard extends
+north along the right side of the house.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+You notice the initials T+M carved into the gray bark of the old tree.
+*DESCRIPTION_END
+
+IFPREVERB OPEN 1
+ ECHO PLAYER The door is boarded shut and can't be opened.
+ CLEARVERB
+ENDIF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Right side
+NUMBER 1202
+ NAME Herlighy Home
+ REGION 0
+ OUTDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+Chilling mist creates a deep gloom, filling this side of the house like a dark
+pudding. Anything could be lurking in the deep shadows created by the mist
+and shrubbery. A broken cellar window suggests a means of entry, but the
+blackness beyond yields no clue as to whether you could get back out.
+*DESCRIPTION_END
+
+ EXIT S 1201
+
+ ;    Window,     broken
+ ITEM 0 1123 ADJ1=113
+
+ IFPREVERB GO 0
+  CLEARVERB
+  ECHO PLAYER You climb through the window... hang by your fingers... and drop into the blackness.
+  ECHO OTHERS %N climbs through a broken window... and drops into the darkness.
+  DISBAND
+  MOVE 1203
+  AFFECT 1203
+  ECHO OTHERS %N drops from the window above you.
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Cellar
+NUMBER 1203
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+A damp chill pours out of the broken cellar window high above you. In
+the darkness you can barely make out some rickety stairs leading up to the
+cellar door. Other items loom about, but in the dim light you can't
+identify them.
+*DESCRIPTION_END
+
+ ;    Window,     broken
+ ITEM 0 1123 ADJ1=113
+ ; Stairway, rickety
+ ITEM 1 962 ADJ1=784 VAL2=1204 UNLOCKED
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 2
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Laundry room
+NUMBER 1204
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+An old washer and dryer sit forlornly in this small room, the round window
+in the metal door of the washer giving it the look of a cyclops. Next to the
+white mop closet is a wooden door leading to the cellar.
+*DESCRIPTION_END
+
+ ; Kitchen
+ EXIT E 1206
+ ; Cellar door, wooden
+ ITEM 0 352 ADJ1=1101 VAL2=1203 UNLOCKED
+ ; Closet door, white
+ ITEM 1 352 ADJ1=1083 VAL2=1205 UNLOCKED
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+  ; Mop closet telltale
+  AFFECT 1205
+  ECHO OTHERS You sense someone outside the closet.
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Mop closet
+NUMBER 1205
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ CHANNEL 1
+
+*DESCRIPTION_START
+The mildewed interior of this mop closet reminds you uncomfortably of nothing
+so much as an upright coffin. In fact, a coffin might be more spacious. The
+smell of old mops and chemicals is strong.
+*DESCRIPTION_END
+
+ ; Laundry room
+ EXIT O 1204
+ ; Closet door, white
+ ITEM 0 352 ADJ1=1083 VAL2=1204 UNLOCKED
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Kitchen
+NUMBER 1206
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+Thick layers of dust and curtains of spider webs make it unlikely that you'll
+be preparing a meal in this kitchen. Mysterious droppings litter the floor and
+stove burners. A giant wooden fork and spoon are mounted on the wall next to
+several jello molds.
+*DESCRIPTION_END
+
+ ; Foyer
+ EXIT E 1208
+ ; Dining Room
+ EXIT N 1207
+ ; Laundry room
+ EXIT W 1204
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;dining room
+NUMBER 1207
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+The dining room contains a long dinner table covered by a rotting, moth-eaten
+tablecloth. Once-elegant chairs stand around the table awaiting a meal. An
+arch leads into the foyer.
+*DESCRIPTION_END
+
+ ; Kitchen
+ EXIT S 1206
+
+ ; Dinner table
+ ITEM 0 1007 ADJ1=298
+ ; Chair
+ ITEM 1 215 ADJ1=311
+ ; Arch
+ ITEM 2 17 VAL2=1208
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Foyer
+NUMBER 1208
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+Standing in the foyer you observe what in its heyday was a majestic manse and 
+is now a dilapidated wreck. To the west is a dark kitchen and to your right
+a closet door under the stairway leading to the second floor. An arch leads
+into a dim dining room.
+*DESCRIPTION_END
+
+ ; Kitchen
+ EXIT W 1206
+ ;   Stairs,   wooden
+ ITEM 0 962 ADJ1=1101 VAL2=1209
+ ; Stairwell closet door
+ ITEM 1 352 VAL2=1219 UNLOCKED
+ ; Bannister,   wooden
+ ITEM 2 1403 ADJ1=1101
+ ; Arch
+ ITEM 3 17 VAL2=1207
+ ; Door
+ ITEM 4 352 VAL2=0 LOCKED
+
+ IFPREVERB OPEN 4
+  ECHO PLAYER The door is boarded shut and can't be opened.
+  CLEARVERB
+ ENDIF
+
+ IFVERB RECALL -1
+  ECHO PLAYER For hide and seek, both start in the foyer. When the Seeker goes into the stairwell closet, the Hider has 5 seconds to get away before the Seeker can move again. When the Seeker sees the Hider, the Seeker wins.
+ ENDIF
+
+ IFVERB GO 0
+  RANDOM ITEMVAL5 1 100 0
+  IFVAR ITEMVAL5 > 50
+   ECHO PLAYER You hear a creak as you climb the stairs.
+   STRCPY 0 "There's_a_creak_as_someone_climbs_the_stairs
+   ; 1204 Laundry room
+   AFFECT 1204
+   ECHO OTHERS %0.
+   ; 1205 Mop closet
+   AFFECT 1205
+   ECHO OTHERS %0.
+   ; 1206 Kitchen
+   AFFECT 1206
+   ECHO OTHERS %0.
+   ; 1207 Dining room
+   AFFECT 1207
+   ECHO OTHERS %0.
+   ; 1208 Foyer
+   AFFECT 1208
+   ECHO OTHERS %0.
+   ; 1209 Hallway, south end
+   AFFECT 1209
+   ECHO OTHERS %0.
+   ; 1210 Hallway, north end
+   AFFECT 1210
+   ECHO OTHERS %0.
+   ; 1211 Hall closet
+   AFFECT 1211
+   ECHO OTHERS %0.
+   ; 1212 Study
+   AFFECT 1212
+   ECHO OTHERS %0.
+   ; 1213 Bedroom, south
+   AFFECT 1213
+   ECHO OTHERS %0.
+   ; 1214 Bedroom, north
+   AFFECT 1214
+   ECHO OTHERS %0.
+   ; 1215 Bathroom
+   AFFECT 1215
+   ECHO OTHERS %0.
+   ; 1216 Bedroom closet, south
+   AFFECT 1216
+   ECHO OTHERS %0.
+   ; 1217 Bedroom closet, north
+   AFFECT 1217
+   ECHO OTHERS %0.
+   ; 1218 Attic
+   AFFECT 1218
+   ECHO OTHERS %0.
+   ; 1219 Coat closet
+   AFFECT 1219
+
+   EQUAL ROUNDTIME 2
+  ENDIF
+ ENDIF
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;South end of hallway
+NUMBER 1209
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+A tattered runner extends from this end of the narrow hallway to the other.
+Across from the two doors here is a stairway leading down, adorned by a
+wooden bannister. 
+*DESCRIPTION_END
+
+ EXIT N 1210
+
+ ; Stairway
+ ITEM 0 962 VAL2=1208
+ ; Bedroom Door, wooden
+ ITEM 1 352 ADJ1=1101 VAL2=1213 UNLOCKED
+ ; Bathroom Door, stained
+ ITEM 2 352 ADJ1=936 VAL2=1215 UNLOCKED
+ ; Bannister
+ ITEM 3 1403 ADJ1=1101
+
+ ; ITEMVAL3 is destination here
+ EQUAL ITEMVAL3 0
+ 
+ ; ITEMVAL4 is flag for use of bannister here
+ EQUAL ITEMVAL4 0
+
+ IFPREVERB GO 3
+  CLEARVERB
+  EQUAL ITEMVAL4 1
+  EQUAL ITEMVAL3 1208
+ ENDIF
+ 
+ IFVAR ITEMVAL4 = 1
+  ECHO PLAYER You hop up, planting your bottom on the bannister and swiftly slide to the lower floor, neatly polishing the bannister in the process.
+  ECHO OTHERS %N hops onto the bannister and swiftly slides to the bottom, leaving it clean behind %i.
+  DISBAND
+  APPEAR %N has a dirty bottom.
+  MOVE 1208
+  AFFECT 1208
+  ECHO OTHERS %N comes sliding down the now-clean bannister and lands next to you.
+  ; ITEMVAL3 holds destination
+  EQUAL ITEMVAL3 1208
+ ENDIF
+
+ ; ITEMVAL5 is door condition now
+ IFVERB OPEN 2
+  EQUAL ITEMVAL5 0
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+ IFVERB CLOSE 2
+  ; If it was open
+  IFVAR ITEMVAL5 = 0
+   ECHO PLAYER There's a 'thunk' as it closes.
+   STRCPY 0 "You_hear_a_door_close
+   ; Foyer
+   AFFECT 1208
+   ECHO OTHERS %0.
+   ; North bedroom
+   AFFECT 1208
+   ECHO OTHERS %0.
+   ; South bedroom
+   AFFECT 1213
+   ECHO OTHERS %0.
+  ENDIF
+  EQUAL ITEMVAL5 1
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+  ; Downstairs closet telltale
+  AFFECT 1219
+  ECHO OTHERS You hear a footstep overhead.
+  ; Bathroom telltale
+  AFFECT 1215
+  ECHO OTHERS You hear a footstep outside the door.
+  ; Bedroom telltale
+  AFFECT 1213
+  ECHO OTHERS You hear a footstep outside the door.
+ ENDIF
+
+ ; Went in bedroom
+ IFVERB GO 1
+  EQUAL ITEMVAL3 1213
+ ENDIF
+
+ ; Went in bathroom
+ IFVERB GO 2
+  EQUAL ITEMVAL3 1215
+ ENDIF
+
+ ; Went north
+ IFPREVERB N -1
+   ; tell the bathroom
+   AFFECT 1215
+   ECHO OTHERS You sense someone move away from the door.
+   ; tell the bathroom
+   AFFECT 1213
+   ECHO OTHERS You sense someone move away from the door.
+ ENDIF
+
+ IFVAR ITEMVAL3 > 0
+  IFVAR ITEMVAL3 ! 1215
+   ; tell the bathroom
+   AFFECT 1215
+   ECHO OTHERS You sense someone move away from the door.
+  ENDIF
+  IFVAR ITEMVAL3 ! 1213
+   ; tell the bathroom
+   AFFECT 1213
+   ECHO OTHERS You sense someone move away from the door.
+  ENDIF
+ ENDIF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;North end of hallway
+NUMBER 1210
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+This end of the hallway features a bedroom door and a closet door. A study
+can be seen to the west.
+*DESCRIPTION_END
+
+ EXIT S 1209
+ EXIT W 1212
+ ; Bedroom door
+ ITEM 0 352 VAL2=1214 UNLOCKED
+ ; Closet door
+ ITEM 1 352 VAL2=1211 UNLOCKED
+
+ EQUAL ITEMVAL5 0
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+  ; Hall closet telltale
+  AFFECT 1211
+  ECHO OTHERS You sense someone in the hallway.
+ ENDIF
+
+ IFVERB WEST -1
+  EQUAL ITEMVAL5 1
+ ENDIF
+
+ IFVERB SOUTH -1
+  EQUAL ITEMVAL5 1
+ ENDIF
+
+ IFVAR ITEMVAL5 = 1
+  ; Hall closet telltale
+  AFFECT 1211
+  ECHO OTHERS You sense someone leave the hallway.
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Hall closet
+NUMBER 1211
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+Mice have made a nest in the rotting linens on the shelves next to you in this
+claustrophobic closet.
+*DESCRIPTION_END
+
+ ; out to Hallway
+ EXIT O 1210
+ ; closet door
+ ITEM 0 352 VAL2=1210 UNLOCKED
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Study
+NUMBER 1212
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+Cracked leather armchairs for reading face a sooty fireplace. Musty
+bookshelves stand on either side of the fireplace in this once-elegant study.
+*DESCRIPTION_END
+
+ ; Exit to hallway
+ EXIT E 1210
+
+ ITEM 0 21 ADJ1=544
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;South Bedroom
+NUMBER 1213
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+Although the corners are cobwebbed and the air filled with dust, the bed seems
+to have been used recently. A nightstand is next to the bed and a wooden
+dresser with a misty mirror stands across from it.
+*DESCRIPTION_END
+
+ EXIT O 1209
+ ; Hallway door
+ ITEM 0 352 VAL2=1209 UNLOCKED
+ ; Closet door
+ ITEM 1 352 VAL2=1216 UNLOCKED
+ ; Bed (72-74 are all beds)
+ ITEM 2 72
+ ; Nightstand
+ ITEM 3 1401
+ ; Dresser
+ ITEM 4 1402
+ ; Mirror
+ ITEM 5 657
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+  ; Closet telltale
+  AFFECT 1216
+  ECHO OTHERS You sense someone enter the bedroom. 
+ ENDIF
+
+ IFVERB OUT -1
+  EQUAL ITEMVAL5 1
+ ENDIF
+
+ IFVERB GO 0
+  EQUAL ITEMVAL5 1
+ ENDIF
+
+ IFVAR ITEMVAL5 = 1
+  ; Closet telltale
+  AFFECT 1216
+  ECHO OTHERS You sense someone leave the bedroom.
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;North bedroom
+NUMBER 1214
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+Someone seems to have recently been in this bedroom, because the cobwebs have
+been swept away from the bed and nightstand.
+*DESCRIPTION_END
+
+ EXIT O 1210
+
+ ; Hallway door
+ ITEM 0 351 VAL2=1210 UNLOCKED
+ ; Closet door
+ ITEM 1 352 VAL2=1217 UNLOCKED
+ ; Bed (72-74 are all beds)
+ ITEM 2 72
+ ; Nightstand
+ ITEM 3 1401
+ ; Dresser
+ ITEM 4 1402
+ ; Mirror
+ ITEM 5 657
+ ; Incense
+ ITEM 6 548
+ ; Candle
+ ITEM 7 176
+ ; Radio
+ ITEM 8 1301
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+  AFFECT 1217
+  ECHO OTHERS You sense someone enter the bedroom. 
+ ENDIF
+
+ EQUAL ITEMVAL5 0
+
+ IFPREVERB RECALL -1
+  ECHO PLAYER With the door latched, ducking, hula'ing, jigging, kissing, moaning, nibbling, pacing, panting, shivering and swooning seem more intimate.
+  CLEARVERB
+ ENDIF
+
+ IFVERB OUT -1
+  EQUAL ITEMVAL5 1
+ ENDIF
+
+ IFVERB GO 0
+  EQUAL ITEMVAL5 1
+ ENDIF
+
+ ; Go bed
+ IFVERB GO 2
+  ECHO PLAYER You lay down on the soft bed.
+  ECHO OTHERS %N lays down on the soft bed.
+  EQUAL POSITION 2
+ ENDIF
+
+ VARIABLE DKG_LATCH1
+
+ ; Latch bedroom door
+ IFVERB LATCH 0
+  ECHO ALL The room feels more intimate now.
+  EQUAL DKG_LATCH1 1
+ ENDIF
+
+ ; Unlatch bedroom door
+ IFVERB UNLATCH 0
+  ECHO ALL The room feels less intimate now.
+  EQUAL DKG_LATCH1 0
+ ENDIF
+
+ ; Special handling when the door is latched
+ IFVAR DKG_LATCH1 = 1
+
+   IFPREVERB CARESS -1
+    ECHO PLAYER You give a sensual caress.
+    ECHO OTHERS %N gives you a sensual caress.
+    CLEARVERB
+   ENDIF
+   
+   IFPREVERB DUCK -1
+    ECHO PLAYER You bend down.
+    ECHO OTHERS %N bends down.
+    CLEARVERB
+   ENDIF
+   
+   IFPREVERB HULA -1
+    ECHO PLAYER You rock your hips.
+    ECHO OTHERS %N rocks %h hips.
+    RANDOM ITEMVAL5 1 100 0
+    IFVAR ITEMVAL5 > 50
+     ECHO ALL The bed makes a loud squeek.
+    ENDIF
+    CLEARVERB
+   ENDIF
+   
+   IFPREVERB JIG -1
+    ECHO PLAYER You shimmy.
+    ECHO OTHERS %N shakes %iself for you.
+    CLEARVERB
+   ENDIF
+   
+   IFVERB KISS -1
+    ECHO OTHERS You feel your pulse speed up.
+   ENDIF
+
+   IFPREVERB MOAN -1
+    ECHO PLAYER You moan in ecstasy.
+    ECHO OTHERS %N moans in ecstasy.
+    CLEARVERB
+   ENDIF
+   
+   IFPREVERB NIBBLE -1
+    ECHO PLAYER You nibble with your lips.
+    ECHO OTHERS %N nibbles you with %h lips.
+    CLEARVERB
+   ENDIF
+   
+   IFPREVERB PACE -1
+    ECHO PLAYER You move back and forth rhythmically.
+    ECHO OTHERS %N moves back and forth rhythmically.
+    CLEARVERB
+   ENDIF
+   
+   IFPREVERB PANT -1
+    ECHO PLAYER You breathe heavily.
+    ECHO OTHERS %N breathes heavily in passion.
+    CLEARVERB
+   ENDIF
+   
+   IFPREVERB SHIVER -1
+    ECHO PLAYER You shiver with pleasure.
+    ECHO OTHERS %N shivers with pleasure.
+    CLEARVERB
+   ENDIF
+
+   IFPREVERB SHUDDER -1
+    ECHO PLAYER Your body shudders with sexual tension.
+    ECHO OTHERS %n's body shudders with sexual tension.
+    CLEARVERB
+   ENDIF
+   
+   IFPREVERB SWOON -1
+    ECHO PLAYER You feel weak with passion.
+    ECHO OTHERS %n swoons with passion.
+    CLEARVERB
+   ENDIF
+   
+   ; Look in the mirror
+   IFPREVERB GAZE 5
+    CLEARVERB
+    ECHO PLAYER You look around the room in the mirror.
+    ECHO OTHERS %N sneaks a look at you in the mirror.
+   ENDIF
+
+   ; Look at the candle
+   IFPREVERB GAZE 7
+    CLEARVERB
+    ECHO PLAYER You look at the room by candlelight.
+    ECHO OTHERS %N is illuminated by the flickering candlelight.
+   ENDIF
+
+   ; Push the bed
+   IFPREVERB PUSH 2
+    ECHO PLAYER You arch your body.
+    ECHO OTHERS %N arches %h body.
+    CLEARVERB
+   ENDIF
+
+   ; Pull the bed
+   IFPREVERB PULL 2
+    ECHO PLAYER You press yourself against your partner.
+    ECHO OTHERS %N presses against you.
+    CLEARVERB
+   ENDIF
+
+ ENDIF
+
+ ; Climb bed
+ IFVERB CLIMB 2
+  ECHO PLAYER You climb onto the soft bed.
+  ECHO OTHERS %N climbs onto the soft bed.
+ ENDIF
+
+ IFVAR ITEMVAL5 = 1
+  ; Closet telltale
+  AFFECT 1217
+  ECHO OTHERS You sense someone leave the bedroom.
+ ENDIF
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Bathroom
+NUMBER 1215
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+This bathroom's indescribable stench assails your senses, such that you wonder
+how long you can tolerate it and the sight of the mold and mildew that creep
+up the walls and fixtures like shadowy tendrils of death.
+*DESCRIPTION_END
+
+ EXIT O 1209
+ ; Door
+ ITEM 0 352 VAL2=1209 UNLOCKED
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFVERB SNIFF -1
+  ECHO PLAYER Your nose is assaulted by the odor of decay.
+  ECHO OTHERS %N dares to sample the air and is rewarded with a vile scent.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;South bedroom closet
+NUMBER 1216
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+You are surrounded by debris in this bedroom closet.
+*DESCRIPTION_END
+
+ EXIT O 1213
+ ITEM 0 352 VAL2=1213 UNLOCKED
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;North bedroom closet
+NUMBER 1217
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+You have to contort yourself to stay here under the sagging closet shelf and
+fallen clothes pole.
+*DESCRIPTION_END
+
+ EXIT O 1214
+ ITEM 0 352 VAL2=1214 UNLOCKED
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Attic
+NUMBER 1218
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+You're in the attic. How'd you get in here?
+*DESCRIPTION_END
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 1
+ ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Stairwell closet
+NUMBER 1219
+ NAME Herlighy Home
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+You are forced to crouch under the slanted ceiling of this stairwell closet.
+*DESCRIPTION_END
+
+ EXIT O 1208
+ ITEM 0 352 VAL2=1208 UNLOCKED
+
+ IFPREVERB HIDE -1
+  CLEARVERB
+  ECHO PLAYER You grope around, trying to hide.
+  ECHO OTHERS %N gropes around, trying to hide.
+ ENDIF
+
+ IFENTRY
+  EQUAL ROUNDTIME 5
+ ENDIF

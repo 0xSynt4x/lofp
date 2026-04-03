@@ -1,0 +1,64 @@
+Hiya Jabber!
+
+THE TEMPLE
+ Once you have access to the temple scripts, the following would be cool:
+
+ It would be great if there was a rope in the Chapterhouse that members could 
+ pull which would ring a bell heard all over Fayd, or by every member.
+ 
+ I'd like to see the training pit have some creatures that could be summoned 
+ for practice, like the Way has. You'd specify what level of creature, and 
+ perhaps whether for mage, psi or fighter. Personally, I'd like to see 
+ greater werewolves and torakaniks.
+ 
+ I believe there is an office for the preceptor, but that it is currently 
+ keyed to operate for Shane. Could that be modified so that I could access 
+ it?
+ 
+AMULETS
+ The following are features that I'd like to see, which seem consistent with
+ the aims of Amilor. They aid in defense and spiritual matters.
+
+ I'd like the amulet to be protected so only members of Amilor may have one.
+ If anyone else tries to pick one up or wear it, they will be stunned and it
+ will drop to the floor. It would be nice if each one could be engraved so
+ you knew who owned it when you examined it.
+
+ Concentrate on an amulet and it tells you what your aura is set at.
+ "Taliesin concentrates on a golden amulet."
+ "%N appears introspective, lost in contemplation."
+ 
+ Rub the amulet to See Hidden.
+ "Taliesin rubs a golden amulet."
+ "It glows with a holy light, briefly illuminating the area."
+ You see Goshi, Airgid and Tyldak.
+ 
+ Cast at the amulet for Globe III. (Only once a day.)
+ "Taliesin gestures at a golden amulet."
+ "It flares and bathes %i in a protective glow."
+
+ Thump the amulet and it will BSII your group to your 1st mark.
+ (Only for the High Priestess (Jasmine), Keeper (Hunan),
+    Preceptor (Taliesin), or Champion (maybe Eaglesoul).
+
+ Kiss the amulet to Disperse Storm.
+ "Taliesin kisses a golden amulet."
+ "%S prays for Amilor to quell any storms."
+
+ Pull the amulet to Summon Water Elemental (once a day).
+ 
+ Push the amulet for a nice echo.
+ "%N prays to Amilor, and a booming voice replies, "I hear your prayer."
+ 
+
+EVENTS
+
+ I don't have any specific ideas for events at this time, I'll try to think
+ of some and send them once I do. I would like to suggest that the first events
+ revolve around one or two temple members. I'd like to see events centered on
+ Eaglesoul, Raningeth, Lelldorin and Mofusa in approximately that order. They
+ have been our most devoted and frequent members.
+
+Thanks for all your efforts, Jabber.
+
+-Tali

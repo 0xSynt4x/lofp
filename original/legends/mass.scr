@@ -1,0 +1,320 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 1299
+NAME Hotel Escapades, Massage Room
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+; masseuse
+ITEM 0 1404
+; table
+ITEM 1 1007
+; nightstand
+ITEM 2 1401
+; painting
+ITEM 3 715
+; candle
+ITEM 4 176
+; pillow
+ITEM 5 757
+
+ITEM 6 352 VAL2=1298 UNLOCKED
+ITEM 7 352 VAL2=1297 UNLOCKED
+
+*DESCRIPTION_START
+In the soft light you see a painting with nymphs and satyrs mounted on the
+wall over a massage table covered by a clean white sheet and a small pillow.
+A nightstand stands nearby with body oils, tissues, candles and incense in
+view. Music fills the room with a haunting melody and an insistent beat.
+A door leads back to the parlor and a second door leads to the bathroom.
+*DESCRIPTION_END
+
+;*DESCRIPTION_START ITEM EXAM 0
+;*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+The sylvan scene of this painting depicts a lush green glen with a silvery
+lake. Nymphs and fauns saunter brazenly about the recumbant satyrs eating
+hand-fed grapes.
+*DESCRIPTION_END
+
+EQUAL ITEMVAL5 0
+
+IFVERB RECALL -1
+	ECHO PLAYER You remember hearing that the masseuse/masseur responds to "faster, slower, higher, lower, more, less, male and female."
+ENDIF
+
+IFPREVERB LISTEN -1
+	ECHO PLAYER The beat of the music echoes in your head as your pulse aligns to the melody and rhythm.
+	ECHO OTHERS %N seems to sway as %s listens to the music.
+	CLEARVERB
+ENDIF
+
+IFVERB SNIFF -1
+	ECHO PLAYER The scent of the incense brings back fond memories of a romantic interlude.
+	ECHO OTHERS The scent of the incense seems to trigger %N's memories.
+ENDIF
+
+; go table
+IFPREVERB GO 1
+	CLEARVERB
+	EQUAL ITEMVAL5 1
+ENDIF
+IFVERB LAY -1
+	CLEARVERB
+	EQUAL ITEMVAL5 1
+ENDIF
+
+IFVAR ITEMVAL5 = 1
+	IFVAR POSITION = 2
+		ECHO PLAYER You are already laying down.
+	ENDIF
+	IFVAR POSITION ! 2
+		ECHO PLAYER You stretch out on the firm cushion of the massage table.
+		ECHO OTHERS %N stretches out on the firm cushion of the massage table.
+		POSITION LAY
+	ENDIF
+ENDIF
+
+IFPREVERB STAND -1
+	IFVAR POSITION = 0
+		ECHO PLAYER You are already standing.
+	ENDIF
+	IFVAR POSITION ! 0
+		ECHO PLAYER You climb off the massage table and stand up.
+		ECHO OTHERS %N climbs off the massage table and stands up.
+		POSITION STAND
+	ENDIF
+	CLEARVERB
+ENDIF
+
+; masseuse-specific code....
+
+; phase: 0=idle, 1=init, 2=intro, 3=massage, 4=kisses, 5=exit
+;agrees: -1=no 1=yes
+VARIABLE DKG_AGREES
+; heat: 0=massage, 1=kissing, 2=fondling, 3=hardcore
+
+IFVERB THUMP 0
+	EQUAL DKG_PHASE 0
+	ECHO ALL A glare and a "hmph!" is the only response.
+ENDIF
+
+IFVAR DKG_PHASE = 1
+	EQUAL DKG_SPEED 5
+	EQUAL DKG_FOCUS 1
+	EQUAL DKG_LASTFOCUS 1
+	EQUAL DKG_AGREES 0
+	EQUAL DKG_HEAT 1
+	EQUAL DKG_MFEMALE 1
+	EQUAL DKG_PHASE 3
+	EQUAL DKG_RESPONDED 0
+ENDIF
+
+IFSAY male
+	EQUAL DKG_MFEMALE 0
+	ECHO ALL A masseur arrives to tend to your needs, taking the other's place.
+ENDIF
+
+IFSAY female
+	EQUAL DKG_MFEMALE 1
+	ECHO ALL A masseuse arrives to tend to your needs, taking the other's place.
+ENDIF
+
+IFVERB POKE 0
+	ECHO ALL The %2 gazes at you.
+ENDIF
+
+; strings 2=masseur/masseuse 3=masseur gender his/her
+IFVAR DKG_MFEMALE = 1
+	STRCPY 2 "masseuse
+	STRCPY 3 "her
+	STRCPY 4 "she
+ENDIF
+IFVAR DKG_MFEMALE = 0
+	STRCPY 2 "masseur
+	STRCPY 3 "his
+	STRCPY 4 "he
+ENDIF 
+
+	IFVAR DKG_PHASE ! 0
+		ADD DKG_RESPONDED 1
+		IFVAR DKG_RESPONDED > 10
+			ECHO ALL The %2 asks, "Did you fall asleep?" and leaves.
+			EQUAL DKG_PHASE 0
+		ENDIF
+	ENDIF
+
+IFVERB TOUCH 0
+	ECHO ALL The %2 smiles at you.
+ENDIF
+
+IFPREVERB TAP 0
+	CLEARVERB
+	; GMMSG Test
+	ECHO PLAYER You get the %2's attention.
+	EQUAL DKG_PHASE 1
+ENDIF
+
+IFSAY yes
+	EQUAL DKG_AGREES 1
+ENDIF
+IFSAY yeah
+	EQUAL DKG_AGREES 1
+ENDIF
+IFSAY sure
+	EQUAL DKG_AGREES 1
+ENDIF
+IFSAY yep
+	EQUAL DKG_AGREES 1
+ENDIF
+IFVERB NOD -1
+	EQUAL DKG_AGREES 1
+ENDIF
+
+IFSAY nope
+	EQUAL DKG_AGREES 0
+ENDIF
+IFSAY no!
+	EQUAL DKG_AGREES 0
+ENDIF
+IFSAY no.
+	EQUAL DKG_AGREES 0
+ENDIF
+IFVERB HEADSHAKE -1
+	EQUAL DKG_AGREES 0
+ENDIF
+
+IFSAY faster
+	IFVAR DKG_SPEED = 1
+		ECHO ALL The %2 says, "That's as fast as I can go, honey."
+	ELSE
+		ECHO ALL The %2 increases %3 pace at your urging.
+		SUB DKG_SPEED 1
+	ENDIF
+	STRCVT 0 DKG_SPEED
+;	ECHO PLAYER The speed is set to %0.
+ENDIF
+
+IFSAY slower
+	IFVAR DKG_SPEED > 20
+		ECHO ALL The %2 says, "I'm going nice and slow, sugar."
+	ELSE
+		ECHO ALL The %2 lingers over you.
+		ADD DKG_SPEED 1
+	ENDIF
+	STRCVT 0 DKG_SPEED
+; ECHO PLAYER The speed is set to %0.
+ENDIF
+
+IFSAY lower
+	IFVAR DKG_FOCUS = 3
+		ECHO ALL The %2 says, "I'll just work on your feet a bit."
+	ELSE
+		ECHO ALL The %2 says, "Okay, sugar."
+		ADD DKG_FOCUS 1
+	ENDIF
+	STRCVT 0 DKG_FOCUS
+;	ECHO PLAYER The focus is set to %0.
+ENDIF
+
+IFSAY higher
+	IFVAR DKG_FOCUS = 0
+		ECHO ALL The %2 says, "I'll just work on your head a bit."
+	ELSE
+		ECHO ALL The %2 says, "Okay, sugar."
+		SUB DKG_FOCUS 1
+	ENDIF
+	STRCVT 0 DKG_FOCUS
+;	ECHO PLAYER The focus is set to %0.
+ENDIF
+
+IFSAY less
+	IFVAR DKG_HEAT = 1
+		ECHO ALL The %2 says, "I'm sorry, I got carried away."
+		ECHO ALL The %2 smiles at you softly.
+	ELSE
+		ECHO ALL The %2 nods to you.
+		SUB DKG_HEAT 1
+	ENDIF
+	STRCVT 0 DKG_HEAT
+;	ECHO PLAYER The heat is set to %0.
+ENDIF
+
+IFSAY more
+	IFVAR DKG_HEAT = 3
+		ECHO ALL The %2 says, "I do my best."
+		ECHO ALL The %2 smiles at you softly.
+	ELSE
+		ECHO ALL The %2 says, "I was hoping you'd say that!"
+		ECHO ALL The %2 grins at you.
+		ADD DKG_HEAT 1
+	ENDIF
+	STRCVT 0 DKG_HEAT
+;	ECHO PLAYER The heat is set to %0.
+ENDIF
+
+; If we're doing a massage
+IFVAR DKG_PHASE = 3
+
+	IFVERB MOAN -1
+		ECHO ALL The %2 smiles.
+	ENDIF
+	IFVERB SHIVER -1
+		ECHO ALL The %2 chuckles.
+	ENDIF
+
+	IFVERB WINCE -1
+		RANDOM DKG_SEL 1 3 0
+		IFVAR DKG_SEL = 1
+			ECHO ALL The %2 says, "Oh baby, I'm sorry."
+		ENDIF
+		IFVAR DKG_SEL = 2
+			ECHO ALL The %2 asks, "Tender, lover?"
+		ENDIF
+		IFVAR DKG_SEL = 3
+			ECHO ALL The %2 asks, "Was that sore?"
+		ENDIF
+	ENDIF
+ENDIF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 1298
+NAME Hotel Escapades, Massage Parlor
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+ITEM 0 352 VAL2=1299 UNLOCKED
+
+*DESCRIPTION_START
+Gilt-edged paintings of voluptuous women reclining in sylvan settings adorn
+the red-velvet wallpapered walls. Fringed lampshades and ornate furniture
+give this parlor a Victorian aire. A door leads to a private room.
+*DESCRIPTION_END
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Bathroom
+NUMBER 1297
+ NAME Hotel Escapades, Massage Parlor Bathroom
+ REGION 0
+ INDOOR_FLOOR
+ FIXED_LIGHT
+ CHANNEL 1
+
+*DESCRIPTION_START
+Flickering candlelight illuminates this plush bathroom with a warm glow,
+revealing a marble sink, large Roman bathtub, gold and velvet wallpaper and
+heavy towels.
+*DESCRIPTION_END
+
+ EXIT O 1299
+ ; Door
+ ITEM 0 352 VAL2=1299 UNLOCKED
+
+ IFVERB SNIFF -1
+  ECHO PLAYER Your nose is treated with the aroma of a fragrant potpourri.
+  ECHO OTHERS %N sniffs the fragrant scent of the potpourri.
+ ENDIF

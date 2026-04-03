@@ -1,0 +1,60 @@
+NUMBER 153
+NAME Hotel Escapades, Hallway
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+EXIT N 154
+
+ITEM 0 352 val2=157
+ITEM 1 767 ADJ1=726 ADJ2=101
+ITEM 2 929
+ITEM 3 913
+
+*DESCRIPTION_START
+Soft gray carpet and discreet stenciling lend an air of elegance to this
+wide hallway. Simple gold and crystal wall sconces flank an oak door directly
+in front of you. A polished brass plaque on the door is engraved with the
+room number. The hallway extends north from here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+The oak door is set into the wall about six inches. A small brass plaque
+reads "Room 501". Just above the knob is another polished brass plaque with a
+slot in the center for your key card. A small sign on the door has
+instructions for renting the room.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 1
+Etched in the center of the elegant plaque are the numbers "501".
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 3
+You read:
+    To rent a hotel room, please purchase a key card at the front desk.
+    To enter the room, put the key card in the slot.
+    Enjoy your stay at the Hotel Escapades.
+                     The Management.
+*DESCRIPTION_END
+
+;archnum 567 is a key item.
+
+
+IFPREVERB2 PUT -1 in 2
+   IFVAR ARCHNUM = 567
+      CLEARVERB
+      AFFECT 157
+      EQUAL DUMMY1 PLRSINROOM
+      AFFECT 153
+      IFVAR DUMMY1 ! 0
+                ECHO PLAYER You start to insert the card, but a panel lights up with the word 'Occupied' on it.
+       ELSE
+                ECHO PLAYER You slide the card into the slot. After a moment, you hear a click and the door swings open.
+                REMOVEITEM -1
+                OPEN 0
+                AFFECT 157
+                OPEN 0
+                ECHO ALL You see a door open.
+           ENDIF
+       ENDIF
+  ENDIF

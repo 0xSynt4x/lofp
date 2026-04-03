@@ -1,0 +1,15 @@
+Some suggestions for a scripting policy
+Dave Goodman (Taliesin) 11/26/97
+
+No unattended scripting. No response within 2 minutes and they get hit.
+
+No littering. Any garments, foraged items or whatever should be picked up or destroyed.
+
+No hoarding. If others are hunting there, the script shouldn't skin,
+search and retrieve all treasure.
+
+Disable scripting on request. If another player is trying to hunt and objects to the
+scripting, the player should disable it.
+
+No spells that would affect other players (like disjunct or knockdowns).
+

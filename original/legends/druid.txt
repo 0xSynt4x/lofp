@@ -1,0 +1,172 @@
+
+
+
+
+
+    SYSOP
+
+    From:  FARETRACKER@EXPEDIA.COM        Number:7235177
+    To:    SYSOP                          Date:  Thursday, March 20, 1997 10:58 AM
+    Subject:           Expedia Fare Tracker Update    Reference:                                                 None
+    Read:  3/20/97 12:45 PM (0 replies)   Private:                                                 Yes
+    Conference:           0 - Private E-Mail
+
+
+    Received: from mx1.expedia.com (mx1.expedia.com [207.68.149.62]) by nbn.nbn.com (
+    From: FareTracker@expedia.com
+    Received: from [207.68.149.236] (fred [207.68.149.236]) by mx1.expedia.com (8.6.8
+     id SAA01535 for dgoodman@infoway.com; Thu, 20 Mar 1997 18:58:54 GMT
+    Date: Thu, 20 Mar 1997 18:58:54 GMT
+    Message-Id: <199703201858.SAA01535@mx1.expedia.com>
+    To: dgoodman@infoway.com
+    Subject: Expedia Fare Tracker Update
+
+    Dear David Goodman,
+
+    Here is your customized report listing the lowest published airfares 
+    on the trips you requested.  Fare Tracker tracks the lowest round trip
+    airfares to your favorite destinations.
+
+    Since airline restrictions apply to these fares, please be sure to
+    read the footnotes below.
+
+    Fare Tracker Tip of the Week: Rail Europe's Europass Drive plan is more
+    flexible this year than ever, so you can easily combine quick train trips
+    from city to city with renting wheels to wander the backroads at your
+    own pace.  For the first time, you can travel in France, Germany, Italy,
+    Spain, and Switzerland all on one pass; and you can create an itinerary
+    that involves as little as three days on the train.  For more on this
+    and other news, visit Expedia Travel Dispatch at
+    http://expedia.msn.com/daily/news/default.htm
+
+    ***************************
+    FARE TRACKER LOW FARES 
+
+    1. 374.00 US Dollars
+     From: Oakland, CA (OAK-Oakland Intl.)
+     To: Boston, MA (BOS-Logan Intl.)
+     On: America West Airlines [1]
+     Rules: Must stay over a Saturday night.
+      Trip must occur on or after  9 Mar 97.
+      Other restrictions may apply.  See FOOTNOTES below.
+      
+     418.00 US Dollars
+     From: Oakland, CA (OAK-Oakland Intl.)
+     To: Boston, MA (BOS-Logan Intl.)
+     On: Delta Air Lines [2], United Airlines [3], 
+      America West Airlines [4]
+     Rules: Must stay over a Saturday night.
+      Other restrictions may apply.  See FOOTNOTES below.
+
+
+
+
+      
+
+    2. 298.00 US Dollars
+     From: San Francisco, CA (SFO)
+     To: Boston, MA (BOS-Logan Intl.)
+     On: America West Airlines [5]
+     Rules: Must stay over a Saturday night.
+      Stay must not exceed 4 days.
+      Trip must occur on or after  8 Mar 97.
+      Other restrictions may apply.  See FOOTNOTES below.
+      
+     310.00 US Dollars
+     From: San Francisco, CA (SFO)
+     To: Boston, MA (BOS-Logan Intl.)
+     On: Trans World Airlines [6]
+     Rules: Must stay over a Saturday night.
+      Stay must not exceed 4 days.
+      Trip must occur on or after  7 Mar 97.
+      Other restrictions may apply.  See FOOTNOTES below.
+      
+
+    3. 358.00 US Dollars
+     From: Oakland, CA (OAK-Oakland Intl.)
+     To: Houston, TX (HOU-Hobby)
+     On: America West Airlines [7]
+     Rules: Must stay over a Saturday night.
+      Trip must occur on or after 10 Mar 97.
+      Tickets must be purchased no later than 25 Mar 97.
+      Other restrictions may apply.  See FOOTNOTES below.
+      
+     376.00 US Dollars
+     From: Oakland, CA (OAK-Oakland Intl.)
+     To: Houston, TX (HOU-Hobby)
+     On: American Airlines [8], America West Airlines [9], 
+      Continental [10], Delta Air Lines [11]
+     Rules: Must stay at least 1 days.
+      Other restrictions may apply.  See FOOTNOTES below.
+      
+
+
+    *******************
+    IMPORTANT: Fares are typically for one adult, flying round-trip
+    between the selected airports.  Prices DO NOT INCLUDE taxes
+    or fees (taxes and fees to international destinations may
+    be higher).  Seats are subject to availability and other
+    restrictions may apply.
+    *******************
+
+    To reserve or purchase a ticket, visit the Expedia Travel Agent 
+    at: http://expedia.msn.com/.  You may also cancel or change 
+    your Fare Tracker subscription at this address.
+
+    Fare Tracker is just one of the great services available now
+    from Microsoft Expedia.  With a click of your mouse, you can:
+
+
+
+
+
+    * Reserve and purchase airline tickets
+    * Reserve hotel rooms
+    * Reserve rental cars
+    * Research over 300 destinations in the Expedia World Guide
+    * Chart your course with over 200 city maps
+    * Check out the world of adventure in the Mungo Park online magazine
+    * Catch up on the latest travel news, weather and more
+
+    We look forward to providing you with the best way to make
+    travel arrangements that meet your budget and personal preferences.
+    Expedia is on the job 24 hours a day, 7 days a week.
+
+    Expedia Travel Services
+    Start your travel here.
+    http://expedia.msn.com/
+    *******************
+
+    FOOTNOTES
+
+    To view important details on these fares, visit the
+    Expedia pages noted below.  Simply click on a link,
+    or copy and paste the full internet address into your browser.
+
+    Flight: from Oakland, CA (OAK-Oakland Intl.) to Boston, MA (BOS-Logan Intl.):
+    [1] America West Airlines:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=OAKBOSHP+BNE7N
+    [2] Delta Air Lines:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=OAKBOSDL+LNE7SAN
+    [3] United Airlines:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=OAKBOSUA+VNE7NQ
+    [4] America West Airlines:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=OAKBOSHP+WNE7FLYN
+
+    Flight: from San Francisco, CA (SFO) to Boston, MA (BOS-Logan Intl.):
+    [5] America West Airlines:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=SFOBOSHP+QR3WKN4N
+    [6] Trans World Airlines:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=SFOBOSTW+VE3WKNR
+
+    Flight: from Oakland, CA (OAK-Oakland Intl.) to Houston, TX (HOU-Hobby):
+    [7] America West Airlines:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=OAKHOUHP+BNE7FLYN
+    [8] American Airlines:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=OAKHOUAA+K7EDNR
+    [9] America West Airlines:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=OAKHOUHP+BR71N
+    [10] Continental:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=OAKHOUCO+BR71IP
+    [11] Delta Air Lines:
+    http://expedia.msn.com/pub/ft.dll?qscr=rule&xxxx=OAKHOUDL+LR7M1N

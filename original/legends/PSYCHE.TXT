@@ -1,0 +1,318 @@
+                 From "The New Personality Self-Portrait"
+                by John M. Oldham, M.D. and Lois B. Morris
+
+CONSCIENTIOUS p.62      Domain=WORK
+  Compares with Enneagram Type One, The Reformer
+  Indicators:
+    Strong work ethic, "Hard work"
+    Strong moral values, "The right thing"
+    By the book, "The right way"
+    Without error, "Perfectionism"
+    Dogged determination, "Perseverance"
+    "Order and detail"
+    Restrained, cautious, thrifty, "Prudence"
+    Pack rat, "Accumulation"
+  Compatibility:
+    Pairs well with the Dramatic style.
+    Also pairs with a moderate Adventurous, Serious or Sensitive style.
+    May have solid pairing with Devoted and Self-Sacrificing.
+    Pairing with Conscientious styles can work, but prone to power struggles.
+    Doesn't pair well with Self-Confident, Aggressive or Vigilant styles.
+    Often pairs with Leisurely, although this can lead to frustration.
+  Disorder: OBSESSIVE-COMPULSIVE
+    Preoccupied with details, rules, lists, order, schedules, etc.
+    Perfectionism interferes with task completion.
+    Devoted to work to the exclusion of friends and family.
+    Inflexible when dealing with morality, ethics or values.
+    Unable to discard worn-out or worthless objects.
+    Reluctant to delegate tasks or work with those who don't follow same rules.
+    Miserly spending style.
+    Rigid and stubborn.
+    Can't admit to being wrong.
+  Disorder Causality:
+    May be genetic.
+    Most often occurs to first-born children.
+    Often caused by over-bearing parents.
+
+SELF-CONFIDENT p.85     Domain=SELF
+  Compares with Enneagram Type Three, The Status Seeker
+  Indicators:
+    High self-regard, "Self-regard"
+    Elitist, expects to be treated well, "The red carpet"
+    High aspirations, "Ambition"
+    Manipulative, "Politics"
+    Competitive, "Competition"
+    Stature
+    Dreams
+    Self-awareness
+    Poise
+  Compatibility:
+    Pairs well with Self-Confident style.
+    Pairs well with moderate Devoted, Self-Sacrificing, Dramatic styles.
+    Clashes with Vigilant, Leisurely, Adventurous and Aggressive styles.
+    Poor pairing with Mercurial and Serious.
+  Disorder causality:
+    Some were spoiled or overindulged as children.
+    Some were emotionally or physically neglected or abused as children.
+
+DRAMATIC p.131           Domain=RELATIONSHIPS and EMOTIONS
+   Feelings
+   Color
+   Attention
+   Appearance
+   Sexual attraction
+   Engagement
+   The spirit is willing
+
+VIGILANT p.157           Domain=RELATIONSHIPS
+   Autonomy
+   Caution
+   Perceptiveness
+   Self-defense
+   Alertness to criticism
+   Fidelity
+
+MERCURIAL p.293          Domain=RELATIONSHIPS, EMOTIONS and  SELF-CONTROL
+   Romantic attachment
+   Intensity
+   Heart
+   Unconstraint
+   Activity
+   Open mind
+   Alternate states
+
+DEVOTED p.108            Domain=RELATIONSHIPS
+   Commitment
+   Togetherness
+   Teamwork
+   Deference
+   Harmony
+   Consideration
+   Attachment
+
+SOLITARY p.275           Domain=SELF and EMOTIONS
+   Solitude
+   Independence
+   Sangfroid
+   Stoicism
+   Sexual composure
+   Feet on the ground
+
+LEISURELY p.203          Domain=SELF
+   Inalienable rights
+   Enough is enough
+   The right to resist
+   Tomorrow
+   I'm okay
+   Wheel of fortune
+   Mixed feelings
+
+SENSITIVE p.180          Domain=RELATIONSHIPS and  EMOTIONS
+   Familiarity
+   Concern
+   Circumspection
+   Polite reserve
+   Role
+   Privacy
+
+IDIOSYNCRATIC p.252      Domain=SELF and REAL WORLD
+   Inner life
+   Own world
+   Own thing
+   Expanded reality
+   Metaphysics
+   Outward view
+
+ADVENTUROUS p.227        Domain=SELF and SELF-CONTROL
+   Nonconformity
+   Challenge
+   Mutual independence
+   Persuasiveness
+   Wanderlust
+   Wild oats
+   True grit
+   No regrets
+
+SELF-SACRIFICING p.319   Domain=RELATIONSHIPS
+   Generosity
+   Service
+   Consideration
+   Acceptance
+   Humility
+   Endurance
+   Artlessness
+
+AGGRESSIVE p.345         Domain=WORK and RELATIONSHIPS
+   Command
+   Hierarchy
+   Tight ship
+   Expedience
+   Guts
+   The rough-and-tumble
+
+SERIOUS p.366            Domain=WORK
+   Straight face
+   No pretensions
+   Accountability
+   Cognition
+   Nobody's fool
+   No surprises
+   Contrition
+
+                                  DOMAINS
+
+Style             Disorder              Domains
+
+Conscientious     Obsessive-Compulsive  Work
+Self-confident    Narcissistic          Self
+Dramatic          Histrionic            Relationships  Emotions
+Vigilant          Paranoid              Relationships
+Mercurial         Borderline            Relationships  Emotions  Self-control
+Devoted           Dependent             Relationships
+Solitary          Schizoid              Self           Emotions
+Leisurely         Passive-Aggressive    Self
+Sensitive         Avoidant              Relationships  Emotions
+Idiosyncratic     Schizotypal           Self           Real World
+Adventurous       Antisocial            Self           Self-control
+Self-sacrificing  Self-defeating        Relationships
+Aggressive        Sadistic              Work           Relationships
+Serious           Depressive            Work
+
+                From "Personality Types" by Don Richard Riso
+
+                                Short List
+
+FEELING:
+
+Two:   The Helper        - Caring, generous, possessive, manipulative.
+Three: The Status Seeker - Self-assured, competitive, narcissistic, hostile.
+Four:  The Artist        - Creative, intuitive, introverted, depressive.
+
+DOING:
+
+Five:  The Thinker       - Perceptive, analytic, eccentric, paranoid.
+Six:   The Loyalist      - Likable, dutiful, dependent, masochistic.
+Seven: The Generalist    - accomplished, impulsive, excessive, manic.
+
+RELATING:
+
+Eight: The Leader        - Self-confident, forceful, combative, destructive.
+Nine:  The Peacemaker    - Peaceful, reassuring, passive, neglectful.
+One:   The Reformer      - Principled, orderly, perfectionistic, punitive.
+
+
+                               Detailed List
+
+FEELING:
+
+Two:   The Helper            p.49      Eight >> Two >> Four
+       - Caring, generous, possessive, manipulative.
+       Overdeveloped feeling
+       Father ambivalent, Compliant
+       DSM:Histrionic, Jung:extroverted feeling
+
+Three: The Status Seeker     p.77      Nine >> Three >> Six
+       - Self-assured, competitive, narcissistic, hostile.
+       Out of touch with feelings
+       Mother positive, Aggressive
+       DSM:Narcissistic, Jung:???
+
+Four:  The Artist            p.105     Two >> Four >> One
+       - Creative, intuitive, introverted, depressive.
+       Underdeveloped feeling
+       Parent negative, Withdrawn
+       DSM:Avoidant, Jung:introverted intuitive
+
+DOING:
+
+Five:  The Thinker           p.134     Seven >> Five >> Eight
+       - Perceptive, analytic, eccentric, paranoid.
+       Underdeveloped doing
+       Parent ambivalent, Withdrawn
+       DSM:Schizotypal, Jung:introverted thinking
+
+Six:   The Loyalist          p.162     Three >> Six >> Nine
+       - Likable, dutiful, dependent, masochistic.
+       Out of touch with doing
+       Father positive, Compliant
+       DSM:Dependent, Jung:Introverted feeling
+
+Seven: The Generalist        p.190     One >> Seven >> Five
+       - Accomplished, impulsive, excessive, manic.
+       Overdeveloped doing
+       Mother negative, Aggressive
+       DSM:Manic-Depressive and Histrionic, Jung:Extroverted sensation
+
+RELATING:
+
+Eight: The Leader            p.218     Five >> Eight >> Two
+       - Self-confident, forceful, combative, destructive.
+       Overdeveloped relating
+       Mother ambivalent, Aggressive
+       DSM:Antisocial, Jung:extroverted intuition
+
+Nine:  The Peacemaker        p.246     Six >> Nine >> Three
+       - Peaceful, reassuring, passive, neglectful.
+       Out of touch with relating
+       Parent positive, Withdrawn
+       DSM:Passive-Aggressive, Jung:introverted sensation
+
+One:   The Reformer          p.274     Four >> One >> Seven
+       - Principled, orderly, perfectionistic, punitive.
+       Underdeveloped relating
+       Father negative, Compliant
+       DSM:Compulsive, Jung:extroverted thinking
+           ÖÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+           º RELATER       ³ SOCIALIZER     ³ THINKER         ³ DIRECTOR      ³
+ÕÍÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍØÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍµ
+³BEHAVIOR  º-Open/Indirect ³-Open/Direct    ³-Self-contained/ ³-Self-contained³
+³PATTERN:  º               ³                ³ Indirect        ³ /Direct       ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³APPEARANCEº-Casual        ³-Fashionable    ³-Formal          ³-Businesslike  ³
+³          º-Conforming    ³-Stylish        ³-Conservative    ³-Functional    ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³WORK-SPACEº-Personal      ³-Stimulating    ³-Structured      ³-Busy          ³
+³          º-Relaxed       ³-Personal       ³-Organized       ³-Formal        ³
+³          º-Friendly      ³-Cluttered      ³-Functional      ³-Efficient     ³
+³          º-Informal      ³-Friendly       ³-Formal          ³-Structured    ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³PACE:     º-Slow/Easy     ³-Fast/          ³-Slow/Systematic ³-Fast/Decisive ³
+³          º               ³ Spontaneous    ³                 ³               ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³PRIORITY: º-Maintaining   ³-Relationships: ³-The Task:       ³-The Task:     ³
+³          º relationships ³ Interacting    ³ the process     ³ the results   ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³FEARS:    º-Confrontation ³-Loss of        ³-Embarrassment   ³-Loss of       ³
+³          º               ³ prestige       ³                 ³ control       ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³WHEN UNDERº-Submit/       ³-Attack/        ³-Withdraw/       ³-Dictate/      ³
+³TENSION:  º Acquiesce     ³ Be sarcastic   ³ Avoid           ³ Assert        ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³SEEKS:    º-Attention     ³-Recognition    ³-Accuracy        ³-Productivity  ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³NEEDS TO  º-How it affects³-How it enhances³-How they justify³-What it does  ³
+³KNOW:     º their personal³ their status   ³ the purchase    ³-By when       ³
+³(BENEFITS)º circumstances ³-Who else uses  ³ logically       ³-What it costs ³
+³          º               ³ it             ³-How it works    ³               ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ACHIEVES  º-Conformity    ³-Playfulness    ³-Correctness     ³-Leadership    ³
+³ACCEPTANCEº-Loyalty       ³-Stimulating    ³-Thoroughness    ³-Competition   ³
+³BY:       º               ³ environment    ³                 ³               ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³LIKES YOU º-Pleasant      ³-Stimulating    ³-Precise         ³-Concise       ³
+³TO BE:    º               ³                ³                 ³               ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³WANTS TO  º-Liked         ³-Admired        ³-Correct         ³-In charge     ³
+³BE:       º               ³                ³                 ³               ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³IRRITATED º-Insensitivity ³-Boredom        ³-Surprises       ³-Inefficiency  ³
+³BY:       º-Impatience    ³-Routine        ³-Unpredictability³-Indecision    ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³MEASURES  º-Compatibility ³-Acknowledgement³-Precision       ³-Results       ³
+³PERSONAL  º with others   ³-Recognition    ³-Accuracy        ³-Track record  ³
+³WORTH BY: º-Depth of      ³-Applause       ³-Activity        ³-Measurable    ³
+³          º relationships ³-Compliments    ³                 ³ progress      ³
+ÃÄÄÄÄÄÄÄÄÄÄ×ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³DECISIONS º-Considered    ³-Spontaneous    ³-Deliberate      ³-Decisive      ³
+³ARE:      º               ³                ³                 ³               ³
+ÀÄÄÄÄÄÄÄÄÄÄĞÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ

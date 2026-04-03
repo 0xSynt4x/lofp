@@ -1,0 +1,49 @@
+Send "Echo Off"
+Send "Rec Alley"
+Send "Rec Arch"
+Send "Rec Bridge"
+Send "Rec Button"
+Send "Rec Chute"
+delay 0.5
+Send "Rec Cliff"
+Send "Rec Crack"
+Send "Rec Crate"
+Send "Rec Crevice"
+Send "Rec Door"
+delay 0.5
+Send "Rec Entrance"
+Send "Rec Gap"
+Send "Rec Gate"
+Send "Rec Grate"
+Send "Rec Hole"
+delay 0.5
+Send "Rec Ladder"
+Send "Rec Ledge"
+Send "Rec Lever"
+Send "Rec Opening"
+Send "Rec Panel"
+delay 0.5
+Send "Rec Passage"
+Send "Rec Path"
+Send "Rec Pool"
+Send "Rec Platform"
+Send "Rec Ramp"
+delay 0.5
+Send "Rec River"
+Send "Rec Rope"
+Send "Rec Rubble"
+Send "Rec Shelf"
+Send "Rec Slope"
+delay 0.5
+Send "Rec Stair"
+Send "Rec Stream"
+Send "Rec Trail"
+Send "Rec Trapdoor"
+Send "Rec Tunnel"
+delay 0.5
+Send "Rec Wall"
+Send "Rec Water"
+Send "Rec Window"
+delay 0.5
+Send "Echo On"
+

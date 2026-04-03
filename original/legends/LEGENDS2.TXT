@@ -1,0 +1,64 @@
+                    Commands -the short list-
+Act <action>          Go <obj>              Think <message>
+Advance <ch/mo>       Guard <ch/mo>         Train <skill #>
+Advice                Health                Transform
+Analyze <item>           Diagnose           Trap <obj>
+Annoint <weapon>      Heat <ch/mo/itm>      Undress
+   Poison             Help                  Unemote
+Arrest <ch/mo>        Hide                  Unlearn <skill #>
+Ascend                Initiate <player>     Unlock <obj>
+Assist                Inlay <item> /w <gem> Unprompt
+Attack <ch/mo>        Inset <item> /w <gem> Untelepathy
+   a, Kill, Slay      inventory             Unwield <obj>
+   Smite                 I                     Unuse
+Avoid <ch/mo>         Invoke <spell code>   Version
+Backstab <ch/mo>         Chant, Prepare        News, Notes
+Balance               Join <ch/mo>          Wary
+Berserk                  Follow             Wear <obj>
+Bite <ch/mo>          Leave                 Whisper<ch/mo><mesg>
+Blast <ch/mo>         Light <item>          Who
+Blend <ch/mo>            Ignite             Wield <obj>
+Break <obj> /w <obj>  Lock                  Withdraw <coins/obj>
+   Destroy            Look                  Work <material>
+Brew <reg> in <con>      L, Examine         Yell <message>
+Brief                    Inspect            
+Call                  Mark #                +------------------+
+Cant <message>        Master <spell>        | con = container  |
+Cast <ch/mo/obj/mark> Mine with <item>      | /w = with        |
+Channel <ch/mo>       Mold <obj>            | ch = character   |
+Chant <scroll>        Nock <obj> /w <obj>   | mo = monster     |
+Climb <obj>              Load               | obj = object     |
+Close <obj>           Normal                | itm = Item       |
+Command <instruction> Offensive             +------------------+
+   Begone <direction> Open <obj>
+   Follow <monster>   Order <obj>               Compiled By
+   Guard <monster>       Buy                    Donald Weis
+   Kill <victim>      Pick <lock> /w <obj>          aka.
+   Look, Watch        Pour <con> in <con>         Watcher
+   Echo               Prompt                    
+Craft <full Itm name> Put <obj:in/on/un:obj>
+Credits               Quit                      Untill The 
+Defensive                Exit, q, x                Next Time.
+Deposit <coins/items> Read <obj>
+Descend               Recall <obj/place>
+Disarm <obj>          Remove <obj>
+Disband               Repair <obj>
+Disguise              Retreat
+Drain <ch/mo>         Search <ch/mo>
+Drink <obj>           Selftrain <skill #>
+   Sip, Quaff         Skill
+Drop <obj>            Skin <ch/mo>
+Dye <item>            Smelt <item>
+Eat <obj>             Sneak <direction>
+Enroll                Specialize <weapon>
+Emote                 Spell
+Encrust <itm>/w<gems> Split <amount><coin>
+Extinguish <obj>      Stalk <ch/mo>
+   Unlight            Status
+Fill <con>/w<liquid>  Steal <ch/mo>
+Fly                      Rob, Filch
+Forage                Submit
+Freeze <ch/mo>        Survey
+Frenzy                Teach <skill/spell#>
+Full                  Telepathy
+Get <obj>             Tend <ch/mo>

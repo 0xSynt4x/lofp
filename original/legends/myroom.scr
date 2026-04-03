@@ -1,0 +1,43 @@
+; Daedalus' garage - Nov 14, 96
+NUMBER x
+ NAME Daedalus' Garage
+ REGION 0
+ INDOOR_FLOOR
+ CHANNEL 1
+ EXIT 0 x
+ 
+ ITEM 0 TABLE_ ADJ1=WOODEN_
+ ITEM 1 STOOL_ ADJ1=WOODEN_
+ 
+ *DESCRIPTION_START
+ Daedalus' tools and inventions lay scattered all about you, although some of
+ the tools are miraculously in their proper places on the pegboard over the
+ work table. Sawdust covers the wooden floor and scents the air. An overhead
+ loft seems like it would be in reach if you jumped.
+ *DESCRIPTION_END
+
+ *DESCRIPTION_START ITEM EXAM 0
+ Clamped to one end of the table is Daedalus' only vice, right alongside his
+ only fan.
+ *DESCRIPTION_END
+
+ *DESCRIPTION_START ITEM EXAM 1
+ The stool looks homemade, even rickety, but perhaps strong enough to support
+ your weight.
+ *DESCRIPTION_END
+
+ IFPREVERB JUMP -1
+   CLEARVERB
+   IFVAR POSITION ! 0
+     ECHO PLAYER You can't possibly jump if you're not standing.
+   ENDIF
+   IFVAR POSITION = 0
+     ECHO PLAYER You jump up and down, trying to reach the loft.
+     ECHO OTHERS %N jumps up and down, trying to reach the loft.
+     ECHO ALL The ominous creak of the floorboards is followed by a crack.
+     ECHO ALL A floor panel sags under the weight, and %N falls below.
+     ECHO OTHERS Relieved of the weight, the floor panel snaps back into place.
+   ENDIF
+ ENDIF  
+
+

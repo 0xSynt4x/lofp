@@ -1,0 +1,186 @@
+Below are descriptions for the bedroom, toy shop and toys that I'd
+like to see at Hero's Rest, as requested by Shane. 
+ 
+                             TOY SHOP
+ 
+> go door
+You trip over a stuffed rattlesnake as you enter the shop, then a
+wind-up wild boar charges in and butts its head into your ankle! 
+ 
+[Taliesin's Toyshop]
+Arrayed around you are toys from the four corners of Andor.  A
+miniature band plays music for the toy soldiers marching across the
+counter, while a small-scale subway train circles you on its track,
+whistling and spewing tiny puffs of steam.  There are stuffed animals
+representing all the creatures and races of the realms.  Wolfling
+puppets can be seen fighting ettin action figures, and underfoot a
+small blue drakin repeatedly clashes copper cymbols.  A sign on the
+counter lists the toys for sale.
+Obvious exits: out.
+ 
+Occasional occurrences:
+A GM toy slinks out from under a rubber rock and bites you on the
+kneecap! 
+A vampire toy flies out from an opening and bites you on the neck!
+A stuffed goblin belches in your ear!
+ 
+> read sign
+It reads:
+                          Taliesin's Toyshop
+ 
+Wolfling Transformers   15 crowns     Meeps                 10 crowns
+Inflatable Humans       15 crowns     Black Answer Cubes    15 crowns
+Drakin Action Figures   15 crowns     Happy Fun Balls       15 crowns
+Stuffed Highlanders     15 crowns     Realistic Toy Guns    15 crowns
+Aelfen Dolls            15 crowns     Action Trucks         15 crowns
+Stuffed Murgs           15 crowns     Stuffed Sheep         15 crowns
+Vampire Transformers    20 crowns     Glowing Lightsabres   20 crowns
+Ephemeral Puppets       20 crowns     Dribble Glasses       25 crowns
+Wind-up Mechanoids      25 crowns     Trading Cards         25 crowns
+ 
+Special orders on request
+ 
+ 
+                                 NOTES
+ 
+A toy machine sits behind the counter. You put a toy in it, select up 
+to three adjectives from the glossary and write a text phrase, enter
+them with the 4 buttons, and pull the lever to finish the toy and
+clear the settings.  The toys and prices listed above are for example 
+only, and are subject to your approval.
+ 
+> look machine
+You see a toy machine with a key slot and a large lever.
+> open machine
+It is locked.
+> unlock machine with toy key.
+You hear a click.
+> open machine
+You open a toy machine.
+> put puppet in machine
+You put a puppet in the machine.
+> write machine furry
+You write a description.
+> push 1 button
+You enter the description into the machine.
+> write machine black
+You write a description.
+> push 2 button
+You enter the description into the machine.
+> write machine wolfling
+You write a description.
+> push 3 button
+You enter the description into the machine.
+> write machine that_looks_like_Demetrius
+You write a description.
+> push 4 button
+You enter the description into the machine.
+> pull lever
+The machine makes a gloppita-gloppita noise and ejects a furry black
+wolfling puppet that looks like Demetrius. 
+> close machine
+You close the machine.
+> lock machine with toy key.
+You lock the machine.
+ 
+An unseen ladder leads to Taliesin's bedroom.
+ 
+ 
+                        TALIESIN'S BEDROOM
+ 
+Below is a description of the room and objects that I would like to
+have created.  Lines following a percent (%) are comments.  All items 
+should be fixed (weight=9999?) except the candle and pillows.  I've
+included some items I haven't seen before, so I'll understand if you
+can't provide them. None of the items should show in the object list
+(You see...), as they are in the room description or intended to be
+unobvious. 
+ 
+If I get the Toy Shop, then I'd like it if my bedroom is located 
+above the toy shop, with a ladder or stairway connecting them.  If 
+not, then I'd like the bedroom located between the Physician's Guild 
+and the temple of Amilor.  Being a master healer, I'd like to have a 
+door in or next to the PG, with a passage connecting the door with my 
+room.  A door from my room to the temple would also be nice, perhaps 
+one that is voice activated for security purposes.  "Father, grant me 
+access." 
+ 
+[Taliesin's Place]
+Like its owner, the room is whimsical but neat.  A bed is provided
+for guests who don't levitate during sleep.  Bookshelves hold works
+of fiction, philosophy and mental principles, plus mementos of
+friends and past exploits.  On the wall is a mirror decorated with a
+silver wave, next to the painting of a wolf chasing a scared rabbit
+across a meadow in winter.  An incense burner, a candle and a crystal 
+orb rest on a low table in the corner for meditation.  Water trickles 
+down a sculpture of seashells, tinkling in the manner of a babbling
+brook.  Through the window can be seen a simple, well-tended garden. 
+Obvious exits: out.
+% Is there a garden near the room that the window could look out on?
+% I'd like it if no-one can MARK the room except me.
+ 
+[Bed]
+You see a simple bed with pillows and a bedspread.
+% Things may be placed on or under bed.  You can GO BED
+ 
+[Chair]
+You see nothing extraordinary.
+% You can PULL CHAIR to sit down.  Like chairs in Saloon.
+ 
+[Bookshelf]
+You see several shelves filled with works of fiction, philosophy and
+mental powers, interspersed with mementos of friends and past
+exploits. 
+ 
+[Candle]
+You see nothing extraordinary.
+% While the candle is lit, all magic should be suppressed.
+% The candle flame should flicker if anyone hidden arrives or is
+  present. 
+ 
+[Green Door]
+You see nothing extraordinay.
+% The door should not be pickable, and I should have the key.
+ 
+[Mirror]
+You see your reflection.  A %color% aura surrounds you.
+%It would be nice if the mirror could reflect the viewer's aura.
+ 
+[Painting]
+You see a beautiful painting of a snow-covered meadow with a female
+wolf chasing a frightened rabbit.  The word "Winter" is carved into
+the frame. 
+% PULL PAINTING should reveal a safe.
+ 
+[Pillow]
+You see nothing extraordinary.
+% I'd like it if the two or three pillows could be wielded for pillow
+% fights.  A weapons clash would result in a cloud of feathers,
+% without damaging the pillow. 
+ 
+[Safe]
+You see nothing extraordinary.
+% The safe should be a chest which can't be picked or taken, for which
+% I have the key.
+ 
+[Shelf]
+You see nothing extraordinary.
+% Things can be placed on the shelf.  (Like shelf at sign in Kvantar
+% woods.) Two or three shelves would be nice. 
+ 
+[A Low Table]
+You see nothing extraordinary.
+% Basically just another shelf on which to place a candle, orb and
+  incense. 
+ 
+[Water]
+You see nothing extraordinary.
+% FILL CONTAINER WITH WATER should work.  DRINK WATER should work.
+% Like water in BC fountain.
+ 
+ 
+Thanks,
+Taliesin Pendragon
+Knight and Field Medic of Amilor
+(UID=brnghurst  e-mail:dgoodman@novalink.com)
+

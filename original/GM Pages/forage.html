@@ -1,0 +1,69 @@
+<HTML><HEAD><TITLE>Foraging/Mining</TITLE></HEAD>
+<BODY BGCOLOR="#ffffff">
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+
+<H2>Foraging/Mining</H2>
+<HR>
+
+<H3>Foraging</H3>
+
+<H4>FORAGEDEF [terrain] [item#] [adjective#] [ratio] [val2] [val5]</H4>
+<OL>
+This is a definition that states that item# can be found in a room of type
+[terrain]. The "ratio" variable determines the likelihood of finding this
+particular item relative to anything else in the area (for example, if one
+item has a ratio of 10 and another has a ratio of 20, then the second item
+will be found twice as often as the first). The room terrain for [terrain]
+is limited to FOREST, MOUNTAIN, PLAIN, SWAMP and JUNGLE. Items should only
+be forageable if they are prevalent throughout a particular terrain type
+and if they are generally available throughout all seasons.
+</OL>
+<H3>Mining</H3>
+
+<H4>MINDEF [item#] [adjective#] [grade] [copper value] [val2]</H4>
+<OL>
+This is a definition that states that item# with adjective# is a mineable
+item of "grade" (the latter of which may be 'A', 'B', or 'C', in descending
+value).
+</OL>
+<H3>ORE</H3>
+<OL>
+Ore can be sold or it can be smelted by a character with weaponsmithing
+skill and then worked into the form of a weapon. PARAMETER2 defines the new
+item archetype created when the ore is refined. The VAL2 field of an ORE
+item is transferred to any new item it is worked into. The VAL3 field of an
+ORE item is its purity, i.e., how much useful metal is contained in the
+amount of rock. This represents a percentage chance that a smith has of
+refining any useful metal from the ore. The PARAMETER1 field has multiple
+meanings. If it equals -1, then no adjective is placed on a new
+itemconstructed from the material. If it is zero, then the old adjectives
+of the material are transferred to the adjective to place on a new item
+created from the material. The PARAMETER3 field specifies the grade of the
+ore.
+</OL>
+<H4>MINE_ELEMENT [adj] [val3]   </H4>
+<OL>
+If a weaponsmith forges a weapon created from a material containing
+adjective number 'adj' in its first adjective slot then it will set the
+'val3' field on the finished weapon as specified.  The val5 field is set to
+a value relative to the smith's skill.  The effect is to make it so
+materials mined from a certain region can be made into weapons with
+elemental criticals.
+</OL>
+<HR>
+<BR>
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+</BODY>
+</HTML>

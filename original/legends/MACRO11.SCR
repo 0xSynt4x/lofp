@@ -1,0 +1,63 @@
+MACRO 11
+
+VARIABLE RMVIS1132
+VARIABLE DANVIS1
+VARIABLE DANVIS2
+VARIABLE DANVIS3
+VARIABLE DANVIS4
+VARIABLE DANVIS5                                                   
+VARIABLE DANTIME1
+VARIABLE DANTIME2
+VARIABLE DANTIME3
+VARIABLE DANTIME4
+VARIABLE DANTIME5
+
+
+IFPREVERB RECALL -1
+   IFVAR RNUM = 1132
+   STRCVT 0 rmvis1132
+   ECHO PLAYER A soft voice intones, "There have been %0 visitors to your room."
+   ECHO PLAYER The voice says, "One moment, checking data files..."
+   IFVAR DANVIS1 ! 0
+      STRCVT 0 DANVIS1 
+      STRCVT 1 DANTIME1     
+      ECHO PLAYER The voice says, "Player number %0 visited at %1."   
+   ENDIF
+   IFVAR DANVIS2 ! 0
+      STRCVT 2 DANVIS2
+      STRCVT 3 DANTIME2
+      ECHO PLAYER The voice says, "Player number %2 visited at %3."
+   ENDIF
+   IFVAR DANVIS3 ! 0
+      STRCVT 4 DANVIS3
+      STRCVT 5 DANTIME3
+      ECHO PLAYER The voice says, "Player number %4 visited at %5."
+   ENDIF
+   IFVAR DANVIS4 ! 0
+      STRCVT 6 DANVIS4
+      STRCVT 7 DANTIME4
+      ECHO PLAYER The voice says, "Player number %6 visited at %7."
+   ENDIF
+   IFVAR DANVIS5 ! 0
+      STRCVT 8 DANVIS5
+      STRCVT 9 DANTIME5
+   ENDIF
+ENDIF
+ENDIF
+
+IFSAY Name?
+   ECHO Player The voice says, "Please state the player number for which you wish a name in the following format Name <number>."
+ENDIF   
+IFSAY Name_1
+   ECHO PLAYER The voice reports, "Azurian Skye."
+ENDIF
+IFSAY Name_2
+   ECHO PLAYER The voice reports, "Danna Gold."
+ENDIF
+IFSAY Name_3
+     ECHO PLAYER The voice reports, "Daedalus Alive."
+ENDIF
+IFSAY Name_4
+   ECHO PLAYER The voice reports, "Joe Normal."
+ENDIF
+

@@ -1,0 +1,55 @@
+                               The Gun Wars
+
+BACKGROUND
+
+Weapons are manufactured primarily by two Corporati: Armas SA and Ichibuki.
+Like all corporati, they operate using the following set of rules:
+
+  Maximize profits
+  Low overhead
+  Low costs
+  High sales
+  Effective advertising
+  Improve technology
+  Prevent leaks of technology
+  Acquire technology
+  Eliminate competing technology
+  Pass all important facts to superiors
+  Keep embarassing facts from sight
+
+Both companies maintain R&D departments which specialize in electronics, 
+chemicals and mechanics.  Armas SA is a small division of a larger Corporati. 
+Their manpower consists of: a receptionist, a bookkeeper/purchasing agent,
+three scientists, a research assistant, an assembly worker to keep the
+machines going, a stock clerk, a mail clerk, a salesman, a general manager
+and the CEO. 
+
+Facts are kept in Perc files in a standard form.  The standardization allows 
+data to be searched, bought and sold.  Factoids important to these two 
+companies are: information on weapon specs, sales information and personnel 
+files.
+
+Corporati acquire technology by employing researchers, buy purchasing the 
+information from scientists or other corporati and by industrial espionage.
+IndEsp consists of stealing files, bribing employees of competitors and 
+blackmailing competing employees.  Files or personnel are sometimes destroyed 
+to prevent the data from reaching competitors. 
+
+Weapon specs:
+  Rate of fire
+  Projectile type
+  Projectile velocity
+  Projectile size
+  Capacity
+  Manufacturing cost
+
+Each NPC has strategies for dealing with situations.  Whenever an NPC needs
+another character to perform a task, it tries to find a PC to fill that role, 
+and only hands off to an NPC if no PC can be conscripted to the task.
+
+SCENARIO
+
+Tabata "Tim" Takahashi works for the IchiBuki corporati.  Tim develops a
+technology that doubles the rate-of-fire for their top-of-the-line needle 
+gun.   
+

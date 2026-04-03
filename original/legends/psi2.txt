@@ -1,0 +1,158 @@
+MIND OVER MATTER
+
+ #1: Matter Awakening.  Use of this psionic discipline will opens up
+the psionicist's mind to any new disciplines in the Mind over Matter
+science that have opened up due to increased skill level.  It may
+require several attempts to grasp a new discipline. (Level 1)
+
+ #2: Kinetic Thrust.  Bludgeons a victim with an invisible spherical
+force field, resulting in crushing damage.  The maximum damage of this
+discipline increases relative to training in Mind over Matter. (Level 1)
+
+ #3: Levitate.  Permits the psionicist to carry 50% more equipment than
+usual, and possible provide for a smaller fatigue penalty in combat
+if wearing heavy armor. (Level 2)
+
+ #4: Pyrokinetics.  Speeds up molecular motion on a target, causing
+heat damage.  Maximum damage increases with training in Mind over Matter.
+(Level 3)
+
+ #5: Cryokinetics.  Slows down molecular motion on a target, resulting
+in cold damage.  Maximum damage increases with training in Mind over Matter.
+(Level 4)
+
+ #6: Capacitance.  Drains 1 charge from a magical charged item and
+rearranges the energy into psi -- a net gain of 5.  The item in question
+must have had an actual magical spell imbued in it. (Level 5)
+
+ #7: Electrify.  Discharges stored electric energy from the molecules on
+object, resulting in electrical damage.  Maximum damage increases with
+training in Mind over Matter. (Level 6)
+
+ #8: Strengthen Steel.  Allows a psionicist to strengthen the molecular
+bonds of steel in a weapon, resulting in a more sturdy and sharper
+implement.  This is effectively a +15 bonus for the weapon. It has no
+effect on armor. (Level 7)
+
+ #9: Manipulate Lock.  When used on a locked item, provides a slight
+chance that the item will be unlocked. Complex locks will most likely
+resist this discipline. (Level 8)
+
+ #10: Wall of Force.  Creates a force barrier in front of the psionicist,
+resulting in a +25 defense bonus. (Level 9)
+
+ #11: Flight.  Allows the psionicist to fly. (Level 10)
+
+#42: Speed.  Allows the psionicist to move at blurring speed. (Level 12)
+
+ #12: Call on Inner Power.  Transforms 10 fatigue from the psionicist
+to a net gain of 10 psi.  Incurs a 20 second round time.  Draining
+excessive fatigue may be hazardous! (Level 13)
+
+ #13: Transform Steel.  Alters steel at the molecular level to another
+metal.  This will only work on weapons, and the results are unpredictable.
+The transformed weapon will usually have a bonus in the range of 3-17.
+(Level 15)
+
+ #14: Teleportation.  Allows the psionicist to teleport to a location
+they have visited before and marked. (Level 18)
+
+ #15: Force Field.  Creates a strong force barrier on all sides of
+the psionicist, resulting in a +75 bonus to defense but also a -75
+penalty to offense.  (Level 20)
+
+ #16: Immobilize.  Weaves a network of invisible force bands around
+the target, making it impossible for the victim to retreat, move,
+advance or perform other particular movements.  (Level 22)
+
+ #17: Ethereal Projection.  Shifts the psionicist into the ethereal,
+making them nearly invisible and undetectable in the real world.  The
+psionicist will phase back upon making any hostile maneuver or certain
+other types of movement. (Level 24)
+
+MIND OVER MIND
+
+ #18: Mind Awakening.  Use of this psionic discipline will opens up
+the psionicist's mind to any new disciplines in the Mind over Mind
+science that have opened up due to increased skill level.  It may
+require several attempts to grasp a new discipline. (Level 1)
+
+ #19: Telepathy.  Permits the psionicist to communicate with others
+via the telepathic ether. (Level 1)
+
+ #20: Contact.  Permits the psionicist to make private telepathic
+sendings. (Level 2). Use the "CONTACT" verb to use this discipline.
+
+ #21: Psychic Probe.  A psionically probed individual will be vulnerable
+to all further mental attacks without resistance as long as they
+come from the originating psionicist.  The psionicist may only probe
+one creature at a time. (Level 3)
+
+ #22: Psychic Blast. Stuns the target for 6-12 seconds. (Level 4)
+
+ #23: Psychic Screen.  Shields the psionicist from all mental attacks.
+(Level 5)
+
+ #24: Psychic Penetration. Crumple's an opponent's psychic screen.
+(Level 6)
+
+ #25: Clairvoyance.  Allows a psionicist to have a vision of a location
+they have visited before. (Level 7)
+
+ #26: Eject.  Removes any hostile psionic probes from the psionicists
+mind.  (Level 8)
+
+ #27: Cloak Aura.  Protects the psionicist from the spells Aura Sense,
+Truename and similar effects.  (Level 9)
+
+ #28: Psychic Shield.  A superior version of Psychic Screen that is
+invulnerable to Psychic Penetration.  (Level 10)
+
+ #29: Psychic Crush.  Stuns the target for 6-21 seconds.  (Level 11)
+
+ #30: Psychic Invasion.  Crumple's an opponent's psychic screen or
+psychic shield. (Level 12)
+
+ #31: Confuse.  Places a -40 penalty on whatever the victim's next
+skill roll happens to be. (Level 13)
+
+ #32: Focus Skill.  Adds a +25 bonus to whatever the psionicist's
+next skill roll happens to be.  (Level 14)
+
+ #33: Terror.  Stuns the target for 6-21 seconds, but also fires all
+of the target's fear neurons simultaneously, resulting in a -25
+defense penalty.  This penalty is above the standard -20 penalty for
+being stunned. (Level 15)
+
+ #34: Psychic Barrier.  A superior version of Psychic Shield that
+is invulnerable to Psychic Invasion and Psychic Penetration.  (Level 16)
+
+ #35: Psychic Insinuation.  Crumples an opponent's Psychic Barrier,
+Psychic Shield or Psychic Screen.  (Level 17)
+
+ #36: Domination.  Allows the psionicist to numb a weak-minded and
+weak-willed creature's brain for a ten-minute period, permitting them
+to give them simple orders which they will obey to the best of their
+ability.  Use the "COMMAND <creature> <action...>" verb to order
+a dominated creature.  (Level 18)
+
+ #37: Disruption.  Disrupts all of an opponent psionicist's maintained
+disciplines. (Level 19)
+
+ #38: Psychic Fortress.  The greatest psionic defense, this is a
+superior version of Psychic Barrier that is immune to all lower level
+assaults. (Level 20)
+
+ #39: Warp Mind.  Confuses the victim to the extent that they are unable
+to attack, cast spells, use psionics or perform other useful actions
+for the duration.  (Level 22)
+
+ #41: Pain.  Fires all of a creature's pain neurons simultaneously,
+resulting in stress powerful enough to almost kill.  It will result
+in up to 20 points of body damage, stuns them for up to 21 seconds,
+and will leave them in a kneeling position.  (Level 21)
+
+ #40: Psychic Siege.  Destroys a psychic fortress, psychic barrier,
+psychic shield or psychic screen.  (Level 25)
+
+

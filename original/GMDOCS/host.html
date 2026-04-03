@@ -1,0 +1,2520 @@
+<HEAD><TITLE>Novalink Scripting Information</TITLE></HEAD>
+<BODY BGCOLOR="FFFFFF" TEXT="000000" LINK="AD099D" VLINK="0000FF">
+<a name="top">
+<CENTER><H1>Novalink Scripting Information</H1></CENTER>
+
+<P>
+
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+
+<P><H2>Table of Contents</H2></P>
+
+<A HREF="newfayd.txt"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Map of the new Fayd</A><BR>
+<A HREF="gmcmds.txt"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">GM @ Commands</A><BR>
+<A HREF="alchemy.txt"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Alchemy</A><BR>
+<A HREF="object.txt"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Object Commands</A><BR>
+<A HREF="#variables"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Variables</A><BR>
+<A HREF="#macros"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">String macros</A><BR>
+<A HREF="#elements"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Language elements</A><BR>
+<A HREF="#basic"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Basic Scripting</A><BR>
+<A HREF="#nouns"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Defining Nouns</A><BR>
+<A HREF="#items"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Defining Items</A><BR>
+<A HREF="#rooms"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Defining Rooms</A><BR>
+<A HREF="#verbs"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Virtual Cafe @verbs</A><BR>
+<A HREF="gmadj.txt"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Virtual Cafe Adjectives</A><BR>
+<A HREF="gmnouns.txt"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Virtual Cafe Items</A><BR>
+
+<pre>
+ITEMS           Daedalus                1401-1500
+NOUNS           Daedalus                1401-1500
+ADJECTS         Daedalus                1401-1500
+ROOMS           Daedalus                35-36, 1201-1300
+NPCS            Daedalus                41-50
+CEVENT          Daedalus                15
+MACROS          Daedalus                16-20
+                                         16 Called from Room X
+                                         17 Called from Room Y
+</pre>
+
+<a name="basic">
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Back to top</A><BR>
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+<h2>Basic scripting</h2>
+
+<p>The script language compiles plain ASCII text files: document formats from
+word processors cannot be used. A text editor is recommended for creating
+script files. The blocks of text are read into the compiler, ignoring
+leading tabs and spaces,  and interpreted into a machine format that
+Legends of Future Past interprets as players interact with the game. Lines
+of text in the script file that begin with a semicolon are ignored as
+"comment lines." It is not case-sensitive.</p>
+
+<a name="elements">
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Back to top</A><BR>
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+<h2>Language elements</h2>
+
+<table>
+<tr><td> </td><td> </td></tr>
+<tr><td>ADD [variable] [value]</td><td>Add a value to a variable.</td></tr>
+<tr><td>AFFECT [room #]</td><td>Subsequent commands affect the room specified.</td></tr>
+<tr><td>BOW_WEAPON</td><td> </td></tr>
+<tr><td>CEVENT [event #] [# seconds] [room #]</td><td>Start receiving specified event.</td></tr>
+<tr><td>CLEARVERB</td><td>Stops parsing of the verb in a IFPREVERB.</td></tr>
+<tr><td>CONTPLREVENT</td><td>Wait for player event.</td></tr>
+<tr><td>DISBAND</td><td>Break up any group.</td></tr>
+<tr><td>ECHO ALL</td><td>Sends text to everyone in the room.</td></tr>
+<tr><td>ECHO GROUP</td><td>Sends text to active player and everyone in his group.</td></tr>
+<tr><td>ECHO OTHERS</td><td>Sends text to everyone but the active player.</td></tr>
+<tr><td>ECHO OTHGROUP</td><td>Send text to everyone but the active player and his group.</td></tr>
+<tr><td>ECHO PLAYER</td><td>Sends text to active player.</td></tr>
+<tr><td>ELSE</td><td>Execute script that follows if condition failed.</td></tr>
+<tr><td>ENDIF</td><td>End of condition.</td></tr>
+<tr><td>EQUAL [variable] [value]</td><td>Set a variable to a value. (Note: EQUAL ITEMVALx <number> works but EQUAL ITEMVALx VARIABLE doesn't. Use SETITEMVAL</td></tr>
+<tr><td>EXTEND [item #] [text]</td><td>Set the extended text after the item name.</td></tr>
+<tr><td>GMMSG [text]</td><td>Sends text to gms.</td></tr>
+<tr><td>IFCARRY [ARCHNUM] -1</td><td>If the player is carrying the item.</td></tr>
+<tr><td>IFENTRY</td><td>When a player enters.</td></tr>
+<tr><td>IFITEM -1 WIELDED</td><td>If item is in a certain state.</td></tr>
+<tr><td>IFNOITEM [item #]</td><td> </td></tr>
+<tr><td>IFPREVERB [verb] -1</td><td>Before a verb is triggered.</td></tr>
+<tr><td>IFSAY [text_phrase_with_underlines]</td><td>If someone says the right phrase.</td></tr>
+<tr><td>IFSEEK [seek id #]</td><td>Make the player holding the item with this number the active player.</td></tr>
+<tr><td>IFTOUCH [item #]</td><td>If the item is touched by one of several verbs.</td></tr>
+<tr><td>IFVAR [variable] [operator] [value]</td><td>If a variable compares with the value properly.</td></tr>
+<tr><td>IFVERB [verb] [item #]</td><td>After a verb is triggered</td></tr>
+<tr><td>INUMBER [item #]</td><td>Define an item.</td></tr>
+<tr><td>MNUMBER [monster #]</td><td>Define a monster.</td></tr>
+<tr><td>MOVE [room #]</td><td>Move the player to a room.</td></tr>
+<tr><td>MOVEGROUP [room #]</td><td>Move the group to a room.</td></tr>
+<tr><td>NAME [archnum]</td><td>Set the item name.</td></tr>
+<tr><td>NEWITEM [item #] [archnum]</td><td> </td></tr>
+<tr><td>NEWPUT</td><td> </td></tr>
+<tr><td>PLREVENT [# seconds]</td><td>Request player event after # seconds.</td></tr>
+<tr><td>POSITION SIT</td><td>Set the player's position.</td></tr>
+<tr><td>RANDOM [variable] [starting num] [ending num] [modifier]</td>
+    <td>Set a variable to a random number between the starting and ending number plus the modifier.</td></tr>
+<tr><td>RELOGIN [room #]</td><td>Where to go after leaving.</td></tr>
+<tr><td>REMOVEITEM [item #]</td><td> </td></tr>
+<tr><td>SETITEMVAL -1 <value> <variable></td><td>Sets a specified ITEMVAL to a value.</td></tr> 
+<tr><td>SHOWROOM [room #]</td><td>Display a room to a player.</td></tr>
+<tr><td>SPELL 318</td><td> </td></tr>
+<tr><td>SPELL 113 50</td><td> </td></tr>
+<tr><td>STRCPY [0-9] "[string text]</td><td>Set variable to the string.</td></tr>
+<tr><td>STRCAT [0-9] "[string text]</td><td>Add text to end of variable.</td></tr>
+<tr><td>WEIGHT [weight]</td><td>Set an item's weight.</td></tr>
+<tr><td>VARIABLE [variable name]</td><td>Declare a variable.</td></tr>
+<tr><td>VOLUME [size]</td><td>Set an item's size.</td></tr>
+<tr><td>WORN_DON</td><td> </td></tr>
+</table>
+
+<a name="macros">
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Back to top</A><BR>
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+<h2>Macros</h2>
+
+<tr><td> %n</td><td> Name of active player</td></tr>
+<tr><td> %h</td><td> his/her/its</td></tr>
+<tr><td> %s</td><td> she/he/it</td></tr>
+<tr><td> %i</td><td> him/her/it</td></tr>
+<tr><td> %p</td><td> Name of active player when a group (ect. Dave's group)</td></tr>
+<tr><td> %a</td><td> Name of active item (plus its adjectives and extended text)</td></tr>
+<tr><td> %m</td><td> Name of monster</td></tr>
+<tr><td> %c</td><td> a return</td></tr>
+</table>
+
+<a name="variables">
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Back to top</A><BR>
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+<h2>Variables</h2>
+
+<table>
+<tr><td>0-9</td><td>10 string variables.</td></tr>
+<tr><td>FLAG1-4</td>
+    <td>Variables available while a person is in the room.</td></tr>
+<tr><td>GFLAG1-4</td>
+    <td>Variables available while ? is in the room.</td></tr>
+<tr><td>POSITION</td><td>The position of the player.</td></tr>
+<tr><td>ITEMVAL0-6</td><td>6 variables in every item</td></tr>
+<tr><td>INTNUM0-299</td><td>300 variables in every player</td></tr>
+<tr><td>ITEMBIT0-9</td><td>10 bits in every item</td></tr>
+<tr><td>CON</td><td>Constitution</td></tr>
+<tr><td>STR</td><td>Strength</td></tr>
+<tr><td>AGI</td><td>Agility</td></tr>
+<tr><td>WIL</td><td>Willpower</td></tr>
+<tr><td>QUI</td><td>Quickness</td></tr>
+<tr><td>PER</td><td>Perception</td></tr>
+<tr><td>EMP</td><td>Empathy</td></tr>
+<tr><td>WEI</td><td>Weight</td></tr>
+<tr><td>HEI</td><td>Height</td></tr>
+<tr><td>LEV</td><td>Level</td></tr>
+<tr><td>RAC</td><td>Race</td></tr>
+<tr><td>GEN</td><td>Gender</td></tr>
+<tr><td>AGE</td><td>Age</td></tr>
+<tr><td>TIM</td><td>Time</td></tr>
+<tr><td>WEA</td><td>Weather</td></tr>
+<tr></tr>
+<tr><td>CONT</td><td>Constitution temporary variable</td></tr>
+<tr><td>STRT</td><td>Strength temporary variable</td></tr>
+<tr><td>AGIT</td><td>Agility temporary variable</td></tr>
+<tr><td>WILT</td><td>Willpower temporary variable</td></tr>
+<tr><td>QUIT</td><td>Quickness temporary variable</td></tr>
+<tr><td>PERT</td><td>Perception temporary variable</td></tr>
+<tr><td>EMPT</td><td>Empathy temporary variable</td></tr>
+<tr><td>WEIT</td><td>Weight temporary variable</td></tr>
+<tr><td>HEIT</td><td>Height temporary variable</td></tr>
+<tr><td>AGET</td><td>Age temporary variable</td></tr>
+<tr><td>GENT</td><td>Gender temporary variable</td></tr>
+<tr></tr>
+<tr><td>GFLAG1-4</td><td> </td></tr>
+<tr></tr>
+<tr><td>ORG</td><td>Guild affiliation</td></tr>
+<tr><td>ORGRANK</td><td>Guild rank</td></tr>
+<tr></tr>
+<tr><td>RITUALVAL1-5</td><td> </td></tr>
+<tr></tr>
+<tr><td>PLRMARK1-10</td><td>The player's mark</td></tr>
+<tr></tr>
+<tr><td>CURSUBJECT</td><td>Current subject</td></tr>
+<tr><td>CUROBJECT</td><td>Current object</td></tr>
+<tr></tr>
+<tr><td>SKINITEM</td><td> </td></tr>
+<tr><td>SKINADJ</td><td> </td></tr>
+<tr></tr>
+<tr><td>ALIGN</td><td> </td></tr>
+<tr><td>NUMPLRS</td><td>Number of players in the realms</td></tr>
+<tr><td>PLRSINROOM</td><td>Number of players in the room</td></tr>
+<tr><td>WEIGHTWEQ</td><td> </td></tr>
+<tr><td>WEALTH</td><td> </td></tr>
+<tr><td>TWEIGHT</td><td> </td></tr>
+<tr><td>RNUM</td><td> </td></tr>
+<tr><td>WILDERNESS</td><td> </td></tr>
+<tr><td>ASTRAL</td><td> </td></tr>
+<tr><td>OUTDOOR</td><td> </td></tr>
+<tr><td>TERRAIN</td><td> </td></tr>
+<tr></tr>
+<tr><td>ITEMADJ1-3</td><td> </td></tr>
+<tr></tr>
+<tr><td>ITEMVAL1-6</td><td> </td></tr>
+<tr></tr>
+<tr><td>ARCHNUM</td><td> </td></tr>
+<tr><td>PLAYERNUM</td><td> </td></tr>
+<tr><td>NPCHOSTILE</td><td> </td></tr>
+<tr><td>NPCMOVING</td><td> </td></tr>
+<tr><td>NPCMOVESET</td><td> </td></tr>
+<tr><td>NPCSTOP</td><td> </td></tr>
+<tr><td>HOSTILITY</td><td> </td></tr>
+<tr><td>NPCREG</td><td> </td></tr>
+<tr><td>ROUNDTIME</td><td> </td></tr>
+<tr><td>DEAD</td><td> </td></tr>
+<tr><td>ARENADEATH</td><td> </td></tr>
+<tr></tr>
+<tr><td>DAY</td><td> </td></tr>
+<tr><td>NIGHT</td><td> </td></tr>
+<tr><td>MONTH</td><td> </td></tr>
+<tr><td>DATE</td><td> </td></tr>
+<tr><td>YEAR</td><td> </td></tr>
+<tr><td>OBJWEIGHT</td><td> </td></tr>
+<tr><td>SLEEPING</td><td> </td></tr>
+<tr><td>MOVEABLE</td><td> </td></tr>
+<tr><td>TEMP</td><td> </td></tr>
+<tr><td>MISTFORM</td><td> </td></tr>
+<tr><td>WOLFFORM</td><td> </td></tr>
+<tr><td>SLIMEFORM</td><td> </td></tr>
+<tr><td>OTHERFORM</td><td> </td></tr>
+<tr><td>UNDEAD</td><td> </td></tr>
+<tr><td>SUBMITTING</td><td> </td></tr>
+<tr><td>DEPARTROOM</td><td> </td></tr>
+<tr><td>REGION</td><td> </td></tr>
+<tr><td>SPELLNUM</td><td> </td></tr>
+<tr><td>WARRANT</td><td> </td></tr>
+<tr></tr>
+<tr><td>WEALTH</td><td> </td></tr>
+<tr><td>WEALTH1-9</td><td> </td></tr>
+<tr></tr>
+<tr><td>WIELDED</td><td> </td></tr>
+<tr><td>DISGUISED</td><td> </td></tr>
+<tr><td>MONINROOM</td><td> </td></tr>
+<tr></tr>
+<tr>
+  <td>EXITN<br>EXITS<br>EXITE<br>EXITW
+  <br>EXITNE<br>EXITSE<br>EXITNW<br>EXITSW
+  <br>EXITU<br>EXITD<br>EXITA<br>EXITB<br>EXITO</td><td> </td></tr>
+<tr><td>MONNUM</td><td> </td></tr>
+<tr><td>FLYING</td><td> </td></tr>
+<tr><td>POSITION</td><td> </td></tr>
+<tr><td>SITTING</td><td> </td></tr>
+<tr><td>LAYING</td><td> </td></tr>
+<tr><td>STANDING</td><td> </td></tr>
+<tr><td>KNEELING</td><td> </td></tr>
+<tr><td>MANAPOINTS</td><td> </td></tr>
+<tr><td>BODYPOINTS</td><td> </td></tr>
+<tr><td>PSIPOINTS</td><td> </td></tr>
+<tr><td>FATPOINTS</td><td> </td></tr>
+<tr></tr>
+<tr><td>MAXFAT</td><td> </td></tr>
+<tr><td>MAXPSI</td><td> </td></tr>
+<tr><td>MAXBODY</td><td> </td></tr>
+<tr><td>MAXMANA</td><td> </td></tr>
+<tr></tr>
+<tr><td>INTNUM#</td><td> </td></tr>
+<tr><td>PVAL#</td><td> </td></tr>
+<tr><td>ITEMBIT#</td><td> </td></tr>
+</table>
+
+<a name="nouns">
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Back to top</A><BR>
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+<h2>Nouns</h2>
+
+<p>The most simple element of the script language is the ability to define
+all the nouns and adjectives that Legends will recognize. This is done
+with the NOUNDEF and ADJDEF commands, which take the format NOUNDEF [noun
+#] [noun name].</p>
+
+Examples:<br>
+<ul>
+<li>NOUNDEF 0 agate
+<li>NOUNDEF 1 alexandrite
+<li>NOUNDEF 2 amethyst
+<li>NOUNDEF 3 altar
+<li>NOUNDEF 4 amulet
+<li>NOUNDEF 5 anklet
+<li>NOUNDEF 6 aquamarine
+<li>NOUNDEF 7 arch
+
+<li>ADJDEF 0 acid
+<li>ADJDEF 1aelfen
+<li>ADJDEF 2 alexandrite
+<li>ADJDEF 3 alkyline
+<li>ADJDEF 4 amazing
+<li>ADJDEF 5 alzyron
+<li>ADJDEF 6 amethyst
+<li>ADJDEF 7 ancient
+</ul>
+
+<h3>FORAGEDEF [terrain] [item#] [adjective#] [ratio] [val2> [val5]</h3>
+
+<p>This is a definition that states that item# can be found in a room of type
+[terrain]. The "ratio" variable determines the likelihood of finding this
+particular item relative to anything else in the area (for example, if one
+item has a ratio of 10 and another has a ratio of 20, then the second item
+will be found twice as often as the first). The room terrain for [terrain]
+is limited to FOREST, MOUNTAIN, PLAIN, SWAMP and JUNGLE. Items should only
+be forageable if they are prevalent throughout a particular terrain type and
+if they are generally available throughout all seasons.</p>
+
+<h3>MINDEF [item#] [adjective#] [grade] [copper value] [val2]</h3>
+
+<p>This is a definition that states that item# with adjective# is a mineable
+item of "grade" (the latter of which may be 'A', 'B', or 'C', in
+descending value).</p>
+
+<a name="items">
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Back to top</A><BR>
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+<h2>Defining items</h2>
+
+<p>Before an item can be placed in your room description they must be
+defined. By capturing a @list of items or @scanning for a particular item
+name you can determine if what you want is already in the system. Even
+with the large amount of items already available you will find it
+necessary, at some time, to script a new item.</p>
+
+<p>You will begin all item definitions with the INUMBER command, which takes
+the format INUMBER #. Before you assign the item you are making a number
+you must be assigned a block of blank item numbers with which to work.
+Always use the lowest item number you are assigned and work upwards.</p>
+
+<p>The first thing that every item needs is a name. To give the item a name,
+use the NAME command which takes the format NAME [noun #]. Now that you
+have defined the INUMBER and the NAME of the tiem there are a variety of
+other things that must now be defined as well.</p>
+
+<p>Item type: On a line by itself choose one of the following that best
+describes your item. If left undefined, the script assumes it to be MISC
+(miscellaneous).</p>
+
+<table>
+<tr><td>AMMO</td><td>Ammunition (arrows, bolts, bullets)</td></tr>
+<tr><td>ARMOR</td><td>Anything worn for protection</td></tr>
+<tr><td>BITE_WEAPON</td><td>Teeth, jaws, etc. used by monsters</td></tr>
+<tr><td>BOW_WEAPON</td><td>Any archaic missle weapon(bows, handguns)</td></tr>
+<tr><td>CLAW_WEAPON</td><td>Claws, etc. that belongs to monsters</td></tr>
+<tr><td>CRUSH_WEAPON</td><td>Crushing weapons</td></tr>
+<tr><td>DRAKIN_CRUSH</td><td>Drakin (oriental) crushing weapons</td></tr>
+<tr><td>DRAKIN_POLE</td><td>Drakin polearms</td></tr>
+<tr><td>DRAKIN_SLASH</td><td>Drakin slashing weapons</td></tr>
+<tr><td>DRAKIN_THROWN</td><td>Drakin thrown weapons</td></tr>
+<tr><td>FOOD</td><td>Any item that is edible</td></tr>
+<tr><td>HANDGUN</td><td>Technological one hand missle weapons</td></tr>
+<tr><td>KEY</td><td>Anything that can be used to unlock items</td></tr>
+<tr><td>LIQCONTAINER</td><td>A liquid container (flasks, jugs)</td></tr>
+<tr><td>LIQUID</td><td>Any item that is drinkable</td></tr>
+<tr><td>LOCKPICK</td><td>Any item used for springing locks</td></tr>
+<tr><td>MINETOOL</td><td>Mining implements (Pickaxe, shovel)</td></tr>
+<tr><td>MISC</td><td>Anything that won't fit in elsewhere</td></tr>
+<tr><td>MONEY</td><td>Coins</td></tr>
+<tr><td>POLE_WEAPON</td><td>Polearms (halberds, glaives, lances)</td></tr>
+<tr><td>POLETHROWN</td><td>Polearms that can be thrown (spears..)</td></tr>
+<tr><td>PORTAL_THROUGH</td><td>Doors, archways, etc.</td></tr>
+<tr><td>PORTAL_CLIMB</td><td>Ropes, ladders, etc.</td></tr>
+<tr><td>PORTAL_UP</td><td>Ramps, trails, paths, etc.</td></tr>
+<tr><td>PORTAL_DOWN</td><td>Ramps, trails, paths</td></tr>
+<tr><td>PUNCTURE_WEAPON</td><td>Puncturing weapons (rapiers, stillettos)</td></tr>
+<tr><td>RIFLE</td><td>Large technological missle weapons</td></tr>
+<tr><td>SCROLL</td><td>Magical scrolls</td></tr>
+<tr><td>SHIELD</td><td>Shields</td></tr>
+<tr><td>SLASH_WEAPON</td><td>Slashing weapons (swords, axes)</td></tr>
+<tr><td>STABTHROWN</td><td>Weapons that can stab or be thrown (dagger)</td></tr>
+<tr><td>THROWN_WEAPON</td><td>darts, rocks</td></tr>
+<tr><td>TRAP</td><td>Traps</td></tr>
+<tr><td>TWOHAND_WEAPON</td><td>Two handed edged weapons (greatswords, battleaxes)</td></tr>
+</table>
+
+<h3>ORE</h3>
+
+<p>Ore can be sold or it can be smelted by a character with weaponsmithing
+skill and then worked into the form of a weapon. PARAMETER2 defines the
+new item archetype created when the ore is refined. The VAL2 field of an
+ORE item is transferred to any new item it is worked into. The VAL3 field
+of an ORE item is its purity, i.e., how much useful metal is contained in
+the amount of rock. This represents a percentage chance that a smith has
+of refining any useful metal from the ore. The PARAMETER1 field has
+multiple meanings. If it equals -1, then no adjective is placed on a new item
+constructed from the material. If it is zero, then the old adjectives of
+the material are transferred to the adjective to place on a new item
+created from the material. The PARAMETER3 field specifies the grade of the
+ore.</p>
+
+<h3>WEIGHT [pounds]</h3>
+
+<p>This is simply the weight of the item in pounds.  Any object with a weight
+of 1000 or more is not moveable by the players (they can't pick it up and
+take it with them, etc.). Doors, trails, and other such permanent items
+should be defined as having a weight of 1000.</p>
+
+<h3>VOLUME [amount]</h3>
+
+<p>This is an abstract value representing the amount of space that item will
+take up. It is not based upon any type of "real" volume.  This value
+limits what can be put in what containers, e.g. a great sword can not fit
+in a lock box.  The rough volume equivalent are as follows:</p>
+
+<ul>
+<li>1-Keys, arrows, daggers, gems or smaller
+<li>2-Hand axe
+<li>3-Light crossbow
+<li>4-Club
+<li>5-Short sword, light armor
+<li>6-Short bow, scimitar, long sword
+<li>7-Greatsword
+<li>8-Long bow, polearm, full armor
+<li>9+- Very large objects, probably to big to carry
+</ul>
+
+<h3>SUBSTANCE [substance type]</h3>
+
+<p>This describes the type of material the object is made of. If the exact
+substance is unavailable, then choose the thing that is closest in
+hardness and durability. If an object is made of more than one material
+(e.g., a hand axe is made of a metal head and a wooden shaft) chose a
+substance type which is an average of the two types. If left undefined,
+the substances is assumed to be INDESTRUCTRABLE.  The substance types are:</p>
+
+<table>
+<tr><td>INSUBSTANTIAL</td><td>Gas and liquids</td></tr>
+<tr><td>PAPER</td><td>Scrolls, letters</td><tr>
+<tr><td>CLOTH</td><td>Clothing, ropes</td><tr>
+<tr><td>BRITTLE</td><td>Glass bottles, gems</td><tr>
+<tr><td>WOOD</td><td>Anything made of wood</td><tr>
+<tr><td>STONE</td><td>Primitive stone tools, harder gems, etc.</td><tr>
+<tr><td>SOFTMETAL</td><td>Softer metals (silver, gold, tin, brass)</td><tr>
+<tr><td>HARDMETAL</td><td>Harder metals (iron, steel, titanium)</td><tr>
+<tr><td>INDESTRUCTABLE</td><td>Anything extremely hard (Alzyron or magical metals)
+ or otherwise indestructable for reasons of game integrity (Doors, trails, etc.)</td><tr>
+</table>
+
+<h3>ARTICLE [A|AN|THE|SOME]</h3>
+
+<p>If left undefined "ARTICLE A" is assumed. This defines how the game refers
+to the object, i.e., is it "a sunsword," "some sunsword" or "the sunsword."</p>
+
+<h3>CONTAINER [type]</h3>
+
+<p>Defines the object as a type of container, i.e., any object that can have
+something put on, in, under or behind it. No object may contain items in
+two different ways (e.g., a bed could have things able to be put on it or
+under it, but not both).</p>
+
+<h3>INTERIOR [amount]</h3>
+
+<p>This value is only necessary for items that will act as containers of some
+sort. It defines how much the container can hold, it may contain uup to
+[amount] in total volume of items, as defined by the VOLUMNE definitions
+of the contained items. Note howeve,r that the container's VOLUME value
+itself also comes into play when the game is determining whether or not an
+object can fit in the container: if the item to be contained is equal to
+or greater than the container's VOLUME, it won't fit.</p>
+
+<h3>PARAMETER1 [value]</h3>
+
+<p>Defines a value for special parameter 31. It is unnecessary for most
+items.  For liquids, it is the amount of drinks that can be taken from it
+before it runs out (and if over 100, it is treated as unlimited). For
+weapons, it defines the maximum damage the weapon will do and for armor it
+defines the percentage of damage that the armor absorbs. Keep in mind the
+values given for other such items when deciding on what this value should
+be. The usefulness of this parameter may be expanded in the future.</p>
+
+<h3>PARAMETER2 [value]</h3>
+
+<p>Defines a value for special parameter2. It is unnecessary for most items.
+For missile weapons, it defines the item number to be used as its
+ammunition type. For ammunition, it defines the number of individual units
+of ammunition are included in a bundle.
+The usefulness of this parameter may be expanded in the future.</p>
+
+<h3>PARAMETER3 [value]</h3>
+
+<p>This is similar to PARAMETER1 and PARAMETER2 on items. It will be used for
+more complex item archetypes in the future.</p>
+
+<p>Additional parameters: Any of the following may appear on a line by
+themselves to define special information about an object. You could use
+one of them, none of them or any combination of them.</p>
+
+<h3>CRAFTABLE</h3>
+<p>When placed on an item, it makes that item available for crafting by a
+player craftsman. Be carefull with this. Players are limited as to what
+craftable items they can actually make as follows: if an item is a weapon,
+then the player's smithing skill must
+>= the weapons parameter1 field. If it is a piece of armor, it is limited
+by one-third the armors weight. If it is a piece of clothing or jewelry it
+is limited by whatever parameter2 happens to be. NOTE: No more than one
+item should be craftable per noun.</p>
+
+<h3>DYEABLE</h3>
+<p>This is an item modifier that states that the given item archetype can be
+died, assuming it has no adjectives in slots #1 or #2.</p>
+
+<h3>ENCRUSTABLE</h3>
+<p>This makes it possible to use the INSET, INLAY, ENCRUST and similar verbs
+on an item.</p>
+
+<h3>DYE</h3>
+<p>This is an item modifier that can be used with other item definitions.
+When defined, it allows anyone with Dyer/weaver skill to extract the
+pigment from the object and use it to color a cloth item. On DYE items,
+PARAMETER1 defines the #1 adjective and PARAMETER3 defines the #2
+adjective to place on an item it is dyed with. A different archetype needs
+to be made for every item that can dye a different color.</p>
+
+<h3>FLIPABLE</h3>
+<p>Items may be flipped (as in a switch).</p>
+
+<h3>HIDDEN</h3>
+<p>Item is hidden from being listed with other objects in the room.</p>
+
+<h3>LATCHABLE</h3>
+<p>Item can latch shut. Items that are latched can't be opened.</p>
+
+<h3>LIGHTABLE</h3>
+<p>Item will shed light.</p>
+
+<h3>LOCKABLE</h3>
+<p>Item can be locked.</p>
+
+<h3>REAGENT</h3>
+<p>If it is set then the val5 field of this item will determine what type of
+reagent it is.</p>
+
+<h3>Reagent type</h3>
+<ul>
+<li>1=Power 1
+<li>2=Power 2
+<li>3=Power 3
+<li>4=Health
+<li>5=Harm
+<li>6=Body
+<li>7=Resist
+<li>8=Enhancement
+<li>9=Miscellaneous, common
+<li>10=Miscellaneuos, uncommon
+<li>11=Miscellaneous, rare
+<li>12=Mind
+<li>13=Protect
+</ul>
+
+<h3>SKIN</h3>
+<p>Allows you to make an item available for skinning from a monster.</p>
+
+<h3>TURNABLE</h3>
+<p>Item can be turned.</p>
+
+<h3>WORN_AROUND</h3>
+<p>Item may be worn around the body (belts, girdles, etc.)</p>
+
+<h3>WORN_BACK</h3>
+<p>Capes, backpacks, etc.</p>
+
+<h3>WORN_BODY</h3>
+<p>Robes, Trenchcoats, etc.</p>
+
+<h3>WORN_DON</h3>
+<p>This is reserved for accesory items like medals, badges, sunglasses, etc.</p>
+
+<h3>WORN_EAR</h3>
+<p>Earrings, earcuffs, etc.</p>
+
+<h3>WORN_FEET1</h3>
+<p>Socks, stockings, etc.</p>
+
+<h3>WORN_FEET2</h3>
+<p>Shoes, boots, etc.</p>
+
+<h3>WORN_HAIR</h3>
+<p>Hairpins, barrettes, etc.</p>
+
+<h3>WORN_HANDS</h3>
+<p>Gloves, gauntlets, etc.</p>
+
+<h3>WORN_HEAD</h3>
+<p>Hats, helmets, etc.</p>
+
+<h3>WORN_NECK</h3>
+<p>Torcs, amulets, etc.</p>
+
+<h3>WORN_RING</h3>
+<p>Anything worn around the finger.</p>
+
+<h3>WORN_TORSO1</h3>
+<p>Bras, undershirts, etc.</p>
+
+<h3>WORN_TORSO2</h3>
+<p>Shirts, blouses, etc.</p>
+
+<h3>WORN_TORSO3</h3>
+<p>Jackets, vests, etc.</p>
+
+<h3>WORN_TRUNK1</h3>
+<p>Panties, boxers, etc.</p>
+
+<h3>WORN_TRUNK2</h3>
+<p>Breeches, skirts, etc.</p>
+
+<h3>WORN_WRIST</h3>
+<p>Bracers, bracelets, etc.</p>
+
+<h3>CONTAINER IN</h3>
+
+<h3>CONTAINER UNDER</h3>
+
+<h3>CONTAINER ON</h3>
+
+<h3>CONTAINER BEHIND</h3>
+
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+
+<a name="examples1">
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Back to top</A><BR>
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+
+<h2>Example of items:</h2>
+
+<h3>Example 1:</h3>
+<ul>
+<li>Sword (long based)
+<li>INUMBER 46
+<li>NAME 201
+<li>WEIGHT 4
+<li>VOLUME 6
+<li>PARAMETER1 8
+<li>SLASH_WEAPON
+<li>SUBSTANCE HARDMETAL
+</ul>
+
+<h3>Example 2:</h3>
+<ul>
+<li>Mail (double chain based)
+<li>INUMBER 53
+<li>NAME 130
+<li>WEIGHT 40
+<li>VOLUME 5
+<li>PARAMETER1 35
+<li>WORN_ARMOR
+<li>ARMOR
+<li>ARTICLE SOME
+<li>SUBSTANCE HARDMETAL
+</ul>
+
+<h3>Example 3:</h3>
+<ul>
+<li>Arch
+<li>INUMBER 60
+<li>NAME 7
+<li>PORTAL
+<li>WEIGHT 1000
+<li>VOLUME 28
+<li>HIDDEN
+</ul>
+
+<h3>Example 4:</h3>
+<ul>
+<li>Chest (small based)
+<li>INUMBER 87
+<li>NAME 49
+<li>WEIGHT 10
+<li>VOLUME 6
+<li>INTERIOR 10
+<li>CONTAINER IN
+<li>MISC
+<li>LOCKABLE
+<li>OPENABLE
+<li>SUBSTANCE SOFTMETAL
+</ul>
+
+<h3>Example 5:</h3>
+<p>The following is a complex example of item scripting. It
+contains a number of advanced principles that will be
+explained later in this document.</p>
+
+<pre>
+INUMBER 1617
+NAME 32
+WEIGHT 4
+VOLUME 4
+BOW_WEAPON
+PARAMETER1 15
+PARAMETER2 0
+WORN_DON
+SUBSTANCE INDESTRUCTABLE
+VARIABLE SHOOTER
+IFSEEK 180
+IFVERB CONCENTRATE -1
+IFVAR ITEMVAL5 ! TIM
+ADD SHOOTER 1
+IFVAR SHOOTER &lt; 20
+ECHO PLAYER May your aim be true.
+SPELL 512 30
+ECHO Player Let your enemies not harm you.
+SPELL 133 50
+ENDIF
+IFVAR SHOOTER &gt; 20
+EQUAL ITEMVAL5 TIM
+ENDIF
+ENDIF
+ENDIF
+IFVERB LISTEN -1
+ECHO PLAYER For you and only for you I shall reveal the full extent of my
+ECHO PLAYER powers. If you have need of protection and steady hands you have
+ECHO player only to concentrate on me. Should you need your health restored
+ECHO player polish me to a high luster. If you are bleeding and in need of
+ECHO PLAYER staunching the flow of blood then sling me onto your back. If you
+ECHO PLAYER ever need light to see by gain my attention by tapping me.
+ENDIF
+IFVERB WEAR -1
+ECHO PLAYER You sling the bow over your shoulder.
+SPELL 342 50
+ENDIF
+IFPREVERB GIVE -1
+ECHO PLAYER I am for you and no other. I shall be touched by no other hand.
+ECHO OTHERS %n gets a glazed look for a moment and then nods his head
+absently.
+CLEARVERB
+ENDIF
+IFPREVERB DROP -1
+ECHO PLAYER I shall not leave your hand we are as one now.
+ECHO OTHERS %n looks like he is about to set the bow down and then changes
+his mind.
+CLEARVERB
+ENDIF
+IFPREVERB PUT -1
+ECHO PLAYER No, I will not be seperated from you.
+ECHO OTHERS %n grasps the bow tightly.
+CLEARVERB
+ENDIF
+IFITEM -1 WIELDED
+IFVERB LOAD -1
+ECHO ALL As the bow is loaded the arrow shimmers magically.
+ENDIF
+IFVERB RUB -1
+ECHO PLAYER As you polish the bow lovingly, it glows a soft blue and
+speaks to you:
+ECHO PLAYER Let my power heal thy wounds.
+ECHO OTHERS %n polishes the bow to a high luster, a soft blue glow
+surrounds him.
+EQUAL ROUNDTIME 20
+SPELL 318
+ENDIF
+IFVERB TAP -1
+ECHO OTHERS The bow flares with a brilliant blue light that coalesces into
+a floating orb.
+SPELL 113 50
+ENDIF
+ENDIF
+ENDIF
+</pre>
+
+<h3>Item scripting cont'd.</h3>
+<h3>SEALED</h3>
+<p>This modifier is to be used in an portal that, when closed, may not be
+seeped through if a player is in mist form. Use it on portals such as
+Gates, Doors, trapdoors, etc.</p>
+
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+
+<a name="rooms">
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Back to top</A><BR>
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+
+<h2>Defining Rooms</h2>
+
+<p>Every room has to have certain parameters defined for it. This includes
+the room number, a name, the terrain, the lighting and a description.
+These are the parameters that must be included in the script. Later, we
+will discuss additional modifiers and conditional statements that you can
+add to 'spice' it up.</p>
+
+<h3>Number</h3>
+<p>The compiler recognizes that you are defining a room when you use the
+NUMBER command. It takes the format NUMBER [#] where # is the number of
+the room you are defining.</p>
+
+<p>To give your room a name use the NAME command on a line by itself after
+defining the number of the room. The format is NAME [text].</p>
+
+<h3>Room Descriptions</h3>
+
+<p>The description isentered by placing *DESCRIPTION_START on a line by
+itself, entering the text for the description on following lines and
+ending it with *DESCRIPTION_END on a line by itself. Warning: Remember to
+end the description with the proper statement. Also make sure it is
+correctly spelled. If you forget or mispell the ending
+statement you will have all of the script that follows  included in the
+room description until it encounters a *DESCRIPTION_END.</p>
+
+<h3>Example:</h3>
+*DESCRIPTION_START<br>
+This is a room like many other rooms.<br>
+*DESCRIPTION_END<br>
+
+<h3>Terrain</h3>
+
+<p>Terrain is defined by entering one of the following that best describe it
+on a line by itself after the *DESCRIPTION_END.. The possible terrains are:</p>
+
+<table>
+<tr><td>INDOOR_FLOOR</td><td>Any room, inside a building, with a man made floor.</td></tr>
+
+<tr><td>INDOOR_GROUND</td><td>Any room inside a building with a dirt floor.</td></tr>
+
+<tr><td>CAVE</td><td>Used for shallow caves and caverns.</td></tr>
+
+<tr><td>DEEPCAVE</td><td>Used for caverns so far underground that a large variety of spells will
+not function.</td></tr>
+
+<tr><td>FOREST</td></tr>
+
+<tr><td>MOUNTAIN</td></tr>
+
+<tr><td>PLAIN</td></tr>
+
+<tr><td>SWAMP</td></tr>
+
+<tr><td>JUNGLE</td></tr>
+
+<tr><td>WASTE</td></tr>
+
+<tr><td>OUTDOOR_OTHER</td></tr>
+
+<tr><td>OUTDOOR_FLOOR</td><td>Used in exposed ruins and such.</td></tr>
+
+<tr><td>AERIAL</td></tr>
+
+<tr><td>ASTRAL</td></tr>
+
+<tr><td>UNDERSEA</td></tr>
+</table>
+
+<h3>Lighting</h3>
+
+<p>Lighting is defined as:</p>
+
+<ul>
+<li>FIXED_LIGHT
+<li>DARKNESS
+<li>PARTIAL_DARKNESS
+<li>DAY_LIGHT
+<li>OBSCURED_DAY_LIGHT
+</ul>
+
+<h3>Room Modifiers</h3>
+
+<table>
+<tr><td>FORGE</td><td>Defines a room to have a fully equipped forge for weaponsmiths and
+jewelers.</td></tr>
+<tr><td>LOOM</td><td>Defines a room as having a fully equipped loo for Dyers\weavers where
+appropriate substances may be turned into clothing.</td></tr>
+<tr><td>MINEA</td><td>Defines a room as having minerals of grade A (the best). Grade B and C ore
+will also appear in this room.</td></tr>
+<tr><td>MINEB</td><td>Defines a room as having minerals of grade B (average). Grade C ore will
+also appear in this room.</td></tr>
+<tr><td>MINEC</td><td>Defines a room as having minerals of grade C (the worst).</td></tr>
+<tr><td>BUY_ARMOR</td><td>States that it is possible to sell armor and weapons to a merchant in this
+room.</td></tr>
+<tr><td>BUY_SKINS</td><td>States that it is possible to sell skins in this room.</td></tr>
+<tr><td>BUY_JEWELRY</td><td>States that it is possible to sell jewelry, gems and art objects in the
+room.</td></tr>
+<tr><td>SUBMERGED</td><td>Defines a room as being underwater.</td></tr>
+<tr><td>MOVEMENT_ASTRAL</td></tr>
+</table>
+
+<p>Note: All room modifiers are mutually exclusive. If you have two
+types of modifiers in one room the system will only acknowledge the last
+one listed. The same applies to Terrain types.</p>
+
+<h3>Example of a simple room:</h3>
+
+<pre>
+NUMBER 165
+NAME Matriarch tree, hallway
+*DESCRIPTION_START
+A long hallway allows you to travers the full width of this huge
+tree. Its wooden floors are deeply polished. Delicately papered with
+a pink flocking and finished with marble panels, the corridor speaks of a
+long forgotten time of opulence.
+*DESCRIPTION_END
+EXIT O 101
+EXIT W 166
+INDOOR_FLOOR
+DARKNESS
+</pre>
+
+<h3>Placing Items in rooms</h3>
+
+<p>To have items automagically appear inside a room you create, use the ITEM
+command inside the block of script that defines the room. The format for
+this is ITEM [reference #0-9] [item archetype] [additional parameters].
+The reference number is used later in the room scripts for any conditional
+statements or descriptions you attach to the item. (conditional statements
+will be discussed later in this document.) The ARCHETYPE # is just the
+INUMBER of the item that you wish to place in the room. The additional
+parameters are as follows.</p>
+
+<table>
+<tr><td>ADJ1<br>ADJ2<br>ADJ3</td><td>Adjectives</td></tr>
+<tr><td>VAL1<br>VAL2<br>VAL3<br>VAL4<br>VAL5<br></td><td>See below</td></tr>
+<tr><td>CLOSED</td><td>The item is closed.</td></tr>
+<tr><td>FLIPPED</td><td>The item is flipped.</td></tr>
+<tr><td>LATCHED</td><td>The item is latched</td></tr>
+<tr><td>LIT</td><td>Item is lit.</td></tr>
+<tr><td>LOCKED</td><td>Item is locked</td></tr>
+<tr><td>OPEN</td><td>Item is open.</td></tr>
+<tr><td>UNFLIPPED</td></tr>
+<tr><td>UNLATCHED</td></tr>
+<tr><td>UNLIT</td></tr>
+<tr><td>UNLOCKED</td></tr>
+</table>
+
+<h3>PUT</h3>
+
+<p>The put command is similar to the ITEM command. Its format is equivalent,
+except in this case, [reference #] indicates that the item will be put on,
+in, etc. the object already defined in this room as [reference #]. NOTE:
+Items palced with the put command cannot be referenced back to as can
+those placed by ITEM.</p>
+
+<h3>Example room containing an ITEM (portal):</h3>
+<pre>
+NUMBER 120
+NAME Grymwood, bone yard.
+MONSTER_GROUP 9
+*DESCRIPTION_START
+A rocky clearing opens from a narrow crevice to the south and a
+well-marked trail to the west. The ground appears to be covered with a
+coarse white gravel. On close inspection, however, you discover that it is
+made up of millions of sun bleached bone fragments.
+*DESCRIPTION_END
+EXIT W 107
+EXIT ABOVE 2125
+ITEM 0 63 ADJ1=210 VAL2=119
+FOREST
+DAY_LIGHT
+</pre>
+
+<p>Example of room with many items.</p>
+
+<pre>
+NUMBER 385
+NAME Palace, throne room
+MONSTER_GROUP 15
+INDOOR_FLOOR
+FIXED_LIGHT
+*DESCRIPTION_START
+A red silk rug leads to the Royal Throne at the northern end of this room.
+The carpet is arrayed with smooth blue stone pillars at even intervals on
+each side. A solid gold throne sits on top og a dais. Soft purple velvet
+pillows are spread out at its feet. A stylized shield hangs above the
+throne, suspended on two chains with the Royal Creast engraved upon its
+face. The dais also accomodates two similar thrones for the Queen and
+Prince.
+*DESCRIPTION_END
+ITEM 0 65 ADJ1=468 VAL2=382
+ITEM 1 362 ADJ1=259 ADJ2=291
+ITEM 2 542 ADJ1=147
+ITEM 3 542 ADJ1= 294
+ITEM 4 542 ADJ1=294
+ITEM 5 59
+EXTEND 5 with the Royal Crest engraved on it
+ITEM 6 193 ADJ1=298 ADJ2=248 ADJ3=337
+</pre>
+
+<h3>Item Value Fields</h3>
+
+<p>The item value fields which are defined with VALx=y in the ITEM, PUT,
+NEWPUT and NEWITEM script commands, and editable with the @editem and
+@ednumber GM command. The function of the VAL fields may be expanded with
+time. The current uses of these fields are as follows:</p>
+
+<h3>VAL1</h3>
+<p>If it is a lockable item , this is the lock modifier. The higher the
+number the harder the lock. If it is treasure or an item that may be sold,
+this is the copper value of the item. If it is an item type MONEY, it is
+the number of coins present.</p>
+
+<h3>VAL2</h3>
+<p>If this item is a portal type, this indicates the destination room of the
+portal. If it is a weapon or armor this indicates the magical bonus (or
+penalty) of the item. If it is a charged spell casting item, it is the
+number of charges. If it is a liquid or food item it indicates the number
+of sips or bites, respectively. If it is MONEY it indicates the player
+that dropped it or -1 if it is from an unknown source.</p>
+
+<h3>VAL3</h3>
+<p>If it is a lockable item it indicates the item number which will unlock
+it. If it is a KEY item it indicates what the item opens. If it is a magic
+item it indicates what spell is cast. If it is a missle weapon and is set
+to 0 it indicates the missle weapon is unloaded, if it indicates any value
+above 0 it indicates the missle  weapon is loaded. If it is a hand to hand
+weapon it indicates the special power of the weapon(Flare crits, slaying,
+etc.)</p>
+
+<h3>VAL4</h3>
+<p>This defines what type of trap or glyph is on the weapon. The avalailable
+traps are:</p>
+<pre>
+1-Needle with minor poison
+2-Poison gas with minor damage
+3-Acid resevoir which causes burn damage and dissolves lockpick
+4-Spring loaded blades
+5-Needle with moderate poison
+7-Needle with major poison
+8-Explosive, destroys objects and contents
+9-Acid resevoir as #3 but larger damage
+12-Nerve gas
+13-Needle with lethal posion
+1001-Inferno Glyph
+3001-Ice Glyph
+5001- Thunder Glyph
+7001-Imprisonment Rune
+9001-Symbol of Death
+</pre>
+
+<h3>VAL5</h3>
+<p>At this time it is only used in certain conditional statements and, if
+placed on a weapon with a special power, define how much extra damage is
+done.(The special powers of weapons will be discussed later in this
+document.)</p>
+
+<p>Example of a room with many items, some PUT in others and some spell
+casting.</p>
+
+<pre>
+NUMBER 2329
+NAME Citidel, Tunnel
+MONSTER_GROUP 20
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+A pool of rancid  water has formed where condensing moisture collects as
+it ran off the walls. The red stones of the citidal are particularly slick
+here. A black fungus covers some of the stones.
+*DESCRIPTION_END
+EXIT E 2328
+EXIT W 2330
+ITEM 0 324
+EXTEND 0 of rancid water
+PUT 0 198 ADJ1=255 VAL2=100 VAL3=226
+ITEM 1 327 ADJ1=25
+</pre>
+
+<h3>Conditional statements</h3>
+
+<p>There are a number of control commands available within the scripting
+languae, which will be discussed later in this section. Most of these
+controls are best used within conditional statements. The script language
+offers a variety of IF type expressions for allowing you to program what
+happens when people do certain things or certain conditions are met.</p>
+
+<p>As a matter of being orderly it is usual for conditional statements to be
+placed at the end of the item or room block, after you have placed all of
+the basic definitions.</p>
+
+<p>Basic outline of a conditional statement</p>
+
+<pre>
+IF[arguments]
+.
+.    [control commands or additional conditions]
+.
+ENDIF
+</pre>
+
+<p>The following is a list of the available conditional statements.</p>
+<pre>
+IFITEM
+IFTOUCH
+IFVERB
+IFVERB2
+IFPREVERB
+IFPREVERB2
+IFVAR
+IFNOITEM
+IFFULLDESC
+IFENTRY
+IFSEEK
+IFSAY
+</pre>
+
+<h3>Variables and Arithmetic</h3>
+
+<p>Variables may be defined to keep track of numeric values. To define a
+variable, simply place VARIABLE <varaible name> on a line by itself
+anywhere in your script.</p>
+
+<p>You can perform arithmetic functions on your variables or base conditional
+statements upon them. All of them assume the format       [arithmetic
+function] [destination variable name] source variable or value]. The
+available arithmetic funstions are:</p>
+
+<pre>
+ADD   | Addition
+DIV   | Division
+EQUAL | Equal to
+MOD   | Modulus division
+MUL   | Multiplication
+SUB   | Subtraction
+</pre>
+
+<p>Example:</p>
+
+<pre>
+VARIABLE TESTVAR
+VARIABLE VAR2
+EQUAL TESTVAR 3
+EQUAL VAR2 7
+ADD VAR2 3
+MUL TESTVAR VAR2
+</pre>
+
+<p>The above would define two variables, "Testvar and Var2." Testvare is set
+equal to 3 and Var2 equal to 7. The number 3 is then added to Var2 making
+it 10. Testvar is then multiplied by Var2.</p>
+
+<h3>Internal Variables</h3>
+
+<p>A number of internal variables are already predefined to mean special
+things. You may perform arithmetic on them, use as an argument in a
+conditional statement, etc.</p>
+
+<pre>
+AGE        | Age                  LEV      | Level
+AGI        | Agility              QUI      | Quickness
+ALIGN      | Alignment            PER      | Perception
+CON        | Constitution         RAC      | Race
+EMP        | Empathy              STR      | Strength
+FLAG1      |                      TIM      | Time of day
+FLAG2      |                      WEA      | Weather
+FLAG3      |                      WEI      | Weight
+FLAG4      |                      WIL      | Willpower
+GEN        | Gender               ORG      | Orginization
+HEI        | Height
+DAY        | Equals 1 if day, 0 if night
+DATE       | Day of month
+MONTH      | Month (1-13, 13=feast days)
+YEAR       | Current Year
+OBJWEIGHT  | Weight of current item
+ITEMADJ1   | Adjective 1 of current item
+ITEMADJ2   | Adjective 2 of current item
+ITEMADJ3   | Adjective 3 of current item
+SLEEPING   | Equals 1 if character is sleeping, o otherwise
+MOVEABLE   | Equals 1 if the character is able to move, 0 otherwise
+POSITION   | 0 = STANDING, 1 = SITTING, 2 = LAYING, 3 = KNEELING, 4 = FLYING
+TEMP       | temperature in farenheit
+MISTFORM   | Equals 1 if the character is in mistform
+WOLFFORM   | Equals 1 if the character is in wolfform
+SLIMEFORM  | Equals 1 if the character is in slimeform
+OUTDOOR    | Equals 1 if the character is outside
+WILDERNESS | Equals one if the player is outside and not in a
+room               | that is not movement_astral
+ASTRAL     | Equals 1 if the player is in a room that is
+either                  | ASTRAL or MOVEMENT_ASTRAL
+TERRAIN    | INDOOR_FLOOR=1
+           | INDOOR_GROUND=2
+           | FOREST=3
+           | MOUNTAIN=4
+           | PLAIN=5
+           | SWAMP=6
+           | OUTDOOR_OTHER=7
+           | OUTDOOR_FLOOR=8
+           | WASTE=9
+           | JUNGLE=10
+           | CAVE=11
+           | ASTRAL=12
+           | AERIAL=13
+DUMMY1     |These are volatile, general use variables meant to be
+DUMMY2     |used for temproray purposes so you don't need to keep
+DUMMY3     |creating new ones for single-use along with script
+DUMMY4     |commands like  DAMAGE.
+DUMMY5     |
+ITEMVAL1   |You may manipulate the VAL fields of an item directly as
+ITEMVAL2   |normal internal valuables.
+ITEMVAL3   |
+ITEMVAL4   |
+ITEMVAL5   |
+ARCHNUM    |This is equal to the item archetype number of the
+           |currently active item or -1 if there is no active item.
+PLAYERNUM  |Equals -1 if there is no player active, or any other
+           |number denoting the currently active player for the
+           |script. This should be used with cevents that might
+           |need a player active to perform a certain operation.
+</pre>
+
+<p>The variable RAC is to be used with these values.</p>
+
+<pre>
+1: Human                          5: Murg
+2: Aelfen                         6: Drakin
+3: Highlander                     7: Mechanoid
+4: Wolfling                       8: Ephemeral
+                                  9: Vampire
+</pre>
+
+<p>The variable WEA is to be used with these values.</p>
+
+<pre>
+0: Sunny                          4: Moderate rain
+1: Partially cloudy               5: Heavy rain
+2: Overcast                       6: Thunderstorm
+3: Light rain                     7: Gale
+                                  8: Hurricane
+</pre>
+
+<p>The following are examples of several kind of conditional statements.
+Example of IFVERB</p>
+
+<pre>
+INUMBER 1622
+NAME 166
+WEIGHT 5
+VOLUME 5
+SUBSTANCE HARDMETAL
+BOW_WEAPON
+IFVERB CONCENTRATE -1
+ECHO ALL The rifle comes to life and shoots a stream of bubbles all over.
+ENDIF
+</pre>
+
+<p>Example of a cevent and IFSEEK:</p>
+
+<pre>
+CEVENT 17 30 312
+   IFSEEK 110
+      IFITEM -1 WIELDED
+         RANDOM MUMBOJUM 1 5 0
+         IFVAR MUMBOJUM = 1
+            ECHO ALL The soulsword exudes a bone chilling aura.
+         ENDIF
+         IFVAR MUMBOJUM = 2
+            ECHO ALL The soulsword flashes with black flames.
+         ENDIF
+        IFVAR MUMBOJUM = 3
+            ECHO ALL The soulsword blasts your mind with thoughts of battle.
+        ENDIF
+        IFVAR MUMBOJUM = 4
+            ECHO ALL The soulsword quivers with excitement at the thought of a battle.
+        ENDIF
+        IFVAR MUMBOJUM = 5
+            ECHO ALL The soulsword groans with a need to taste blood.
+        ENDIF
+      ENDIF
+   ENDIF
+</pre>
+
+<p>Example of multiple if statements in an item.</p>
+
+<pre>
+INUMBER 1617
+NAME 32
+WEIGHT 4
+VOLUME 4
+BOW_WEAPON
+PARAMETER1 15
+PARAMETER2 0
+WORN_DON
+SUBSTANCE INDESTRUCTABLE
+VARIABLE SHOOTER
+IFSEEK 180
+IFVERB CONCENTRATE -1
+IFVAR ITEMVAL5 ! TIM
+ADD SHOOTER 1
+IFVAR SHOOTER < 20
+ECHO PLAYER May your aim be true.
+SPELL 512 30
+ECHO Player Let your enemies not harm you.
+SPELL 133 50
+ENDIF
+IFVAR SHOOTER > 20
+EQUAL ITEMVAL5 TIM
+ENDIF
+ENDIF
+ENDIF
+IFVERB LISTEN -1
+ECHO PLAYER For you and only for you I shall reveal the full extent of my
+ECHO PLAYER powers. If you have need of protection and steady hands you
+have
+ECHO player only to concentrate on me. Should you need your health restored
+ECHO player polish me to a high luster. If you are bleeding and in need of
+ECHO PLAYER staunching the flow of blood then sling me onto your back. If
+you
+ECHO PLAYER ever need light to see by gain my attention by tapping me.
+ENDIF
+IFVERB WEAR -1
+ECHO PLAYER You sling the bow over your shoulder.
+SPELL 342 50
+ENDIF
+IFPREVERB GIVE -1
+ECHO PLAYER I am for you and no other. I shall be touched by no other hand.
+ECHO OTHERS %n gets a glazed look for a moment and then nods his head
+absently.
+CLEARVERB
+ENDIF
+IFPREVERB DROP -1
+ECHO PLAYER I shall not leave your hand we are as one now.
+ECHO OTHERS %n looks like he is about to set the bow down and then changes
+his mind.
+CLEARVERB
+ENDIF
+IFPREVERB PUT -1
+ECHO PLAYER No, I will not be seperated from you.
+ECHO OTHERS %n grasps the bow tightly.
+CLEARVERB
+ENDIF
+IFITEM -1 WIELDED
+IFVERB LOAD -1
+ECHO ALL As the bow is loaded the arrow shimmers magically.
+ENDIF
+IFVERB RUB -1
+ECHO PLAYER As you polish the bow lovingly, it glows a soft blue and
+speaks to you:
+ECHO PLAYER Let my power heal thy wounds.
+ECHO OTHERS %n polishes the bow to a high luster, a soft blue glow
+surrounds him.
+EQUAL ROUNDTIME 20
+SPELL 318
+ENDIF
+IFVERB TAP -1
+ECHO OTHERS The bow flares with a brilliant blue light that coalesces into
+a floating orb.
+SPELL 113 50
+ENDIF
+ENDIF
+ENDIF
+</pre>
+
+<p>Example of multiple if statements in a room.</p>
+
+<pre>
+NUMBER 3524
+NAME Deep forest, grove
+*DESCRIPTION_START
+As you enter the grove the first thing you notice is the wildly dancing
+balls
+of light that surround the strange shadowy being that stands before you.
+The
+grove, itself, fills you with a sense of peace and well being that you
+haven't
+felt since you entered the heart of the forest.
+*DESCRIPTION_END
+FOREST
+DAY_LIGHT
+IFPREVERB CAST -1
+ECHO PLAYER For some reason you can't bring yourself to break the harmony
+ofthis place.
+CLEARVERB
+ENDIF
+IFPREVERB ADVANCE -1
+ECHO PLAYER You don't want to disturb this peacefull place with such
+hostile action.
+CLEARVERB
+ENDIF
+IFPREVERB HEAT -1
+ECHO PLAYER You can't seem to focus properly.
+CLEARVERB
+ENDIF
+IFPREVERB FREEZE -1
+ECHO PLAYER You can't seem to focus properly.
+CLEARVERB
+ENDIF
+VARIABLE GENME
+IFENTRY
+IFVAR GENME < 1
+ADD GENME 2
+ECHO ALL You see the shadowy figure of the PathMaster before you.
+GENMON 282
+ENDIF
+ENDIF
+IFSAY SAMARDAZ_WERESLAYER?
+ECHO ALL The PathMaster says, "Yes, I know of him. His body no longer
+rests in the grove."
+ENDIF
+IFSAY WHERE_IS_HE?
+ECHO ALL The PathMaster says, "His body now rests in the room with no
+enterance and only one exit. I can open the way for you."
+ENDIF
+IFSAY WAY?
+ECHO ALL The PathMaster says, "Very well, but know, the path is not
+without its own risks."
+ECHO ALL The PathMaster then waves his arms in a wide arching motion and
+before you a shimmering arch appears.
+NEWITEM 0 60 ADJ1=287 VAL2=3525
+ENDIF
+</pre>
+
+<h3>Monster Scripting</h3>
+
+<p>Monster Adjectives:</p>
+
+<p>Adjectives for monsters are defined similar to, but not the same as they
+are for items. Everyone must be assigned numbers for monster adjectives.
+To define a monster adjective you use MADJDEF # <adjective>.</p>
+
+<p>Example:</p>
+<pre>MADJDEF 10 giant
+</pre>
+
+<p>To initiate a monster block you state MNUMBER #. Once again you must be
+assigned Monster numbers.</p>
+
+<h3>NAME <name text></h3>
+<p>Defines the name for the monster. Do not use a capital letter to start the
+monsters name unless you are making it a UNIQUE monster.</p>
+
+<h3>ADJECTIVE #</h3>
+<p>Defines the adjective for the monster. Do not use Adjectives with Unique
+monsters. This number is defined by the MADJ(monster adjectives).</p>
+
+<h3>HUMAN</h3>
+<p>This is a macro that defines the creatures body parts as humanoid.</p>
+
+<h3>AVINE</h3>
+<p>Defines the creatures body parts as birdlike.</p>
+
+<h3>ANIMAL</h3>
+<p>Defines a creatures body parts as a quadripedal animal.</p>
+
+<h3>PART #</h3>
+<p>This can be used in conjunction with or alone to define body parts on
+creatures. The available body parts are as follows:</p>
+
+<pre>
+0 = head
+1 = body
+2 = back
+3 = second head
+4 = thorax
+5 = right arm
+6 = left arm
+7 = right leg
+8 = left leg
+9 = right hind leg
+10 = left hind leg
+11 = right foreleg
+12 = left foreleg
+13 = right hand
+14 = left hand
+15 = right wing
+16 = left wing
+17 = tail
+18 = right paw
+19 = left paw
+</pre>
+
+<h3>Body #</h3>
+<p>Defines the number of body points that are factored into the exp value of
+the monster.</p>
+
+<h3>EXTRABODY</h3>
+<p>Defines an added amount of body point between 50-100% of the actual number
+that is NOT factored into the exp value of the monster.</p>
+
+<h3>ATTACK1 #</h3>
+<p>Defines the monsters attack modifier of the creatures primary attack.</p>
+
+<h3>ATTACK2 #</h3>
+<p>Defines the attack modifier of the creatures secondary attack. This is not
+used at the moment.</p>
+
+<h3>Defense #</h3>
+<p>Defines the monsters defend modifier.</p>
+
+<h3>STRATEGY #</h3>
+<p>This defines how the monster reacts in combat and overall behavior. The
+following strategies are available.</p>
+
+<p>1-100 Non-hostile, flee when attacked. (note: if 1-25, the creature will
+also cry for help and alert legal authorities)</p>
+
+<p>101-200 Non-hostile, defend themselves when attacked. 101-125 will cry for
+help and alert legal authorities.</p>
+
+<p>201-300 Animals that always flee even if not attacked but defend
+themselves if attacked.</p>
+
+<p>301-400 Hostile, flee when wounded. (group A)</p>
+
+<p>401-500 Hostile, flee when wounded. (group B)</p>
+
+<p>501-600 Hostile, fight to the death. (group A)</p>
+
+<p>601-700 Hostile, fight to the death. (group B)</p>
+
+<p>There is no destinction between group A and B at this time. The intention
+of the difference in the future will be that Group A and group B will be
+mutually hostile.</p>
+
+<h3>TREASURE #</h3>
+<p>Defines the treasure level for the creature. If this is zero, the creature
+has no treasure.</p>
+
+<p>Immunity (immunity #) (immunity level)</p>
+<p>This defines a monster has having immunity to certain forms of attack. Or
+in some cases extra susceptability to certain forms of attack. Immunity
+level defines how susceptable or immune it is to that form of attack in
+half-units. 2 is the default setting which means the creature is affected
+2/2 (in full). 1 would be half damage. 3 would be 1 and 1/2 damage and 4
+would be double damage. All immunities, unless noted otherwise, are set to
+the default 2 except for #8 which is set to 0.</p>
+
+
+<p>The available immunities are:</p>
+
+<p>0 - Ensnaring attacks, particularly large or supernatural creatures would
+ignore this form of attack.</p>
+
+<p>1 - Crushing weapons.</p>
+
+<p>2 - Edged weapons.</p>
+
+<p>3 - Heat attacks.</p>
+
+<p>4 - Electrical attacks.</p>
+
+<p>5 - Cold attacks.</p>
+
+<p>6 - Nervous system attacks. Creature would be immune to spells like charm,
+sleep, psionic blast, etc. due to the lack of a normal nervous system.</p>
+
+<p>7 - Life affecting. creatures would be immune to body destruction, poison,
+disease and body restoration due to a lack of an active "life force" or
+are to unlike normal life.</p>
+
+<p>8 - Undead affecting. This is the only immunity that is default to 0 and
+it must be set to a special value. When set to 3 it defines a creature as
+a lesser undead, and includes creatures up to and including a lesser
+wight. Setting it to 2 defines it as a greater undead such as a mummy,
+lesser vampire, etc. Setting it to 1 should be reserved for extremely
+powerful undead such as a lich, a greater vampire, etc.</p>
+
+<p>9 - Susceptability to death criticals. If set to 0 the creature would not
+receive a fancy death critical. This should be given to any creature that
+lacks a normal humanoid or animal physiology.</p>
+
+
+<h3>RACE #</h3>
+<p>Defines the creatures racial group. At the moment this is only used in
+conjunction with certain VALue settings on weapons for weapons of slaying.
+The available races are as follows:</p>
+
+<p>21 - extraplanar, creatures that come from other planes.</p>
+
+<p>22 - Undead</p>
+
+<p>23 - Arachnid</p>
+
+<p>24 - Kvantar</p>
+
+<p>25 - Troll</p>
+
+<p>26 - Lycanthrope</p>
+
+<p>27 - Giant</p>
+
+<p>28 - Constructs (either magical or technological)</p>
+
+<p>29 - Goblin</p>
+
+<p>30 - Ogre</p>
+
+<p>31 - Dragon</p>
+<p>If you have a creature that you feel needs a new race identifier created
+for it , please let Jon or Angela know.</p>
+
+
+<h3>WEAPON (weapon#) (adjective#) (weighted probability)</h3>
+<p>This defines the type of weapon the creature uses. Weapon# is the
+archetype # for the weapon. Adjective defines a standard adjective for the
+weapon and the weighted probability is the percent out of 100 that the
+creature attacks with this weapon.</p>
+
+<h3>WEAPONPLUS #</h3>
+<p>Defines the creatures weapon as magical with # being the bonus of the
+weapon. For obvious reasons you want to be carefull not to set this value
+to high.</p>
+
+<h3>ARMOR #</h3>
+<p>Defines the percentage value of damage reduction that the monster receives.</p>
+
+<h3>MAGICWEAPON (1, 2 or 3)</h3>
+<p>If this is defined, then a magic weapon is needed to damage the creature.
+If MAGICWEAPON 1, then any magic weapon will do. 2 requires a bonus of at
+least +10. 3 requires a bonus of at least +21.</p>
+
+<h3>SKINADJ <#></h3>
+<p>Defines the standard adjective number to attach to any items skinned from
+a creature.</p>
+
+<h3>SKINITEM <item#> <probability> <coppervalue> <magic></h3>
+<p>Item# defines the archetype number of a certain skin that is available on
+a givenr monster. The "probability" is another weighted probability
+similar to that used for distibuting weapon selection. "Coppervalue is the
+items average value in copper. "Magic is a number thatwhich specifies the
+magic content of the item. If 0 which most skins should be, the item is
+non-magical. Otherwise it is a spell component.</p>
+<p>Some item archetypes you may use for creature skins are:</p>
+<pre>
+504 = beard
+505 = claw
+506 = scalp
+507 = scale
+508 = ear
+509 = pelt
+510 = tooth
+512 = dust
+513 = talon
+514 = hide
+515 = hair
+516 = beak
+517 = feathers
+518 = paw
+519 = horn
+520 = eye
+521 = tongue
+522 = tail
+523 = skin
+524 = tusk
+525 = finger
+526 = toe
+527 = leg
+528 = fangs
+</pre>
+
+<h3>Discorporate</h3>
+<p>This indicates that if the monster is killed it will not leave a corpse
+behind.</p>
+
+<h3>ETERNAL</h3>
+<p>This indicates that the creature will not be unloaded by the system until
+it is killed.</p>
+
+<h3>GENDER <0, 1 or 2></h3>
+<p>The default is 2. 0=Male, 1=Female</p>
+
+<h3>STEALABLE</h3>
+<p>This indicates the monster may be stolen from.</p>
+
+<h3>POISON <% chance> <x></h3>
+<p>If defined, this provides a percent chance that a level x poison is
+delivered to the victim upon being struck.</p>
+
+<h3>DISEASE <% chance> <x></h3>
+<p>This is basically the same as POISON.</p>
+
+<h3>FATIGUE <%chance> <x></h3>
+<p>This is the equivalent of a life draining attack.</p>
+
+<h3>RESIST <x></h3>
+<p>This defines the creatures magic resistance.</p>
+
+<h3>SPEED <x></h3>
+<p>The default setting is 3. It defines how fast the creature attacks and
+moves. 1 is fastest and 4 or more is for extremely slow creatures.</p>
+
+<pre>
+*DESCRIPTION_START
+Blah blah blah
+*DESCRIPTION_END
+</pre>
+<p>Standard description field just like it is used for rooms.</p>
+
+
+<h3>HIDESKILL <X></h3>
+<p>This defines a percentage chance that the creature will be able to hide.
+it is also used to define the creatures skill at backstab. X is the base
+chance. Warning: do not define X above 100.</p>
+
+<h3>GUARD <X></h3>
+<p>defines what creature this monster will guard where X is the monster
+number that is to be guarded.</p>
+
+<h3>UNIQUE</h3>
+<p>Indicates that this creature is unique and has a personal rather than
+general name. Use this definition BEFORE defining the creatures name.</p>
+
+SPELLCASTING CREATURES</h3>
+----------------------
+
+<h3>MANA <X></h3>
+<p>Defines the number of mana points a monster has.</p>
+
+<h3>SPELLUSE <% chance></h3>
+<p>Defines the chance of the monster using its spells as opposed to its
+weapon or special attack.</p>
+
+<h3>SPELLSKILL <X></h3>
+<p>Defines the base spellcraft skill the creature has.</p>
+
+<h3>CASTLEVEL <x></h3>
+<p>Defines the duration of a creatures spell.</p>
+
+<h3>NONDISRUPTABLE</h3>
+<p>This indicates that the creature's spell will not be disrupted by an
+attack.</p>
+
+<h3>SILENCEIGNORE</h3>
+<p>This indicates that the Silence spell will not affect the creature's
+ability to cast a spell.</p>
+
+<h3>SPELL <Spell#></h3>
+<p>Grants the creature the given spell. NOTE: Not all spells will work but
+almost all offensive and defensive spells will work.</p>
+
+<h3>DEFINING SPECIAL ATTACKS</h3>
+------------------------
+
+<p>Besides giving a creature spells to cast, you may give it a "special
+attack form" which is an attack that always works.</p>
+
+<h3>SPECUSE <%chance></h3>
+<p>Defines the percent chance that the creature will choose to use its
+special attack in preference to other attacks.</p>
+
+<h3>SPECUSES <x></h3>
+<p>Limits the creatures ability to use its special attack to x times.</p>
+
+<h3>SPECBASE <x></h3>
+<p>Sets the <minimum> damage that this attack will do.</p>
+
+<h3>SPECDMG <x></h3>
+<p>Sets the additional <random> damage range that this attack will do.</p>
+
+<h3>SPECDMGTYPE <Heat, cold, slash, electric></h3>
+<p>Sets the damage type for special attack forms.</p>
+
+<h3>TEXX <special attack text output..></h3>
+<p>This text assumes the following format. "%s blah blah blah %s." You must
+have the two %s strings in there. They have nothing to do with the echo
+command uses. They are replaced with the attacking creatures name and the
+victim creatures name respectively. do not include quotes in your
+definition.</p>
+
+Example:
+TEXX %s breathes a gout of flame at %s!
+
+REDEFINING the default text fields for a monster
+------------------------------------------------
+
+<p>The text fields may be redefined by using the TEX? commands.</p>
+Example:
+TEXH A thief fails to sink into the shadows.
+
+<p>Redefines the text for a certain creature that is shown when that creature
+fails its % chance to hide. The available redefinitions are as follows.</p>
+
+<pre>
+TEXB   Text displayed when the creature is leading a group and its group arrives.
+TEXC   Text displayed when the creature is leading a group and its group leaves the room.
+TEXV   Text output when a creature prepares a spell when it is invisible.
+TEXH   When the creature fails to hide.
+TEXX   When the creature uses its special attack.
+TEXE   Creature enters a room.
+TEXI   When an attack is made with a weapon that is not enchanted powerfully enough to affect the
+	   monster.
+TEXQ   When  the creature fails its spellcraft check.
+TEXZ   A text field output once and a while when the monster is in the room with a dead person.
+	   Somewhere in this string must be a %s(has nothing to do with the ECHO usage %s) which
+	   indicates that the name of the creature who is to be the target of the monster's mockery
+	   should be replaced there.
+TEX1  \
+TEX2   \ These define some text which can be output once and a while
+TEX3   / selected randomly. They provide you with the ability to
+TEX4  /  animate your creatures.
+
+TEXD   Text output when the creature is killed.
+TEXF   Output when the creature flees. Don't add extra spaces or punctuation on the end of
+	   this line, since the game needs to append the direction of movement. For example:
+TEXF A goblin scrambles Might generate "A goblin scrambles north."
+TEXM   Output when the creature moves. Like TEXF, don't add extra spaces or punctuations on the end.
+TEXG   Output when the creature is generated in the room.
+TEXS   Output when the creature prepares a spell.
+TEXL   Output when the creature gestures (casts its spell).
+TEXA   When the creature advances. Similar to TEXF and TEXM don't add extra spaces or punctuations.
+TEXR   When the creature retreats.
+</pre>
+
+<pre>
+New stuff: v2.40
+----------------
+
+New commands
+------------
+
+@lwho:  Shows a list of all players, with their room #, status
+prompt and name of the room they are in.
+
+@qstat <player #>:  Show a "quick" version of the players stats.
+
+@num <Full player name>:  Returns the player # of the player name
+requested.
+
+@register <player #>:  Registers a player for paramutual betting.  A
+player is removed from the betting roster automatically by exiting
+the room.  The odds for each player are relative to the amount bet
+on each player.   Payoff is divided to winning betters relative to
+the amount they bet, taken from 95% of the total bets placed (5% is
+skimmed off the top).
+
+BET <player name>:  Allows a player to place a bet on anyone registered
+for paramutual betting.
+
+ODDS:  Shows the odds for anyone registered for paramutual betting.
+
+
+New scripting commands
+----------------------
+
+Item definitions
+----------------
+
+TECH
+<p>Defines an item as a "tech" treasure item.</p>
+
+PORTAL_UP
+<p>Same as PORTAL, except phrases the output as the person/group going up
+something.</p>
+
+PORTAL_DOWN
+<p>Same as PORTAL, except phrases the output as the person/group going down
+something.</p>
+
+PORTAL_OVER
+<p>Same as PORTAL, except phrases the output as the person/group going over
+something.</p>
+
+
+Room definitions
+----------------
+
+DEEPCAVE
+<p>Defines a room as a cave so far under the ground that conjuration and
+teleportation spells will not function.</p>
+
+ARENA
+<p>Defines a room as being a non-lethal arena area.  In this type of
+room, anyone who would normally die instead collapses and is
+carried to the room defined by DROPLOC.</p>
+
+BUY_TECH
+<p>Defines a room as having a merchant who will purchase TECH items.</p>
+
+ECHOCHAN <x>
+<p>If set to a non-zero number, ECHOCHAN causes all text output to the
+room to be echoed to all rooms that are in the channel indicated
+(as defined by the CHANNEL definition).</p>
+
+
+New monster definitions
+-----------------------
+
+WEAPONPLUS <x>
+<p>Applies a magic bonus of X to any weapon that monster wields.  Be
+careful giving this bonus to an item that could be picked up by the
+player after the monster is dead, because it would be an easy way for
+them to get a magical weapon.</p>
+
+
+New general scripting
+---------------------
+
+SHOWROOM <x>
+<p>Echos the room description of room x to the current player as if
+they had typed "look" in that room.</p>
+
+
+New monster scripting
+---------------------
+
+ZAPMON:  Deletes the monster from the room as well as anything it was
+         carrying.
+
+DEAD:  A variable: equals one if the monster is dead, zero otherwise.
+
+
+New variables
+-------------
+
+ROUNDTIME
+<p>The current player's round time, in seconds.  This variable may only
+be set, not examined.</p>
+
+ARENADEATH
+<p>Equals one if the current player's death was trapped by an ARENA type
+room.</p>
+
+
+Legends version 5.12
+====================
+
+New command:   @echoplr <num> <text.....>
+ Sends a message to the player specified by <num>.  Works the same as
+ @whisper, except there is no preceding message telling the player what
+ GM the message was generated for;  thus, you can use it for special
+ effects directed at one player in particular.
+
+Modified command:  @qstat <num>
+ The "quick stat" command now shows the player's NovaLink user-id.
+
+New scripting capabilities
+==========================
+
+1. Ability to seperate game areas into distinct geographic/economic regions
+
+REGIONDEF <x> <other data...>
+
+Defines a "region" number "x" (which may be 0-250).  A region is a set
+of rooms that share a number of configurable parameters.  The available
+settings are as follows:
+
+  REGIONDEF x WEATHER
+
+  Specifies that weather will occur in this region.
+
+  REGIONDEF x EXTRAPLANAR
+
+  Specifies that your region is extraplanar.  This has a number of
+  effects, but the most important is that characters travelling here
+  are limited in skill use as per the Legends version notes regarding
+  the transcendence skill.
+
+  REGIONDEF x SEASONS
+
+  Specifies that your region has seasons or not.  You still need to
+  specify the base temperature for the different parts of the year as shown
+  below.
+
+  REGIONDEF x TIME
+
+  Specifies whether your region experiences the passage of time observable
+  through the movement of the sun.
+
+  REGIONDEF x WINTERTEMP <base temp>
+  REGIONDEF x SUMMERTEMP <base temp>
+  REGIONDEF x SPRINGTEMP <base temp>
+  REGIONDEF x AUTUMNTEMP <base temp>
+
+  Defines the base temepature in farenheit for a given region.  This
+  base temperature is used to determine a region's environmental
+  temperature on a daily basis.  The formula used for the actual
+  temperature is:
+
+         actual_temp = base_temp + rnd(15) + rnd(15);
+
+  So if you put "20" for the base temperature, the possible range of
+  actual temperatures for your region would be 22-50, with the most
+  likely average temperature being around 36.
+
+  REGIONDEF x PRECIPITATION <precipitation level>
+
+  Precipitation level is simply a relative scale measuring how much
+  rain/snow will fall in a given region.  A precipitation level of 0
+  would be "normal" (equal to the precipitation level used in the game
+  so far).  The closer to 10 you get, the less likely it is to create
+  precipitation at any time and the more likely it is for existing
+  precipitation to cease.  If you specify a negative number, it will be
+  increasingly likely to have precipitation at any time.  If you specify
+  a precipitation of 10, it would probably never rain.
+
+  REGIONDEF x TREASURE <percent of local currency>
+
+  This is only valid in regions 0-10.  When this is specified, it allows
+  you to state what percent of "local currency" (as defined with a
+  MONDEYDEF with the same money definition number as the region number)
+  appears in the pockets of monsters genned in the region.  Just state
+  "100" to have a 100% chance if you want to have local currency only.
+  Non-local currency is simply the common gold, silver and copper piece.
+
+  REGIONDEF x DEPART <room>
+
+  Specifies the room number a player will be moved to if they use the
+  DEPART command while dead.  If room == 0, then it is impossible for
+  them to depart in the specified region.
+
+  REGIONDEF x TELEPORT ALLOWED    or...
+  REGIONDEF x TELEPORT DISABLED
+
+  Specifies whether you region permits teleportation -within- your
+  region or not.  Teleportation is never permitted between regions.
+
+  REGIONDEF x SUMMONING ALLOWED  or...
+  REGIONDEF x SUMMONING DISBABLED
+
+  Specified whether you want to allow summoning spells to function
+  within your region.
+
+  REGIONDEF x WELLOFLIFE ALLOWED   or...
+  REGIONDEF x WELLOFLIFE REVERSED  or...
+  REGIONDEF x WELLOFLIFE DISABLED
+
+  Specified whether the Well of Life spell works or not, or if you'd
+  like its effect reversed (so that it functions as Raise Undead).
+
+  REGIONDEF x FIRE <percent effectiveness>
+
+  Specifies the percent effectiveness of fire-base spells and other
+  effects in region x.  For example, a "REGIONDEF 15 FIRE 50" would
+  make it so that fire spells would do only half damage in region 15.
+
+  REGIONDEF x COLD <percent effectiveness>
+
+  Specifies the percent effectiveness of cold-base spells and other
+  effects in region x.
+
+  REGIONDEF x ELECTRIC <percent effectiveness>
+
+  Specifies the percent effectiveness of electrical and energy spells
+  and other effects in region x.
+
+  REGIONDEF x ENCHANTMOD <penalty>
+
+  Specifies the penalty to apply against enchanted weapons in region x.
+  It will never penalize an enchanted weapon to lower than a bonus of 0.
+  For example, you could make it so that all weapons are dropped in
+  bonus by 20 to a minimum of 0 in region 15 by doing
+  "REGIONDEF 15 ENCHANTMOD 20".  Then, +20 weapons would become +0,
+  +15 would become +0, +25 would become +5, etc.
+
+
+REGION <x>
+
+When inserted in a room definition block, this defines the region of
+the world that the room belongs to.  If not specified, the default is 0.
+Defining a region has the following effects:
+
+
+  - Temperature, weather, passage of time, spells, etc. are modified
+      as per the REGIONDEF for the region.
+  - Characters cannot teleport or scry characters in another region.
+  - Regions numbered between 0-9 are a special type;  a room in a
+    region between 0 and 9 use a money type the same as their region
+    number.  For example, if you've got a room in region 5, and you have
+    a shop there, they will use money type 5 (see below).
+
+    * * * YOU MUST HAVE A REGION NUMBER ASSIGNED TO YOU * * *
+
+
+2. Ability to define new units of currency for new regions
+
+
+MONEYDEF <x> <name> <exchange rate> <item#>
+
+  Defines a type of money.  "X" is a number from 1 to 9.  This number
+  is equivalent to a type of money native to a given region number 1-9
+  (as above).  "Name" is the singular name of the currency.  "Exchange
+  rate" is a number from 1 to 100, specifying the number of units of
+  this new type of currency that are roughly equivalent to one gold
+  piece (of base currency).  The "exchange rate" is used in only two
+  places at this time:  the cost of getting healed by a physician, and
+  the amount of treasure in this currency unit generated by a monster
+  that carries this type of currency relative to standard (base)
+  coin types.  The "item#" field specifies the actual item archetype
+  to use when creating this type of money in tangible form.
+
+  Here is an example of a new money type now in use:
+
+  MONEYDEF 2 kragenmark 12 1869
+
+  (This defines a unit of currency called the kragenmark, used in
+   region #2, of which 12 equals one gold piece;  item number 1869
+   is the "physical" item archetype to be used when creating this
+   type of money in tangible form)
+
+    * * * DON'T DEFINE A MONEY TYPE WITHOUT AN ASSIGNMENT * * *
+
+  After you create a unit of currency, you still need to make a new
+  item archetype and noun for the currency if you want people to be
+  able to get it from treasure, pick it up, drop it, etc.  Just create
+  a "MONEY" type item.  The PARAMETER2 field specifies the unit of
+  currency the item is for.  Example:
+
+  NOUNDEF 1543 kragenmark
+  ;
+  INUMBER 1869
+  NAME 1543
+  MONEY
+  WEIGHT 1
+  VOLUME 1
+  PARAMETER2 2
+  ARTICLE SOME
+
+3. New room modifiers
+
+HEALER
+
+  Defines a room as a place a character can get healed by a physician
+  by sitting down.  There should only be one of these per region
+  number 0-9, or else it won't know what money to use.  The only
+  region you can go into 'debt' in with the healers is region 0.
+
+BANK
+
+  Defines a room as a place a character can perform banking.  There
+  should only be one bank per region number 0-9, or else it will mix
+  their money up between banks.  Each bank is limited to one type of
+  currency only.  Characters may have a bank account for each currency
+  type, but they can only have a safety deposit box at one bank at
+  a time (due to system limitations).
+
+4. New variables
+
+SUBMITTING              Equals 1 if the character is submitting
+DEPARTROOM              Equals the last room the character departed
+                        from, or 0 if they have not departed recently.
+REGION                  Equals the number of the region the character
+                        is presently standing in.
+
+Legends version 5.30
+====================
+
+New definitions:
+
+REGIONDEF x MINE_ADJ adj#   Places the adjective specified into the first
+                            adjective field of any material mined in
+                            region x.
+
+MINE_ELEMENT [adj] [val3]   If a weaponsmith forges a weapon created
+                            from a material containing adjective
+                            number 'adj' in its first adjective slot,
+                            then it will set the 'val3' field on the
+                            finished weapon as specified.  The val5
+                            field is set to a value relative to the
+                            smith's skill.  The effect is to make it
+                            so materials mined from a certain region
+                            can be made into weapons with elemental
+                            criticals.
+
+OUTOFBODY                   A room type modifier;  with this one,
+                            the player has no apparent skills,
+                            spells, psionic disciplines or inventory.
+
+New script commands:
+
+IFIN [item tag #] [var]  This if statement is true if the item archetype
+             specified by 'var' is located inside the item specified
+             by the item tag number.  If it is found, the "current
+             item" is set to the first such item located.
+
+IFCARRY [var]  This if statement is true if the item archetype specified
+             by 'var' is located in the current player's inventory.
+             If it is found, the "current item" is set to the first
+             such item located.
+
+RECALC       This causes the player's offensive and defensive
+             statistics to be recalculated based on their
+             current environment.  This is mainly important
+             for making sure peoples OM/DM are correct after
+             passing through planar portals.
+
+New variables:
+
+SPELLNUM     The number of the spell the player is currently
+             preparing.  This can be set to 0 to simulate 'releasing'
+             the spell (or you could set it to another spell for
+             a real surprise).  Could be used in scripts with an
+             IFPREVERB CAST to see if the character is using a
+             particular spell...
+
+WIELDED      Equals the item archetype number of whatever the
+             person is wielding in their 'primary' hand, or zero
+             if they are not wielding anything.
+
+DISGUISED    Equals one if the player is disguised in any way
+             (with disguise skill or invisible).
+
+WEALTH1      The amount of wealth they have of a particular type.
+WEALTH2
+WEALTH3
+WEALTH4
+WEALTH5
+WEALTH6
+WEALTH7
+WEALTH8
+WEALTH9
+
+Legends version 4.80 features some things including the major
+psionics update.  Please see the version notes on the LEGENDS
+page for more info.
+
+I've added an @psi command for granting/revoking psionic disciplines.
+It works similarly to @grantspell.
+
+The following are the new psionic script commands for monsters:
+
+<h3>PSIRESIST <x>
+Defines the creature's psionic resistance.  If you don't specify
+any, it will default to the same as its normal magic resistance.
+
+<h3>PSI <x>
+The number of psi points the creature has.
+
+<h3>DISCIPLINE <x>
+Gives the creature the psionic discipline # you specify.
+
+<h3>PSIUSE <x>
+Specifies a percentage (1-100) of the time that this creature will
+opt to use psionics in preferences to other attack modes.
+
+<h3>PSISKILL <x>
+The total chance that the psionic creature has when invoking a
+psionic power.  Powerful psionic creatures should have well over
+a 100 so as to defeat a player's natural resistance to psionics.
+
+<h3>PSILEVEL <x>
+The creature's effective skill level in the Mind over Matter skill.
+This is used for determining the effectiveness of Cryokinetics,
+Pyrokinetics, Electrify and Kinetic Thrust.
+
+How to design a good psionic creature:
+
+Psionic creatures should always have at least one psionic attack
+discipline for overcoming a psionicist's defense modes;  it should
+also have a defense mode of its own.  Then just give it whatever
+you think it should have.  It will probably take some testing to
+find out what monsters can use well.  I've tried to build in
+some intelligence for monsters so that they'll make wise selections
+from the disciplines you give them based on their situation.
+
+One difference with psionic creatures v. magic creatures:  if you
+give them a defense discipline (be it a mental defense or the
+physical defenses), they get genned with those disciplines already
+active.  Make sure you give psionic monsters enough psi to maintain
+whatever they have.
+
+Don't give monsters non-battle psionic disciplines (like levitation,
+flight, strengthen steel, etc.).  Don't give them Domination either,
+because they aren't smart enough to make use of it properly (at this
+time anyway).
+</pre>
+
+
+<a name="verbs">
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Back to top</A><BR>
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+
+<h2>Virtual Cafe @verbs</h2>
+
+<h3>@activate</h3>
+
+<p>This command allows you to activate a "monster" that you have @GENMON'ed.</p>
+
+   (See @GENMON, @ZAP and @SEDATE)
+
+<h3>@additem [archnum]</h3>
+
+<p>This command adds an item into the room you are in.</p>
+
+   (See @GLOSSARY)
+
+<h3>@announce [MODE] [MESSAGE]</h3>
+
+<p>This command allows you to announce a message to patrons in the Cafe.
+There are 5 different modes, but only 2 work in the Cafe. They are 1 (GLOBAL) 
+and 2 (ESP/Mindlink) 
+
+<h3>@answer</h3>
+
+<p>This command allows you to answer an ASSIST by removing the ASSIST from
+the queue and teleporting you to the room of the player who issued the
+ASSIST.</p>
+
+
+<h3>@close [item name]</h3>
+
+<p>This command simply closes an item. It DOES NOT echo that you closed the
+item to anyone else who is in the room.</p>
+
+
+<h3>@compile</h3>
+
+<p>This command USED TO allow you to compile scripts. It no longer works.</p>
+
+   (See @OLDCOMP)
+
+
+<h3>@delete [item name]</h3>
+
+<p>This command allows you to delete an item.</p>
+   
+<h3>@echoplr [job #] [text]</h3>
+
+<p>This command allows you to echo text to a Cafe patron.</p>
+
+(See @EXCLUDE, @LWHO, @SND, and @WHISPER)
+
+   
+<h3>@editem [item name]</h3>
+
+<p>This command allows you to edit the below parameters on an item.</p>
+
+<table>
+<tr><td>Adjective #1<br>Adjective #2<br>Adjective #3</td>
+    <td>These 3 can take adjective NUMBERS or NAMES</td></tr>
+
+<tr><td>Val1<br>Val2<br>Val3<br>Val4<br>Val5<br>Val6<br></td>
+    <td>These slots are used for various functions in the Cafe, such as room
+destinations for portals, number of sips in a drink, "money" value of an
+item, etc. See SCRIPT.DOC for more details.</td></tr>
+
+<tr><td>Cycles to deletion</td>
+    <td>Ignore this. It isn't implemented.</tr>
+
+<tr><td>Item Location Type</td>
+    <td>Can be 1 (player), 2 (bank), 3 (contained), 4 (room)</td></tr>
+
+<tr><td>Item Location</td>
+    <td>This is paired with Item Location Type. If the type is a player,
+you'd enter the job number here. If bank, then you'd enter the region. If
+contained, then you'd enter the RECORD NUMBER of the item to contain it. And
+if room, then the room number.</td></tr>
+
+<tr><td>Special Description</td>
+    <td>This allows you to add text to an item if someone LOOKS, READS or
+EATS/DRINKS it. Simply precede the text with the followly letters: E, R or T
+(respectively)</td></tr>
+
+<tr><td>Extended name</td>
+    <td>This allows you to add text past the item name.</td></tr>
+
+<tr><td>Seek ID field</td>
+    <td>This is an advanced function and I will explain it later if you
+really want to know what it is for. But for now, skip it. </td>
+
+<tr><td>Archtype</td>
+    <td>This tells the item what it is. It allows you to turn the item into a 
+totally different item while keeping the adjectives, vals and other
+parameters the item has. </td></tr>
+
+<tr><td>Bitfield</td>
+    <td>Not implemented. Ignore.</td></tr>
+</table>
+
+
+<h3>@edplayer [job #]</h3>
+<p>This allows you to edit various parameters on a player, such as name,
+strength, racial attributes, etc. Not very useful in the Virtual Cafe.</p>
+
+
+<h3>@edn [item record #]</h3>
+<p>This allows you to edit an item that isn't either in the room you are in
+or in your inventory. It works just like @EDITEM, 'cept that it requires the
+RECORD NUMBER (not ARCHNUM) of the item you wish to edit. </p>
+
+<h3>@entry [text]</h3>
+<p>This allows you to change the text people see when you @GO to a room.
+Typing it by itself clears the entry text. </p>
+
+(See @GO, @GOP, and @EXIT)
+
+<h3>@examine [#]</h3>
+<p>This lets you see what CEVENT, ITEM, MADJECTIVE, ADJECTIVE, NOUN, MONSTER, 
+SPELL and NPC that corresponds with a number. </p>
+                        
+<h3>@exclude [job #] [text]</h3>
+<p>This lets you send text to everyone in a room EXCEPT the person you are
+excluding.</p>
+
+<h3>@exit [text]</h3>
+<p>Works the same as @ENTRY, 'cept that it's for your exiting text. </p>
+
+<h3>@find [ARCHNUM]</h3>
+<p>This lets you find all of a particular item that is active in the Virtual
+Cafe. </p>
+
+(See @GET)
+                        
+<h3>@genmon [Monster #]</h3>
+<p>This lets you generate a monster in the room with you.</p>
+
+(See @ACTIVATE, @SEDATE and @ZAP)
+
+<h3>@get [RECORD #]</h3>
+<p>This allows you to GET an item that you have found with the @FIND command. 
+Be very careful using this command. If you @GET an item that is scripted into 
+a room, it will "break" the room until it is recompiled. </p>
+
+<h3>@gm</h3>
+<p>Puts on your "Host Hat", making you listed as being a Host. </p>
+
+(See @RFLAG)
+                        
+<h3>@go [Room #]</h3>
+<p>Lets you teleport to a room.</p>
+
+<h3>@goplr [Job #]</h3>
+<p>Lets you teleport to a player.</p>
+
+<h3>@glossary [word]</h3>
+<p>Let's you look up items, nouns, adjectives, monsters and spells. </p>
+
+<h3>@heal [Job #]</h3>
+<p>Heals a patron.</p>
+
+<h3>@hide</h3>
+<p>Removes you from the WHO list.</p>
+
+<h3>@invis</h3>
+<p>Makes you invisible.</p>
+
+<h3>@kill [Job #]</h3>
+<p>Kills a patron.</p>
+
+<h3>@line1 [Job #]</h3><p>Let's you change line 1 of a player's description.</p>
+<h3>@line2 [Job #]</h3><p>Let's you change line 2 of a player's description.</p>
+<h3>@line3 [Job #]</h3><p>Let's you change line 3 of a player's description.</p>
+
+<h3>@lock [item name]</h3>
+<p>Locks an item. Doesn't display an echo to players in the room. </p>
+
+<h3>@look [Record #]</h3>
+<p>Let's you look inside of a container.</p>
+
+<h3>@lwho</h3>
+<p>Lists everyone in the Cafe, including their job and room #'s.</p>
+
+<h3>@msg</h3>
+<p>Let's you toggle on/off the viewing of Host messages. </p>
+
+<h3>@num [Patron Name]</h3>
+<p>Shows you a Patron's job number.</p>
+
+<h3>@oldcomp [script name]</h3>
+<p>Let's you compile a script that is in your home directory. All scripts
+must end in .SCR and when you compile them, you leave off the .SCR. So if you 
+want to compile myscript.scr that is in the scripts directory in your home
+directory, you would type "@ old scripts/myscript".</p>
+
+<h3>@open [item name]</h3>
+<p>Like @CLOSE and @LOCK. It opens an item.</p>
+
+<h3>@peek <variable name></h3>
+<p>Allows you to view the value of a variable.</p>
+
+(See @SET)
+
+<h3>@pinv [Job #]</h3>
+<p>Allows you to view a patron's inventory.</p>
+
+<h3>@rdata [Room #]</h3>
+<p>Shows you room data.</p>
+
+
+<h3>@restore [NPC #]</h3>
+<p>Loads a character from an NPC slot. This will overwrite your current Cafe
+persona, so DO NOT USE THIS COMMAND until you have been assigned an NPC slot 
+to store yourself in. </p>
+
+(See @SAVE)
+
+<h3>@rflag</h3>
+<p>This is the opposite of @GM.</p>
+
+<h3>@rnd [#]</h3>
+<p>Generates a random number based on 1 to #.</p>
+
+<h3>@save [NPC #]</h3>
+<p>Saves your persona in an NPC slot. You must be ASSIGNED an NPC slot. Don't 
+just @SAVE into any slot you want, as you will more than likely be
+overwriting someone else's NPC. </p>
+
+<h3>@sedate [Monster name]</h3>
+<p>This is the opposite of @ACTIVATE.</p>
+
+(See @ACTIVATE, @GENMON, @ZAP)
+                        
+<h3>@set [variable] [value]</h3>
+<p>This allows you to set the value of a variable.</p>
+
+(See @PEEK)
+                        
+<h3>@snd [text]</h3>
+<p>This echos text into the room you are in.</p>
+
+<h3>@speech [Job #] [text]</h3>
+<p>This changes the speech pattern of a patron.</p>
+
+<h3>@suggest [text]</h3>
+<p>Adds a suggestion to the suggestion file.</p>
+
+<h3>@unhide</h3>
+<p>Puts you back on the WHO list.</p>
+
+<h3>@unlock</h3>
+<p>The opposite of @LOCK.</p>
+
+(See @OPEN, @CLOSE, @LOCK)
+
+<h3>@vis</h3>
+<p>The opposite of @INVIS. Makes you visible.</p>
+
+(See @INVIS)
+                        
+<h3>@whisper [Job #] [text]</h3> 
+<p>Allows you to whisper to a person who is not in the room with you. </p>
+                        
+<h3>@who</h3>
+<p>Shows all patrons and monsters in the Cafe, with their job #'s. </p>
+
+<h3>@yank [Job #]</h3>
+<p>Yanks a patron into the room with you. More polite to use @GOP. </p>
+
+<h3>@zap [monster name]</h3>
+<p>Zaps a monster that is in the room with you.</p>
+
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="waveball.gif" ALT="*">Back to top</A><BR>
+
+<P><HR ALIGN=CENTER WIDTH=80% SIZE=4>
+
+This page maintained by Daedalus.  Last change: 11/15/96<BR>
+E-mail: <A HREF="mailto:daedalus@novalink.com">daedalus@novalink.com</A><BR>
+<A HREF="http://users.aol.com/dkgoodman/index.html">Who is Daedalus?</A><BR>
+</BODY></HTML>

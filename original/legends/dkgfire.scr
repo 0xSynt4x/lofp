@@ -1,0 +1,44 @@
+; dkgfire.scr 4/13/98 Taliesin Pendragon [dgoodman@pacbell.net]
+; purpose:
+;  to develop the ability to pass a bucket of water from room to room
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; bucket
+INUMBER 1960
+NAME 426
+WEIGHT 10
+VOLUME 10
+LIQCONTAINER
+CONTAINER IN
+INTERIOR 10
+SUBSTANCE INDESTRUCTABLE
+OPEN
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; hand
+INUMBER 1952
+NAME 1066
+WEIGHT 10
+VOLUME 10
+CONTAINER IN
+INTERIOR 11
+SUBSTANCE INDESTRUCTABLE
+OPEN
+
+IFPREVERB PUT -1 in -1
+  IFVAR ARCHNUM = 1960
+    GMMSG Bucket placed in hand.
+  ENDIF
+ENDIF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2330
+NAME Bucket Brigade
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+*DESCRIPTION_START
+A room along the bucket brigade.
+*DESCRIPTION_END

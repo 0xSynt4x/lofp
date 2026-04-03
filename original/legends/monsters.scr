@@ -1,0 +1,66 @@
+MNUMBER 41 a housekeeper
+NAME housekeeper
+HUMAN
+BODY 1
+STRATEGY 350
+TREASURE 20
+GENDER 1
+STEALABLE
+SPEED 4
+ETERNAL
+
+BODY 100
+ATTACK1 50
+ATTACK2 100
+DEFENSE 50
+
+; SPEECH softly say
+
+; WHITE
+SKINADJ 1083
+; TOOTH, 25%, 0 value, no magic
+SKINITEM 1048 25 0 0
+
+*DESCRIPTION_START
+The housekeeper looks very fit in her starched white uniform.
+*DESCRIPTION_END
+
+; group arrives
+TEXB A housekeeper's group arrives.
+; group leaves
+TEXC A housekeeper's group leaves.
+; fails to prep spell while hidden
+TEXV An unseen housekeeper mutters to herself.
+; fails to hide
+TEXH A housekeeper moans when she's unable to hide.
+; launches a special attack
+TEXX %s sprays %s's face with window cleaner.
+; arrives
+TEXE A housekeeper strolls into the room.
+; reacts when your spell fails
+TEXI A housekeeper seems relieved at your impotence.
+; fails to cast a spell
+TEXQ A housekeeper scowls after mumbling something.
+; reacts to a corpse
+TEXZ A housekeeper covers her mouth and looks away from the dead %s.
+; random echoes
+TEX1 A housekeeper knocks softly on a door and yells, "Housekeeper!"
+TEX2 A housekeeper tugs at her uniform.
+TEX3 A housekeeper picks some litter off the floor.
+TEX4 A housekeeper dusts the area.
+; dies
+TEXD collapses to the ground, her limbs splayed.
+; flees
+TEXF A housekeeper runs
+; moves
+TEXM A housekeeper strolls
+; is generated
+TEXG A housekeeper arrives seemingly from nowhere.
+; preps a spell
+TEXS A housekeeper speaks strangely in an unknown tongue.
+; casts the spell
+TEXL A housekeeper makes an arcane gesture.
+; advances
+TEXA A housekeeper advances
+; retreats
+TEXR A housekeeper backs off.

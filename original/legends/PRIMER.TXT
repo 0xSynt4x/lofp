@@ -1,0 +1,32 @@
+                          A Primer for Cafe Hosts
+
+So you wanna create some rooms and items, and you need some help? This is the
+file for you. I assume you already know how to use the host @verbs, and you
+know how the world is supposed to operate. If you don't, go figure that out
+first.
+
+Okay, there are four steps to making a new room. First, you create a room
+description, called a script, using a text editor. Within the script you
+write the text that a person sees when they look at the room, list the room's 
+other characteristics, and add exits and items. Then, you upload the script
+to the Novalink computer if it's not already there. Inside the cafe, you
+compile the script, and then finally you test it. Repeat as necessary. Your
+mileage may vary. 
+
+Here's what you'll need to do what I just described:
+
+You need a text editor that save's the text you enter as is, without adding
+formatting information like word processors do. Windows Notepad or DOS Edit
+will work. Write, Wordpad and others will be harder or impossible to use.
+Azurian recommends the Programmer's File Editor, which he can make available
+to you.
+
+You need a communications program that lets you telnet to Novalink, and be
+able to upload and download files.
+
+You need to have Azurian assign some room numbers to you.
+
+
+
+
+

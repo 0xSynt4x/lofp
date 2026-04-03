@@ -1,0 +1,77 @@
+From: 	Mark at NovaLink USA[SMTP:azure@novalink.com]
+Sent: 	Thursday, November 14, 1996 8:41 AM
+To: 	Dave Goodman
+Subject: 	Re: Help?
+
+>I've read the stuff you sent, and most of it makes sense. It seems like a
+lot is missing, but I suppose I'll learn it from examples and by asking
+questions.
+
+Actually, that is how most people who know how to script HAVE learned how to
+script, because there is VERY LITTLE documentation. So the easiest way is to
+ask for scripts of rooms and use them as examples, or simply ask questions.
+Never hesitate to ask a scripting question. I probably know more, or at
+least as much, about scripting as anyone on NovaLink.
+
+>Is there a way to set variables to a random value, or compare them to a
+random value?
+>Can you set a variable to a text value, or only numeric?
+>How can an item or the room react to speech?
+
+Well, I see you have the "asking questions" part mastered. <grin>
+
+Use the below to assign a random number to a variable.
+
+     RANDOM <variable> <starting num> <ending num> <modifier>
+
+Example: RANDOM MYVAR 1 10 5
+
+The above would assign a random number betweeen 1 and 10 to the variable
+MYVAR, and then add 5 to it.
+
+If you wanted to compare two variables (let's say VAR1 AND VAR2) you would
+do the following...
+
+     IFVAR VAR1 = VAR2
+
+You currently cannot set a variable to a text value, though you can store
+text inside of special variables called 0 - 9. But you can't do comparisons
+on those variables.
+
+You can trap speech in a room (but unfortunately not on an item) by doing
+the below...
+
+     IFSAY I_have_the_power!
+
+The above would trap when someone says "I have the power!"
+
+Script/1 is a fairly powerful scripting language, but it is very lacking in
+many areas. Once Script/2 is ready, we'll be able to do pretty much
+anything, as we'll basically be writing C code modules to "plug into" the
+Cafe code.
+
+>To make my office, I guess I need two room numbers, and the number of a
+room for it to exit to. I need gm privileges, and I need to know how to FTP
+my script to my scripts directory. I found the directory in the shell
+account, but I'm not sure how to FTP to it. Can I log in with my uid and
+password?
+
+Your room numbers for your office are 35 and 36. Your office doesn't need to
+exit to another room, as you would usually use @GO to get to your office,
+you can use @GO to leave it. But if you want, you can have it exit to the
+staff lounge (Room 10) or the the Virtual Cafe (Room 101). 
+
+If you email me anytime today asking me to meet you in the Virtual Cafe,
+I'll give you full powers. I always have Eudora opened, and it's set up to
+check mail every 10 minutes.
+
+I'm not sure if you'll be able to FTP to sutr (the machine you're on when
+you /GO SHELL) or not. Sutr is set up to accept FTP requests only from
+itself, which works fine for people who use NovaLink as a PPP provider, as
+you're on SUTR when you're using PPP. But try setting sutr up as a gateway
+on your computer. It's IP address is 192.233.90.12. This may allow you to
+FTP to it. Also, when you FTP to sutr, your User ID is daedalus and your
+password is cafe. You can change your password from your shell account.
+
+-- Mark
+

@@ -1,0 +1,2435 @@
+;The Lighthouse Island and the Lighthouse, also known as Three Sirens Inn
+NOUNDEF 1302 rowboat
+
+INUMBER 1399 
+NAME 1302
+WEIGHT 1000
+ARTICLE a
+SUBSTANCE HARDMETAL
+HIDDEN
+
+
+
+NUMBER 1203
+NAME A Rocky Coastline
+REGION 0
+FIXED_LIGHT
+INDOOR_FLOOR
+CHANNEL 777
+                      
+ITEM 0 1399
+
+*DESCRIPTION_START
+Rocks and seashells crunch under your feet as you walk along this isolated 
+stretch of coast. A rocky breakwater extends far out into the ocean, and the 
+waves crash against it, sending spectacular plumes into the air. Almost at 
+the horizon, a lighthouse is highlighted against the sky. A rowboat to take 
+you across to the island is usually moored here.
+*DESCRIPTION_END
+                                                                      
+VARIABLE DaBOAT         
+VARIABLE BOATHERE
+VARIABLE BOATMOVE
+
+
+IFPREVERB GO 0          
+     CLEARVERB
+     AFFECT 1204
+     EQUAL DaBOAT PLRSINROOM
+     EQUAL BOATHERE BOATMOVE
+     AFFECT 1203            
+     IFVAR BOATMOVE = 0
+        IFVAR DaBOAT < 2
+           ECHO PLAYER You climb into the small wooden boat and take a seat.
+           ECHO OTHERS %n clambers into the rowboat.
+           DISBAND
+           MOVE 1204 
+           AFFECT 1204
+           ECHO OTHERS %n climbs into the boat and takes a seat.
+           POSITION SIT
+        ENDIF
+        IFVAR DaBOAT = 2 
+           ECHO PLAYER You start to step into the boat, but realize there isn't enough room this trip.
+           ECHO OTHERS %n looks appraisingly at the boat, and then steps back from it.
+        ENDIF           
+        IFVAR BOATHERE ! 0
+           ECHO PLAYER The boat isn't here right now.
+        ENDIF
+     ENDIF
+           
+
+NOUNDEF 1304 oars
+
+INUMBER 1397   ;oars
+NAME 1304
+TURNABLE
+ARTICLE some
+SUBSTANCE WOOD
+VOLUME 1000
+WEIGHT 1000
+HIDDEN     
+
+NOUNDEF 1305 jetty
+
+INUMBER 1396
+NAME 1305    ;jetty
+ARTICLE a
+WEIGHT 1000
+VOLUME 10
+HIDDEN
+
+                
+NUMBER 1204
+NAME In the Rowboat
+REGION 0
+FIXED_LIGHT
+INDOOR_FLOOR
+CHANNEL 777
+
+ITEM 0 1397      
+ITEM 1 767
+ITEM 2 1396
+
+*DESCRIPTION_START
+The breeze hints at winter winds to come, a bit stiffer and cooler than the 
+summer zephyrs. Two polished oak benches face each other and a set of wooden 
+oars are already in place in the oarlocks. A burnished brass plaque embedded 
+in the side of the boat is engraved with instructions. Looking out toward the 
+island, you think you can make out an outcropping of rocks that may be a jetty.
+*DESCRIPTION_END
+            
+RELOGIN 1203         
+
+VARIABLE BOATMOVE
+
+IFTOUCH 2
+   IFVAR BOATMOVE ! 5
+      CLEARVERB
+     ECHO PLAYER You can't reach that from here.
+   ENDIF
+ENDIF
+
+     
+IFPREVERB LOOK 1
+   CLEARVERB
+   ECHO PLAYER You see instructions engraved in black letters.
+ENDIF            
+
+
+IFPREVERB STAND  -1
+   IFVAR BOATMOVE ! 5
+      CLEARVERB
+      ECHO PLAYER You start to stand, but the boat rocks dangerously, so you sit back down quickly.
+      ECHO OTHERS %n starts to stand up, almost flipping the boat over.
+    ENDIF
+ENDIF
+
+   
+   
+IFPREVERB READ 1 
+   CLEARVERB
+   ECHO PLAYER Engraved on the plaque in black letters you read:
+   ECHO PLAYER   Provided compliments of Three Sirens Bed & Breakfast
+   ECHO PLAYER       PUSH the oars to fit them into the oarlocks.
+   ECHO PLAYER     PULL the oars to move the boat across the sound.
+   ECHO PLAYER    When you reach the island, step out onto the jetty.
+   ECHO PLAYER         The boat will make its way back home.
+ENDIF
+
+                   
+VARIABLE ROWING
+
+IFPREVERB PUSH 0
+  CLEARVERB
+  IFVAR BOATMOVE = 0   
+        IFVAR ROWING = 0
+          ECHO PLAYER You fit the oars into the oarlocks and prepare to row the boat across the sound to the island.
+          ECHO OTHERS %n fits the oars into the oarlocks and prepares to row across the sound.
+          plrevent 4
+          CONTPLREVENT  
+          EQUAL FLAG1 1
+          EQUAL ROWING 1
+        ENDIF
+        IFVAR ROWING ! 0
+           ECHO PLAYER Someone else is already rowing the boat.
+        ENDIF
+      ENDIF
+      IFVAR BOATMOVE ! 0
+         ECHO PLAYER The oars are already in the oarlocks and the boat is underway.  
+      ENDIF
+ENDIF
+           
+
+IFPREVERB LOOK 0
+   CLEARVERB    
+   IFVAR BOATMOVE = 0
+     IFVAR ROWING = 0
+       ECHO PLAYER The oars are lying in the bottom of the boat, waiting for you to push them into the oarlocks.
+     ENDIF
+     IFVAR ROWING ! 0
+       ECHO PLAYER Someone else has already fitted the oars into the oarlocks.
+     ENDIF
+   ENDIF
+   IFVAR BOATMOVE ! 0
+      ECHO PLAYER You watch as the oars cut smoothly into the water, moving the boat across the sound.   
+   ENDIF
+ENDIF
+
+IFPREVERB PULL 0
+   CLEARVERB
+   IFVAR ROWING = 0
+     ECHO PLAYER You'll have to push the oars into the oarlocks first.
+   ENDIF
+   IFVAR ROWING ! 0     
+    IFVAR FLAG1 = 1
+      IFVAR BOATMOVE = 0
+         ECHO PLAYER You push off from the shore, pulling the oars through the water.
+         ECHO OTHERS %n pulls on the oars, and the boat glides out onto the water.
+         AFFECT 1203
+         ECHO ALL You stand on the shore and watch as the rowboat pulls away from the shore.
+         AFFECT 1204
+         EQUAL ROUNDTIME 5
+         ADD BOATMOVE 1
+      ENDIF
+      IFVAR BOATMOVE ! 0
+        IFVAR ROUNDTIME ! 0
+          ECHO PLAYER  You realize you can't pull the oars in midstroke.
+        ENDIF
+      ENDIF
+      IFVAR BOATMOVE = 1
+       IFVAR ROUNDTIME = 0
+          ECHO PLAYER You pull the oars through the water cleanly, pleased that it seems so easy.
+          ECHO OTHERS The boat moves cleanly out onto the sound as %n pulls the oars.
+          EQUAL ROUNDTIME 5
+          plrevent 4
+          CONTPLREVENT
+          ECHO ALL The boat turns slightly in the current, heading toward the small island ahead.
+          ADD BOATMOVE 1
+        ENDIF
+     ENDIF
+     IFVAR BOATMOVE = 2
+        IFVAR ROUNDTIME = 0
+           ECHO PLAYER You pull the oars through the water, your shoulders beginning to feel the effort.
+           ECHO OTHERS %n pulls on the oars, moving the boat across the sound. 
+           EQUAL ROUNDTIME 5
+           plrevent 4
+           CONTPLREVENT
+           ECHO ALL The current moves the boat more swiftly toward the island, and you realize that you can just let it take over.
+           ADD BOATMOVE 1
+           plrevent 4
+           CONTPLREVENT
+           ECHO ALL The island is clearly in view now. You can see the jetty jutting out into the ocean from the rocky beach and make out a rope lined path leading up to the lighthouse.
+           plrevent 4
+           CONTPLREVENT
+           ECHO PLAYER As the boat approaches the jetty, you realize you'd better give the oars one last pull to turn it in towards the shore.
+           ADD BOATMOVE 1
+         ENDIF
+     ENDIF
+     IFVAR BOATMOVE = 3
+        IFVAR ROUNDTIME = 0
+           ECHO PLAYER You start to dip the oars into the water, then realize that there's no need. You can just let the current do the work for now.      
+        ENDIF
+     ENDIF
+     IFVAR BOATMOVE = 4
+        IFVAR ROUNDTIME = 0
+           ECHO PLAYER You give the oars one last pull, turning the boat in for a clean landing against the jetty.
+           ECHO OTHERS %n dips the oars in one last time, turning the boat in for a clean landing against the jetty.
+           plrevent 4
+           CONTPLREVENT
+           ADD BOATMOVE 1
+        ENDIF
+      ENDIF
+      IFVAR BOATMOVE = 5
+        IFVAR ROUNDTIME = 0
+           ECHO ALL The boat bumps gently against the jetty as %n plays with the oars.
+        ENDIF
+      ENDIF
+   ENDIF
+  ENDIF
+ENDIF
+IFPREVERB GO 2
+        CLEARVERB
+        IFVAR BOATMOVE ! 5
+           ECHO PLAYER You'll have to wait till the boat gets closer to the jetty.     
+        ENDIF
+        IFVAR BOATMOVE = 5     
+           IFVAR POSITION = 0
+              ECHO PLAYER You scramble out of the boat and onto the rock jetty.
+              ECHO OTHERS %n scrambles onto the rock jetty.
+              DISBAND
+              MOVE 1205
+           ENDIF
+           IFVAR POSITION ! 0
+                ECHO PLAYER You'll have to stand up first.
+            ENDIF
+        ENDIF
+ENDIF
+
+IFPREVERB LOOK 2
+   CLEARVERB
+   IFVAR BOATMOVE = 0
+        ECHO PLAYER Peering out toward the island, you think you see what looks like a jetty where you can dock the rowboat.
+   ENDIF
+   IFVAR BOATMOVE = 1
+        ECHO PLAYER You're almost positive now that the outcropping of rocks you can see is actually a jetty.
+   ENDIF
+   IFVAR BOATMOVE = 2
+        ECHO PLAYER As you get closer to the island, you can see that the jetty is a natural outcropping of rock that has been pressed into service as a mooring for small boats.
+   ENDIF
+   IFVAR BOATMOVE = 3
+        ECHO PLAYER The boat moves swiftly in the current, almost racing toward the jetty.
+   ENDIF
+   IFVAR BOATMOVE = 4
+        ECHO PLAYER You realize you'd better give the oars one last pull or you'll drift right past the jetty.                
+   ENDIF
+   IFVAR BOATMOVE = 5
+        SHOWROOM 1205
+   ENDIF
+ENDIF
+
+IFPREVERB GAZE -1    
+   CLEARVERB
+   IFVAR BOATMOVE = 0
+      ECHO PLAYER You look over the sides of the rowboat.
+      ECHO OTHERS %n looks back at the shore.
+      SHOWROOM 1203
+   ENDIF
+   IFVAR BOATMOVE ! 0
+      ECHO PLAYER Looking back, you see the coastling receding. Ahead, the lighthouse island invites you to explore it.                  
+      ECHO OTHERS %n gazes around at the surroundings with a deep relaxed sigh.
+   ENDIF
+ENDIF
+
+IFVAR PLRSINROOM = 0
+     EQUAL ROWING 0
+     EQUAL BOATMOVE 0
+     AFFECT 1203
+     EQUAL BOATMOVE 0
+     EQUAL ROWING 0
+ENDIF   
+
+NOUNDEF 1306 lighthouse
+
+INUMBER 1395
+NAME 1306
+WEIGHT 1000
+VOLUME 10
+ARTICLE a    
+HIDDEN
+
+
+ 
+NUMBER 1205
+NAME The Lighthouse Jetty
+REGION 0
+FIXED_LIGHT
+INDOOR_FLOOR
+CHANNEL 777              
+EXIT E 1206
+
+
+ITEM 0 1395 
+
+           
+*DESCRIPTION_START
+The breeze off the ocean is brisk, tugging at your clothing playfully. This 
+rocky outcropping serves as a mooring place for the rowboat that The Three 
+Sirens thoughtfully provides for traveling back and forth to the mainland. 
+The inn itself, a remodeled lighthouse, stands out against the sky to the 
+north. Any other direction you look you see only the ocean. A few seagulls 
+wheel and dive in the sky above you, giving an occasional joyous caw.
+*DESCRIPTION_END
+
+RELOGIN 101  
+  
+IFENTRY
+   ECHO PLAYER You watch as the boat drifts back toward the mainland. You're not sure how, but it seems to be heading straight for the rocky stretch of coast where you found it.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 0
+The charming lighthouse stands in the center of this tiny island off the 
+coast. A paved walkway to the east leads up to a small wooden deck with a 
+few comfortable rocking chairs lining it. A painted wooden sign proclaims 
+that you have found "The Three Sirens Inn"
+*DESCRIPTION_END
+
+
+NOUNDEF 1311 chowder
+ADJDEF 1311 seafood
+
+INUMBER 1393
+NAME 1311
+FOOD
+WEIGHT 1
+VOLUME 1
+ARTICLE some
+parameter1 5 
+
+
+IFPREVERB LOOK -1
+CLEARVERB
+ECHO PLAYER Poking through the thick creamy broth, you find chunks of lobster and crabmeat, haddock and clams. There seem to be just enough potatoes to make this bowl of chowder a meal.
+ENDIF
+
+IFPREVERB SMELL -1
+CLEARVERB
+ECHO PLAYER The heavenly aroma of of the chowder makes your mouth water. 
+ENDIF                                                                    
+   
+VARIABLE CHOWDER         
+
+IFPREVERB EAT -1
+CLEARVERB       
+   ECHO PLAYER Tasting the chowder is like a bite of heaven. The sweet lobster meat melts in your mouth, a perfect counterpoint to the salty broth.
+   ECHO OTHERS %n takes a bite of the chowder, closing %h eyes to savor the taste.
+   ADD CHOWDER 1
+    IFVAR CHOWDER = 5
+      REMOVEITEM -1
+    ENDIF   
+ENDIF
+           
+ADJDEF 1398 hand-painted
+
+NUMBER 1206
+NAME Three Sirens Inn, Front Deck
+REGION 0
+FIXED_LIGHT
+INDOOR_FLOOR
+CHANNEL 777
+EXIT W 1205  
+;jetty
+EXIT N 1208  
+;dock
+EXIT E 1207
+;Eastpoint
+
+ITEM 0  215 ADJ1=197 ADJ2=791
+ITEM 1  913 ADJ1=1398 ADJ2=1101
+ITEM 2  350 VAL2=1211 
+
+
+*DESCRIPTION_START
+  It's the front deck of an old New England inn. Just about what you'd expect 
+-- railings, rocking chairs, a door leading into the lobby. 
+*DESCRIPTION_END
+
+NUMBER 1211
+NAME Three Sirens Inn, Lobby
+REGION 0
+FIXED_LIGHT
+INDOOR_FLOOR
+CHANNEL 777                 
+EXIT E 1212    
+;dining room
+EXIT W 1213    
+;kitchen
+EXIT N 1222
+
+ITEM 0  350 VAL2=1206 
+;front deck
+ITEM 1 962 ADJ1=1091 ADJ2=599 VAL2=1214 
+;stairs to second floor landing
+ITEM 2 939 
+;sofa
+ITEM 3 409
+;fireplace
+ITEM 4 328
+;desk
+ITEM 5 236
+;clerk
+PUT 4  111 ADJ1=448
+;book
+       
+*DESCRIPTION_START
+It's the lobby of an old New England Inn, ditto the deck. Comfortable sofa, a 
+desk behind which you see a clerk, a fireplace with a crackling fire roaring 
+in it, and a guest book with comments from former guests of the establishment. 
+*DESCRIPTION_END
+
+IFENTRY
+   ECHO PLAYER The desk clerk looks up from his work as you enter.
+   ECHO OTHERS The desk clerk looks up from his work as %n enters.
+ENDIF
+
+IFVERB GAZE 5
+   ECHO ALL The desk clerk looks down to make sure he hasn't got soup on his tie.
+ENDIF
+   
+IFPREVERB WAVE 5
+   CLEARVERB
+   ECHO PLAYER You wave to the desk clerk.
+   ECHO OTHERS %n waves to the desk clerk.
+   PLREVENT 1
+   CONTPLREVENT
+   ECHO PLAYER He waves back to you.
+   ECHO OTHERS He waves back to %n.
+ENDIF
+
+IFPREVERB KISS 5
+    CLEARVERB
+    ECHO PLAYER You blow a kiss to the desk clerk.
+    ECHO OTHERS %n blows a kiss to the desk clerk.
+      IFVAR GEN = 0
+         ECHO PLAYER The man gives you an odd look.
+         ECHO OTHERS The man gives %n an odd look.
+      ENDIF
+      IFVAR GEN = 1
+        ECHO PLAYER The man grins and winks at you.
+        ECHO OTHERS The man winks at %n.
+   ENDIF
+ENDIF
+
+IFPREVERB KICK 5
+   CLEARVERB
+   ECHO PLAYER He's standing behind the desk, silly! That must hurt!
+   ECHO OTHERS %n kicks the desk!
+ENDIF
+
+IFPREVERB WINK 5
+   CLEARVERB
+   IFVAR GEN = 1
+      ECHO PLAYER The desk clerk hands you a long-stemmed red rose from a vase on the desk.
+      ECHO OTHERS The desk clerk pulls a longstemmed red rose out the vase and hands it to %n.
+      NEWITEM -1 836 ADJ1=560 ADJ2=774
+    ELSE
+      ECHO ALL The desk clerk winks and says, "Your usual room, %n?
+    ENDIF
+ENDIF       
+
+
+IFPREVERB THUMP 5
+   CLEARVERB
+   ECHO PLAYER Hey! That's not very nice!
+ENDIF
+
+IFPREVERB LISTEN 5
+   CLEARVERB
+   ECHO PLAYER The desk clerk will talk to you if you ask him questions in a way he understands. Use one or two word phrases,
+   ECHO PLAYER and be sure you end with a question mark so he knows you're asking.
+ENDIF
+           
+IFSAY rooms?
+   ECHO ALL The desk clerk smiles at you and says, "Yep, we got four of them, all different colors."
+ENDIF
+
+IFSAY colors?
+   ECHO ALL "Sure," the man tells you. "Mrs. Olson has them color coded. Rose, Blue, Gold and Green rooms."
+ENDIF
+
+IFSAY Blue_Room?
+   AFFECT 1215
+   EQUAL DUMMY1 PLRSINROOM
+   AFFECT 1211            
+      IFVAR DUMMY1 = 0
+         ECHO ALL The man checks the guest book. "Yep," he says, "Top of the stairs right there."
+      ELSE  
+         ECHO ALL The man checks the guest book and shakes his head. "Nope," he says. "That one's rented."
+      ENDIF
+ENDIF
+
+
+IFSAY Gold_Room?
+   AFFECT 1216
+   EQUAL DUMMY1 PLRSINROOM
+   AFFECT 1211            
+      IFVAR DUMMY1 = 0
+         ECHO ALL The man checks the guest book. "Yep," he says, "Top of the stairs right there."
+    ELSE
+       ECHO ALL The man checks the guest book and shakes his head. "Nope," he says. "That one's rented."
+      ENDIF
+ENDIF
+
+
+IFSAY Green_Room?
+   AFFECT 1219
+   EQUAL DUMMY1 PLRSINROOM
+   AFFECT 1211            
+      IFVAR DUMMY1 = 0
+      ECHO ALL The man checks the guest book. "Yep," he says, "All the way to the third floor."
+         ECHO ALL The man smiles. "View up there makes the climb worth it though." 
+    ELSE  
+         ECHO ALL The man checks the guest book and shakes his head. "Nope," he says. "That one's rented."
+      ENDIF
+ENDIF
+
+
+IFSAY Rose_Room?
+   AFFECT 1218
+   EQUAL DUMMY1 PLRSINROOM
+   AFFECT 1211            
+      IFVAR DUMMY1 = 0
+         ECHO ALL The man checks the guest book. "Yep," he says, "All the way to the third floor."
+         ECHO ALL The man smiles. "View up there makes the climb worth it though."
+     ELSE
+         ECHO ALL The man checks the guest book and shakes his head. "Nope," he says. "That one's rented."
+      ENDIF
+ENDIF
+
+IFPREVERB OPEN -1
+   IFVAR ARCHNUM = 111
+      CLEARVERB
+      ECHO PLAYER The desk clerk slaps his hand down on the guest book as you reach for it.
+      ECHO OTHERS %n reaches for the guest book, but the desk clerk slap his hand down on it.
+      ECHO ALL He says, "Sorry, those records are confidential."
+   ENDIF
+ENDIF
+
+IFSAY dinner?
+   ECHO ALL The desk clerk points east and says, "Yep, we serve dinner there round the clock. Be sure to try the chowder!"      
+ENDIF
+
+IFSAY breakfast?
+   ECHO ALL The man nods toward the kitchen. "Mrs. Olson likes to serve breakfast in the kitchen there. Says it's cozier."
+ENDIF
+
+IFSAY Mrs._Olson?
+   ECHO ALL The man nods. "The lady that owns this place. They say she got this place for a song because of the ghost."
+ENDIF
+
+IFSAY song?
+   ECHO ALL The man scratches his head and says, "Well, I ain't much of a singer, but if you got time while you're here, ask me for a story."
+ENDIF
+
+IFSAY story?   
+   ECHO ALL The desk clerk smiles at you, and says, "Well, now, they do say I tell that story well...if you're sure..."
+   ECHO ALL "I could tell it for you."
+ENDIF
+
+IFSAY sure?
+   ECHO ALL The man chuckles softly at %n. "You don't sound real sure there. 
+   ECHO ALL "Maybe if it didn't sound like a question..."
+ENDIF           
+
+VARIABLE STORY
+
+IFSAY sure
+   ECHO ALL The desk clerk smiles happily and steps out from behind the desk.
+   ECHO ALL He says, "Well, now, anyone who wants to hear it, join up with %n and we'll go somewhere more quiet for this."
+   PLREVENT 3
+   CONTPLREVENT
+   ECHO ALL He shouts, "Hey, Willie, cover the desk for a few, willya?"
+   plrevent 4
+   CONTPLREVENT
+   ECHO ALL A waiter from the dining room slips behind the desk, saying, "Sure thing! Gonna tell the ghost story, huh?"
+   plrevent 4
+   CONTPLREVENT
+   ECHO GROUP The desk clerk nods and leads you up the stairs, all the way to the Lighthouse Room.
+   AFFECT 1220
+   EQUAL STORY 1
+   AFFECT 1211
+   MOVEGROUP 1220
+   AFFECT 1220
+   SHOWROOM 1220
+   ECHO ALL The desk clerk says, "Just say 'ready' when you're ready to listen."
+   IFNOITEM 9
+      NEWITEM 9 236
+   ENDIF
+   AFFECT 1211
+   ECHO ALL The desk clerk nods and leads the group up the stairs.       
+ENDIF
+     
+
+IFSAY ghost?
+    ECHO all The man looks around nervously. He drops his voice to a whisper.
+    ECHO all "Saw her myself once, I think," he says. "Lady all in white."
+ENDIF
+
+IFSAY lady?
+     ECHO all The man glances toward the stairs. He says, "Standing right there, she was."
+     ECHO all He frowns slightly. "I got work to do here," he says. "You want a room?"
+     PLREVENT 2
+     CONTPLREVENT 
+     ECHO PLAYER The man grudgingly adds, "Mrs. Olson might know more about it. Think she's in the kitchen."
+ENDIF
+
+IFSAY Three_Sirens_Inn?
+     ECHO ALL "Ayup," he says. "Named for those three rocks off East Point. 
+     ECHO ALL They're the reason this lighthouse is here. 
+     ECHO ALL Ships used to hang up on them all the time. Treasure still shows up on Eastpoint sometimes. 
+ENDIF
+
+IFSAY treasure?
+   ECHO ALL The man nods to you. 
+   ECHO ALL "Never been much of anything," he says. "Mostly little things, forks, combs that kinda stuff."
+ENDIF
+
+IFSAY Eastpoint?
+   ECHO ALL "That's what we call that little point out behind the lighthouse," the man tells you. 
+   ECHO ALL He smirks.
+   ECHO ALL "Seems a kind of fancy name for it, don't it?"
+ENDIF
+
+IFSAY lighthouse?
+    ECHO ALL The clerk quirks one eyebrow. 
+    ECHO ALL "Sure," he says. "This used to be the old lighthouse. Go all the way to the top...
+    ECHO ALL "and you'll see the old light's still there."
+ENDIF
+ 
+IFSAY kitchen?                                          
+   IFVAR DAY = 1
+     ECHO ALL The clerk nods toward the west. 
+     ECHO ALL "Right through there," he says. "Mrs. Olson is getting breakfast ready."
+   ENDIF
+   IFVAR DAY = 0
+      ECHO ALL The clerk nods toward the west.
+      ECHO ALL "Course," he says, "It's awful late for breakfast. You might try the dining room for some dinner."
+   ENDIF
+ENDIF
+
+IFSAY dining_room?
+      ECHO ALL "Mrs. Olson makes the best seafood chowder!" he says. "And don't forget to check the wine list."   
+ENDIF
+
+
+;soup
+NOUNDEF 1312 soup
+f
+
+INUMBER 1392     
+NAME 1312
+FOOD
+VOLUME 1
+WEIGHT 1             
+ARTICLE some
+parameter1 5   
+
+ADJDEF 1312 chicken
+
+NOUNDEF 1313 salad
+ADJDEF 1313 garden
+ADJDEF 1314 broiled
+
+INUMBER 1391
+NAME 1313
+FOOD
+VOLUME 1
+WEIGHT 1    
+ARTICLE some
+parameter1 5
+
+INUMBER 1390
+NAME 836
+FOOD
+VOLUME 1
+WEIGHT 1    
+ARTICLE some
+parameter1 5
+
+NOUNDEF 1314 cider
+ADJDEF 1315 mulled
+ 
+INUMBER 1389
+NAME 1314
+LIQUID    
+VOLUME 1
+WEIGHT 1    
+ARTICLE some
+parameter1 5   
+
+ADJDEF 1316 cranberry
+
+NOUNDEF 1315 SeaBreeze
+
+INUMBER 1388
+NAME 1315
+LIQUID
+VOLUME 1
+WEIGHT 1    
+ARTICLE a
+parameter1 5 
+
+VARIABLE SEABREE
+    
+ 
+IFPREVERB DRINK -1        
+   IFVAR SEABREE < 4
+     CLEARVERB
+     ECHO PLAYER The refreshing blend of grapefruit and cranberry juice with vodka goes down smoothly.
+     ECHO OTHERS %n sips a SeaBreeze through a tiny straw.
+     ADD SEABREE 1    
+    ELSE
+     ECHO PLAYER You slurp the last of the seabreeze through the tiny straw.
+     ECHO OTHERS %n slurps up the last of the seabreeze.
+     REMOVEITEM -1
+   ENDIF
+ENDIF   
+
+          
+
+NUMBER 1212
+NAME Three Sirens, Dining Room
+REGION 0
+FIXED_LIGHT
+INDOOR_FLOOR
+CHANNEL 777
+EXIT O 1211  
+;lobby     
+
+ITEM 0 1123
+;window
+ITEM 1 1007
+;table
+ITEM 2 215
+;chair
+ITEM 3 650
+;menu
+ITEM 4 611
+;list
+
+*DESCRIPTION_START
+Its a small cozy dining room with tables for two, set with crisp linens, 
+crystal and fine silver and of course, candles! The windows overlook the ocean facing east -- out to 
+sea.
+*DESCRIPTION_END                               
+
+*DESCRIPTION_START ITEM EXAM 0
+   put window view here  
+*DESCRIPTION_END
+ 
+*DESCRIPTION_START ITEM EXAM 1
+   put table setting here  
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 3
+Three Sirens Inn is renowned for its hearty, 
+homecooked mealsand fresh caught seafood. 
+Tonight's specials are:                      
+
+Appetizers
+==========
+Seafood Chowder..............2.00
+Bread........................1.00
+Soup of the Day..............1.00
+Garden Salad.................1.00
+
+Entrees
+======= 
+
+Siren Seafood Salad..........5.00
+Baked Stuff Lobster.........12.00
+Fried Fish...................5.00
+Broiled Chicken..............6.00
+Roast Beef...................7.00
+Shrimp Scampi................8.00
+
+Desserts
+========
+Apple Pie a la mode.........1.00
+Ice Cream Cone..............1.00
+Baked Alaska................2.00
+
+Beverages
+=========
+Coffee......................1.00
+Tea.........................1.00
+Cola........................1.00
+Mulled Cider................2.00
+Cranberry Juice.............1.00
+
+Please see our wine list for our specialty 
+drinks.
+*DESCRIPTION_END
+
+
+*DESCRIPTION_START ITEM EXAM 3
+Three Sirens Inn is renowned for its hearty, 
+homecooked meals and fresh caught seafood. 
+Tonight's specials are:                      
+
+Appetizers
+==========
+Seafood Chowder..............2.00
+Bread........................1.00
+Soup of the Day..............1.00
+Garden Salad.................1.00
+
+Entrees
+======= 
+
+Siren Seafood Salad..........5.00
+Baked Stuff Lobster.........12.00
+Fried Fish...................5.00
+Broiled Chicken..............6.00
+Roast Beef...................7.00
+Shrimp Scampi................8.00
+
+Desserts
+========
+Apple Pie a la mode.........1.00
+Ice Cream Cone..............1.00
+Baked Alaska................2.00
+
+Beverages
+=========
+Coffee......................1.00
+Tea.........................1.00
+Cola........................1.00
+Mulled Cider................2.00
+Cranberry Juice.............1.00
+
+Please see our wine list for our specialty 
+drinks.
+*DESCRIPTION_END
+
+
+STOREITEM 1393 1311 2
+STOREITEM 136  229  1
+STOREITEM 1392 1312 1
+STOREITEM 1391 1313 1
+STOREITEM 1391 1311 5
+STOREITEM  613   43 12
+STOREITEM  411  391 5
+STOREITEM  226 1314 6
+STOREITEM   75  789 7
+STOREITEM  1390 -1  8
+ 
+STOREITEM  250  -1  1
+STOREITEM  253  -1  1
+STOREITEM 1020  -1  1
+STOREITEM 1389 1315 1
+
+STOREITEM 752 21 -1  1
+STOREITEM 268 494 -1 1
+ 
+
+
+*DESCRIPTION_START ITEM EXAM 4
+The handwritten wine list reads:
+
+Enjoy a glass of wine from one of our
+local vintners, or have one of our 
+famous specialty drinks. For the ale
+fancier, try one of our special ales.
+  
+Wines
+=====
+Cranberry wine...............2.00
+Red wine.....................1.00
+White wine...................1.00
+Sparkling champagne..........3.00
+
+Specialties
+===========
+SeaBreeze...................2.00
+Lighthouse Mudslide.........4.00
+Three Sirens Frappe.........2.00
+*DESCRIPTION_END
+
+STOREITEM 1124 1316 2
+STOREITEM 1124 774  1
+STOREITEM 1124 1083 1
+STOREITEM 218   922 5
+STOREITEM 1388  -1  2
+STOREITEM 441   -1  2
+
+
+*DESCRIPTION_START ITEM READ 4
+The handwritten wine list reads:
+
+Enjoy a glass of wine from one of our
+local vintners, or have one of our 
+famous specialty drinks. For the ale
+fancier, try one of our special ales.
+  
+Wines
+=====
+Cranberry wine...............2.00
+Red wine.....................1.00
+White wine...................1.00
+Sparkling champagne..........3.00
+
+Specialties
+===========
+SeaBreeze...................2.00
+Lighthouse Mudslide.........4.00
+Three Sirens Frappe.........2.00
+*DESCRIPTION_END
+
+              
+NOUNDEF 1303 pancakes
+
+INUMBER 1394
+NAME 1303
+FOOD
+WEIGHT 1
+VOLUME 1
+article some
+
+IFPREVERB EAT -1                          
+   CLEARVERB
+   ECHO PLAYER The incredibly light pancakes practically melt in your mouth, leaving behind the flavor of real maple syrup and butter.
+   ECHO OTHERS %n takes a bite of the pancakes, looking as if %s's found heaven.
+ENDIF             
+
+NOUNDEF 1316 toast
+
+INUMBER 1387
+NAME 1316
+FOOD
+VOLUME 1
+WEIGHT 1
+PARAMETER1 4
+ARTICLE some
+
+
+
+;kitchen
+NUMBER 1213
+NAME Cozy Kitchen
+REGION 0
+FIXED_LIGHT
+INDOOR_FLOOR
+CHANNEL 777
+EXIT O 1211
+
+ITEM 0 1007
+;table
+ITEM 1 215
+;chair
+ITEM 3 1123
+;window
+ 
+
+*DESCRIPTION_START
+It's a cozy breakfast nook, complete with table and benches, smell of coffee 
+and fresh baked muffins. 
+*DESCRIPTION_END
+
+IFENTRY
+   IFVAR DAY = 0
+      ECHO ALL Mrs. Olson bustles around the kitchen preparing dinner. As you enter, she gives you a quick smile and directs you to the dining room for dinner.
+   ENDIF
+   IFVAR DAY = 1
+      ECHO ALL Mrs. Olson greets you with a bright smile, saying "If you'd like breakfast, just say so!"
+    ENDIF
+ENDIF
+  
+IFSAY Breakfast
+       ECHO PLAYER With a cheery smile, Mrs. Olson tells you, "We have the following items available this morning. Just tell me what you want."
+       ECHO PLAYER Orange juice, Coffee, Tea or milk
+       ECHO PLAYER Pancakes, french toast or blueberry muffins
+       ECHO PLAYER She adds, "Oh, please pick up your order as soon as I bring it so the table doesn't get too cluttered.
+ENDIF
+
+IFSAY Orange_juice
+       ECHO PLAYER Mrs. Olson pours a glass of fresh squeezed orange juice and puts it on the table.
+       NEWITEM 4 472
+       NEWPUT 4 561 ADJ1=665 VAL2=5
+      ECHO OTHERS Mrs. Olson brings %n a glass of fresh squeezed orange juice.
+ENDIF
+IFSAY Coffee
+       ECHO PLAYER Mrs. Olson pours you a mug of steaming coffee and puts it on the table.
+       NEWITEM 5 676
+       NEWPUT 5 250 VAL2=5                                                    
+       ECHO OTHERS Mrs. Olson brings %n a mug of steaming coffee.
+ENDIF
+IFSAY tea
+       ECHO PLAYER Mrs. Olson pours steaming water over a tea bag and puts the cup on the table.
+       ECHO OTHERS Mrs. Olson brings %n a cup of hot tea.
+       NEWITEM 6 311
+       NEWPUT 6 1020 VAL2=5                              
+ENDIF
+
+IFSAY milk
+       ECHO PLAYER Mrs. Olson pours a glass of milk and puts it on the table.
+       NEWITEM 4 472
+       NEWPUT 4 654
+       ECHO OTHERS Mrs. Olson bring %n a glass of milk.
+ENDIF
+IFSAY pancakes
+        ECHO PLAYER Mrs. Olson flips three pancakes onto a plate and puts them in front of you.
+        NEWPUT 0 1394
+        ECHO OTHERS Mrs. Olson brings %n some  pancakes. 
+ENDIF
+IFSAY french_toast
+        ECHO PLAYER Mrs. Olson brings you some french toast, smothered in syrup and butter.
+        NEWPUT 0 1387 ADJ1=389
+        ECHO OTHERS Mrs. Olson brings %n some french toast smothered in syrup and butter.
+ENDIF
+IFSAY  blueberry_muffin
+        ECHO PLAYER Mrs. Olson brings you a blueberry muffin fresh out of the oven.
+        NEWPUT 0 675 ADJ1=88
+        ECHO OTHERS Mrs. Olson brings %n a fresh blueberry muffin.
+ENDIF
+
+ADJDEF 1317 yarrow
+ADJDEF 1318 buttercup
+
+
+NUMBER 1214
+NAME Three Sirens, Ocean View
+REGION 0
+INDOOR_FLOOR
+FIXED_LIGHT
+CHANNEL 777
+
+;stairs down
+ITEM 0  963 VAL2=1211
+;stairs up
+ITEM 1 962 VAL2=1217
+;door bedroom 1                                             
+ITEM 2 352 VAL2=1215 UNLOCKED                               
+PUT 2 954  VAL5=4
+;door bedroom 2
+ITEM 3 352 VAL2=1216 UNLOCKED
+PUT 3 95   VAL5=4
+;window, ocean view
+ITEM 4 1123 
+                   
+*DESCRIPTION_START
+Directly in front of you as you step off the landing is a large picture 
+window looking out toward the ocean. On your right is an oak door leading to 
+the Blue Room, and on your left is the teak door to the Gold Room. Polished 
+wood stairs lead back down to the lobby, and black wrought iron stairs climb 
+to the third level of the lighthouse.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+                       A small brass plaque on the door reads, 
+                                 "::The Blue Room::"
+                          "Come in stress, leave refreshed."     
+
+A half-basket of dried herbs hangs below the plaque. Tiny white rosebuds are
+ interspersed with lavender and yarrow. A handlettered sign invites you to take a sprig.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+                      A small brass plaque on the door reads,
+                               "::The Gold Room::"
+                    "Blessed be who enter, rested be who leave"
+A halfbasket of dried flowers hangs below the plaque. Buttercup blossoms are 
+mixed in with deep gold blossoms. A handlettered sign invites you to take a 
+blossom.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 4
+Insert ocean view here
+*DESCRIPTION_END
+
+
+IFPREVERB OPEN 2
+   AFFECT ITEMVAL2
+   EQUAL DUMMY1 PLRSINROOM
+   AFFECT 1214
+   IFVAR DUMMY1 > 0
+      CLEARVERB
+      ECHO PLAYER It is locked.
+   ENDIF
+ENDIF
+           
+IFPREVERB OPEN 3
+   IFITEM 3 CLOSED
+      AFFECT ITEMVAL2
+      EQUAL DUMMY1 PLRSINROOM
+      AFFECT 1214            
+       IFVAR DUMMY1 ! 0
+         CLEARVERB
+         ECHO PLAYER It is locked.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB GET -1
+    IFVAR ARCHNUM = 954
+      IFVAR ITEMVAL5 = 4
+         CLEARVERB
+         RANDOM DUMMY1 1 3 0
+           IFVAR DUMMY1 = 1
+              ECHO PLAYER You carefully select a yarrow sprig and work it free.
+              ECHO OTHERS %n carefully removes a yarrow sprig from the basket.
+              NEWITEM -1 954 ADJ1=875 ADJ2=87 ADJ3=1317
+            ENDIF
+            IFVAR DUMMY1 = 2
+              ECHO PLAYER You carefully select a sprig of lavender and work it free.
+              ECHO OTHERS %n carefully removes a sprig of lavender from the basket.
+              NEWITEM -1 954 ADJ1=266 ADJ2=87 ADJ3=540
+            ENDIF
+            IFVAR DUMMY1 = 3
+               ECHO PLAYER You pull a sprig of lavender free, and a yarrow sprig comes with it.
+               ECHO OTHERS %n pulls a sprig of lavender from the basket, and it catches a yarrow sprig. 
+               NEWITEM -1 954 ADJ1=875 ADJ2=87 ADJ3=1317
+               NEWITEM -1 954 ADJ1=266 ADJ2=87 ADJ3=540
+            ENDIF
+        ENDIF    
+     ENDIF         
+  ENDIF   
+  IFPREVERB GET -1
+    IFVAR ARCHNUM = 95
+       IFVAR ITEMVAL5 = 4
+          CLEARVERB
+          RANDOM DUMMY1 1 3 0
+             IFVAR DUMMY1 = 1
+                ECHO PLAYER You carefully work a deep gold blossom out of the basket.
+                ECHO OTHERS %n plucks a deep gold blossom from the basket on the door.
+                NEWITEM -1 95 ADJ1=266 ADJ2=483
+             ENDIF
+             IFVAR DUMMY1 = 2
+                ECHO PLAYER You pull a bright yellow buttercup blossom from the basket.   
+                ECHO OTHERS %n pulls a bright yellow buttercup blossom from the basket on the door.
+                NEWITEM -1 95 ADJ1=106 ADJ2=1111 ADJ3=1318
+             ENDIF
+             IFVAR DUMMY1 = 3
+                ECHO PLAYER You pluck a deep gold blossom and a bright yellow buttercup from the basket.
+                ECHO OTHERS %n takes a gold blossom and a buttercup from the basket on the door.
+                NEWITEM -1 95 ADJ1=106 ADJ2=1111 ADJ3=1318
+                NEWITEM -1 95 ADJ1=266 ADJ2=483
+             ENDIF
+          ENDIF
+       ENDIF
+    ENDIF
+    
+ADJDEF 1319 fluted
+    
+NUMBER 1215
+NAME The Blue Room
+REGION 0
+INDOOR_FLOOR
+FIXED_LIGHT
+CHANNEL 777
+
+;door 2nd floor landing
+ITEM 0 350 VAL2=1214
+;bed
+ITEM 1 73          
+;mint
+ITEM 7 178 ADJ1=163 ADJ2=606
+;window
+ITEM 2 1123
+;pillow
+ITEM 3 757
+;chair
+ITEM 4 215
+;table
+ITEM 5 1007
+;bottle
+PUT 5  117 VAL5=9               
+
+*DESCRIPTION_START
+This bedroom is tastefully decorated in shades of blue taken from sea and sky. 
+The picture window looks north along the coast. A small round table with 
+two chairs is placed in front of the window, and on it is a bottle of 
+champagne in an ice bucket. A chocolate mint is laid on the pillow. You 
+notice that there is no phone, no television, nothing to mar the peace and 
+restfulness you feel here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+insert bed description here (velvet covers, satin sheets)
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+insert chair description here  
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+ INSERT WINDOW VIEW
+*DESCRIPTION_END
+*
+*DESCRIPTION_START ITEM EXAM 5
+ INSERT TABLE DESCRIPTION HERE
+*DESCRIPTION_END
+
+
+
+VARIABLE BED1
+
+
+IFPREVERB PULL 1
+  IFVAR BED1 = 0
+      CLEARVERB
+      ECHO PLAYER You carefully fold the velvet coverlet at the end of the bed.
+      ECHO OTHERS %n neatly folds down the velvet coverlet, revealing the silk sheets.
+      EQUAL BED1 1
+   ENDIF
+  ELSE   
+      CLEARVERB
+      ECHO PLAYER The bed is already turned down.
+ENDIF
+   
+
+IFPREVERB GO 1
+   IFVAR BED1 = 0
+     CLEARVERB
+     ECHO PLAYER You stretch out on the velvet coverlet and relax.
+     ECHO OTHERS %n stretches out on the velvet coverlet.
+   ELSE
+      ECHO PLAYER You slip between the silk sheets, shivering at the touch of luxury.
+      ECHO OTHERS %n slips between the silk sheets sighing happily.
+      EQUAL FLAG1 1
+      POSITION LAY
+   ENDIF   
+ENDIF   
+ 
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You climb into bed.
+      ECHO OTHERS %N climbs into bed.
+      EQUAL FLAG1 1
+   ENDIF
+   IFVAR POSITION = 1
+      IFVAR FLAG1 = 0
+         ECHO PLAYER You lay back on the sofa.
+         ECHO OTHERS %N lays back on the sofa.
+      ENDIF
+      IFVAR FLAG1 = 1
+         ECHO PLAYER You lay back in bed.
+         ECHO OTHERs %N lays back in bed.
+      ENDIF
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying down.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You climb into bed.
+      ECHO OTHERS %N climbs into bed.
+   ENDIF
+   POSITION LAY
+ENDIF
+               
+IFPREVERB LAUGH -1
+   CLEARVERB
+   ECHO PLAYER You laugh out loud.
+   ECHO OTHERS %n laughs.
+ENDIF
+
+IFPREVERB GET -1
+   IFVAR ARCHNUM = 117
+      IFVAR ITEMVAL5 = 9
+         CLEARVERB
+         ECHO PLAYER You pour the champagne into a slender fluted glass.
+         ECHO OTHERS %n pours champagne into a slender fluted glass.
+         NEWITEM 6 472 ADJ1=889 ADJ2=1319
+         NEWPUT 6 218 VAL1=5
+      ENDIF
+   ENDIF
+ENDIF
+      
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You take a seat and relax on the comfortable chair.
+      ECHO OTHERS %n takes a seat and relaxes on the comfortable chair.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up.
+      ECHO OTHERS %N sits up.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You take a seat and relax on the comfortable chair.
+      ECHO OTHERS %n takes a seat and relaxes on the comfortable chair.
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFENTRY
+   IFNOITEM 7
+      NEWITEM 7 178 ADJ1=163 ADJ2=204
+   ENDIF
+ENDIF
+
+NUMBER 1216
+NAME The Gold Room
+REGION 0
+INDOOR_FLOOR
+FIXED_LIGHT
+CHANNEL 777
+
+;door second floor landing
+ITEM 0 350 VAL2=1214
+;bed
+ITEM 1 73          
+;mint
+ITEM 7 178 ADJ1=163 ADJ2=606
+;window
+ITEM 2 1123
+;pillow
+ITEM 3 757
+;chair
+ITEM 4 215
+;table
+ITEM 5 1007
+;bottle
+PUT 5  117 VAL5=9               
+
+*DESCRIPTION_START
+This bedroom is tastefully decorated in shades of deep golds and sunny yellow.
+The picture window looks north along the coast. A small round table with 
+two chairs is placed in front of the window, and on it is a bottle of 
+champagne in an ice bucket. A chocolate mint is laid on the pillow. You 
+notice that there is no phone, no television, nothing to mar the peace and 
+restfulness you feel here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+insert bed description here (velvet covers, satin sheets)
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+insert chair description here  
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+ INSERT WINDOW VIEW
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 5
+ INSERT TABLE DESCRIPTION HERE
+*DESCRIPTION_END
+
+
+
+VARIABLE BED1
+
+
+IFPREVERB PULL 1
+  IFVAR BED1 = 0
+      CLEARVERB
+      ECHO PLAYER You carefully fold the velvet coverlet at the end of the bed.
+      ECHO OTHERS %n neatly folds down the velvet coverlet, revealing the silk sheets.
+      EQUAL BED1 1
+   ENDIF
+  ELSE   
+      CLEARVERB
+      ECHO PLAYER The bed is already turned down.
+ENDIF
+   
+
+IFPREVERB GO 1
+   IFVAR BED1 = 0
+     CLEARVERB
+     ECHO PLAYER You stretch out on the velvet coverlet and relax.
+     ECHO OTHERS %n stretches out on the velvet coverlet.
+   ELSE
+      ECHO PLAYER You slip between the silk sheets, shivering at the touch of luxury.
+      ECHO OTHERS %n slips between the silk sheets sighing happily.
+      EQUAL FLAG1 1
+      POSITION LAY
+   ENDIF   
+ENDIF   
+ 
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You climb into bed.
+      ECHO OTHERS %N climbs into bed.
+      EQUAL FLAG1 1
+   ENDIF
+   IFVAR POSITION = 1
+      IFVAR FLAG1 = 0
+         ECHO PLAYER You lay back on the sofa.
+         ECHO OTHERS %N lays back on the sofa.
+      ENDIF
+      IFVAR FLAG1 = 1
+         ECHO PLAYER You lay back in bed.
+         ECHO OTHERs %N lays back in bed.
+      ENDIF
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying down.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You climb into bed.
+      ECHO OTHERS %N climbs into bed.
+   ENDIF
+   POSITION LAY
+ENDIF
+               
+IFPREVERB LAUGH -1
+   CLEARVERB
+   ECHO PLAYER You laugh out loud.
+   ECHO OTHERS %n laughs.
+ENDIF
+
+IFPREVERB GET -1
+   IFVAR ARCHNUM = 117
+      IFVAR ITEMVAL5 = 9
+         CLEARVERB
+         ECHO PLAYER You pour the champagne into a slender fluted glass.
+         ECHO OTHERS %n pours champagne into a slender fluted glass.
+         NEWITEM 6 472 ADJ1=889 ADJ2=1319
+         NEWPUT 6 218 VAL1=5
+      ENDIF
+   ENDIF
+ENDIF
+      
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You take a seat and relax on the comfortable chair.
+      ECHO OTHERS %n takes a seat and relaxes on the comfortable chair.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up.
+      ECHO OTHERS %N sits up.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You take a seat and relax on the comfortable chair.
+      ECHO OTHERS %n takes a seat and relaxes on the comfortable chair.
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFENTRY
+   IFNOITEM 7
+      NEWITEM 7 178 ADJ1=163 ADJ2=204
+   ENDIF
+ENDIF
+
+
+
+ADJDEF 1320 heather
+
+NUMBER 1217 
+NAME Three Sirens, Coast View
+REGION 0
+INDOOR_FLOOR
+FIXED_LIGHT
+CHANNEL 777
+
+;stairs down
+ITEM 0  963 ADJ1=1110 ADJ2=512 VAL2=1220
+;stairs up
+ITEM 1 962 ADJ1=1100 VAL2=1214
+;door bedroom 3                                         
+ITEM 2 352 ADJ1=646 VAL2=1218 UNLOCKED                               
+PUT 2 954  VAL5=4
+;door bedroom 4
+ITEM 3 352 ADJ1=989 VAL2=1219 UNLOCKED
+PUT 3 95   VAL5=4
+;window, coast view
+ITEM 4 1123 
+                   
+*DESCRIPTION_START
+Directly in front of you as you step off the landing is a large picture 
+window looking out toward the coastline. On your right is an oak door leading 
+to the Rose Room, and on your left is the teak door to the Green Room. Black 
+wrought iron stairs lead down to the second floor, and oak stairs lead up to 
+the Lighthouse Room. 
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+                       A small brass plaque on the door reads, 
+                                 "::The Rose Room::"
+                          "Come in stress, leave refreshed."     
+
+A half-basket of dried herbs hangs below the plaque. Tiny white rosebuds are
+ interspersed with pink heather and lavender. A handlettered sign invites you to take a sprig.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+                      A small brass plaque on the door reads,
+                               "::The Green Room::"
+                    "Blessed be who enter, rested be who leave"
+A halfbasket of dried flowers hangs below the plaque. Buttercup blossoms are 
+mixed in with deep gold blossoms. A handlettered sign invites you to take a 
+blossom.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 4
+Insert ocean view here
+*DESCRIPTION_END
+
+IFPREVERB OPEN 2
+   IFITEM 2 CLOSED
+      AFFECT ITEMVAL2
+      EQUAL DUMMY1 PLRSINROOM
+      AFFECT 1217            
+         IFVAR DUMMY1 ! 0
+         CLEARVERB
+         ECHO PLAYER It is locked.
+      ENDIF
+   ENDIF
+ENDIF
+           
+IFPREVERB OPEN 3
+   IFITEM 3 CLOSED
+      AFFECT ITEMVAL2
+      EQUAL DUMMY1 PLRSINROOM
+      AFFECT 1217            
+        IFVAR DUMMY1 ! 0
+         CLEARVERB
+         ECHO PLAYER It is locked.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB GET -1
+    IFVAR ARCHNUM = 954
+      IFVAR ITEMVAL5 = 4
+         CLEARVERB
+         RANDOM DUMMY1 1 3 0
+           IFVAR DUMMY1 = 1
+              ECHO PLAYER You carefully select a heather sprig and work it free.
+              ECHO OTHERS %n carefully removes a heather sprig from the basket.
+              NEWITEM -1 954 ADJ1=679 ADJ2=710 ADJ3=1320
+            ENDIF
+            IFVAR DUMMY1 = 2
+              ECHO PLAYER You carefully select a sprig of lavender and work free.
+              ECHO OTHERS %n carefully removes a sprig of lavender from the basket.
+              NEWITEM -1 954 ADJ1=679 ADJ2=87 ADJ3=540
+            ENDIF
+            IFVAR DUMMY1 = 3
+               ECHO PLAYER You pull a sprig of lavender free, and a heather sprig comes with it.
+               ECHO OTHERS %n pulls a sprig of lavender from the basket, and it catches a heather sprig. 
+               NEWITEM -1 954 ADJ1=679 ADJ2=710 ADJ3=1320
+               NEWITEM -1 954 ADJ1=679 ADJ2=87 ADJ3=540
+            ENDIF
+        ENDIF    
+     ENDIF         
+  ENDIF   
+  IFPREVERB GET -1
+    IFVAR ARCHNUM = 95
+       IFVAR ITEMVAL5 = 4
+          CLEARVERB
+          RANDOM DUMMY1 1 3 0
+             IFVAR DUMMY1 = 1
+                ECHO PLAYER You carefully work a deep gold blossom out of the basket.
+                ECHO OTHERS %n plucks a deep gold blossom from the basket on the door.
+                NEWITEM -1 95 ADJ1=266 ADJ2=483
+             ENDIF
+             IFVAR DUMMY1 = 2
+                ECHO PLAYER You pull a bright yellow buttercup blossom from the basket.   
+                ECHO OTHERS %n pulls a bright yellow buttercup blossom from the basket on the door.
+                NEWITEM -1 95 ADJ1=106 ADJ2=1111 ADJ3=1318
+             ENDIF
+             IFVAR DUMMY1 = 3
+                ECHO PLAYER You pluck a deep gold blossom and a bright yellow buttercup from the basket.
+                ECHO OTHERS %n takes a gold blossom and a buttercup from the basket on the door.
+                NEWITEM -1 95 ADJ1=106 ADJ2=1111 ADJ3=1318
+                NEWITEM -1 95 ADJ1=266 ADJ2=483
+             ENDIF
+          ENDIF
+       ENDIF
+    ENDIF
+    
+
+ADJDEF 1319 fluted
+    
+NUMBER 1218
+NAME The Rose Room
+REGION 0
+INDOOR_FLOOR
+FIXED_LIGHT
+CHANNEL 777
+
+;door third floor landing
+ITEM 0 350 VAL2=1217
+;bed
+ITEM 1 73          
+;mint
+ITEM 7 178 ADJ1=163 ADJ2=606
+;window
+ITEM 2 1123
+;pillow
+ITEM 3 757
+;chair
+ITEM 4 215
+;table
+ITEM 5 1007
+;bottle
+PUT 5  117 VAL5=9               
+
+*DESCRIPTION_START
+This bedroom is tastefully decorated in shades of deep rose and pale pink.
+The picture window looks north along the coast. A small round table with 
+two chairs is placed in front of the window, and on it is a bottle of 
+champagne in an ice bucket. A chocolate mint is laid on the pillow. You 
+notice that there is no phone, no television, nothing to mar the peace and 
+restfulness you feel here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+insert bed description here (velvet covers, satin sheets)
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+insert chair description here  
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+ INSERT WINDOW VIEW
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 5
+ INSERT TABLE DESCRIPTION HERE
+*DESCRIPTION_END
+
+
+
+VARIABLE BED1
+
+
+IFPREVERB PULL 1
+  IFVAR BED1 = 0
+      CLEARVERB
+      ECHO PLAYER You carefully fold the velvet coverlet at the end of the bed.
+      ECHO OTHERS %n neatly folds down the velvet coverlet, revealing the silk sheets.
+      EQUAL BED1 1
+   ENDIF
+  ELSE   
+      CLEARVERB
+      ECHO PLAYER The bed is already turned down.
+ENDIF
+   
+
+IFPREVERB GO 1
+   IFVAR BED1 = 0
+     CLEARVERB
+     ECHO PLAYER You stretch out on the velvet coverlet and relax.
+     ECHO OTHERS %n stretches out on the velvet coverlet.
+   ELSE
+      ECHO PLAYER You slip between the silk sheets, shivering at the touch of luxury.
+      ECHO OTHERS %n slips between the silk sheets sighing happily.
+      EQUAL FLAG1 1
+      POSITION LAY
+   ENDIF   
+ENDIF   
+ 
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You climb into bed.
+      ECHO OTHERS %N climbs into bed.
+      EQUAL FLAG1 1
+   ENDIF
+   IFVAR POSITION = 1
+      IFVAR FLAG1 = 0
+         ECHO PLAYER You lay back on the sofa.
+         ECHO OTHERS %N lays back on the sofa.
+      ENDIF
+      IFVAR FLAG1 = 1
+         ECHO PLAYER You lay back in bed.
+         ECHO OTHERs %N lays back in bed.
+      ENDIF
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying down.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You climb into bed.
+      ECHO OTHERS %N climbs into bed.
+   ENDIF
+   POSITION LAY
+ENDIF
+               
+IFPREVERB LAUGH -1
+   CLEARVERB
+   ECHO PLAYER You laugh out loud.
+   ECHO OTHERS %n laughs.
+ENDIF
+
+IFPREVERB GET -1
+   IFVAR ARCHNUM = 117
+      IFVAR ITEMVAL5 = 9
+         CLEARVERB
+         ECHO PLAYER You pour the champagne into a slender fluted glass.
+         ECHO OTHERS %n pours champagne into a slender fluted glass.
+         NEWITEM 6 472 ADJ1=889 ADJ2=1319
+         NEWPUT 6 218 VAL1=5
+      ENDIF
+   ENDIF
+ENDIF
+      
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You take a seat and relax on the comfortable chair.
+      ECHO OTHERS %n takes a seat and relaxes on the comfortable chair.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up.
+      ECHO OTHERS %N sits up.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You take a seat and relax on the comfortable chair.
+      ECHO OTHERS %n takes a seat and relaxes on the comfortable chair.
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFENTRY
+   IFNOITEM 7
+      NEWITEM 7 178 ADJ1=163 ADJ2=204
+   ENDIF
+ENDIF
+
+
+NUMBER 1219
+NAME The Green Room
+REGION 0
+INDOOR_FLOOR
+FIXED_LIGHT
+CHANNEL 777
+
+;door third floor landing
+ITEM 0 350 VAL2=1217
+;bed
+ITEM 1 73          
+;mint
+ITEM 7 178 ADJ1=163 ADJ2=606
+;window
+ITEM 2 1123
+;pillow
+ITEM 3 757
+;chair
+ITEM 4 215
+;table
+ITEM 5 1007
+;bottle
+PUT 5  117 VAL5=9               
+
+*DESCRIPTION_START
+This bedroom is tastefully decorated in shades of green and brown. 
+The picture window looks north along the coast. A small round table with 
+two chairs is placed in front of the window, and on it is a bottle of 
+champagne in an ice bucket. A chocolate mint is laid on the pillow. You 
+notice that there is no phone, no television, nothing to mar the peace and 
+restfulness you feel here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+insert bed description here (velvet covers, satin sheets)
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+insert chair description here  
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+ INSERT WINDOW VIEW
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 5
+ INSERT TABLE DESCRIPTION HERE
+*DESCRIPTION_END
+
+
+
+VARIABLE BED1
+
+
+IFPREVERB PULL 1
+  IFVAR BED1 = 0
+      CLEARVERB
+      ECHO PLAYER You carefully fold the velvet coverlet at the end of the bed.
+      ECHO OTHERS %n neatly folds down the velvet coverlet, revealing the silk sheets.
+      EQUAL BED1 1
+   ENDIF
+  ELSE   
+      CLEARVERB
+      ECHO PLAYER The bed is already turned down.
+ENDIF
+   
+
+IFPREVERB GO 1
+   IFVAR BED1 = 0
+     CLEARVERB
+     ECHO PLAYER You stretch out on the velvet coverlet and relax.
+     ECHO OTHERS %n stretches out on the velvet coverlet.
+   ELSE             
+      CLEARVERB
+      ECHO PLAYER You slip between the silk sheets, shivering at the touch of luxury.
+      ECHO OTHERS %n slips between the silk sheets sighing happily.
+      EQUAL FLAG1 1
+      POSITION LAY
+   ENDIF   
+ENDIF   
+ 
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You climb into bed.
+      ECHO OTHERS %N climbs into bed.
+      EQUAL FLAG1 1
+   ENDIF
+   IFVAR POSITION = 1
+      IFVAR FLAG1 = 0
+         ECHO PLAYER You lay back on the sofa.
+         ECHO OTHERS %N lays back on the sofa.
+      ENDIF
+      IFVAR FLAG1 = 1
+         ECHO PLAYER You lay back in bed.
+         ECHO OTHERs %N lays back in bed.
+      ENDIF
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying down.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You climb into bed.
+      ECHO OTHERS %N climbs into bed.
+   ENDIF
+   POSITION LAY
+ENDIF
+               
+IFPREVERB LAUGH -1
+   CLEARVERB
+   ECHO PLAYER You laugh out loud.
+   ECHO OTHERS %n laughs.
+ENDIF
+
+IFPREVERB GET -1
+   IFVAR ARCHNUM = 117
+      IFVAR ITEMVAL5 = 9
+         CLEARVERB
+         ECHO PLAYER You pour the champagne into a slender fluted glass.
+         ECHO OTHERS %n pours champagne into a slender fluted glass.
+         NEWITEM 6 472 ADJ1=889 ADJ2=1319
+         NEWPUT 6 218 VAL1=5
+      ENDIF
+   ENDIF
+ENDIF
+      
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You take a seat and relax on the comfortable chair.
+      ECHO OTHERS %n takes a seat and relaxes on the comfortable chair.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up.
+      ECHO OTHERS %N sits up.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You take a seat and relax on the comfortable chair.
+      ECHO OTHERS %n takes a seat and relaxes on the comfortable chair.
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFENTRY
+   IFNOITEM 7
+      NEWITEM 7 178 ADJ1=163 ADJ2=204
+   ENDIF
+ENDIF
+
+
+NUMBER 1220
+NAME The Lighthouse Room
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CHANNEL 777
+
+ITEM 0 962 VAL2=1217               
+ITEM 1 1123
+
+*Description_START
+This room is currently under construction. Dust sheets cover everything, but 
+you can make out the shapes of a bed and a sofa. In the center of the room 
+stands the old light that once kept ships from scraping bottom on this rocky 
+coast. The view from here is spectacular. You can turn in a circle and see in 
+every direction as far as the horizon.
+*Description_END
+
+VARIABLE STORY
+
+IFSAY ready
+   IFVAR STORY = 1
+        ECHO ALL The desk clerk glances around the room. He says, "I think this might have been her favorite room."
+        plrevent 4
+        CONTPLREVENT
+        ECHO ALL The desk clerk smiles softly, and begins his tale. You get the feeling that he won't hear interruptions.
+        PLREVENT 4
+        CONTPLREVENT
+        ECHO ALL "It all happened 'bout a hundred years ago," he begins...
+        plrevent 4
+        CONTPLREVENT
+        ECHO ALL ...the lighthouse keeper was a young man name of Tyler. Married up with a local girl...
+        PLREVENT 4
+        CONTPLREVENT
+        ECHO ALL They say she was the prettiest girl in town. He brought her out here...
+        plrevent 5
+        CONTPLREVENT
+        ECHO ALL As the desk clerk continues, his voice seems to weave a spell around you...
+        PLREVENT 4
+        CONTPLREVENT
+        ECHO ALL Your surroundings seem to fade away...
+        move group 1221
+      ENDIF
+  ENDIF
+
+IFENTRY
+   RANDOM DUMMY1 1 10 0
+      IFVAR DUMMY1 > 3
+        IFVAR DUMMY1 < 7
+            ECHO ALL You catch the scent of lavender as something brushes past you.
+        ENDIF
+     ENDIF
+      IFVAR STORY = 2
+         ECHO ALL The desk clerk's voice slowly brings you back to your surroundings.
+        PLREVENT 4
+        CONTPLREVENT
+        PLREVENT 4
+        CONTPLREVENT
+         ECHO ALL He looks at you with a slight smile.
+        PLREVENT 4
+        CONTPLREVENT
+         ECHO ALL "Guess she wasn't much like other girls her age," he says. "Didn't seem to mind having no company."
+         plrevent 5
+         CONTPLREVENT
+         ECHO ALL The two of them lived here happily for years. Every few days, Tyler would get into the boat...
+        PLREVENT 4
+        CONTPLREVENT
+         ECHO ALL and either go to the mainland, or out to sea to replenish supplies.
+        PLREVENT 4
+        CONTPLREVENT
+         ECHO ALL Even then, Lenore wasn't lonely. She would go sit on the rock at Eastpoint...
+         ECHO ALL looking out to sea.
+         plrevent 5
+         CONTPLREVENT
+         ECHO ALL He gestures toward a window. 
+         ECHO ALL "That's Eastpoint right out that window.
+      ENDIF
+  ENDIF     
+
+
+IFPREVERB LOOK 1
+   CLEARVERB
+   SHOWROOM 1207
+      IFVAR STORY = 2
+         ECHO PLAYER As you watch, Lenore wanders into sight. She stands looking out to sea for a moment...
+        PLREVENT 4
+        CONTPLREVENT  
+         ECHO PLAYER ...then breaks off a sprig of lavender and tosses it into the water.
+         plrevent 4
+         CONTPLREVENT
+         ECHO PLAYER Suddenly, she lifts her head as if she hears something, and looks directly at the window where you stand.
+        PLREVENT 4
+        CONTPLREVENT         
+         ECHO PLAYER You listen intently, and hear Tyler's voice calling.
+         plrevent 4
+         CONTPLREVENT
+         ECHO PLAYER Lenore's face breaks out into a happy smile, and she turns and runs toward the jetty...
+        PLREVENT 4
+        CONTPLREVENT         
+         ECHO PLAYER ...her hair coming loose and blowing behind her as she runs.
+         plrevent 4
+         CONTPLREVENT   
+         ECHO PLAYER You see a glint of sun on something silver for a moment, then the next wave washes up...
+        PLREVENT 4
+        CONTPLREVENT         
+         ECHO PLAYER ...and it is gone.
+         EQUAL STORY 3
+         plrevent 5
+         CONTPLREVENT
+         ECHO PLAYER The desk clerk sighs, looking at his watch.
+         ECHO PLAYER "There's not much more to the story...got time to hear it?" he asks.
+     ENDIF    
+ ENDIF      
+ 
+IFSAY yes
+   IFVAR STORY = 3
+      ECHO ALL He nods and continues.
+      ECHO ALL "Well, you know that happy people don't leave ghosts behind...
+        PLREVENT 4
+        CONTPLREVENT      
+      ECHO ALL One sunny morning, Tyler set out to do a little fishing. When it got close to sunset...
+        PLREVENT 4
+        CONTPLREVENT      
+      ECHO ALL ...Lenore walked out to Eastpoint to watch for his return.
+       PLREVENT 4
+        CONTPLREVENT
+      ECHO ALL The man pauses, looking toward the window again.
+      plrevent 5
+      CONTPLREVENT
+      ECHO ALL He quietly says, "Tyler never came back."
+        PLREVENT 4
+        CONTPLREVENT
+      ECHO ALL "Not that night, nor the next day..not ever."
+        PLREVENT 4
+        CONTPLREVENT
+      ECHO ALL He walks over to the window and looks out.
+      plrevent 4
+      CONTPLREVENT
+      ECHO ALL "Lenore lived here the rest of her life. Every day she walked out to Eastpoint...
+        PLREVENT 4
+        CONTPLREVENT      
+      ECHO ALL "and dropped a flower into the water, promising that she'd wait for him forever."
+        PLREVENT 4
+        CONTPLREVENT
+      ECHO ALL The clerk blushes a deep crimson.
+      plrevent 4
+      CONTPLREVENT
+      ECHO ALL "They say that she rewards anyone who does the same by showing them treasure...
+        PLREVENT 4
+        CONTPLREVENT      
+      ECHO ALL "not that I hold with that...but some days I do it..."
+        PLREVENT 4
+        CONTPLREVENT
+      ECHO ALL He chuckles softly at himself and says, "Just because it makes me feel good."
+      plrevent 4
+      CONTPLREVENT
+      ECHO ALL The clerk looks around, looking embarrassed. 
+        PLREVENT 4
+        CONTPLREVENT      
+      ECHO ALL "Well," he says, "guess I've kept Willie from his work long enough.
+        PLREVENT 4
+        CONTPLREVENT      
+      ECHO ALL "Feel free to explore a bit, see what you find." He smiles and walks down the stairs.
+      REMOVEITEM 9
+      EQUAL STORY 0
+   ENDIF
+ENDIF
+      
+ 
+                      
+Number 1221 
+NAME Lighthouse Jetty, 1896
+REGION 0
+FIXED_LIGHT
+INDOOR_FLOOR
+CHANNEL 777              
+RELOGIN 1220
+
+;lighthouse
+ITEM 0 1395
+;man
+ITEM 1 633
+;woman
+ITEM 2 1126
+
+           
+*DESCRIPTION_START
+The breeze off the ocean is brisk, tugging at your clothing playfully. This 
+rocky outcropping serves as a mooring place for the rowboat used for traveling 
+back and forth to the mainland. The lighthouse, stands out against the sky to 
+the east. Any other direction you look you see only the ocean. A few seagulls 
+wheel and dive in the sky above you, giving an occasional joyous caw.
+*DESCRIPTION_END
+      
+*DESCRIPTION_START ITEM EXAM 1
+You sense immediately that this is young Tyler, the lighthouse keeper. He 
+glances often at his new wife, a soft smile lighting his face whenever he does.
+He is wearing a heavy navy-blue wool coat, a black knit cap, some sturdy 
+black cotton trousers and some heavy black leather boots.
+You notice a simple gold band on his left hand.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+You see Lenore, a darkhaired beauty of no more than eighteen. Her brown eyes 
+sparkle whenever she glances at Tyler, which seems to be often. 
+She is wearing a heavy blue velvet cape, some sturdy black leather shoes, and 
+a sparkling silver comb that holds her luxurious hair in an intricate braid.
+*DESCRIPTION_END
+
+                                         
+*DESCRIPTION_START ITEM EXAM 0
+The charming lighthouse stands in the center of this tiny island off the 
+coast. A paved walkway to the east leads up to a small wooden deck with a 
+few comfortable rocking chairs lining it.
+*DESCRIPTION_END         
+
+IFENTRY
+   ECHO ALL The clerks voice fades away, and you find yourself standing on the jetty.
+   plrevent 4
+   CONTPLREVENT
+   ECHO ALL As you watch, a young man climbs onto the jetty from a small rowboat...
+        PLREVENT 4
+        CONTPLREVENT   
+   ECHO ALL ...ties it securely to a mooring post, then turns and offers his hand to the woman in the boat.
+        PLREVENT 4
+        CONTPLREVENT   
+        ECHO ALL A lovely young woman steps out onto the jetty, and looks around wide-eyed.
+        PLREVENT 4
+        CONTPLREVENT
+        ECHO ALL She beams happily at the man, exclaiming, "Tyler! You've made it all so pretty!"
+        plrevent 4
+        CONTPLREVENT
+        ECHO ALL Tyler smiles softly at his wife, reaching out to touch her cheek with a calloused finger.
+         PLREVENT 4
+        CONTPLREVENT
+        ECHO ALL "I wanted it to be the perfect setting for you, Lenore," he says.
+        plrevent 4
+        CONTPLREVENT
+        ECHO ALL The two look at each other for a long moment, and then join hands and walk toward the lighthouse.
+        AFFECT 1220
+        EQUAL STORY 2
+        AFFECT 1221
+        move group 1220
+ENDIF   
+        
+INUMBER 1380 
+NAME 416
+ARTICLE some
+VOLUME 1
+WEIGHT 1
+                       
+ADJDEF 1322 used
+
+INUMBER 1303
+NAME 1032
+CONTAINER IN
+VOLUME 100
+INTERIOR 100
+WEIGHT 1000
+ARTICLE SOME
+
+
+NUMBER 1207
+NAME Eastpoint, Three Sirens
+REGION 0
+INDOOR_FLOOR
+FIXED_LIGHT                                             
+CHANNEL 777                
+EXIT W 1206
+EXIT NW 1208
+
+;rock 
+ITEM 0 829 VAL5=9
+;water
+ITEM 1 1303
+
+*DESCRIPTION_START
+You could almost believe that you are the only person in the world standing 
+on this quiet outcropping of rock north of the jetty. Even the seagulls seem 
+to favor the other side of the lighthouse. Off in the distance, whitecaps 
+topping the waves presage winter's coming.
+*DESCRIPTION_END
+
+IFPREVERB GO 1
+   CLEARVERB
+   ECHO PLAYER You start to dip your toe in the water, but realize it's lready far too cold for swimming.
+ENDIF
+
+IFPREVERB GET 1
+   CLEARVERB
+   ECHO PLAYER You fill a small bottle with seawater to bring home as a souvenir.
+   ECHO OTHERS %n fills a small bottle with seawater to bring home.
+   NEWITEM 2 1007
+   NEWPUT 2  1110 ADJ1=831
+ENDIF
+
+IFPREVERB PUT -1 IN 1
+   IFVAR ARCHNUM = 954
+         RANDOM DUMMY1 1 10 0
+            IFVAR DUMMY1 < 5
+              ECHO PLAYER You feel the soft brush of ghostly lips against your cheek. 
+              ECHO PLAYER You sense that if you search, you may find something.
+              ECHO OTHERS %n looks up, startled, and touches %h cheek.
+            ENDIF
+            IFVAR DUMMY1 > 5
+               ECHO PLAYER You feel oddly at peace, and a little more confident.
+               ECHO OTHERS %n smiles, a serene look passing over %h face.
+            ENDIF
+            IFVAR DUMMY1 = 5
+               ECHO PLAYER You catch a flash of white from the corner of your eye and turn to look.      
+               NEWITEM 9 1126
+               EQUAL FLAG4 1
+               PLREVENT 3
+               CONTPLREVENT
+               ECHO PLAYER You turn quickly and are startled to see a woman dressed in white standing by the rock.
+            ENDIF   
+        ENDIF               
+     ENDIF           
+ 
+IFPREVERB LOOK 9            
+   IFVAR FLAG4 = 1
+      ECHO PLAYER To your surprise, Lenore looks completely solid. She smiles at you and in a soft voice says...
+      ECHO OTHERS %n starts in surprise and then listens intently, %i head cocked to one side.
+      PLREVENT 3
+      CONTPLREVENT
+      ECHO PLAYER "Thank you for remembering Tyler, %n. I'd like to reward you somehow..."
+      PLREVENT 3
+      CONTPLREVENT 
+      ECHO PLAYER Suddenly, she smiles happily. 
+      ECHO PLAYER "I know!" she exclaims. "If you search very carefully in the Blue Room, you'll find a treasure!"
+      REMOVEITEM 9
+   ENDIF
+   ELSE
+      ECHO PLAYER No matter how hard you try, you just can't see a thing.
+ENDIF            
+
+IFPREVERB SEARCH -1
+   RANDOM DUMMY1 1 5 0
+   IFVAR DUMMY1 = 1
+      ECHO PLAYER You find a small diamond caught in some seaweed.
+      NEWITEM -1 331
+   ENDIF
+   IFVAR DUMMY1 = 2
+      ECHO PLAYER You find a sterling silver hairbrush under a piece of driftwood.   
+          NEWITEM -1 144 ADJ1=450
+   ENDIF     
+ENDIF
+IFPREVERB GET 0
+   CLEARVERB
+      IFVAR ITEMVAL5 = 9
+         ECHO PLAYER You find a smooth, perfectly flat rock, just right for skipping over the waves.
+         NEWITEM -1 829 
+      ENDIF
+ENDIF
+                
+
+
+IFPREVERB FLIP 0
+  CLEARVERB            
+   IFCARRY 829 -1
+      REMOVEITEM -1 
+      ECHO PLAYER You draw your arm back and send the rock skipping across the waves!
+      ECHO OTHERS %n draws %h arm back and sends the rock skipping across the waves.
+      RANDOM DUMMY1 1 8 0
+      STRCVT 0 DUMMY1  
+      ECHO ALL The stone skips %0 times!
+    ELSE
+      ECHO PLAYER You'll have to get the rock before you can skip it.
+   ENDIF                
+ENDIF               
+         
+ 
+
+  IFPREVERB PUSH 0
+           CLEARVERB
+            ECHO PLAYER You turn over the rock.
+            ECHO OTHERS %n turns over a rock and finds something underneath it!
+               RANDOM DUMMY1 1 8 0
+               IFVAR DUMMY1 = 1
+                 ECHO PLAYER Underneath it you find...                                                
+                 ECHO PLAYER ...a tarnished silver comb!
+                 NEWITEM 3 257 ADJ1=984 ADJ2=869
+               ENDIF
+               IFVAR DUMMY1 = 2
+                 ECHO PLAYER Underneath it you find...               
+                 ECHO PLAYER ...a tiny pink shell!
+                 NEWITEM 3 881 ADJ1=1015 ADJ2=710
+               ENDIF
+               IFVAR DUMMY1 = 3
+                 ECHO PLAYER Underneath it you find...
+                 ECHO PLAYER ...some cobalt blue sea glass
+                 NEWITEM 3 1380 ADJ1=182 ADJ2=87 ADJ3=837
+               ENDIF                                     
+               IFVAR DUMMY1 = 4                       
+                 ECHO PLAYER Underneath it you find...               
+                  ECHO PLAYER ...a gold coin!
+                  NEWITEM 3 252 ADJ1=431
+               ENDIF
+               IFVAR DUMMY1 = 5                       
+                 ECHO PLAYER Underneath it you find...               
+                  ECHO PLAYER ...a pink shrimp!
+                  NEWITEM 3 909 ADJ1=710       
+               ENDIF
+               IFVAR DUMMY1 > 5
+                  IFVAR DUMMY1 < 9
+                     ECHO PLAYER You sift through the silt collected under the rock, and find a used condom.
+                     NEWITEM 3 267 ADJ1=1322
+                  ENDIF 
+               ENDIF
+             Endif
+
+              
+                  
+                          
+
+NOUNDEF 1317 boat
+ADJDEF 1321 pedal
+
+INUMBER 1386
+NAME 1317
+SUBSTANCE WOOD
+WEIGHT 1000
+VOLUME 1000
+ARTICLE a
+
+NUMBER 1208
+NAME Three Sirens Dock
+REGION 0
+INDOOR_FLOOR
+FIXED_LIGHT
+CHANNEL 777
+EXIT S 1206
+EXIT SW 1207
+
+ITEM 0 1386 ADJ1=1321
+
+*DESCRIPTION_START
+This small dock serves as a mooring place for The Three Sirens two pedal 
+boats. 
+*DESCRIPTION_END
+              
+VARIABLE PEDALBOAT
+
+
+IFPREVERB GO 0
+   CLEARVERB
+   AFFECT 1209
+   EQUAL PEDALBOAT PLRSINROOM
+   AFFECT 1208
+   IFVAR PEDALBOAT < 2
+   ECHO PLAYER The dock attendant helps you into the seat and tells you to push the pedal when your ready to go.
+   ECHO OTHERS The dock attendant helps %n into the seat
+   DISBAND
+   MOVE 1209
+   POSITION SIT
+  ELSE
+   ECHO PLAYER The pedalboat is currently in use.           
+ENDIF
+
+
+NUMBER 1209
+NAME The Pedalboat
+INDOOR_FLOOR
+FIXED_LIGHT
+CHANNEL 777
+REGION 0
+ITEM 0 738                                    
+
+*DESCRIPTION_START
+You are sitting in a contoured plastic seat that seems to have been 
+tailor made for your body. The pedals are precisely the in the right position 
+for pushing. The bright canopy over your head flaps in the breeze with a 
+bright snapping sound.
+*DESCRIPTION_END
+
+   
+
+IFPREVERB PUSH 0
+   IFVAR FLAG1 = 0
+      ECHO PLAYER You push down on the pedals and the boat moves away from the dock.
+      PLREVENT 1
+      CONTPLREVENT
+      EQUAL FLAG1 1
+      ECHO PLAYER The boat turns into the current heading toward the mainland.
+      PLREVENT 3
+      CONTPLREVENT
+      ECHO PLAYER You continue pedaling toward shore. The brisk north wind catches the awning, making it snap loudly.
+      PLREVENT 3
+      CONTPLREVENT 
+      ECHO PLAYER You've pedaled more than halfway to the rocky beach now. With the current helping, you find it's quite easy.
+      PLREVENT 3
+      CONTPLREVENT
+      ECHO PLAYER You backpedal slightly, turning the nose of the boat so that it heads in toward the beach.
+      PLREVENT 3
+      CONTPLREVENT
+      ECHO PLAYER The bottom of the boat scrapes on the sand as you pedal it in to shore. You carefully stand and step out of your seat.
+      MOVE 1203
+   ELSE
+      ECHO PLAYER You continue pedaling the boat toward the mainland.
+   ENDIF
+ENDIF
+       
+
+                     
+
+       
+
+
+                      
+
+
+

@@ -1,0 +1,279 @@
+@activate
+
+   This command allows you to activate a "monster" that you have @GENMON'ed.
+
+   (See @GENMON, @ZAP and @SEDATE)
+            
+
+@additem <archnum>
+
+   This command adds an item into the room you are in.
+
+   (See @GLOSSARY)
+   
+
+@announce <MODE> <MESSAGE>
+
+   This command allows you to announce a message to patrons in the Cafe.
+   There are 5 different modes, but only 2 work in the Cafe. They are 1
+   (GLOBAL) and 2 (ESP/Mindlink) @answer 
+
+   This command allows you to answer an ASSIST by removing the ASSIST from
+   the queue and teleporting you to the room of the player who issued the
+   ASSIST. 
+
+
+@close <item name>
+
+   This command simply closes an item. It DOES NOT echo that you closed the
+   item to anyone else who is in the room. 
+
+
+@compile
+
+   This command USED TO allow you to compile scripts. It no longer works.
+
+   (See @OLDCOMP)
+
+
+@delete <item name>
+
+   This command allows you to delete an item.
+
+   
+@echoplr <job #> <text>
+
+   This command allows you to echo text to a Cafe patron.
+
+   (See @EXCLUDE, @LWHO, @SND, and @WHISPER)
+
+   
+@editem <item name>
+
+   This command allows you to edit the below parameters on an item.
+
+   Adjective #1
+   Adjective #2         These 3 can take adjective NUMBERS or NAMES
+   Adjective #3
+
+   Val1
+   Val2                 These slots are used for various functions in the Cafe,
+   Val3                 such as room destinations for portals, number
+   Val4                 of sips in a drink, "money" value of an item, etc. 
+   Val5                 See SCRIPT.DOC for more details.
+   Val6
+
+   Cycles to deletion   Ignore this. It isn't implemented.
+
+   Item Location Type   Can be 1 (player), 2 (bank), 3 (contained), 4 (room)
+
+   Item Location        This is paired with Item Location Type. If the type is
+                        a player, you'd enter the job number here. If bank,
+                        then you'd enter the region. If contained, then you'd 
+                        enter the RECORD NUMBER of the item to contain it.
+                        And if room, then the room number. 
+
+   Special Description  This allows you to add text to an item if someone LOOKS,
+                        READS or EATS/DRINKS it. Simply precede the text with 
+                        the followly letters: E, R or T (respectively) 
+
+   Extended name        This allows you to add text past the item name.
+
+   Seek ID field        This is an advanced function and I will explain it
+                        later if you really want to know what it is for. But
+                        for now, skip it. 
+
+   Archtype             This tells the item what it is. It allows you to turn
+                        the item into a totally different item while keeping
+                        the adjectives, vals and other parameters the item
+                        has. 
+
+   Bitfield             Not implemented. Ignore.
+
+
+@edplayer <job #>       This allows you to edit various parameters on a player,
+                        such as name, strength, racial attributes, etc. Not
+                        very useful in the Virtual Cafe. 
+
+
+@edn <item record #>    This allows you to edit an item that isn't either in
+                        the room you are in or in your inventory. It works
+                        just like @EDITEM, 'cept that it requires the RECORD
+                        NUMBER (not ARCHNUM) of the item you wish to edit. 
+
+
+@entry [text]           This allows you to change the text people see when you
+                        @GO to a room. Typing it by itself clears the entry
+                        text. 
+
+                        (See @GO, @GOP, and @EXIT)
+
+
+@examine <#>            This lets you see what CEVENT, ITEM, MADJECTIVE,
+                        ADJECTIVE, NOUN, MONSTER, SPELL and NPC that
+                        corresponds with a number. 
+
+                        
+@exclude <job #> <text> This lets you send text to everyone in a room EXCEPT
+                        the person you are excluding. 
+
+
+@exit [text]            Works the same as @ENTRY, 'cept that it's for your
+                        exiting text. 
+
+
+@find <ARCHNUM>         This lets you find all of a particular item that is
+                        active in the Virtual Cafe. 
+
+                        (See @GET)
+
+                        
+@genmon <Monster #>     This lets you generate a monster in the room with you.
+
+                        (See @ACTIVATE, @SEDATE and @ZAP)
+
+
+@get <RECORD #>         This allows you to GET an item that you have found
+                        with the @FIND command. Be very careful using this
+                        command. If you @GET an item that is scripted into a
+                        room, it will "break" the room until it is
+                        recompiled. 
+
+
+@gm                     Puts on your "Host Hat", making you listed as
+                        being a Host.
+
+                        (See @RFLAG)
+
+                        
+@go <Room #>            Lets you teleport to a room.
+
+
+@goplr <Job #>          Lets you teleport to a player.
+
+
+@glossary <word>        Let's you look up items, nouns, adjectives, monsters
+                        and spells. 
+
+
+@heal <Job #>           Heals a patron.
+
+
+@hide                   Removes you from the WHO list.
+
+
+@invis                  Makes you invisible.
+
+
+@kill <Job #>           Kills a patron.
+
+
+@line1 <Job #>          Let's you change line 1 of a player's description.
+@line2 <Job #>          Let's you change line 2 of a player's description.
+@line3 <Job #>          Let's you change line 3 of a player's description.
+
+
+@lock <item name>       Locks an item. Doesn't display an echo to players
+                        in the room.
+
+
+@look <Record #>        Let's you look inside of a container.
+
+
+@lwho                   Lists everyone in the Cafe, including their job and
+                        room #'s
+
+
+@msg                    Let's you toggle on/off the viewing of Host messages.
+
+
+@num <Patron Name>      Shows you a Patron's job number.
+
+
+@oldcomp <script name>  Let's you compile a script that is in your home
+                        directory. All scripts must end in .SCR and when you
+                        compile them, you leave off the .SCR. So if you want
+                        to compile myscript.scr that is in the scripts
+                        directory in your home directory, you would type "@
+                        old scripts/myscript". 
+
+
+@open <item name>       Like @CLOSE and @LOCK. It opens an item.
+
+
+@peek <variable name>   Allows you to view the value of a variable.
+
+                        (See @SET)
+
+
+@pinv <Job #>           Allows you to view a patron's inventory.
+
+
+@rdata <Room #>         Shows you room data.
+
+
+@restore <NPC #>        Loads a character from an NPC slot. This will
+                        overwrite your current Cafe persona, so DO NOT USE
+                        THIS COMMAND until you have been assigned an NPC slot 
+                        to store yourself in. 
+
+                        (See @SAVE)
+
+
+@rflag                  This is the opposite of @GM.
+
+
+@rnd <#>                Generates a random number based on 1 to #.
+
+
+@save <NPC #>           Saves your persona in an NPC slot. You must be
+                        ASSIGNED an NPC slot. Don't just @SAVE into any slot
+                        you want, as you will more than likely be overwriting 
+                        someone else's NPC. 
+
+
+@sedate <Monster name>  This is the opposite of @ACTIVATE.
+
+                        (See @ACTIVATE, @GENMON, @ZAP)
+
+                        
+@set <variable> <value> This allows you to set the value of a variable.
+
+                        (See @PEEK)
+
+                        
+@snd <text>             This echos text into the room you are in.
+
+
+@speech <Job #> <text>  This changes the speech pattern of a patron.
+
+
+@suggest <text>         Adds a suggestion to the suggestion file.
+
+
+@unhide                 Puts you back on the WHO list.
+
+
+@unlock                 The opposite of @LOCK.
+
+                        (See @OPEN, @CLOSE, @LOCK)
+
+
+@vis                    The opposite of @INVIS. Makes you visible.
+
+                        (See @INVIS)
+
+                        
+@whisper <Job #> <text> Allows you to whisper to a person who is not in
+                        the room with you.
+
+                        
+@who                    Shows all patrons and monsters in the Cafe, with
+                        their job #'s.
+
+
+@yank <Job #>           Yanks a patron into the room with you. More polite
+                        to use @GOP.
+
+
+@zap <monster name>     Zaps a monster that is in the room with you.

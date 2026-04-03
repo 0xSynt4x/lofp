@@ -1,0 +1,17 @@
+I will be "moving" the Cafe scripts that we've been working on for the past
+couple of weeks to the "live" Cafe sometime next week. After that point, I
+would prefer any new scripting to be done on sutr's 2525 port. Once a script
+is perfected on that port, you can let me know the name of the script file
+and I will add it to the main Cafe's configuration so that it will load on
+reboot. Currently, the Cafe reboots every morning between 6 and 7am eastern.
+
+Also, a new script naming policy is going into affect immediately. Please
+follow the below naming convention.
+
+adjs.scr      - All adjective definitions are to be kept in a separate file
+nouns.scr     - All noun definitions are to be kept in a separate file
+items.scr     - All item definitions are to be kept in a separate file
+monsters.scr  - All monster definitions are to be kept in a separate file
+office.scr    - Your office rooms are to be kept in a separate file
+
+All other scripts can be named and grouped any way you see fit. Just please

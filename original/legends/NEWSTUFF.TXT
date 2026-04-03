@@ -1,0 +1,35 @@
+Following are a few simple items that I'd like to have if you have
+some spare time and are feeling generous.
+ 
+; A CRACKER (to be used when Armoth and his parrot are in the room)
+> wave cracker
+You wave a cracker.
+ 
+> gaze cracker
+You gaze at a cracker.
+ 
+> flip cracker
+The parrot takes the cracker in its beak and eats it noisily,
+getting crumbs everywhere. 
+ 
+ 
+ 
+; A SOAPBOX
+> pull soapbox
+You stand on a soapbox.
+ 
+> push soapbox
+You step down from a soapbox.
+ 
+ 
+Below are a few misspellings I've found in OBJECTs:
+You crak your knuckles.
+You humm to yourself.
+You stare around blanky.
+ 
+ 
+ 
+Thanks for your time.
+ 
+-Taliesin Pendragon (UID=brnghurst)
+

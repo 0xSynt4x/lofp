@@ -1,0 +1,1273 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<title>Major Monster Generator</title>
+<base target="_top">
+</head>
+
+<body bgcolor="#FFFF80" text="#000000" font face="comicsans">
+<script language="JavaScript">
+<!--
+
+function Make(form)
+{
+	var wWnd = window.open("","test","toolbar=no,width=750,height=500,directories=no,status=no,scrollbars=yes,resizable=no,menubar=yes");
+	if (wWnd == null)
+		return
+
+	wWnd.document.writeln('MADJDEF ' + form.MADJDEF.value + '<br>')
+  wWnd.document.writeln('MNUMBER ' + form.MNumber.value + '<br>')
+  if(form.unique.value == "unique")
+    wWnd.document.writeln('UNIQUE'+ '<BR>')
+  wWnd.document.writeln('NAME ' + form.NAME.value + '<br>')
+  wWnd.document.writeln( "ADJECTIVE " + form.Adjective.value + '<br>')
+	var formindex = form.Type.selectedIndex
+	wWnd.document.writeln(form.Type.options[formindex].value + '<br>')
+	for (iIdx=0; iIdx<20; iIdx++)
+	if (form.PartNum.options[iIdx].selected)
+		wWnd.document.writeln('PART ' + form.PartNum.options[iIdx].value + '<br>')
+	wWnd.document.writeln("*DESCRIPTION_START <BR>" + form.descr.value
+	+ '<BR>' + "*DESCRIPTION_END" + '<BR>')
+	wWnd.document.writeln('BODY ' + form.body.value + '<BR>')
+	wWnd.document.writeln( 'EXTRABODY ' + form.extra.value + '<BR>' )
+	wWnd.document.writeln( 'ATTACK1 ' + form.Attack1.value + '<br>')
+  wWnd.document.writeln( 'DEFENSE ' + form.defense.value + '<br>')
+  if(form.strategy.options[form.strategy.selectedIndex].selected)
+    if(form.strategy.options[form.strategy.selectedIndex].value == "0")
+      wWnd.document.writeln( 'STRATEGY ' + form.strategy1.value + '<BR>')
+    else
+      wWnd.document.writeln( 'STRATEGY ' + form.strategy.options[form.strategy.selectedIndex].value + '<br>')
+    wWnd.document.writeln( 'TREASURE ' + form.treasure.value + '<br>')
+  if(form.snare.options[form.snare.selectedIndex].value != 2)
+    wWnd.document.writeln( 'IMMUNITY 0 ' +
+    form.snare.options[form.snare.selectedIndex].value + '<br>')
+    if(form.crush.options[form.crush.selectedIndex].value != 2)
+    wWnd.document.writeln( 'IMMUNITY 1 ' +
+    form.crush.options[form.crush.selectedIndex].value + '<br>')
+    if(form.edged.options[form.edged.selectedIndex].value != 2)
+    wWnd.document.writeln( 'IMMUNITY 2 ' +
+    form.edged.options[form.edged.selectedIndex].value + '<br>')
+    if(form.heat.options[form.heat.selectedIndex].value != 2)
+    wWnd.document.writeln( 'IMMUNITY 3 ' +
+    form.heat.options[form.heat.selectedIndex].value + '<br>')
+    if(form.electric.options[form.electric.selectedIndex].value != 2)
+    wWnd.document.writeln( 'IMMUNITY 4 ' +
+    form.electric.options[form.electric.selectedIndex].value + '<br>')
+    if(form.cold.options[form.cold.selectedIndex].value != 2)
+    wWnd.document.writeln( 'IMMUNITY 5 ' +
+    form.cold.options[form.cold.selectedIndex].value + '<br>')
+    if(form.nervous.options[form.nervous.selectedIndex].value != 2)
+    wWnd.document.writeln( 'IMMUNITY 6 ' +
+    form.nervous.options[form.nervous.selectedIndex].value + '<br>')
+    if(form.lifeaffect.options[form.lifeaffect.selectedIndex].value != 2)
+    wWnd.document.writeln( 'IMMUNITY 7 ' +
+    form.lifeaffect.options[form.lifeaffect.selectedIndex].value + '<br>')
+    if(form.undead.options[form.undead.selectedIndex].value != 0)
+    wWnd.document.writeln( 'IMMUNITY 8 ' +
+    form.undead.options[form.undead.selectedIndex].value + '<br>')
+    if(form.crits.options[form.crits.selectedIndex].value != 2)
+    wWnd.document.writeln( 'IMMUNITY 9 ' +
+    form.crits.options[form.crits.selectedIndex].value + '<br>')
+    if(form.race.options[form.race.selectedIndex].value != 0)
+    wWnd.document.writeln('RACE ' + form.race.options[form.race.selectedIndex].value + '<br>')
+    wWnd.document.writeln('WEAPON ' + form.weapon.value + '<br>')
+    wWnd.document.writeln('WEAPONPLUS ' + form.wplus.value + '<br>')
+    wWnd.document.writeln('ARMOR ' + form.armor.value + '<br>')
+    if(form.mweapon.options[form.mweapon.selectedIndex].value != 0)
+    wWnd.document.writeln('MAGICWEAPON ' +
+    form.mweapon.options[form.mweapon.selectedIndex].value + '<BR>')
+    if(form.discorp.options[form.discorp.selectedIndex].value != 0)
+    wWnd.document.writeln('DISCORPORATE <br>')
+    wWnd.document.writeln('SKINADJ ' + form.skinadj.value + '<br>')
+    if(form.beard.value != 0)
+    wWnd.document.writeln('SKINITEM 504 ' + form.beard.value + '<BR>')
+    if(form.claw.value != 0)
+    wWnd.document.writeln('SKINITEM 505 ' + form.claw.value + '<br>')
+    if(form.scalp.value != 0)
+    wWnd.document.writeln('SKINITEM 506 ' + form.scalp.value + '<br>')
+    if(form.scale.value != 0)
+    wWnd.document.writeln('SKINITEM 507 ' + form.scale.value + '<br>')
+    if(form.ear.value != 0)
+    wWnd.document.writeln('SKINITEM 508 ' + form.ear.value + '<br>')
+    if(form.pelt.value != 0)
+    wWnd.document.writeln('SKINITEM 509 ' + form.pelt.value + '<br>')
+    if(form.tooth.value != 0)
+    wWnd.document.writeln('SKINITEM 510 ' + form.tooth.value + '<br>')
+    if(form.dust.value != 0)
+    wWnd.document.writeln('SKINITEM 512 ' + form.dust.value + '<br>')
+    if(form.talon.value != 0)
+    wWnd.document.writeln('SKINITEM 513 ' + form.talon.value + '<br>')
+	  if(form.hide.value != 0)
+    wWnd.document.writeln('SKINITEM 514 ' + form.hide.value + '<br>')
+    if(form.hair.value != 0)
+    wWnd.document.writeln('SKINITEM 515 ' + form.hair.value + '<br>')
+    if(form.beak.value != 0)
+    wWnd.document.writeln('SKINITEM 516 ' + form.beak.value + '<br>')
+    if(form.feathers.value != 0)
+    wWnd.document.writeln('SKINITEM 517 ' + form.feathers.value + '<br>')
+    if(form.paw.value != 0)
+    wWnd.document.writeln('SKINITEM 518 ' + form.paw.value + '<br>')
+    if(form.horn.value != 0)
+    wWnd.document.writeln('SKINITEM 519 ' + form.horn.value + '<br>')
+    if(form.eye.value != 0)
+    wWnd.document.writeln('SKINITEM 520 ' + form.eye.value + '<br>')
+    if(form.tongue.value != 0)
+    wWnd.document.writeln('SKINITEM 521 ' + form.tongue.value + '<br>')
+    if(form.tail.value != 0)
+    wWnd.document.writeln('SKINITEM 522 ' + form.tail.value + '<br>')
+    if(form.skin.value != 0)
+    wWnd.document.writeln('SKINITEM 523 ' + form.skin.value + '<br>')
+    if(form.tusk.value != 0)
+    wWnd.document.writeln('SKINITEM 524 ' + form.tusk.value + '<br>')
+    if(form.finger.value != 0)
+    wWnd.document.writeln('SKINITEM 525 ' + form.finger.value + '<br>')
+    if(form.toe.value != 0)
+    wWnd.document.writeln('SKINITEM 526 ' + form.toe.value + '<br>')
+    if(form.leg.value != 0)
+    wWnd.document.writeln('SKINITEM 527 ' + form.leg.value + '<br>')
+    if(form.fangs.value != 0)
+    wWnd.document.writeln('SKINITEM 528 ' + form.fangs.value + '<br>')
+    if(form.eternal.options[form.eternal.selectedIndex].value == 2)
+    wWnd.document.writeln('ETERNAL' + '<br>')
+    wWnd.document.writeln('GENDER ' + form.gender.options[form.gender.selectedIndex].value + '<br>')
+    if(form.steal.value != 0)
+    wWnd.document.writeln('STEALABLE' + '<BR>')
+    if(form.poison.value != 0)
+    wWnd.document.writeln('POISON ' + form.poison.value + '<br>')
+    if(form.disease.value != 0)
+    wWnd.document.writeln('DISEASE ' + form.disease.value + '<br>')
+    if(form.fatigue.value != 0)
+    wWnd.document.writeln('FATIGUE ' + form.fatigue.value + '<br>')
+    wWnd.document.writeln('RESIST ' + form.resist.value + '<br>')
+    wWnd.document.writeln('PSIRESIST ' + form.psiresist.value + '<br>')
+    wWnd.document.writeln('HIDESKILL ' + form.hidesk.value + '<br>')
+    if(form.guard.value != 0)
+    wWnd.document.writeln('GUARD ' + form.guard.value + '<br>')
+    wWnd.document.writeln('SPEED ' + form.speed.options[form.speed.selectedIndex].value + '<br>')
+    wWnd.document.writeln('MANA ' + form.mana.value + '<br>')
+    wWnd.document.writeln('SPELLUSE ' + form.spelluse.value + '<br>')
+    wWnd.document.writeln('SPELLSKILL ' + form.spellskill.value + '<br>')
+    wWnd.document.writeln('CASTLEVEL ' + form.castlevel.value + '<br>')
+    if(form.nodisrupt.options[form.nodisrupt.selectedIndex].value == 1)
+    wWnd.document.writeln('NONDISRUPTABLE <BR>')
+    if(form.nosilence.options[form.nosilence.selectedIndex].value == 1)
+    wWnd.document.writeln('SILENCEIGNORE <BR>')
+    for (iIdx=0; iIdx<30; iIdx++)
+	if (form.spells.options[iIdx].selected)
+		wWnd.document.writeln('SPELL ' + form.spells.options[iIdx].value + '<br>')
+		if(form.psi.value != 0)
+		wWnd.document.writeln('PSI ' + form.psi.value + '<BR>')
+		if(form.psiuse.value != 0)
+		wWnd.document.writeln('PSIUSE ' + form.psiuse.value + '<BR>')
+		if(form.psiskill.value != 0)
+		wWnd.document.writeln('PSISKILL ' + form.psiskill.value + '<BR>')
+		if(form.psilevel.value != 0)
+		wWnd.document.writeln('PSILEVEL ' + form.psilevel.value + '<BR>')
+		for (iIdx=0; iIdx<20; iIdx++)
+	if (form.disc.options[iIdx].selected)
+		wWnd.document.writeln('DISCIPLINE ' + form.disc.options[iIdx].value + '<br>')
+		if(form.specuse.value != 0)
+		  wWnd.document.writeln('SPECUSE ' + form.specuse.value + '<BR>')
+		if(form.specuses.value != 0)
+		  wWnd.document.writeln('SPECUSES ' + form.specuses.value + '<BR>')
+		if(form.specbase.value != 0)
+		  wWnd.document.writeln('SPECBASE ' + form.specbase.value + '<BR>')
+		if(form.specdmg.value != 0)
+		  wWnd.document.writeln('SPECDMG ' + form.specdmg.value + '<BR>')
+		  wWnd.document.writeln('SPECDMGTYPE ' + form.spectype.value + '<BR>')
+		  wWnd.document.writeln('TEXX ' + form.texx.value + '<BR>')
+		   if(form.texb.value != "none")
+wWnd.document.writeln("texb " + form.texb.value + "<BR>")
+ if(form.texc.value != "none")
+wWnd.document.writeln("texc " + form.texc.value + "<BR>")
+ if(form.texv.value != "none")
+wWnd.document.writeln("texv " + form.texv.value + "<BR>")
+ if(form.texh.value != "none")
+wWnd.document.writeln("texh " + form.texh.value + "<BR>")
+ if(form.texx.value != "none")
+wWnd.document.writeln("texx " + form.texx.value + "<BR>")
+ if(form.texe.value != "none")
+wWnd.document.writeln("texe " + form.texe.value + "<BR>")
+ if(form.texi.value != "none")
+wWnd.document.writeln("texi " + form.texi.value + "<BR>")
+ if(form.texq.value != "none")
+wWnd.document.writeln("texq " + form.texq.value + "<BR>")
+ if(form.texz.value != "none")
+wWnd.document.writeln("texz " + form.texz.value + "<BR>")
+ if(form.texd.value != "none")
+wWnd.document.writeln("texd " + form.texd.value + "<BR>")
+ if(form.texf.value != "none")
+wWnd.document.writeln("texf " + form.texf.value + "<BR>")
+ if(form.texm.value != "none")
+wWnd.document.writeln("texm " + form.texm.value + "<BR>")
+ if(form.texg.value != "none")
+wWnd.document.writeln("texg " + form.texg.value + "<BR>")
+ if(form.texs.value != "none")
+wWnd.document.writeln("texs " + form.texs.value + "<BR>")
+ if(form.texl.value != "none")
+wWnd.document.writeln("texl " + form.texl.value + "<BR>")
+ if(form.texa.value != "none")
+wWnd.document.writeln("texa " + form.texa.value + "<BR>")
+ if(form.texr.value != "none")
+wWnd.document.writeln("texr " + form.texr.value + "<BR>")
+ if(form.tex1.value != "none")
+wWnd.document.writeln("tex1 " + form.tex1.value + "<BR>")
+ if(form.tex2.value != "none")
+wWnd.document.writeln("tex2 " + form.tex2.value + "<BR>")
+ if(form.tex3.value != "none")
+wWnd.document.writeln("tex3 " + form.tex3.value + "<BR>")
+ if(form.tex4.value != "none")
+wWnd.document.writeln("tex4 " + form.tex4.value + "<BR>")
+    wWnd.document.close()
+}
+function detailWin(form) {
+  win1 =
+  open("","SecWin","width=300,height=300,scrollbars=yes,directories=no,menubar=no");
+  if(form.StrategyList.options[form.StrategyList.selectedIndex].selected)
+   var dtext="<B>0011-100</b> Non-hostile, flee when attacked.<BR><B>::note:</b> if the number is 1-25 the monster will cry for help and alert legal authorities<BR><B>101-200</b>  Non-hostile, defend themselves when attacked.<BR><b>101-125</B> will cry for help and"
+   var dtext2=" alert legal authorities.<BR><B>201-300</b>  Animals that always flee even if not attacked but defend themselves if attacked.<BR><B>301-400 </B>Hostile, flee when wounded.  group A<BR><B>401-500</B>  Hostile, flee when wounded.  group B<BR>"
+   var dtext3="<B>501-600</b>  Hostile, fight to the death. group A<BR><B>601-700 </b>Hostile, fight to the death. group B<BR><I><B>There is no distinction between group A and B at this time. The intention in the future is that Group A and group B will be hostile.</I>"
+   win1.document.open();
+   win1.document.write( dtext + dtext2 + dtext3 );
+   win1.document.close();
+      }
+function detail2Win(form) {
+  win1 =
+  open("","SecWin","width=300,height=300,scrollbars=yes,directories=no,menubar=no");
+if(form.skins.options[form.skins.selectedIndex].value == 1)
+     var dtext=("504 - beard<br>505 - claw<BR>506 - scalp<br>507 - scale<BR>508 - ear<BR>509 - pelt<BR>510 - tooth<BR>512 - dust<BR>513 - talon<BR>514 - hide<BR>515 - hair<BR>516 - beak")
+     var dtext2=("<br>517 - feathers<BR>518 - paw<BR>519 - horn<BR>520 - eye<BR>521 - tongue<BR>522 - tail<BR>523 - skin<BR>524 - tusk<BR>525 - finger<BR>526 - toe<BR>527 - leg<BR>528 - fangs")
+     var dtext3=("")
+     win1.document.open();
+     win1.document.write( dtext + dtext2 + dtext3 );
+     win1.document.close();
+     }
+
+// -->
+</script>
+
+<form>
+    <div align="center"><center><table border="6" cellpadding="3"
+    width="100%" bgcolor="#FFFF80" bordercolor="#008080"
+    bordercolordark="#008080" bordercolorlight="#008080"
+    fgcolor="blue" font FACE="times new roman">
+        <tr>
+            <th colspan="4" bgcolor="#008080"
+            bordercolor="#C0C0C0" bordercolordark="#000080"
+            bordercolorlight="#008080"><font color="#000000"
+            FACE="times new roman">LoFP Monster Generator</font><p><font
+            color="#000000"  FACE="times new roman">Fill in the
+            fields below, then click &quot;Create my
+            monster&quot;. The completed script will appear in a
+            separate window and can be cut and pasted to any text
+            program for further editing or uploading. The program
+            will add in all necessary tags, except where
+            indicated.</font></p>
+            </th>
+        </tr>
+        <tr>
+            <td><font color="#000000"  FACE="times new roman">Create
+            an<b> adjective</b> for your monster, if one does not
+            exist. Otherwise leave blank.<br>
+            </font></td>
+            <td valign="top" colspan="2"><font color="#008080"
+            FACE="times new roman">Enter a monster <b>adjective</b>
+            number followed by the adjective i.e. 203 monstrous</font><font
+            color="#000000"   FACE="times new roman"><br>
+            <input type="text" size="20" name="MADJDEF"> </font></td>
+            <td><font color="#000000"   FACE="times new roman">This
+            number must be assigned by Gary. </font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><br>
+            Enter a Monster<b> number</b><br>
+            </font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><!--webbot bot="Validation"
+            s-data-type="Integer" s-number-separators="x" --><input
+            type="text" size="20" name="MNumber"></font></td>
+            <td><font color="#000000"   FACE="times new roman">This
+            number must be assigned by Gary</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Enter
+            a monster <b>ADJECTIVE </b>number</font></td>
+            <td colspan="2"><font color="#000000"
+            FACE="times new roman"><!--webbot bot="Validation"
+            s-data-type="Integer" s-number-separators="x" --><input
+            type="text" size="20" name="Adjective"></font></td>
+            <td><font color="#000000"   FACE="times new roman">Enter
+            any MAdjective number or the adjective number defined
+            above.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Is the monster <b>UNIQUE?</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="unique"
+            size="1">
+                <option value="; ">No </option>
+                <option value="UNIQUE">Yes </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman">A
+            UNIQUE monster will begin with a capital letter. EX:
+            Vashaska. These are monsters that are meant to be one
+            of a kind, as Captain Bloodheart, Menelian, etc.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Enter a monster <b>name</b></font></td>
+            <td colspan="2"><font color="#000000"
+            FACE="times new roman"><input type="text" size="20"
+            name="NAME"></font></td>
+            <td><font color="#000000"   FACE="times new roman">Needs
+            no explanation, duh.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Monster <b>type: </b><br>
+            select one or leave blank</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="Type" size="1">
+                <option selected value="0">No Type Selected</option>
+                <option value="HUMAN">Human </option>
+                <option value="AVINE">Avine </option>
+                <option value="ANIMAL">Animal </option>
+            </select> </font></td>
+            <td><font color="#000000"   FACE="times new roman">This
+            will define the body parts the system assigns to your
+            monster. If you leave it blank, you should select
+            specific body parts from the list below.</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Select
+            one or more body<b> parts:</b> <br>
+            To select more than one, CTRL-click on each choice<br>
+            Choose as many as are applicable.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="PartNum"
+            multiple size="5">
+                <option value="00">00 head </option>
+                <option value="01">01 body </option>
+                <option value="02">02 back </option>
+                <option value="03">03 second head </option>
+                <option value="04">04 thorax </option>
+                <option value="05">05 right arm </option>
+                <option value="06">06 left arm </option>
+                <option value="07">07 right leg </option>
+                <option value="08">08 left leg </option>
+                <option value="09">09 right hind leg </option>
+                <option value="10">10 left hind leg </option>
+                <option value="11">11 right foreleg </option>
+                <option value="12">12 left foreleg </option>
+                <option value="13">13 right hand </option>
+                <option value="14">14 left hand </option>
+                <option value="15">15 right wing </option>
+                <option value="16">16 left wing </option>
+                <option value="17">17 tail </option>
+                <option value="18">18 right paw </option>
+                <option value="19">19 left paw </option>
+            </select> </font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">This can be used in conjunction with
+            defining a body type, or by itself.</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Description</b>:
+            Write a description for your monster.</font></td>
+            <td colspan="2"><font color="#000000"
+            FACE="times new roman"><textarea name="descr" rows="6"
+            cols="30">
+  </textarea> </font></td>
+            <td><font color="#000000"   FACE="times new roman">The
+            form will enter the *DESCRIPTION_START and
+            *DESCRIPTION_END tags for you. </font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Body<br>
+            </b>Define the number of body points factored into
+            experience</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="20"
+            name="body"> </font><font color="#008080" size="2"
+            FACE="times new roman"><b>The ratio of body to extrabody is
+            one of the main determining factors in experience
+            earned from the monster. Generally the higher the
+            EXTRABODY is in proportion to BODY, the lower the
+            EXP/DAMAGE ratio.</b></font></td>
+            <td><font color="#000000"   FACE="times new roman"><b>Examples:<br>
+            goblin 100<br>
+            terminator 800<br>
+            sea wench 600</b></font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Extrabody</b><br>
+            <b>Define an additional number of body points not
+            factored into experience<br>
+            </b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><b><input type="text"
+            size="20" name="extra"></b></font><font
+            color="#008080" size="2" FACE="times new roman"><b> EXTRABODY
+            can be up to 50% of BODY</b></font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman"><b>Examples:<br>
+            goblin 0<br>
+            terminator 0<br>
+            sea wench 100</b></font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Define
+            the monster's ATTACK1</b> modifier.<br>
+            </font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="20"
+            name="Attack1"> </font><font color="#008080"
+            FACE="times new roman"><strong>This parameter determines your
+            monster's to hit modifier</strong>.</font></td>
+            <td><font color="#000000"   FACE="times new roman">Example:<br>
+            kobold 15<br>
+            goblin 60<br>
+            sea wench 360<br>
+            hawkbeast 870</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Define
+            your monster's <b>DEFENSE</b> modifier.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="20"
+            name="defense"> </font><font color="#008080"
+            FACE="times new roman"><strong>This parameter determines what
+            skill level is needed to hit the monster with a
+            weapon.</strong></font></td>
+            <td><font color="#000000"   FACE="times new roman">Examples:<br>
+            goblin 45<br>
+            terminator 150<br>
+            sea wench 350</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Choose
+            your monster's <b>STRATEGY</b><br>
+            This will define how the creature acts when it
+            encounters a pc. </font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="strategy"
+            size="1">
+                <option value="0">Use text box </option>
+                <option value="20">Non-hostile, flee, alert law enforcement </option>
+                <option value="60">Non-hostile, flee when attacked </option>
+                <option value="110">Non-hostile, defend self, alert law enforcement </option>
+                <option value="130">Defend self when attacked </option>
+                <option value="225">Always flee, but defend self if attacked </option>
+                <option value="333">Hostile, flee when wounded (group A) </option>
+                <option value="450">Hostile, flee when wounded (group B) </option>
+                <option value="570">Hostile, fight to the death (group A) </option>
+                <option value="645">Hostile, fight to the death (group B) </option>
+            </select><br>
+            </font><font color="#008080"  FACE="times new roman"><b>OR</b><br>
+            Enter a numerical value based on the fields to the
+            right</font><font color="#008080"
+            FACE="times new roman"> <input type="text" size="20"
+            name="strategy1"> </font></td>
+            <td><font color="#000000"   FACE="times new roman">If
+            you prefer to enter a specific number, use the text
+            box.<br>
+            To see a listing of the strategy types and ranges,
+            select yes, then click the ShowMe! button. <br>
+            <select name="StrategyList" size="1">
+                <option value="yes">Yes </option>
+                <option value="No">No</option>
+            </select> <input type="button" value="Show me more!"
+            onclick="detailWin(this.form)"> </font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Define
+            the <b>treasure</b> level for your monster. If the
+            level is 0, the monster will not carry treasure.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="20"
+            name="treasure"></font></td>
+            <td><font color="#000000"   FACE="times new roman">Example:<br>
+            goblin 5<br>
+            sea wench 36<br>
+            veteran gladiator 40</font></td>
+        </tr>
+        <tr>
+            <td valign="top" rowspan="10"><font color="#000000"
+              FACE="times new roman">Define your monster's <b>immunities</b>.
+            Select one in each box.</font></td>
+            <td><font color="#000000"   FACE="times new roman">Ensnaring
+            Attacks </font></td>
+            <td><font color="#000000"   FACE="times new roman"><select
+            name="snare" size="1">
+                <option value="2">Normal susceptability </option>
+                <option value="1">Half damage </option>
+                <option value="0">Immune </option>
+                <option value="3">1 1/2 times damage </option>
+                <option value="4">Double susceptibility </option>
+            </select> </font></td>
+            <td><font color="#000000"   FACE="times new roman">Especially
+            large or supernatural creatures would ignore this
+            form of attack.</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Crushing
+            Weapons</font></td>
+            <td><font color="#000000"   FACE="times new roman"><select
+            name="crush" size="1">
+                <option value="2">Normal </option>
+                <option value="1">Half damage </option>
+                <option value="0">Immune </option>
+                <option value="3">1 1/2 times damage </option>
+                <option value="4">Double susceptibility </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman"></font>&nbsp;</td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Edged
+            Weapons &nbsp;</font></td>
+            <td><font color="#000000"   FACE="times new roman"><select
+            name="edged" size="1">
+                <option value="2">Normal </option>
+                <option value="1">Half damage </option>
+                <option value="0">Immune </option>
+                <option value="3">1 1/2 times damage </option>
+                <option value="4">Double susceptibility </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman"></font>&nbsp;</td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Heat
+            Attacks &nbsp;</font></td>
+            <td><font color="#000000"   FACE="times new roman"><select
+            name="heat" size="1">
+                <option value="2">Normal </option>
+                <option value="1">Half damage </option>
+                <option value="0">Immune </option>
+                <option value="3">1 1/2 times damage </option>
+                <option value="4">Double susceptibility </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman"></font>&nbsp;</td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Electrical
+            Attacks </font></td>
+            <td><font color="#000000"   FACE="times new roman"><select
+            name="electric" size="1">
+                <option value="2">Normal </option>
+                <option value="1">Half damage </option>
+                <option value="0">Immune </option>
+                <option value="3">1 1/2 times damage </option>
+                <option value="4">Double susceptibility </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman"></font>&nbsp;</td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Cold
+            Attacks &nbsp;</font></td>
+            <td><font color="#000000"   FACE="times new roman"><select
+            name="cold" size="1">
+                <option value="2">Normal </option>
+                <option value="1">Half damage </option>
+                <option value="0">Immune </option>
+                <option value="3">1 1/2 times damage </option>
+                <option value="4">Double susceptibility </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman"></font>&nbsp;</td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Nervous System Attacks</font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman"><select name="nervous" size="1">
+                <option value="2">Normal </option>
+                <option value="1">Half damage </option>
+                <option value="0">Immune </option>
+                <option value="3">1 1/2 damage </option>
+                <option value="4">Double damage </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman">Determines
+            imunities to such spells as charm, sleep, psionic
+            blast and other spells that affect the nervous system</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Life affecting</font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman"><select name="lifeaffect" size="1">
+                <option value="2">Normal </option>
+                <option value="1">Half damage </option>
+                <option value="0">Immune </option>
+                <option value="3">1 1/2 times damage </option>
+                <option value="4">Double susceptibility </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman">Immunity
+            to body destruction, poison, disease and BR.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Undead affecting</font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman"><select name="undead" size="1">
+                <option value="0">Immune </option>
+                <option value="1">Half damage </option>
+                <option value="2">Full susceptibility </option>
+                <option value="3">1 1/2 times damage </option>
+                <option value="4">Double susceptibility </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman">This
+            is the only immunity whose default setting is 0.
+            Setting it to 3 would denote a lesser undead, 2 a
+            greater (such as a mummy). 1 should be reserved for
+            extremely powerful undead such as a lich or a greater
+            vampire.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Death Crits</font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman"><select name="crits" size="1">
+                <option value="2">Normal </option>
+                <option value="1">Half damage </option>
+                <option value="0">Immune </option>
+                <option value="3">1 1/2 times damage </option>
+                <option value="4">Double susceptibility </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman">If
+            this is set to 0, the creature would not receive a
+            fancy death crit i.e. -- 'slash to lower back spears
+            left kidney!'</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Choose a <b>RACE</b> for your monster</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="race" size="1">
+                <option value="0">No race selected </option>
+                <option value="21">extraplanar </option>
+                <option value="22">Undead </option>
+                <option value="23">Arachnid </option>
+                <option value="24">Kvantar </option>
+                <option value="25">Troll </option>
+                <option value="26">Lycanthrope </option>
+                <option value="27">Giant </option>
+                <option value="28">Constructs </option>
+                <option value="29">Goblin </option>
+                <option value="30">Ogre </option>
+                <option value="31">Dragon </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman">At
+            this time, this is used for defining a weapon's VALue
+            settings for weapons of slaying.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Define the <b>weapon</b> your monster
+            uses.</font></td>
+            <td valign="top" colspan="2"><font color="#008080"
+             FACE="times new roman"><strong>Enter a weapon
+            archnum followed by an adjective number then the
+            weighted probability that the weapon will be used. </strong></font><font
+            color="#000000"   FACE="times new roman"><br>
+            <input type="text" size="20" name="weapon"></font></td>
+            <td><font color="#000000"   FACE="times new roman">Example:
+            <b>205 310 50</b><br>
+            would mean your monster uses steel claws, and is
+            likely to attack with them 50% of the time. If you
+            choose not to define an adjective, you must enter -1
+            instead of an adjective number.</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Define
+            a <b>weaponplus</b> for your monster's weapon.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="20"
+            name="wplus"></font></td>
+            <td><font color="#000000"   FACE="times new roman">For
+            obvious reasons, you don't want to set this plus too
+            high. </font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Define
+            your monster's <b>armor</b> modifier.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="20"
+            name="armor"></font></td>
+            <td><font color="#000000"   FACE="times new roman">This
+            defines the percent damage reduction the monster
+            receives.</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Decide
+            if your monster can only be hit by a <b>magic weapon</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="mweapon"
+            size="1">
+                <option value="0">Magic weapon not required </option>
+                <option value="1">Any magic weapon will do </option>
+                <option value="2">Weapon must be at least +10 </option>
+                <option value="3">Weapon must be at least +21 </option>
+            </select></font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Monsters with this field checked can
+            only be hit by weapons with the required +. They will
+            still, however be afffected by any crits from the
+            weapon.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Is your monster <b>discorporate?</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="discorp"
+            size="1">
+                <option value="0">no </option>
+                <option value="1">yes </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman">If
+            this selection is checked, the monster will not leave
+            behind a body when it dies. This should be taken into
+            consideration before defining skinitems and treasure.
+            A discorporate monster will leave no body to search
+            or skin. </font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Define a <b>skin adjective</b> for
+            your monster.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman">Enter an adjective number.<br>
+            <input type="text" size="20" name="skinadj"></font></td>
+            <td><font color="#000000"   FACE="times new roman">This
+            adjective will be attached to any items skinned from
+            your monster.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Choose items that may be skinned from
+            your monster.Enter a probability of skinning for each
+            item you wish to be able to skin from your critter,
+            followed by the coppervalue if the item may be sold
+            at the PG, and then a magic parameter. If you do not
+            want a particular item available for skinning, leave
+            the default at 0. <br>
+            </font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="30"
+            name="beard" value="0">Beard<br>
+            <input type="text" size="30" name="claw" value="0">Claw<br>
+            <input type="text" size="30" name="scalp" value="0">scalp<br>
+            <input type="text" size="30" name="scale" value="0">scale<br>
+            <input type="text" size="30" name="ear" value="0">ear<br>
+            <input type="text" size="30" name="pelt" value="0">pelt<br>
+            <input type="text" size="30" name="tooth" value="0">tooth<br>
+            <input type="text" size="30" name="dust" value="0">dust<br>
+            <input type="text" size="30" name="talon" value="0">talon<br>
+            <input type="text" size="30" name="hide" value="0">hide<br>
+            <input type="text" size="30" name="hair" value="0">hair<br>
+            <input type="text" size="30" name="beak" value="0">beak<br>
+            <input type="text" size="30" name="feathers"
+            value="0">feathers<br>
+            <input type="text" size="30" name="paw" value="0">paw<br>
+            <input type="text" size="30" name="horn" value="0">horn<br>
+            <input type="text" size="30" name="eye" value="0">eye<br>
+            <input type="text" size="30" name="tongue" value="0">tongue<br>
+            <input type="text" size="30" name="tail" value="0">tail<br>
+            <input type="text" size="30" name="skin" value="0">skin<br>
+            <input type="text" size="30" name="tusk" value="0">tusk<br>
+            <input type="text" size="30" name="finger" value="0">finger<br>
+            <input type="text" size="30" name="toe" value="0">toe<br>
+            <input type="text" size="30" name="leg" value="0">leg<br>
+            <input type="text" size="30" name="fangs" value="0">fangs<br>
+            </font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">EX: If you wish to make toes available
+            for skinning at a 5 percent chance, non magical with
+            a value of approx 8 gold, you would enter <br>
+            <b>5 800 0</b><br>
+            in the box next to 'toe'. Probability is the weighted
+            probability that a particular item will be skinned.
+            Coppervalue is the average value of the skin when
+            sold in a room designated as BUY_SKINS. Magic denotes
+            the magic content of the item. If it is 0, which most
+            skins should be, the item is non-magical. Otherwise
+            it is a spell component. To view a list of archnums
+            for common creature skins, select 'yes', then click
+            'Show me more!'. <select name="skins" size="1">
+                <option value="1">yes </option>
+                <option value="0">no </option>
+            </select> <input type="button" value="Show me more!"
+            onclick="detail2Win(this.form)"></font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Is your monster <b>ETERNAL</b>?</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="eternal"
+            size="1">
+                <option value="2">no </option>
+                <option value="1">yes </option>
+            </select> </font></td>
+            <td><font color="#000000"   FACE="times new roman">This
+            tag indicates that the monster will not be unloaded
+            by the system until it is killed.</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">What
+            is your monster's <b>GENDER</b>?</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="gender"
+            size="1">
+                <option value="0">neutral </option>
+                <option value="1">male </option>
+                <option value="2">female </option>
+            </select></font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">self explanatory </font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Will
+            your monster carry treasure that can be stolen?</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="steal" size="1">
+                <option value="0">yes </option>
+                <option value="1">no </option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman">self
+            explanatory</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Poison: Enter the probability that a
+            hit will result in poisoning, followed by the level
+            of poison delivered. If no poison, enter 0.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="20"
+            name="poison"> </font><font color="#008080"
+            FACE="times new roman"><strong>EX: 50 80 </strong>would mean
+            your critter would deliver poison 50 percnet of the
+            time at level 80</font></td>
+            <td><font color="#000000"   FACE="times new roman">POISON
+            [% chance] [x]<br>
+            If this is defined, then the player has %chance of
+            being poisoned by a strike. Player will lose x body
+            per minute where x=x-1: i.e.<br>
+            level 20 poison -- first minute -20 bp <br>
+            second minute 19 bp<br>
+            third minute 18 bp<br>
+            etc </font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">DISEASE:
+            Enter the probability that a hit will result in
+            disease, followed by the level of disease delivered.
+            If no disease, enter 0.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="20"
+            name="disease"> </font><font color="#008080"
+            FACE="times new roman"><strong>Ex: 50 90 </strong>would mean
+            your critter would deliver disease 50 percent of the
+            time at level 90.</font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">See POISON above for a description of
+            how Disease works.</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">FATIGUE
+            : Drains fatigue. Enter the probability that a hit
+            will result in fatigue drain, followed by the level
+            of drain.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="20"
+            name="fatigue"> </font><font color="#008080"
+            FACE="times new roman"><strong>EX: 30 100 </strong>You
+            critter would drain 100 fatigue on 30 percent of
+            hits.</font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Unlike poison and disease, fatigue is
+            a one-time drain on fatigue points remaining.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Define your creature's magic
+            resistance.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text"
+            name="resist"> </font><font color="#008080"
+            FACE="times new roman">Enter a number that will define how
+            difficult the creature is to hit with magic. Some
+            examples are at right.</font></td>
+            <td><font color="#000000"   FACE="times new roman">Some
+            examples are: Muldragun 150 resist Requires 43
+            spellcraft<br>
+            Veteran Gladiator 500 resist Requires 114 spellcraft</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Define your creature's psi resistance.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text"
+            name="psiresist"> </font><font color="#008080"
+              FACE="times new roman">Enter a number tht will
+            define how resistant the creature is to psi mind
+            attacks such as stun.</font></td>
+            <td><font color="#000000"   FACE="times new roman">The
+            creature's resistance to psi matter attacks is
+            defined by the magic resist. PSIRESIST defines its
+            resistance to the attacks in the mind disciplines.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Define how fast your creature will
+            attack. </font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><select name="speed" size="1"
+            value="3">
+                <option value="3">Default/normal speed</option>
+                <option value="2">Fast</option>
+                <option value="1">Very Fast</option>
+                <option value="4">Very Slow</option>
+            </select></font></td>
+            <td><font color="#000000"   FACE="times new roman">Many
+            other factors seem to affect creature attack speed,
+            including defined text fields, and magic use. Most
+            creatures are set at speed 1 currently.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Define your creature's hide and
+            backstabbing skill.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="10"
+            name="hidesk" value="0"></font><font color="#008080"
+              FACE="times new roman"> Warning: Do not define this
+            skill above 100.</font></td>
+            <td><font color="#000000"   FACE="times new roman">This
+            defines a percentage chance that the creature will be
+            able to hide. It also defines the creature's skill at
+            backstab.</font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman">Define
+            the creature that is guarded by your monster.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman">Enter the MNUMBER of the
+            monster your monster will guard, if any. <input
+            type="text" size="10" name="guard" value="0"></font></td>
+            <td><font color="#000000"   FACE="times new roman"></font>&nbsp;</td>
+        </tr>
+        <tr>
+            <td align="center" colspan="4" bgcolor="#008080"
+            bordercolor="#000000" bordercolordark="#000000"
+            bordercolorlight="#000000"><font color="#000000"
+            size="6" FACE="times new roman"><b>Spell Casting<br>
+            </b></font><font color="#000000"
+            FACE="times new roman"><b>These parameters will give your
+            monsters spellcasting abilities.</b></font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Define
+            the number of mana points your creature has
+            available.</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><b><input type="text"
+            size="10" name="mana"></b></font></td>
+            <td><font color="#000000"   FACE="times new roman"><b>Be
+            sure to give your creature enough mana to cast the
+            spells you assign.</b></font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Define
+            the chance that the monster will use its spells
+            rather than a weapon or special attack.</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><b><input type="text"
+            size="10" name="spelluse"></b></font></td>
+            <td><font color="#000000"   FACE="times new roman"><b>Enter
+            a number that is the percentage of time that the
+            monster will use its spellcasting abilities.</b></font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Define
+            your monster's skill level in spellcraft.</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><b><input type="text"
+            size="10" name="spellskill"></b></font></td>
+            <td><font color="#000000"   FACE="times new roman"><b>This
+            defines the base spellcraft skill that the creature
+            has.</b></font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Define
+            the duration of the spells cast by the creature.</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><b><input type="text"
+            size="10" name="castlevel"></b></font></td>
+            <td><font color="#000000"   FACE="times new roman"><b></b></font>&nbsp;</td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Is
+            the creature NONDISRUPTABLE?</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><b><select name="nodisrupt"
+            size="1">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select></b></font></td>
+            <td><font color="#000000"   FACE="times new roman"><b>If
+            you choose yes, your monster's spells will not be
+            disrupted by hits and stuns.</b></font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Will
+            your creature ignore the silence spell?</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><b><select name="nosilence"
+            size="1">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select></b></font></td>
+            <td><font color="#000000"   FACE="times new roman"><b>Choose
+            yes if your creature will ignore the silence spell.</b></font></td>
+        </tr>
+        <tr>
+            <td><font color="#000000"   FACE="times new roman"><b>Assign
+            spells to your creature.</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><b><select name="spells"
+            multiple size="10">
+                <option value=";">No spells</option>
+                <option value="100">Flame Bolt</option>
+                <option value="101">Force Blade</option>
+                <option value="102">Mystic Armor</option>
+                <option value="103">Lightning Bolt</option>
+                <option value="105">Globe of Protection</option>
+                <option value="112">Call Meteor</option>
+                <option value="115">Shockwave</option>
+                <option value="116">Thunder Call</option>
+                <option value="117">Fire</option>
+                <option value="118">Flaming Sphere</option>
+                <option value="119">Ice Bolt</option>
+                <option value="120">Frost Ray</option>
+                <option value="121">Freezing Sphere</option>
+                <option value="127">Web</option>
+                <option value="133">Globe of Protection II</option>
+                <option value="138">Energy Maelstrom</option>
+                <option value="139">Sorcerous Summons I</option>
+                <option value="140">Sorcerous Summons II</option>
+                <option value="200">Fear</option>
+                <option value="201">Charm</option>
+                <option value="210">Haste</option>
+                <option value="211">Slow</option>
+                <option value="216">Slumber I</option>
+                <option value="217">Slumber II</option>
+                <option value="218">Slumber III</option>
+                <option value="219">Silence</option>
+                <option value="220">Dancing Blade</option>
+                <option value="221">Dancing Sword</option>
+                <option value="226">Paranoia</option>
+                <option value="229">Wizard's Armor</option>
+                <option value="230">Disjunction</option>
+                <option value="231">Imprison</option>
+                <option value="250">Revelation</option>
+                <option value="312">Wail of the Banshee</option>
+                <option value="313">Body Destruction I</option>
+                <option value="314">Body Destruction II</option>
+                <option value="315">Bond Destruction III</option>
+                <option value="316">Body Restoration I</option>
+                <option value="320">Contagion</option>
+                <option value="321">Poison</option>
+                <option value="323">Spectral Fist</option>
+                <option value="345">Spectral Sword</option>
+                <option value="351">Wither Limb</option>
+                <option value="500">Plant Snare</option>
+                <option value="503">Call Lightning</option>
+                <option value="506">Resist Weather</option>
+                <option value="507">Heat Shield</option>
+                <option value="508">Cold Shield </option>
+                <option value="519">Sunray</option>
+                <option value="522">Insect Swarm</option>
+                <option value="523">Earth Spike</option>
+                <option value="524">Earth Wave</option>
+                <option value="525">Whirlwind</option>
+            </select> </b></font><font color="#008080"
+            FACE="times new roman"><strong><b>Chooose as many as are
+            applicable. CTRL-CLICK to choose more than one.</b></strong></font></td>
+        </tr>
+        <tr>
+            <td colspan="5" bgcolor="#008080"
+            bordercolor="#008080" border="3"><p align="center"><font
+            color="#000000" size="6" FACE="times new roman"><b>Adding
+            Psionics</b></font><font color="#000000"
+            FACE="times new roman"><b><br>
+            </b></font><font color="#000000" size="4"
+            FACE="times new roman"><b>The following fields will allow you
+            to give your critter psionic capabilities.</b></font></p>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman"><b>Assign the psi points your creature
+            has.</b></font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><b><input type="text"
+            size="10" name="psi" value="0"></b></font><font
+            color="#008080"  FACE="times new roman"><strong><b>Enter
+            a whole number. If your creature will not have
+            psionic attacks, enter 0.</b></strong></font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Be careful to assign enough psi to
+            maintain all assigned disciplines.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">How often will your creature choose a
+            psionic attack?</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="10"
+            name="psiuse" value="0"></font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Enter the percentage of time that your
+            creature will opt to use a psionic attack as opposed
+            to magic or weapons.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Enter the creature's psi skill level.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="10"
+            name="psiskill" value="0"></font><font
+            color="#008080" size="2" FACE="times new roman"><b>Powerful
+            psionics creatures should have well over 100 in order
+            to resist players' natural resistance to psi attacks.</b></font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">This number defines the total chance a
+            psionics creature has when invoking psi power.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Determine your creature's level of
+            skill.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman"><input type="text" size="10"
+            name="psilevel" value="0"></font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">This number determines your creature's
+            effectiveness in the Matter disciplines i.e. --
+            Thrust, Cryogenics, Pyrogenics.</font></td>
+        </tr>
+        <tr>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Assign psi disciplines to your
+            monster.</font></td>
+            <td valign="top" colspan="2"><font color="#000000"
+              FACE="times new roman">
+              <select name="disc" multiple size="10">
+                <option value="2">Kinetic Thrust</option>
+                <option value="4">Pyrokinetics</option>
+                <option value="5">Cryokinetics</option>
+                <option value="7">Electrify</option>
+                <option value="10">Wall of Force</option>
+                <option value="15">Force Field</option>
+                <option value="16">Immobilize</option>
+                <option value="21">Psychic Probe</option>
+                <option value="22">Psychic Blast</option>
+                <option value="23">Psychic Screen</option>
+                <option value="24">Psychic Penetration</option>
+                <option value="26">Eject</option>
+                <option value="28">Psychic Shield</option>
+                <option value="29">Psychic Crush</option>
+                <option value="30">Psychic Invasion</option>
+                <option value="31">Confuse</option>
+                <option value="33">Terror</option>
+                <option value="34">Psychic Barrier</option>
+                <option value="35">Psychic Insinuation</option>
+                <option value="37">Disruption</option>
+                <option value="38">Psychic Fortress</option>
+                <option value="39">Warp Mind</option>
+                <option value="40">Psychic Siege</option>
+                <option value="41">Pain</option>
+                <option value="42">Speed</option>
+            </select>
+            </font><font color="#008080" size="2"
+            FACE="times new roman"><b>CTRL-CLICK to enter multiple
+            disciplines.</b></font></td>
+            <td valign="top"><font color="#000000"
+            FACE="times new roman">Gives the creature the psionic
+            discipline # you specify.</font></td>
+        </tr>
+        <tr>
+        <td align="left" valign="top" colspan=5 bgcolor="#008080">
+        <CENTER><FONT SIZE="+3">Special Attacks</FONT><BR>Give your monster an attack that never fails.</CENTER></td></TR>
+        <TD ALIGN="left" valign="top">Define how often your monster will use its special attack.</td>
+        <td align="left" valign="top" colspan=2">
+        <INPUT TYPE="TEXT" NAME="specuse" SIZE="10" VALUE="0"><FONT COLOR="#008080" SIZE="-1">Define the percentage of time your monster will use its special in preference to weapons or magic or psi.</FONT></TD><TD>&nbsp</TD></TR>
+        <TR><TD ALIGN="left" valign="top">Define how many times your monster will use its special attack.</td>
+        <td colspan=2 align="left" valign="Top"><INPUT TYPE="TEXT" NAME="specuses" SIZE="10" VALUE="0"><font size="-1" COLOR="#008080">You can limit the number of times your monster uses its special attack with this parameter.</td><TD>&nbsp</td></tr>
+        <TR><TD align="left" valign="top">Define the base damage that the special attack will do.</td>
+        <td align="left" valign="top" colspan="2"><INPUT TYPE="text" NAME="specbase" size="10" value="0"><FONT SIZE="-1" color="#008080">This is the base damage that the special attack will do whenever it's used.</font></td><td>&nbsp</td></tr>
+        <TR><TD align="left" valign="top">Define an additional amount of random damage to be added to the base damage.</td>
+        <td align="left" valign="top" colspan="2"><INPUT TYPE="text" name="specdmg" size="10" value="0"><Font size="-1" Color="#008080">Enter ONE number which will be the upper limit of the random ceiling.</font></td><td>&nbsp</td></TR>
+        <TR><td align="left" valign="top">Set the type of damage done by the special attack.</td>
+        <td align="left" valign="top" colspan="2"><select name="spectype" size=4>
+        <option value="0">No damage type selected</option>
+        <option value="HEAT">Heat</option>
+        <option value="COLD">Cold</option>
+        <option value="SLASH">Slash</option>
+        <option value="ELECTRIC">Electric</option>
+        </select></TD><TD>&nbsp</td></tr>
+        <tr><td align="left" valign="top">Define how the attack will look.</td>
+        <td align="left" valign="top" colspan="2"><INPUT TYPE="text" name="texx" size="30" VALUE="%s attacks %s!"><FONT size="-1" COLOR="#008080">Your text should take the form of "%s attacks %s".</td>
+        <td align="left" valign="top"> The system will replace the first %s with the monster name, and the second one with the character name.</td></tr>
+        <TR><TD colspan=4 align=center valign=top bgcolor="#008080"><B><FONT SIZE=+2>Bringing Your Critters to Life</FONT><BR><FONT SIZE="-1"><B>By defining certain text fields, you can give your critter a 'flavor' that is distinct from any other critter. Any of these fields may be replaced by the system defaults, or left undefined. If you choose not to define them, type 'none' in the text box, eliminating the quote marks.</b></font></td></tr>
+        <TR><TD>Text when a creature is genned in the room</td>
+        <TD colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texg" SIZE="30" VALUE="none"><B><FONT FACE="TIMES NEW ROMAN" SIZE="-1" COLOR="#008080">This sentence should appear exactly as you want it output.</FONT></TD><td>&nbsp</TD></TR>
+        <TR><TD ALIGN=left valign="top">Text when a creature enters the room from another room.</td>
+        <TD colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texe" SIZE="30" value="none"><B><FONT FACE="times new roman" size="-1" color="#008080">This sentence should appear exactly as you want it output.</font></td><td>&nbsp</td></tr>
+        <TR><TD align=left valign=top>Text when a creature is leading a group and its group arrives.</td>
+        <td colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texb" size="30" value="none"><B><FONT FACE="times new roman" size="-1" color="#008080">This sentence should appear exactly as you want it to output.</TD><td>&nbsp</td></tr>
+        <TR><td align=left valign=top>Text when a creature leaves the area</td>
+        <TD colspan="2" align=left valign=top><INPUT TYPE="TEXT" NAME="texc" SIZE="30" VALUE="none"><B><FONT FACE="times new roman" size="-1" color="#008080">This sentence should appear exactly as you want it output.</td></tr>
+        <TR><TD align=left valign=top>Text when a creature moves</td>
+        <TD colspan="2" align=left valign=top><INPUT TYPE="TEXT" NAME="texm" SIZE="30" VALUE="none"><FONT FACE="times new roman" size="-1" color="#008080">This sentence should have no ending punctuation or space. The system will add a direction to the end of it.</td><td>&nbsp</td></tr>
+        <tr><td align=left valign=top>Text when a creature flees.</td>
+        <td colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texf" SIZE="30" VALUE="none"><FONT FACE="TIMES NEW ROMAN" SIZE="-1" COLOR="#008080">Do not add any punctuation or spaces to the end of this sentence. The system will add a direction.</td><td>&nbsp</td></tr>
+        <TR><TD align=left valign=top>Text when a creature preps a spell invised.</td>
+        <TD colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texv" SIZE=30 VALUE="none"><FONT FACE="times new roman" size="-1" color="#008080">This sentence should appear exactly as you want it output.</td><td>&nbsp</td></tr>
+        <TR><td align=left valign=top>Text when a creature preps a spell.</td>
+        <td colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texs" SIZE="30" VALUE="none"><FONT FACE="times new roman" size="-1" color="#008080">This sentence should appear exactly as you want it output.</td><td>&nbsp</td></tr>
+        <TR><td align=left valign=top>Text when a creature fails a spellcraft check.</td>
+        <td colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texq" SIZE="30" VALUE="none"><FONT FACE="times new roman" size="-1" color="#008080">This sentence should appear exactly as you want it output.</td><TD>&nbsp</td></tr>
+        <TR><TD align=left valign=top>Text when a creature casts a spell.</td>
+        <TD colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texl" SIZE="30" VALUE="none"><FONT FACE="TIMES NEW ROMAN" SIZE="-1" COLOR+"#008080">Do not use end punctuation or spaces. The system will add the name of the player being cast at.</td><td>&nbsp</td></tr>
+        <TR><TD align=left valign=top>Text when a creature fails to hide.</td>
+        <TD colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texh" SIZE="30" VALUE="none"><FONT FACE="TIMES NEW ROMAN" SIZE="-1" COLOR="#008080">This sentence should appear exactly as you wish it to be output.</td><td>&nbsp</td></tr>
+        <TR>
+        <TD align=left valign=top>Text when a creature advances</td>
+        <TD colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texa" SIZE="30" VALUE="none"><FONT FACE="times new roman" size="-1" color="#008080">Do not add ending punctuation or spaces to this. The system will add the name of the character advanced on.</font></td><td>&nbsp</td></tr>
+        <TR><TD align=left valign=top>Text when a creature retreats.</td>
+        <TD colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texr" SIZE="30" VALUE="none"><Font face="times new roman" size="-1" color="#008080">This sentence should appear just as you want it output.</td><td>&nbsp</td></tr>
+        <TR><TD align=left valign=top>Text when magicweapon is not high enough to damage.</td>
+        <TD colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texi" SIZE="30" VALUE="none"><Font face="times new roman" size="-1" color="#008080">This sentence should appear exactly as you want it output.</font></td><td>&nbsp</td></tr>
+        <TR><TD align=left valign=top>Text output once in a while when the creature is in the room with a dead person.</td>
+        <td colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="texz" SIZE="30" VALUE="none"><font face="times new roman" size="'-1" color="#008080">Use %s to indicate the name of the character who is to be mocked by the monster.</font></td><td>&nbsp</td></tr>
+        <TR><TD align=left valign=top>Text output when the monster is killed.</td>
+        <TD align=left valign=top colspan=2><INPUT TYPE="TEXT" NAME="texd" SIZE="30" VALUE="none"><font face="times new roman" size="-1" color="#008080">This sentence should be input with the assumption that the system will fill the creatures name in at the beginning of the sentence.</font></td><td>&nbsp</td></tr>
+        <TR><TD align=left valign=top>Random string to be output occasionally when the monster is in the room.</td>
+        <td colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="tex1" SIZE="30" VALUE="none"><font face="times new roman" size="-1" color="#008080">These random lines give you an opportunity to add a little extra to your critter. Be aware however that the more text lines you use, the more it slows your critter down.</td><td>&nbsp</td></tr>
+        <tr><td align=left valign=top>Random string to be output occassionally.</td>
+        <td colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="tex2" SIZE="30" VALUE="none"<font face="times new roman" size="-1" color="#008080">Another trick is to use these lines to add life to the area they populate.</font></td><td>&nbsp</td></tr>
+        <TR><TD align=left valign=top>Another random string...</td>
+        <TD colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="tex3" SIZE="30" VALUE="none"></td><td>&nbsp</td></tr>
+        <TR><td align=left valign=top>And one more if you want it...</td>
+        <td colspan=2 align=left valign=top><INPUT TYPE="TEXT" NAME="tex4" SIZE="30" VALUE="none"></td><td>&nbsp</td></tr>
+             <td align="center" colspan="4"><font color="#000000"
+              FACE="times new roman"><input type="button"
+            value="Create Monster" onclick="Make(this.form)"></font></td>
+        </tr>
+    </table>
+    </center></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,121 @@
+                               Proposal for 
+                              a Campout Quest
+
+                          by Taliesin Pendragon 
+                              (David Goodman)
+                (aka brnghurst, aka dgoodman@novalink.com)
+
+
+I'm interested in hosting a quest, or at least designing one.  I don't know 
+what the procedure is, but below is a description of what I'd like to see.  
+Also, I'm a C++ programmer and I'm interested in finding out if I could 
+create some objects for Legends.  Is it possible to get some docs or a sample 
+             object description?  Thanks. 
+
+
+                                DESCRIPTION
+
+I'd like to host a quest where people are invited to a campfire.  We'd sit
+around the fire, toast marshmallows, tell jokes and scary stories, watch or
+perform skits and fend off wild creatures. 
+
+
+
+                                  PROCESS
+
+1)  The necessary objects are created for the campout, and a site chosen or 
+    created. 
+
+2)  People are invited to the campout via the calendar, newsboard and notes 
+    left around town.  People are requested to submit ideas for jokes, SHORT 
+    poems, stories and skits to the host.  If their idea is approved they'll
+    be notified and added to the schedule. BYOB (booze, blood, babes, etc.) 
+
+3)  At the start of the quest, the fire will be started and the sight and
+    smell of the campfire will be noticed in town.
+
+4)  People at the campsite will be given a stick, some marshmallows, some
+    chocolate and some graham crackers. 
+
+5)  As people arrive they'll be welcomed by the host.
+
+6)  After enough people have arrived, they'll be invited to start telling 
+    jokes and stories.  The theme of the jokes will be "Demons and Monsters" 
+    in which people's favorite creatures will be made fun of.  "That troll
+    smelled SO bad ... the ettins had to hold BOTH their noses!" 
+
+7)  After 20-30 minutes of this, the skits will begin. Between each
+    skit a joke or story will be told.  People will be encouraged to remain 
+    still while someone "has the floor" but may react or fidget in between 
+    performances.  It would be nice if the host could command a creature to 
+    remove someone that interferes too much or gets out of hand. 
+
+8)  Periodically wild animals will wander in and out, such as lizards,
+    rattlesnakes, boars, etc.  
+
+9)  Occasionally people will hear an owl hoot, a wolf howl, a twig snap or see 
+    eyes glowing in the darkness.
+
+10) During one of the breaks between skits, a scary story will be told.  At
+    the end of the story, the demon or monster described in the story will
+    manifest itself at the campsight and will have to be dispatched. 
+
+11) About 90 minutes after beginning, the host will wrap up the campout and
+    request votes for the best skit and best story. It would be nice to have
+    some cool items to give as awards.
+    
+12) Experience will be given out, and people will be thanked for attending.
+    The host will leave.  Those who desire to can stay around and continue
+    telling jokes and stories. 
+
+13) The campsite is destroyed or cleaned up.
+
+
+                         SPECIAL OBJECTS REQUIRED
+
+FIRE - an object that looks like a fire, smells like a fire, makes periodic
+sounds like a fire, requires wood to keep it going and cooks marshmallows.  
+It could perhaps change people's appearance so that they smell like smoke.
+
+WOOD - a simple object that enlarges the fire.  PUT WOOD IN FIRE
+
+STICK - a simple object for putting marshmallows on. PUT MARSHMALLOW ON STICK
+
+LOG - a chair object for sitting on.
+
+MARSHMALLOW - a special food object.  It should taste good when eaten.  If
+it's on a stick, and the stick is in the fire, then the marshmallow will turn 
+light brown, then golden brown, then dark brown, then catch fire, then turn
+black, then go out.  Each stage should take about 10 seconds.  The longer the 
+marshmallow is in the fire, the greater the chances it will fall off the
+stick and be destroyed.  PUT STICK IN FIRE 
+
+GRAHAM CRACKER - a simple food object.  PUT MARSHMALLOW ON CRACKER
+
+CHOCOLATE - a simple food object.  PUT CHOCOLATE ON CRACKER
+
+SQUIRREL - a special squirrel that occasionally runs out and steals people's
+marshmallows.
+
+ECHO - an object or verb for simulating an echo.  The goal is that in normal
+use whatever you yell to the echo is heard by all as if you said it, and then 
+a half second later they hear the same thing again as an echo.  It should
+have a special case where people hear what you say, but the echo's different. 
+Example:
+
+  > ECHO Hello
+  Taliesin yells, "Hello"
+  You hear an echo: "Hello"
+
+  > ECHO The king is dead!
+  Taliesin yells, "The king is dead!"  
+  You hear an echo: "The king is dead!"
+
+  > ECHO "Baloney!" Taliesin is the greatest!
+  Taliesin yells, "Taliesin is the greatest!"
+  You hear an echo: "Baloney!"
+
+If this is too hard to create, it could be done by having an invisible player
+named "an echo" who simulates the echo and knows when to change it.  This is 
+for a skit I'd like to do, similar to the short example above.
+

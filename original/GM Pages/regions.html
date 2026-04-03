@@ -1,0 +1,210 @@
+<HTML><HEAD><TITLE>Regions</TITLE></HEAD>
+<BODY BGCOLOR="#ffffff">
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+
+<H2>Regions</H2>
+
+<H4>REGIONDEF [x] [other data...]</H4>
+
+<OL>Defines a "region" number "x" (which may be 0-250).  A region is a set
+of rooms that share a number of configurable parameters.  The available
+settings are as follows:
+</OL>
+<H4>REGIONDEF x WEATHER</H4>
+
+<OL>
+        Specifies that weather will occur in this region.
+</OL>
+
+<H4>REGIONDEF x EXTRAPLANAR</H4>
+
+<OL>
+        Specifies that your region is extraplanar.  This has a number of
+effects, but the most important is that characters travelling here are
+limited in skill use as per the Legends version notes regardingthe
+transcendence skill.
+</OL>
+
+<H4>REGIONDEF x SEASONS</H4>
+
+<OL>
+        Specifies that your region has seasons or not.  You still need to
+specify the base temperature for the different parts of the year as shown
+below.
+</OL>
+
+<H4>REGIONDEF x TIME</H4>
+
+<OL>
+        Specifies whether your region experiences the passage of time
+observable through the movement of the sun.
+</OL>
+<h4>
+<LI>  REGIONDEF x WINTERTEMP [base temp]
+<LI>  REGIONDEF x SUMMERTEMP [base temp]
+<LI>  REGIONDEF x SPRINGTEMP [base temp]
+<LI>  REGIONDEF x AUTUMNTEMP [base temp]
+</H4>
+<OL>
+Defines the base temepature in farenheit for a given region.  This base
+temperature is used to determine a region's environmental temperature on a
+daily basis.  The formula used for the actual temperature is:
+</OL>
+<PRE>
+         actual_temp = base_temp + rnd(15) + rnd(15);
+</PRE>
+<OL>
+So if you put "20" for the base temperature, the possible range of actual
+temperatures for your region would be 22-50, with the most likely average
+temperature being around 36.
+</OL>
+<H4>REGIONDEF x PRECIPITATION [precipitation level]</H4>
+<OL>
+Precipitation level is simply a relative scale measuring how much rain/snow
+will fall in a given region.  A precipitation level of 0 would be "normal"
+(equal to the precipitation level used in the game so far).  The closer to
+10 you get, the less likely it is to create precipitation at any time and
+the more likely it is for existing precipitation to cease.  If you specify
+a negative number, it will be increasingly likely to have precipitation at
+any time.  If you specify a precipitation of 10, it would probably never
+rain.
+</OL>
+<H4>REGIONDEF x TREASURE [percent of local currency]</H4>
+<OL>
+This is only valid in regions 0-10.  When this is specified, it allows you
+the same money definition number as the region number) appears in the
+pockets of monsters genned in the region.  Just state "100" to have a 100%
+chance if you want to have local currency only. Non-local currency is
+simply the common gold, silver and copper piece.
+</OL>
+<H4>REGIONDEF x DEPART [room]</H4>
+<OL>
+Specifies the room number a player will be moved to if they use the DEPART
+command while dead.  If room == 0, then it is impossible for them to depart
+in the specified region.
+</OL>
+<H4>REGIONDEF x TELEPORT ALLOWED    </H4>
+or...
+<H4>REGIONDEF x TELEPORT DISABLED</H4>
+<OL>
+Specifies whether you region permits teleportation -within- your region or
+not.  Teleportation is never permitted between regions.
+</OL>
+<H4>REGIONDEF x SUMMONING ALLOWED</H4>
+or...
+<H4>REGIONDEF x SUMMONING DISBABLED</H4>
+<OL>
+Specified whether you want to allow summoning spells to functionwithin your
+region.
+</OL>
+<H4>REGIONDEF x WELLOFLIFE ALLOWED </H4>
+or...
+<H4>REGIONDEF x WELLOFLIFE REVERSED </H4>
+or...
+<H4>REGIONDEF x WELLOFLIFE DISABLED</H4>
+<OL>
+Specified whether the Well of Life spell works or not, or if you'd like its
+effect reversed (so that it functions as Raise Undead).
+</OL>
+<H4>REGIONDEF x FIRE [percent effectiveness]</H4>
+<OL>
+Specifies the percent effectiveness of fire-base spells and other effects
+in region x.  For example, a "REGIONDEF 15 FIRE 50" would make it so that
+fire spells would do only half damage in region 15.
+</OL>
+<H4>REGIONDEF x COLD [percent effectiveness]</H4>
+<OL>
+Specifies the percent effectiveness of cold-base spells and other effects
+in region x.
+</OL>
+<H4>REGIONDEF x ELECTRIC [percent effectiveness]</H4>
+<OL>
+Specifies the percent effectiveness of electrical and energy spells and
+other effects in region x.
+</OL>
+<H4>REGIONDEF x ENCHANTMOD [penalty]</H4>
+<OL>
+Specifies the penalty to apply against enchanted weapons in region x. It
+will never penalize an enchanted weapon to lower than a bonus of 0. For
+example, you could make it so that all weapons are dropped in bonus by 20
+Then, +20 weapons would become +0, +15 would become +0, +25 would become
++5, etc.
+</OL>
+<H4>REGIONDEF x MINE_ADJ adj#</H4>
+<OL>
+Places the adjective specified into the first adjective field of any
+material mined in region x.
+</OL>
+<H4>REGION [x]</H4>
+<OL>
+When inserted in a room definition block, this defines the region of the
+world that the room belongs to.  If not specified, the default is 0.
+Defining a region has the following effects:
+
+<PRE>
+  - Temperature, weather, passage of time, spells, etc. are modified
+    as per the REGIONDEF for the region.
+  - Characters cannot teleport or scry characters in another region.
+  - Regions numbered between 0-9 are a special type;  a room in a
+    region between 0 and 9 use a money type the same as their region
+    number.  For example, if you've got a room in region 5, and you
+    have a shop there, they will use money type 5 (see below).
+</PRE>
+</OL>
+New units of currency for new regions
+
+<H4>MONEYDEF [x] [name] [exchange rate] [item#]</H4>
+<OL>
+Defines a type of money.  "X" is a number from 1 to 9.  This number is
+equivalent to a type of money native to a given region number 1-9 (as
+above).  "Name" is the singular name of the currency.  "Exchange rate" is a
+number from 1 to 100, specifying the number of units of this new type of
+currency that are roughly equivalent to one gold piece (of base currency).
+The "exchange rate" is used in only two places at this time:  the cost of
+getting healed by a physician, and the amount of treasure in this currency
+unit generated by a monster that carries this type of currency relative to
+standard (base) coin types.  The "item#" field specifies the actual item
+archetype to use when creating this type of money in tangible form.
+</OL>
+<PRE>
+Here is an example of a new money type now in use:
+
+              MONEYDEF 2 kragenmark 12 1869
+</PRE>
+(This defines a unit of currency called the kragenmark, used in region #2,
+of which 12 equals one gold piece;  item number 1869 is the "physical" item
+archetype to be used when creating this type of money in tangible form)
+
+After you create a unit of currency, you still need to make a new item
+archetype and noun for the currency if you want people to be able to get it
+The PARAMETER2 field specifies the unit of currency the item is for.
+<PRE>
+Example:
+
+             NOUNDEF 1543 kragenmark
+             ;
+       INUMBER 1869
+       NAME 1543
+       MONEY
+       WEIGHT 1
+       VOLUME 1
+       PARAMETER2 2
+       ARTICLE SOME
+</PRE>
+<HR>
+<BR>
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+</BODY>
+</HTML>

@@ -1,0 +1,23 @@
+                           .------------------.
+                           | Temple of Amilor |
+                           `------------------'
+ 
+   .--.                 .--. Steel .--. Pool .--.   .--------------------.
+   |KL|                 |PS[-------]LA{------}HS|   | Taliesin Pendragon |
+   `--'                 `--'  Door `--'      `--'   | Cartographer  1028 |
+    |                    |                          `--------------------'
+   .--. Blue .--. White .--.       [] = Door
+   |CH[------]TR[-------]LI|       () = Arch
+   `--' Door `--'  Door `--'       {} = Pool
+    ()        ()                   CY = Court Yard
+   .--.      .--.                  CR = Common Room
+   |SP|      |CR|                  TR = Training 
+   `--'      `--'                  CH = Chapter House 
+              |                    KL = Knight's Lounge
+   .--.Touch .--.       .--.       SP = Sand Pit 
+ ()|WC(------)FO[-------]CY|       LI = Library  
+   `--'Basin `--'  Door `--'       PS = Priests' Study
+              ()                   LA = Laboratory
+              |Church St           HS = Hidden Shelter
+                                   WC = Wedding Chapel
+

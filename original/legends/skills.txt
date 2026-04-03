@@ -1,0 +1,363 @@
+#  Skill                  Build Cost
+------------------------------------
+0  Jeweler                10/5
+1  Two Weapons            10/4
+2  Backstab               12/5
+3  Missile Weapons        12/5
+4  Natural Weapons        10/3
+5  Climbing               6/3
+6  Dodging & Parrying     8/4
+7  Conjuration            10/5
+8  Weaponsmithing         10/5
+9  Crushing Weapons       12/5
+10 Combat Maneuvering     10/5
+11 Endurance              8/4
+12 Trap & Poison Lore     6/3
+13 Edged Weapons          12/5
+14 Enchantment            10/5
+15 Dying/Weaving          8/4
+16 Drakin Weapons         12/5
+17 Druidic Magic          10/5
+18 Wood Lore              8/3
+19 Thrown Weapons         12/5
+20 Healing                20/2
+21 Legerdemain            12/4
+22 Lockpicking            10/4
+23 Spellcraft             20/5
+24 Martial Arts           12/5
+25 Polearms               12/5
+26 Psionics               20/5
+27 Mind over Mind         10/5
+28 Mind over Matter       10/5
+29 Transcendence          10/2
+30 Necromancy             10/5
+31 Alchemy                15/5
+32 Sagecraft              5/3
+33 Stealth                10/4
+34 Disguise               15/10
+35 Mining                 8/4
+
+Skills
+======
+
+SKILLNAME (Cost of first skill level/Development skill level cost):
+Description of skill.
+
+Alchemy (15/5):
+This skill enables the character to create potions.  Potions are formed
+by mixing alchemical reagents.  These reagents may be actual chemical
+compounds, or they may be certain magical herbs or other organic byproducts.
+It is up to the alchemist to learn what substances have magical
+properties.  It is also up to the alchemist to learn what substances
+can be combined to form useful potions.
+
+Each level of skill in Alchemy allows the creation of increasingly
+powerful potions.  If a beginning alchemist mixes reagents more powerful
+than they have skill to control, then they will know from the violent
+bubbling of their concoction that their attempt was possible but
+beyond their abilities.  A successful potion is always known by the
+magical shimmer created after all the reagents are combined.
+
+Creating a potion requires that three reagents be combined.  This
+requires the three reagents (which will be used up when added to the
+potion) and some sort of liquid container (such as a flask).
+
+Each type of reagent contains one specific type of "essence."  Some
+reagents contain catalytic abilities, others healing, others protective,
+or completely different type of powers.  The main rule when concocting
+a potion is that you ALWAYS will need at least one reagent that is
+a catalyst.  Mandrake root is a well-known but weak catalyst.  It is
+all the beginning alchemist will need, however.  The stronger the
+catalyst, the stronger the types of spell you will be able to make by
+adding other reagents.
+
+Alchemy is a demanding skill that requires much research and perseverance.
+In time, the alchemist will be able to reproduce powerful magical effects
+through the combination of reagents.  Alchemists should record
+their discoveries closely, so that those violent reactions you create
+can be retried when you have learned more alchemy. Prerequisite: must
+be level two or higher. (Skill #31)
+
+Backstab (12/5):
+The art of the deadly sneak attack, backstab may only be performed
+when hidden and only with a puncture weapon such as a dagger or
+rapier. A successful attack always causes damage to the back. It
+increases this damage by level of backstab. (Skill #2)
+
+
+Claws (10/3):
+The natural claws of certain races or artificial cyberclaws can
+become vicious weapons. Races who have naturally occurring claws
+may use them without training.  Drakin, Murgs and Wolflings in wolf
+form have claws they can use.  Wolves and Drakin can also use their
+teeth with this skill. (Skill #4)
+
+Climbing (6/3):
+The more well developed the climbing skill, the more treacherous
+the terrain a character can overcome without tools or footholds.
+(Skill #5)
+
+Combat Maneuvering (10/5) .
+This skill does a number of things that enable a warrior
+to maneuver around the battle field more effectively.
+Amongst the benefits of this skill: (Skill #10)
+
+(1) Each level known decreases wielding roundtime one second.
+(2) After learning one level of this skill, the trainee
+    will have learned enough about blocking and interception
+    to guard inanimate objects.
+(3) Each level known provides a +5 bonus to maneuvering
+    rolls related to guarding an inanimate object.
+(4) Each level increases the amount of weight you may
+    carry prior to increased fatigue cost during battle by
+    five pounds (though it does not affect overall
+    carrying capacity).
+(5) Lastly, this skill may help you escape confinement
+    in the form of magical webs and bindings (except
+    for totally impenetrable barriers such as the
+    Imprisonment spell).  The chance is only 2% per
+    level of skill known, and incurs a five second
+    round time in the attempt.  To try, just type
+    BREAK FREE."
+ Combat Maneuvering will now provide a slight chance to a monster
+ "special attack." (acid spit, flame breath, etc.) Each level of
+ Combat Maneuvering trained in will provide a 2% chance (to a
+ maximum of 95%) of completely avoiding such an attack.
+
+Conjuration (10/5):
+This school of magic teaches a character to cast spells that summon
+primal elemental forces, objects and creatures from nowhere that
+he or she can control. Increased levels of conjuration allow for
+the casting of more powerful conjuration spells. Prerequisite:
+Spellcraft.  (Skill #7)
+
+Crushing weapons (12/5):
+This is skill in the specialized use of crushing weapons such as
+the club, warhammer, mace or morning star. Each level of training
+adds +5 to your attack modifier when using these weapons. Crushing
+weapons cannot be used in conjunction with the two-weapon skill.
+(Skill #9)
+
+Disguise (15/10):
+Each rank of disguise skill provides new ways you might disguise yourself.
+Once learned, typing the DISGUISE command will provide instructions
+on its use. Prerequisite: Stealth. (Skill #34)
+
+Dodging and parrying (8/4):
+This skill can be learned by anyone who has one level of edged, Drakin,
+crushing, pole arm, missile weapon, claws or martial arts training.
+Each level adds +5 to defense modifier. Prerequisite: Edged weapons,
+Drakin Weapons, Crushing weapons, Claws, Martial Arts, Missile weapons.
+(Skill #6)
+
+Drakin weapons (12/5):
+This skill teaches specialization in the weapons developed by the
+Drakin culture.  What these weapons lack in number - there are only
+eight - they make up for in diversity. Though some of them are
+similar to weapons in other groups, the fighting style used with
+them is radically different and thus not included when other types
+of weapon group specialization are learned. Likewise, learning
+skill in drakin weapons does not provide any benefit with weapons
+outside of the following: bo-stick and nunchaku (crushing),
+naginata (polearm), katana, sai, wakizashi, kusari-gama (edged),
+and shuriken (thrown). Each level of training adds +5 to
+your attack modifier when using these weapons. This skill can be
+used in conjunction with two-weapon skill. (Skill #16)
+
+Druidic (10/5)
+This school of magic teaches a character to cast spells dealing
+with nature and the weather. Increased levels of druidic allow for
+the casting of more powerful druidic spells.  Prerequisite:
+Spellcraft.  (Skill #17)
+
+Dyeing/Weaving (8/4):
+Weaver cans create thread and fabric from raw materials such as wool,
+and then create clothing and other woven items from the fabric.  They can
+also color their fabrics using naturally occurring dyes. Prerequisite:
+must be level two or higher. (Skill #15)
+
+Edged weapons (12/5):
+This is skill in the specialized use of edged weapons such as
+swords, daggers and axes. Each level of training adds +5 to your
+attack modifier when using these weapons. This skill can be used
+in conjunction with two-weapon skill. (Skill #13)
+
+Endurance  (8/4):
+When you learn this skill, you undergo rigorous physical
+training to increase stamina as well as increase
+your pain threshold.  The result is that you gain 4
+body points for each training.  In addition, each level of
+endurance provides a slight ability to resist the effects
+of elemental damage (fire, lightning and cold). Each level
+of Endurance confers a 1% reduction in damage from these
+attack forms. (to a maximum of 50%), be they from spells,
+special attacks, or what not.  (Skill #11)
+
+Enchantment (10/5):
+This school of magic teaches a character to cast spells that alter
+the nature of physical objects and the minds of creatures.
+Increased levels of enchantment allow for the casting of more
+powerful enchantment spells. Prerequisite: Spellcraft. (Skill#14)
+
+Healing (20/2):
+This discipline allows a character to administer first aid and
+heal wounds. It is easier to heal simple injuries than complex ones.
+It is also easier for a character to heal someone of the same race.
+Increased training in healing offsets this disadvantage.  (Skill #20)
+
+Jeweler (10/5):
+Jewelers can craft all the baubles and bangles of the realms. They
+may also ENCRUST, INLAY and INSET items with gems. Freshly
+made jewelry from the hand of a skilled craftsman is automatically
+imbued with a part of the craftsman's "essence," i.e., there will be
+a small amount of magical power in the item that provides it with the
+initial charges available should a powerful enchanter cast the Enchant
+an Item spell on it. Prerequisite: must be level two or higher. (Skill #0)
+
+Legerdemain (12/4):
+The subtle arts of sleight of hand, picking pockets and shoplifting
+fall into the realm of legerdemain. The more levels of legerdemain
+a character has the more accurately he or she can determine the
+worth of an item. Increased levels of legerdemain do not protect
+you from the pick pocket attempts of others. (Skill #21)
+
+Lockpicking (10/4):
+The skill of opening locks without the proper key is known as
+lockpicking.  (Skill #22)
+
+Martial arts (12/5):
+Knowing the discipline of martial arts turns your bare hands and
+feet into deadly weapons. Each level of training adds +5
+to your attack modifier when using no weapons. Additionally,
+training techniques in the field of Martial Arts have taught one
+how to focus ki such that when one has trained beyond 10 ranks,
+one can strike creatures that normally require a magical weapon
+to harm. In addition, each rank of Martial Arts increases your
+defense by +2, as long as you are wielding nothing. (Skill #24)
+
+Mind Over Matter (10/5):
+Provides a psionicist with access to disciplines pertaining
+to energy and matter.  Each level of skill in Mind over Matter
+will provide access to additional disciplines. (Skill #28)
+
+Mind Over Mind (10/5):
+Provides a psionicist with access to disciplines pertaining to
+the mind.  Each level of skill in Mind over Mind will provide
+access to additional disciplines. (Skill #27)
+
+Mining (8/4):
+A miner can survey an area (usually caves or mountainside) for useful
+minerals and ores, and then mine these ores from their surroundings with
+the appropriate tools (such as a pick-axe).  The more levels of mining
+skill that are known, the more efficient you are at mining, providing
+you with a higher chance of finding more valuable ores. Prerequisite:
+must be level two or higher. (Skill #35).
+
+Missile weapons (12/5):
+This is skill in the specialized use of missile weapons such as the
+longbow, blow-gun, sling, gun and crossbow. This skill can not be used
+in conjunction with two-weapon skill. Missile weapons my not be used with
+shields.  (Skill #3)
+
+Necromancy (10/5):
+This school of magic teaches a character to cast spells that hold
+sway over the forces of life and death. Increased levels of
+necromancy allow for the casting of more powerful necromantic
+spells. Casting necromancy spells can affect a character's
+alignment. A necromancer walks a fine line between good
+and evil. Prerequisite: Spellcraft.  (Skill #30)
+
+Polearms (12/5):
+This is skill in the specialized use of polearm weapons such as
+halberds, pikes and lances. This skill cannot be used in conjunction
+with two-weapon skill. Pole weapons are considered 2 handed weapons
+and may not be used with shields. (Skill #25)
+
+Psionics (20/5):
+Mental training in psionics opens up the character's mind to
+perform supernatural feats based on psychic will.  (Skill #26)
+
+Sagecraft (5/3):
+Sagecraft provides a character with knowledge of local history,
+mythology, folklore, nature and science, so that when the RECALL
+command is used in a room, additional information can be ascertained.
+Increased levels of sagecraft allow a character to obtain more
+specimens from the dead creatures they SKIN.  (Skill #32)
+
+Spellcraft (20/5):
+Spellcraft is education on the basic principles of magic. Those
+with knowledge of spellcraft can continue their instruction in
+specific schools of magic. The rudimentary incantations and gestures
+learned with this skill also allow someone to use magical items
+such as wands. Increased levels of spellcraft increase the chances
+of successful casting.  (Skill #23)
+
+Stealth (10/4):
+Skill at hiding in shadows and staying hidden while moving silently
+is known as stealth. It should be noted that successful hiding is
+based on numerous factors such as lighting, terrain and the
+perception of creatures and characters in the room.  (Skill #33)
+
+Thrown weapons (12/5):
+Skill in thrown weapons includes the use of rocks, spears and
+javelins. This skill cannot be used in conjunction with two-weapon
+skill.  (Skill #19)
+
+Transcendence (10/2):
+Recent scholarly research into extraplanar travel has revealed
+that when passing through gates from one plane to the next, a
+traveler will often become confused by the mind-numbing
+experience -- physical and magical laws are not consistent, and
+memory loss is reputed to be a common side effect.  The result
+is that when traveling to another plane, people will lose all
+knowledge of skills and spells they learned in their home
+world.   The art of Transcendence will enable the planar
+voyager to overcome this effect. (Skill #29)
+
+As of yet, this art has been lost to the sorcerers of Andor.  Who
+will be the first to find where these skills are taught -- and
+more importantly -- how to pass through the Well of Worlds?
+
+[When traveling to another plane, a character is limited to
+their transcendence-level of skill in all their other skills.
+Level-based magic resistance and other non-skill related
+powers and abilities are not affected].
+
+Trap and Poison lore (6/3):
+This is  knowledge in the finding, setting, and disarming of traps.
+The higher the skill rank, the more complex the traps a character
+can set or disarm. Success when disarming is a percentage based on
+the complexity of the trap versus a character's trap lore skill
+level.
+
+In addition, this skill allows you to anoint a weapon with poison.
+The skill teaches you the proper distillation and application
+of poisons to best utilize them on your weapon, such that every level
+of skill provides you with the ability to place a level higher poison
+on the weapon.  For example, you can place a level 1 poison (dissipates
+in 1 round, doing 1 point of damage) on a weapon with one level of skill,
+or you could place a level 30 poison (dissipates in 30 rounds, doing
+30 points of damage) on a weapon with thirty levels of skill. (Skill #12)
+
+Two weapon (10/4):
+Two weapon skill allows a character to fight with a weapon in each
+hand. The secondary weapon has an attack bonus equal to the number
+of levels of two weapon skill a character has, limited by the skill
+in that specific weapon type, multiplied by +5. (Skill #1)
+
+Weaponsmithing (10/5):
+A weaponsmith can repair damaged weapons and even craft new ones.  The
+larger and more complex the weapon, the more levels of weaponsmithing
+skill are needed to perform repair on it. Weaponsmiths can also
+manufacture weapons (subject to their skill level and availability
+of materials).
+Lastly, weaponsmiths can refine the metal from ore to make it possible
+to work with.  Advanced weaponsmiths can work with superior substances
+that allow them to create magical or semi-magical weapons. Prerequisite:
+must be level two or higher. (Skill #8)
+
+Woodlore (8/3):
+This skill allows a character to forage for useful wilderness products
+(such as wood, berries, etc.), craft missile weapons and arrows, and also
+works along with sagecraft to help with skinning animals and monsters.
+Prerequisite: must be level two or higher. (Skill #18)

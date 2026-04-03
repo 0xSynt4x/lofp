@@ -1,0 +1,463 @@
+ random sel 1 12 0
+ if sel = 1
+  strcpy 0 "on the highway
+ endif
+ if sel = 2
+  strcpy 0 "near Altoona
+ endif
+ if sel = 3
+  strcpy 0 "outside Fresno
+ endif
+ if sel = 4
+  strcpy 0 "in Sheboygan
+ endif
+ if sel = 5
+  strcpy 0 "on probation
+ endif
+ if sel = 6
+  strcpy 0 "at a truck stop
+ endif
+ if sel = 7
+  strcpy 0 "in a nightmare
+ endif
+ if sel = 8
+  strcpy 0 "in a jail cell
+ endif
+ if sel = 9
+  strcpy 0 "in the Stone Age
+ endif
+ if sel = 10
+  strcpy 0 "in a treehouse
+ endif
+ if sel = 11
+  strcpy 0 "in a gay bar
+ endif
+ if sel = 12
+  strcpy 0 "incognito
+ endif
+
+ random sel 1 13 0
+ if sel = 1
+  strcpy 1 "in September
+ endif
+ if sel = 2
+  strcpy 1 "at McDonald's
+ endif
+ if sel = 3
+  strcpy 1 "ridin' shotgun
+ endif
+ if sel = 4
+  strcpy 1 "wrestlin' gators
+ endif
+ if sel = 5
+  strcpy 1 "all hunched over
+ endif
+ if sel = 6
+  strcpy 1 "poppin' uppers
+ endif
+ if sel = 7
+  strcpy 1 "sort of pregnant
+ endif
+ if sel = 8
+  strcpy 1 "with a jogger
+ endif
+ if sel = 9
+  strcpy 1 "stoned on oatmeal
+ endif
+ if sel = 10
+  strcpy 1 "with Merv Griffin
+ endif
+ if sel = 12
+  strcpy 1 "dead all over
+ endif
+ if sel = 13
+  strcpy 1 "hustlin' Martians
+ endif
+ echo all "I met her %0 %1,"
+
+ random sel 1 12 0
+ if sel = 1
+  strcpy 0 "that purple dress
+ endif
+ if sel = 2
+  strcpy 0 "that little hat
+ endif
+ if sel = 3
+  strcpy 0 "that burlap bra
+ endif
+ if sel = 4
+  strcpy 0 "those training pants
+ endif
+ if sel = 5
+  strcpy 0 "the stolen goods
+ endif
+ if sel = 6
+  strcpy 0 "that plastic nose
+ endif
+ if sel = 7
+  strcpy 0 "the Stassin pin
+ endif
+ if sel = 8
+  strcpy 0 "the neon sign
+ endif
+ if sel = 9
+  strcpy 0 "that creepy smile
+ endif
+ if sel = 10
+  strcpy 0 "the hearing aid
+ endif
+ if sel = 11
+  strcpy 0 "the orange wig
+ endif
+ if sel = 12
+  strcpy 0 "the boxer shorts
+ endif
+ echo all "I can still recall %0 she wore."
+
+ random sel 1 12 0
+ if sel = 1
+  strcpy 0 "sobbin' at the toll booth
+ endif
+ if sel = 2
+  strcpy 0 "drinkin' Dr. Pepper
+ endif
+ if sel = 3
+  strcpy 0 "weighted down with Twinkies
+ endif
+ if sel = 4
+  strcpy 0 "breakin' out with acne
+ endif
+ if sel = 5
+  strcpy 0 "crawlin' through the prairie
+ endif
+ if sel = 6
+  strcpy 0 "smellin' kind o' funny
+ endif
+ if sel = 7
+  strcpy 0 "crashin' through the guardrail
+ endif
+ if sel = 8
+  strcpy 0 "chewin' on a hangnail
+ endif
+ if sel = 9
+  strcpy 0 "talkin' in Swahili
+ endif
+ if sel = 10
+  strcpy 0 "drownin' in the quicksand
+ endif
+ if sel = 11
+  strcpy 0 "quotin' Al Pacino
+ endif
+ if sel = 12
+  strcpy 0 "slurpin' up linguini
+ endif
+
+ random sel 1 12 0
+ if sel = 1
+  strcpy 1 "in the twilight
+ endif
+ if sel = 2
+  strcpy 1 "but I loved her
+ endif
+ if sel = 3
+  strcpy 1 "by the off-ramp
+ endif
+ if sel = 4
+  strcpy 1 "near Poughkeepsie
+ endif
+ if sel = 5
+  strcpy 1 "with her cobra
+ endif
+ if sel = 6
+  strcpy 1 "when she shot me
+ endif
+ if sel = 7
+  strcpy 1 "on her elbows
+ endif
+ if sel = 8
+  strcpy 1 "with Led Zeppelin
+ endif
+ if sel = 9
+  strcpy 1 "with Miss Piggy
+ endif
+ if sel = 10
+  strcpy 1 "with a wetback
+ endif
+ if sel = 11
+  strcpy 1 "screamin' Mayday!
+ endif
+ if sel = 12
+  strcpy 1 "in her muu-muu
+ endif
+ echo all "She was %0 %1,"
+
+ random sel 1 12 0
+ if sel = 1
+  strcpy 0 "no guy would ever love her more
+ endif
+ if sel = 2
+  strcpy 0 "that she would be an easy score
+ endif
+ if sel = 3
+  strcpy 0 "she'd bought her dentures in a store
+ endif
+ if sel = 4
+  strcpy 0 "that she would be a crashing bore
+ endif
+ if sel = 5
+  strcpy 0 "I'd never rate her more than '4'
+ endif
+ if sel = 6
+  strcpy 0 "they'd hate her guts in Baltimore
+ endif
+ if sel = 7
+  strcpy 0 "it was a raven, nothing more
+ endif
+ if sel = 8
+  strcpy 0 "we really lost the last World War
+ endif
+ if sel = 9
+  strcpy 0 "I'd have to scrape her off the floor
+ endif
+ if sel = 10
+  strcpy 0 "what strong deodorants were for
+ endif
+ if sel = 11
+  strcpy 0 "that she was rotten to the core
+ endif
+ if sel = 12
+  strcpy 0 "that I would upchuck on the floor
+ endif
+ echo all "And I knew %0."
+
+ random sel 1 12 0
+ if sel = 1
+  strcpy 0 "I promised her
+ endif
+ if sel = 2
+  strcpy 0 "I knew deep down
+ endif
+ if sel = 3
+  strcpy 0 "She asked me if
+ endif
+ if sel = 4
+  strcpy 0 "I told her shrink
+ endif
+ if sel = 5
+  strcpy 0 "The judge declared
+ endif
+ if sel = 6
+  strcpy 0 "My Pooh bear said
+ endif
+ if sel = 7
+  strcpy 0 "I shrieked in pain
+ endif
+ if sel = 8
+  strcpy 0 "The painters knew
+ endif
+ if sel = 9
+  strcpy 0 "A Klingon said
+ endif
+ if sel = 10
+  strcpy 0 "My hamster thought
+ endif
+ if sel = 11
+  strcpy 0 "The blood test showed
+ endif
+ if sel = 12
+  strcpy 0 "Her rabbi said
+ endif
+
+ random sel 1 12 0
+ if sel = 1
+  strcpy 1 "stay with her
+ endif
+ if sel = 2
+  strcpy 1 "warp her mind
+ endif
+ if sel = 3
+  strcpy 1 "swear off booze
+ endif
+ if sel = 4
+  strcpy 1 "change my sex
+ endif
+ if sel = 5
+  strcpy 1 "punch her out
+ endif
+ if sel = 6
+  strcpy 1 "live off her
+ endif
+ if sel = 7
+  strcpy 1 "have my rash
+ endif
+ if sel = 8
+  strcpy 1 "stay a dwarf
+ endif
+ if sel = 9
+  strcpy 1 "hate her dog
+ endif
+ if sel = 10
+  strcpy 1 "pick my nose
+ endif
+ if sel = 11
+  strcpy 1 "play 'Go Fish'
+ endif
+ if sel = 12
+  strcpy 1 "salivate
+ endif
+ echo all "%0 I'd %1 forever;"
+
+ random sel 1 12 0
+ if sel = 1
+  strcpy 0 "our love would never die
+ endif
+ if sel = 2
+  strcpy 0 "there was no other guy
+ endif
+ if sel = 3
+  strcpy 0 "man wasn't meant to fly
+ endif
+ if sel = 4
+  strcpy 0 "that Nixon didn't lie
+ endif
+ if sel = 5
+  strcpy 0 "her basset hound was shy
+ endif
+ if sel = 6
+  strcpy 0 "that Rolaids made her high
+ endif
+ if sel = 7
+  strcpy 0 "she'd have a swiss on rye
+ endif
+ if sel = 8
+  strcpy 0 "she loved my one blue eye
+ endif
+ if sel = 9
+  strcpy 0 "her brother's name was Hy
+ endif
+ if sel = 10
+  strcpy 0 "she liked 'Spy vs. Spy'
+ endif
+ if sel = 11
+  strcpy 0 "that birthdays made her cry
+ endif
+ if sel = 12
+  strcpy 0 "she couldn't stand my tie
+ endif
+ echo all "She said to me %0."
+
+ random sel 1 12 0
+ if sel = 1
+  strcpy 0 "run off
+ endif
+ if sel = 2
+  strcpy 0 "wind up
+ endif
+ if sel = 3
+  strcpy 0 "boogie
+ endif
+ if sel = 4
+  strcpy 0 "yodel
+ endif
+ if sel = 5
+  strcpy 0 "sky dive
+ endif
+ if sel = 6
+  strcpy 0 "turn green
+ endif
+ if sel = 7
+  strcpy 0 "freak out
+ endif
+ if sel = 8
+  strcpy 0 "blast off
+ endif
+ if sel = 9
+  strcpy 0 "make it
+ endif
+ if sel = 10
+  strcpy 0 "black out
+ endif
+ if sel = 11
+  strcpy 0 "bobsled
+ endif
+ if sel = 12
+  strcpy 0 "grovel
+ endif
+
+ random sel 1 12 0
+ if sel = 1
+  strcpy 1 "with my best friend
+ endif
+ if sel = 2
+  strcpy 1 "in my Edsel
+ endif
+ if sel = 3
+  strcpy 1 "on a surfboard
+ endif
+ if sel = 4
+  strcpy 1 "on 'The Gong Show'
+ endif
+ if sel = 5
+  strcpy 1 "with her dentist
+ endif
+ if sel = 6
+  strcpy 1 "on her 'Workmate'
+ endif
+ if sel = 7
+  strcpy 1 "with a robot
+ endif
+ if sel = 8
+  strcpy 1 "with no clothes on
+ endif
+ if sel = 9
+  strcpy 1 "at her health club
+ endif
+ if sel = 10
+  strcpy 1 "in her Maytag
+ endif
+ if sel = 11
+  strcpy 1 "with her guru
+ endif
+ if sel = 12
+  strcpy 1 "while in labor
+ endif
+ echo all "But who'd have thought she'd %0 %1,"
+
+ random sel 1 12 0
+ if sel = 1
+  strcpy 0 "You'd think at least that she'd have said
+ endif
+ if sel = 2
+  strcpy 0 "I never had the chance to say
+ endif
+ if sel = 3
+  strcpy 0 "She told her fat friend Grace to say
+ endif
+ if sel = 4
+  strcpy 0 "I now can kiss my credit cards
+ endif
+ if sel = 5
+  strcpy 0 "I guess I was too smashed to say
+ endif
+ if sel = 6
+  strcpy 0 "I watched her melt away and sobbed
+ endif
+ if sel = 7
+  strcpy 0 "She fell beneath the wheels and cried
+ endif
+ if sel = 8
+  strcpy 0 "She sent a hired thug to say
+ endif
+ if sel = 9
+  strcpy 0 "She freaked out on the lawn and screamed
+ endif
+ if sel = 10
+  strcpy 0 "I pushed her off the bridge and waved
+ endif
+ if sel = 11
+  strcpy 0 "But that's the way that pygmies say
+ endif
+ if sel = 12
+  strcpy 0 "She sealed me in the vault and smirked
+ endif
+ echo all "%0 goodbye."

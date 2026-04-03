@@ -1,0 +1,456 @@
+<HTML><HEAD><TITLE>GM Commands</TITLE></HEAD>
+<BODY BGCOLOR="#ffffff">
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+<H1>GM Commands</H1>
+<HR>
+Here is a not quite definitive listing of the GM Commands and their
+functions. There may be some commands which do not appear in this text.  All
+of these commands are available for use by Full GM's and a lesser number of
+them will function for the Assistant GM's.
+
+<P> <B>ALL</B> GM commands are preceded
+by an <B>@</B> (at) sign and <STRONG>most may be abbreviated to their first 3 
+characters</STRONG>.
+
+<P> - Mugg L. Wump <HR> 
+
+<H4>@ACTIVATE [monster name]</H4>
+<OL>This command 'turns on' a monster which is currently 'turned off' in
+the room.  It will begin to attack, move, etc. at this point.
+</OL>
+
+Ex: @ACT goblin, @ACT 2 skeleton
+
+<H4>@ADDITEM [item archetype]</H4>
+<OL> This command places the item with the specified archetype into the
+GM's current room.  NOTE: The item is immediately visible to ANYONE within
+the same room.</OL>
+Ex: @ADD 45, this would create a sword (archetype 45) in the current room.
+
+<H4>@ADDITEM [item archetype] [record number]</H4>
+<OL> This command clones the item with the specified archetype into the
+GM's current room.  NOTE: The item is immediately visible to ANYONE within
+the same room.</OL>
+
+<H4>@ADJECTIVE</H4> <OL>
+ Displays a list of all Adjective numbers and names within the system.  Has
+the extra feature of disconnecting you while sending them. Other commands
+are better for this function.</OL>
+
+<H4>@ANNOUNCE [1,2,3,10,11] [text msg] </H4>
+<OL> Announces the specified string everyone inthe specified range.
+<TABLE BORDER=0 ALIGN=LEFT  CELLPADDING=15>
+        <TR>
+        <TD VALIGN=TOP>
+       <B>1</B> <BR>
+       <B>2</B> <BR>
+       <B>3</B> <BR>
+       <B>4</B> <BR>
+      <B>11</B><BR>
+      </TD>
+      <TD VALIGN=TOP>
+      Global<BR>
+      Over ESP [current channel]<BR>
+      All Outdoor locations <BR>
+      Fayd - Outside (streets, etc.)<BR>
+      Fayd - All City (buildings/streets)<BR>
+      </TD>
+      </TR>
+</TABLE>
+</OL>
+Ex: @ANN 1 Hey, come the big party in Bazaar Center!
+
+<H4>@ANSWER</H4> <OL>If there is an ASSIST pending in your game this will
+take you to the location of the next one which is pending.</OL>
+
+<H4>@BANK [player #]</H4> <OL> Displays the contents of the defined players
+bank account.
+</OL>
+
+<H4>@BET</H4> <OL> Unlike the @BID command you do not need a preset
+location to activate this command. Betting opens in the GM's current
+location when this command is toggled on and closes when toggled off.
+  </OL>
+
+<H4>@BID [amount]</H4> <OL> Opens bidding at a specified 'bidding location'
+at the amount provided. An amount of -1 closes the bidding and deducts the
+amount from the highest bidder. See @BIDLOC.
+</OL>
+
+<H4>@BIDLOC [0-5]</H4> <OL> Defines a room as a 'bidding location'.
+See @BID.
+</OL>
+
+<H4>@CLOSE [item name]</H4> <OL> Closes the first such item in the current room.
+</OL>
+
+<H4>@DELETE [item name]</H4> <OL> Removes the first item of this type
+within the GM's current room or inventory.  Be sure to check which item you
+are deleting before you do it, since it can get scary otherwise.</OL>
+Ex: @DEL sword (Will delete the first sword item within the
+room/inventory), @DEL green flask (Will delete that specific item in
+room/inventory)
+
+<H4>@ECHOPLR [player #] [text]</H4> <OL> Displays the text to the specified
+player and only the specified player no matter where they are in the game.
+</OL>
+
+<H4>@EDITITEM [item name]</H4>
+<OL>
+Edits the first item of this type within the GM's current room or
+inventory.  It will show you the item you are deleting immediately after
+you start to, so it is easy to see if it is the correct one. The following
+options display one at a time after invoking this command on an item. </OL>
+Ex: @EDIT sword
+<PRE>
+    Editting: a sword
+    [Archetype: [val], Database Record #[val]]
+  - Adjective #1 [current val] : [new adjective variable/name]
+  - Adjective #2      "               "
+  - Adjective #3      "               "
+  - Val1 [current val]: [new val] --] different functions for
+                                      different items.
+  - Val2              "               "
+  - Val3              "               "
+  - Val4              "               "
+  - Val5              "               "
+  - Cycles to deletion [current val]: [new val] --] How many cycles
+                                      before the item is removed by
+                                      the system. Mainly ignore this.
+  - Item location type [current val]:
+      1=player, 2=bank, 3=contained, 4=room
+  - Item location [current val]: [actual # as per type]
+  - Item special description [current text]:
+    Used for adding LOOK's or READ's to items.
+      E = examine/look   R = Read
+      Typing , EIt has a large blue hilt. , would display "It has a
+      large blue hilt." to anyone examining it.
+  - Extended item name [current text]:
+      Used for adding things to the end of a visible item name. 'with
+      a razor edge' would add that text to the end of the 'a sword'
+      text.  NOTE: The ' are included to clarify in this text, you do
+      not really use them in the item.
+  - Seek ID field [current val]:
+  - Item Archetype [current val]:
+      Changing this will change the actual item to the newly defined
+      one and carry over the adjectives/vals.
+  - Bitfield [current settings] - Ignore this field as well.
+</PRE>
+<I>
+* This command takes practice to completely figure out, so don't *<BR>
+* feel too overwhelmed....you'll get there.                      *
+</I>
+
+<H4>@EDN [Database Record #]</H4> <OL> Functions exactly like @EDITITEM but
+will effect the item of the defined Database Record.  In other words, you
+can change an item anywhere in the game by looking up it's Record #.
+</OL>
+
+<H4>@EDPLR [player #]</H4> <OL> This will display a list of the attributes
+that can be edited on a player.  It is best to learn this one on yourself
+first. ;)
+</OL>
+
+<H4>@EDPLR [player #] [field] [value]</H4> <OL> This will allow you to set
+certain player values.  To get a list of available choices for <b>field</b>,
+replace it with a <b>?</b>. It is best to learn this one on yourself
+first. ;)
+</OL>
+
+<H4>@EDSKILL [player #] [skill #] [new rank] </H4><OL> Changes the defined
+players matching skill # to the newly defined level.
+</OL>
+Ex: @EDS 20 16 15 ---] Give player 20 15 ranks in Skill #16.
+
+<H4>@ENTRY [text]</H4> <OL> Makes the text display to any players in a room
+you enter with @GO/@GOP if you are visible.
+</OL>
+
+<H4>@EVIL [player #]</H4> <OL> Grants 1 'evil' point to the defined player.
+This should be used with caution as it influences the player's aura and
+should have some basis in their current Roleplaying.
+</OL>
+Ex: @EVIL 20 --] Gives one 'evil' point to player 20.
+
+<H4>@EXAMINE [item archetype]</H4> <OL> Shows some basic information about
+the defined item.</OL>
+Ex: @EXA 45 --] Basic information about a sword.
+
+<H4>@EXCLUDE [player #] [text]</H4> <OL> Displays the text to all players
+in the same room with the 'excluded' player, and obviously not to that
+person.
+</OL>
+
+<H4>@EXIT [text]</H4> <OL> Makes the text display to any players in a room
+you leave with @GO/@GOP if you are visible.</OL>
+
+<H4>@EXP [player #] [experience amount]</H4> <OL> Gives the defined amount
+of EXPERIENCE points to the effected player.  Changes their current level
+and build points accordingly.  Currently does *not* allow for negative
+values.</OL>
+Ex: @EXP 20 10000 --] Grants 10000 experience points to player 20.
+
+<H4>@FIND [item archetype]</H4> <OL> Lists all items with the defined
+archetype currently in the game no matter where they are located
+(players,rooms,bank,etc.).  Also provides the Database Record # and item
+description.  </OL>
+Ex: @FIND 45 --] Will display all 'sword's of that type in the game.
+
+<H4>@GENMON [monster #]</H4> <OL> Generates the specified monster in the
+GM's current room. When the monster is generated it is 'sedated' and
+therefore inactive. Use of  the @ACT command will turn it on.</OL>
+Ex: @GEN 1 --] Would generate a skeleton in the current room.
+
+<H4>@GET [Database Record #]</H4> <OL> Takes the defined item from anywhere
+in the game  and places it into the GM's inventory.
+<B>NOTE</B> : Be <B>EXTREMELY</B> careful with this command, although it
+should only accept numerics it will take other values and often you will
+find yourself holding a door or tunnel from someplace.  Avoid using it
+unless you are sure of the Database number and really need to.</OL>
+Ex: No example provided, try not to use it too much. ;)
+
+<H4>@GLOSS [item name]</H4> <OL> Will provide a list of <B>all</B>
+items,nouns,adjectives and monster adjectives with the specified name
+(abbreviations can be used). Useful for finding items and such that you are
+looking for.</OL>
+
+<H4>@GM </H4><OL> Turns on GM Mode.gm hat on, monsters will not attack, you
+will see all whispers in the room, and if on WHO list you will be listed on
+duty.</OL> 
+
+<H4>@GO [Room #]</H4> <OL> Teleports the GM to the specified Room #.</OL>
+Ex: @GO 206 --] Takes the GM to Bazaar Center.
+
+<H4>@GOOD [player #]</H4> <OL> See @EVIL.
+</OL>
+
+<H4>@GOP [Player #]</H4> <OL> Teleport the GM to the specified player's
+location.</OL>
+Ex: @GOP 20 --] Takes GM to player 20.
+
+<H4>@GRANTSP [player #] [spell #]</H4> <OL> Adds the specified spell to the
+players spell list regardless of whether they can cast it.</OL>
+
+<H4>@HEAL [player #]</H4> <OL> Fully heals the specified player number,
+even from death.</OL>
+
+<H4>@HIDE</H4> <OL> Removes the GM's name from the WHO listing.
+</OL>
+
+<H4>@INVIS</H4> <OL> Turns the GM invisible to players.  They will still be
+able to see a number of the GM's actions, such as verbs.  You can also
+still be heard if you talk. </OL>
+
+<H4>@KILL [player #]</H4> <OL> Opposite of @HEAL, simply kills the
+specified player.</OL>
+
+<H4>@LINEx [player#] [text]</H4> <OL> This is used to alter the three
+appearance lines of the player (@LINE1, @LINE2 and @LINE3). Use <b>x</b> to
+reset the line to its starting value, or <b>-none-</b> to display nothing on
+that line.
+</OL>
+
+<H4>@LIST</H4> <OL> Lists all nouns in the game, will disconnect you. Useless.
+</OL>
+
+<H4>@LOCK [item name]</H4> <OL> Will lock the first such item in the room.
+</OL>
+
+<H4>@LSKILLS</H4> <OL> Lists all skills available within the game.
+</OL>
+
+<H4>@LWHO</H4> <OL> Gives a detailed listing of players in the game,
+including full names and locations. See @WHO.
+</OL>
+
+<H4>@MLIST</H4> <OL> Lists all monsters currently defined in the game.
+</OL>
+
+<H4>@MSG</H4> <OL> A toggle command which turns on/off [Script:] and [REPORTS:].
+ </OL>
+
+<H4>@NUM [player name]</H4> <OL> Will display the player # of for matching
+names, works with abbreviations.
+</OL>
+
+<H4>@PEEK [variable]</H4> <OL> Displays the current value of the defined
+variable.
+</OL>
+
+<H4>@PINV [player #]</H4> <OL> Displays the current inventory of the
+defined player with Database Record #'s.
+</OL>
+
+<H4>@PSI [player #] [psi #]</H4> <OL> Gives the specified player the
+defined Psionic power regardless of whether they can use it or not.
+</OL>
+
+<H4>@OPEN [item name]</H4> <OL> Opens the first such item in the current room.
+</OL>
+
+<H4>@QSTAT [player #]</H4> <OL> Gives a brief overview of the defined
+players name, level, and various other things.
+</OL>
+
+<H4>@QUEUE [record #] [count]</H4><OL> queues item in room for treasure on a
+searched monster. <b>Count</b> is how many monsters until item is found. The
+item itself must be left on the floor of the room. See @UNQUEUE.
+</OL>
+
+<H4>@RDATA [room number]</H4> <OL> Displays information about the defined
+room including number of players within it and items with Database Record
+#'s.
+</OL>
+
+<H4>@REGION [Region #]</H4> <OL> Displays a listing of the special
+attributes of the defined region. (<A HREF="regions.html">Regions</A>)
+</OL>
+
+<H4>@REGISTER [player #] [team]</H4> <OL> This is how you place people on a
+team for use with the @BET command.  Your options are -1 to cancel the
+registry, 0 to not place them on any team, 1 to place them on Team A or 2
+</OL>
+
+<H4>@RESTORE [NPC #]</H4> <OL> This will change your character into
+whatever is stored in the specified NPC slot.  All items, abilities, etc.
+that you currently have will be replaced by the new ones, so if you want to
+keep your current character be sure to @SAVE it first.  *NOTE* : Do NOT use
+this command unless you have been given a slot as there are a few mundane
+characters saves in slots and you will become ordinary.
+</OL>
+
+<H4>@RFLAG</H4> <OL> Turns off GM mode. gm hat off, monsters will attack, you 
+will not see whispers, and if on WHO list you will be listed as a player.
+</OL> 
+
+<H4>@SAVE [NPC #]</H4> <OL> This saves all information concerning your
+current character to the specified slot.  It will overwrite whatever is in
+that slot so be sure to only use it if you have been assigned a number by
+Damnthing (holder of the sacred numbers.)
+</OL>
+
+<H4>@SCRIPT</H4> <OL> Begins the process where the GM can upload a script
+been instructed as to how.
+</OL>
+
+<H4>@SEDATE [monster name]</H4> <OL> 'Turns off' the first such monster in
+the room. See @ACT/@GENMON/@ZAPMON.
+</OL>
+
+<H4>@SET [variable] [val]</H4> <OL> Changes the value of a system variable
+</OL>
+
+<H4>@SND [text]</H4> <OL> Displays the complete text message to everyone
+within the GM's current room. Using a \ will act as a Carriage Return to
+split up the lines.
+</OL>
+
+<H4>@SPAWN [monster #] </H4><OL> Creates an active monster.
+</OL>
+
+<H4>@SPEECH [player #] [text]</H4>  <OL> Changes the way the defined player
+talks.Note: The text of the speech type can <B>only</B> 12 characters.</OL>
+Ex: @SPEECH 1 burble --] If the player spoke you would see.
+    Mugglewump burbles, "Hey, what happened?"
+
+<H4>@SPELL [player #] </H4><OL> Gives detailed information on the specified
+players known spells and psionic powers.
+</OL>
+
+<H4>@STATUS [player #]</H4> <OL> Gives detailed information on the
+specified player  including stats, level, skills, and specializations.
+</OL>
+
+<H4>@SUMMON [monster #] </H4><OL> Summons an active monster to your command.
+</OL>
+
+<H4>@TIME [new value]</H4> <OL> Changes the current 'world' time.  Values
+are 0-23 where 0 is Midnight and 12 is Noon.
+</OL>
+
+<H4>@TRACE</H4> <OL> Toggles on/off the GM trace mode.  Little is known of
+how this  functions so it is of limited use.
+</OL>
+
+<H4>@TREASURE [treasure level]</H4> <OL> Generates the appropriate
+amount/type of treasure in the GM's current room.
+</OL>
+
+<H4>@UNHIDE</H4> <OL> Places the GM's name on the WHO listing.
+</OL>
+
+<H4>@UNLOCK [item name]</H4> <OL> See @LOCK.
+</OL>
+
+<H4>@UNQUEUE [record #] [count]</H4><OL> removes an item from the monster
+queues. It cannot be simply deleted. See @QUEUE.
+</OL>
+
+<H4>@VISIBLE</H4> Makes the GM visible to players, etc. See @INVIS.
+</OL>
+
+<H4>@WEATHER [0-8]</H4> <OL> Changes the current weather within the game.
+<TABLE BORDER=0 ALIGN=CENTER VALIGN=TOP CELLPADDING=15>
+<TR>
+<TD VALIGN=TOP>
+          0 <BR>
+          1 <BR>
+          2 <BR>
+          3 <BR>
+          4  <BR>
+          5 <BR>
+          6 <BR>
+          7 <BR>
+          8 <BR>
+          </TD>
+          <TD VALIGN=TOP>
+          Sunny<BR>
+          Partially Cloudy  <BR>
+          Overcast<BR>
+          Light Rain   <BR>
+          Moderate Rain    <BR>
+          Heavy Rain<BR>
+          Thunderstorm <BR>
+          Gale  <BR>
+          Hurricane<BR>
+          </TD>
+          </TR>
+</TABLE>
+</OL>
+
+<H4>@WHISPER [player #] [text]</H4> <OL> Whispers the text to the defined
+player.
+</OL>
+
+The player will see a message like follows.
+ <PRE>
+          [Mugglewump]: Hey, what are you doing silly person?
+</PRE>
+
+<H4>@WHO</H4> <OL> Lists all players and monsters currently within the game
+complete with player #'s.
+</OL>
+
+<H4>@YANK [player #]</H4> <OL> Takes the defined player from whereever they
+are to the GM's current location.
+</OL>
+
+<H4>@ZAPMON [monster name]</H4> <OL> Removes the first of the specified
+monster from the room/game.</OL>
+<HR>
+<BR>
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+</BODY>
+</HTML>

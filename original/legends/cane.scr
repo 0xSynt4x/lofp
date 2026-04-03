@@ -1,0 +1,134 @@
+
+INUMBER 1335
+NAME 159
+WEIGHT 3
+VOLUME 5
+CRUSH_WEAPON
+PARAMETER1 4
+WIELDABLE
+SUBSTANCE WOOD
+
+VARIABLE ITEMVAL6
+VARIABLE EXITN
+VARIABLE EXITS
+VARIABLE EXITE
+VARIABLE EXITW
+VARIABLE EXITSW
+VARIABLE EXITSE
+VARIABLE EXITNE
+VARIABLE EXITNW
+
+
+
+IFPREVERB TAP -1
+   CLEARVERB
+   IFVAR EXITN ! -1
+      EQUAL ITEMVAL6 EXITN
+      ECHO PLAYER You prepare to go north.
+     ELSE
+       ECHO PLAYER You can't go north!
+   ENDIF
+ENDIF
+IFPREVERB WAVE -1
+   CLEARVERB
+   IFVAR EXITW ! -1
+      EQUAL ITEMVAL6 EXITW
+      ECHO PLAYER You prepare to go west.
+    ELSE
+      ECHO PLAYER You can't go west!
+   ENDIF
+ENDIF
+
+IFPREVERB POKE -1
+   CLEARVERB
+   IFVAR EXITE ! -1
+      EQUAL ITEMVAL6 EXITE
+      ECHO PLAYER You prepare to go east.
+    ELSE
+      ECHO PLAYER You can't go east!
+   ENDIF
+ENDIF
+
+IFPREVERB TOUCH -1
+   CLEARVERB
+   IFVAR EXITS ! -1
+     EQUAL ITEMVAL6 EXITS
+     ECHO PLAYER You prepare to go south.
+
+   ELSE
+      ECHO PLAYER You can't go south!
+   ENDIF
+ENDIF
+
+IFPREVERB RUB -1
+   CLEARVERB
+   IFVAR EXITNE ! -1
+      EQUAL ITEMVAL6 EXITNE
+      ECHO PLAYER You prepare to go northeast.
+
+   ELSE
+      ECHO PLAYER You prepare to go northeast.
+   ENDIF
+ENDIF
+
+IFPREVERB KICK -1
+   CLEARVERB
+   IFVAR EXITNW ! -1
+      EQUAL ITEMVAL6 EXITNW
+      ECHO PLAYER You prepare to go northwest.
+
+   ELSE
+      ECHO PLAYER You can't go northwest!
+   ENDIF
+ENDIF
+
+IFPREVERB PULL -1
+   CLEARVERB
+   IFVAR EXITSW ! -1
+      EQUAL ITEMVAL6 EXITSW
+      ECHO PLAYER You prepare to go southwest.
+
+   ELSE
+      ECHO PLAYER You can't go southwest.
+   ENDIF
+ENDIF
+
+IFPREVERB TURN -1
+   CLEARVERB
+   IFVAR EXITSE ! -1
+      EQUAL ITEMVAL6 EXITSE
+      ECHO PLAYER You prepare to go southeast.
+
+   ELSE
+      ECHO PLAYER You can't go southeast!
+   ENDIF
+ENDIF
+
+IFPREVERB RECALL -1
+   CLEARVERB
+   ECHO PLAYER To use the cane, perform one of the following actions to
+set the direction in which you wish to travel, then PUSH the cane to go
+in that direction.
+   ECHO PLAYER TAP NORTH, WAVE WEST, POKE EAST, TOUCH SOUTH, RUB
+NORTHEAST, TURN SOUTHEAST, KICK NORTHWEST, PULL SOUTHWEST
+ENDIF
+
+
+ IFPREVERB PUSH -1
+ CLEARVERB
+ IFITEM -1 wielded
+    ECHO PLAYER You can't lean on the cane if you're wielding it.
+ ELSE
+    IFVAR ITEMVAL6 ! 0
+     ECHO OTHERS %n hobbles off, leaning heavily on %h cane.
+      ECHO PLAYER You hobble off, leaning heavily on your cane.
+      MOVEGROUP ITEMVAL6
+      AFFECT ITEMVAL6
+      ECHO OTHERS %n limps into view.
+      EQUAL ITEMVAL6 0
+    ELSE
+       ECHO PLAYER Which way did you want to go? RECALL me if you don't
+remember how to move.
+    ENDIF
+ ENDIF
+ENDIF

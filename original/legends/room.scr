@@ -1,0 +1,24 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 1298
+NAME A place
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+*DESCRIPTION_START
+You see what's around you.
+*DESCRIPTION_END
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 1299
+NAME Daedalus' Featureless Room
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+*DESCRIPTION_START
+This featureless room has replaced whatever was located here before.
+Do you have a problem with that?
+*DESCRIPTION_END

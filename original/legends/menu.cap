@@ -1,0 +1,155 @@
+[Rosie's]
+R> read sign
+Brew and wine       Price
+-------------       -----
+Ale                 1 Shilling
+Wine                1 Crown
+Champagne           2 Crowns
+Grog                5 Pennies
+Honey Mead          3 Shillings
+
+Hard stuff          Price
+----------          -----
+Effervescent Frappe 2 Crowns
+Shartan Toddy       3 Crowns
+Faydish Fizz        2 Crowns
+
+
+[Saloon]
+> read sign
+Brew and wine       Price
+-------------       -----
+Ale                 16 Pennies
+Champagne           2 Crowns
+Emerald Wine        25 Shillings
+Grog                7 Pennies
+Honey Mead          3 Shillings
+
+Hard stuff          Price
+----------          -----
+Effervescent Frappe 2 Crowns
+Shartan Toddy       3 Crowns
+Dragonslayer Tonic  3 Crowns
+Faydish Fizz        2 Crowns
+
+We have rolls! Chicken, beef and vegetable, 12 Shillings each!
+
+[Aunt Emma's Bakery]
+> l in coun
+Many delicious items are on display here with tiny signs showing their prices:
+
+            Chocolate cake     3 pennies per slice
+            Coffee cake        2 pennies per slice
+            Honey bread        1 penny per loaf
+            Cherry pie         1 shilling per slice
+            Custard pie        1 shilling per slice
+            Rainbow cookies    1 penny each
+
+> [Loopo's Butcher Shop]
+> read sign
+Sausage               6 pennies
+Mutton                8 pennies
+Roast Beef            1 crown
+Salted Venison        5 shillings
+Roast Boar            2 shillings
+Smoked Tongue         1 penny
+Lizard Tail           1 penny
+
+[Farmers Market, South End]
+> read sign
+Item             Price
+----             -----
+Apple            4 pennies
+Lentils          1 penny
+Potato           2 pennies
+Spinach Leaf     2 pennies
+Strawberries     3 pennies
+Carrot           1 penny
+Pickle           3 pennies
+Grapes          10 pennies
+> 
+
+[Fish Market]
+> read manu
+Item                Price
+----                -----
+Salted Herring      5 pennies
+Smoked Salmon       7 pennies
+Oyster              1 shilling
+Lobster (prepared)  6 shillings
+
+[The Creamery]
+Barrels are stacked up behind a low counter.  Atop the counter is a glass
+display case showing a variety of cheeses.  To the side are some bottles of
+milk resting on some blocks of slowly-melting ice.  A sign on the wall
+announces this shop's prices, and a stairway leads back to the street.
+Obvious exits: none.
+> read sig
+> n
+Item            Price
+----            -----
+Milk            1 shilling
+Hard cheese     2 shillings
+Ice-cream cone  1 crown
+
+[Dirty Dirk's Pleasure Palace]
+> read sign
+Liquor              Price
+------              -----
+Ale               9 Crowns
+Grog             18 Crowns
+Murg Ale          1 Crown
+Red Wine          6 Crowns
+White Wine        6 Crowns
+
+Popcorn           1 Crown
+
+[Anvil Bar Room]
+> read sign
+Hot and Cold Grog         1 gold piece
+Midnight Ale              2 gold pieces
+Red Hot Mead              3 gold pieces
+Deeplander Frappe         4 gold pieces
+Ice Cold Toddy            5 gold pieces
+Golden Wolfling Wine       6 gold pieces
+White Goblin Brandy       8 gold pieces
+
+Potions: Contact Mad, Demetrius or Marble--prices seasonal
+
+[To order a drink, simply say the FULL name of the drink. 
+Ex: "Hot and Cold Grog"
+Note: Do not use the BUY command]
+
+[Cafe, Restaurant]
+> read menu
+         -= Cafe de la Paix =-
+  Appetizers:
+     Baked potato.................2 gold
+     Crispy bread.................1 gold
+     Chilled shrimp...............3 gold
+  Entrees:
+     Roast Beef...................4 gold
+     Roast Chicken................4 gold
+     Grilled Shrimp...............6 gold
+  Beverages:
+     Dark coffee..................3 gold
+     Spicy coffee.................4 gold
+     Iced tea.....................1 gold
+     Hot tea......................1 gold
+     Milk.........................2 gold
+
+All prices include a 15 percent gratuity. Also, for more drink selections, be
+sure to read our wine list.
+> 
+    "Welcome to the tavern of Heroes Rest!"
+
+DRINKS
+------
+Ale            1 Shilling
+Sparkling Ale  2 Crowns
+Honey Mead     3 Shillings
+Wine           1 Crown
+
+FOOD
+----
+The one, the only, the famous Hero Sandwich for only five gold crowns!

@@ -1,0 +1,175 @@
+The story of Brendig, as recorded by Taliesin Pendragon, somewhere deep
+inside the palace...
+
+[North storeroom]
+This room is completely barren, the marbled walls stripped clean of even the
+torch sconces. Only the door back to the corridor breaks the monotony.
+You see Brook, Cornelius, Estara, Veronica, Ritar, Roc, Stefan and Dorrin. A
+torch is here.
+Obvious exits: none.
+
+Roc says, "It is Gwythius dagger"
+
+A vaguely familiar voice says 'Admit' and your vision blurs for a moment.
+
+ [Secret room]
+This large room is completely bare. The walls are made of the same marble as
+the hallway, but the black and white are more intense. Inset into the north
+wall is a massive door made from the same stone, with flecks of alzyron
+glittering with their own light. Carved into the massive door is a single
+dagger pointing downward. A small slot, big enough for a small sword, is cut
+into the crossguard of the dagger, just below the hilt.
+You see Brook, Cornelius, Estara, Veronica, Ritar, Roc, Stefan and Dorrin.
+Obvious exits: none.
+
+Veronica says, "Roc said Gwythius' name and all of a sudden we were here"
+
+Estara's hand jerks slightly towards the far wall.
+Estara warmly says, "I can't help myself!"
+Estara lifts her hand up and slides Gwythius' dagger into the slot. 'CLICK'
+The slot releases the dagger and seals over.
+
+The air before you begins to shimmer.
+
+A mistlike shape begins to form in the air before you.
+
+Roc says, "Hello Mist"
+
+Veronica gazes at the misty form.
+
+It takes on the shape of a man, possibly human, definitely not physical.
+
+Floating before you is the shade of Brendig Vendir. He appears to be a human
+of about forty, though it is hard to be sure, considering his wispy form.
+
+Brendig bows towards Estara.
+
+Veronica watches the form take shape.
+
+Estara curtsies towards Brendig.
+
+Brendig quietly says, "I see the key still exists."
+
+Stefan says, "It would seem it does sir."
+
+Brendig quietly says, "It is good that you have come..."
+
+Estara touches a silver-edged elkyri dagger with small flecks of alzyron forged
+into the blade.
+
+Stefan listens carefully to Brendig.
+
+Brendig quietly says, "You wish to know who I am? Then please, be seated."
+
+You see Brook (sitting), Brendig, Cornelius (sitting), Estara (sitting),
+Veronica (sitting), Ritar (sitting), Roc (sitting), Stefan (sitting) and
+Dorrin (sitting).
+
+You remove a quill pen inscribed with the writing, "The Bank of Fayd" in blu
+from the satchel.
+You moisten the tip of the quill with your tongue.
+
+Brendig quietly says, "No power on Andor could get in here."
+
+Brendig quietly says, "This room was created by some of the most powerful mages
+of my time."
+
+Brendig quietly says, "Now then, as to who I am..."
+
+Brendig gazes at all of you, becoming more solid for a moment.
+
+Brendig begins to speak in a slow, quiet voice: "My brother Arenthor and I were
+born on this day in the year 562. We grew up in a small village east of here,
+laughing and playing as is normal for small boys."
+
+"But it was obvious at a very early age that we were not as other boys, for we
+both had a feel for the natural order of things. We were at home with the wild
+creatures of the forests and could judge the weather with ease."
+
+"When we reached the age of ten, our father sent us to study with Serina, a
+skilled healer and a powerful druid. She taught us many things about the
+natural world, about the Earthmother and all her creatures, and about the
+workings of people."
+
+"But of us she would only say in her quiet way, 'You two are very gifted, but
+this is not your way, for while you both love life you each bear the mark of
+death upon your souls. Your futures will not be spent here in the forests...'"
+
+"And she would say no more on the subject, no matter how many ways we asked her
+during our six years with her. Upon reaching manhood we chose to come to Fayd
+before returning home."
+
+"Needless to say it took some adjusting to, but in the first two months we
+secured work as laborers and got an apartment in the poorer part of the city.
+It was in the third month of living here that we learned out first real
+lesson."
+
+"To defend the weak sometimes one must be strong and use whatever means are
+available. For it was at the end of the third month that we each first took a
+life..."
+
+"The landlord of our apartment was a kindly gentleman with a beautiful wife and
+daughter, and only good in his heart. We returned home one night to find him
+lying in the hall, his body twisted and broken."
+
+"Bending over him I asked who had done such a thing to him, and his reply
+shocked us both. 'It was Jendren, the lawkeep. He wished to marry Trina, my
+daughter, but she always refused his attentions no matter what gifts he plied
+her with.'"
+
+"He coughed up some blood and continued, 'Then something happened, for he came
+to me in a rage and began to beat me while she watched in horror. I am not a
+warrior and could not fight back, and she finally begged for my life, promising
+to stay with him.'"
+
+"At first I could not believe that a lawkeep could hurt one he was sworn to
+protect but then Aren, always the quicker of eye, pointed to the badge being
+clutched in the man's hand."
+
+"Coughing harder he pleaded, 'I will not live out this night, don't leave her
+in his hands, I beg you...' I quickly agreed and Aren agreed, drawing his
+dagger, exclaimed, 'He will not live out the night, I swear it!'"
+
+"So saying, he slit open the palm of his hand and held it out to me. Not to be
+outdone I did the same, and we clasped hands sharing the blood that we shared
+from birth. Then, suprisingly quick, Arenthor drove his dagger into our
+landlord's heart."
+
+"'Now he shall feel no pain, come brother we must avenge him!', he stated. And
+having no argument, we left to seek out the true killer. Jendren, a once good
+man corrupted by power, was asleep with his 'wife' when we found him... He did
+not wake."
+
+Brendig shakes his head suddenly, "But my story is long and our time grows
+short. I brought you here for a reason that is far more important. For over
+four hundred years I have awaited the return of my brother's sword to the
+realms of man."
+
+"Only the power of the Lightblade can stop the Darkblade's bid for power. One
+of you, pure of heart and strong of purpose, must take up my blade and seek out
+it's dark twin."
+
+"As I am spirit who can guide you, I can only assume my Arenthor has also
+passed on his blade to another who can continue his plans. He can only mean ill
+for all and must be stopped at any cost."
+
+Brendig pauses for a long moment before continuing.
+
+"Choose wisely the wielder, for only the strong of heart can hope to succeed,
+and Lightblade will not aid those who cannot use her. More you will learn, when
+the time has come..."
+
+Roc nods to Brendig.
+
+Brook asks, "What sort of blade is it, this Lightblade?"
+
+Brendig wields a glowing white alzyron claidhmore with a hilt made from a
+unicorn's horn.
+
+Brook says, "Wow."
+Brook says, "That is a beautiful weapon."
+
+Taliesin writes, "Stefan was the only one who could hold the weapon without
+being burned."
+
+                                    * * *

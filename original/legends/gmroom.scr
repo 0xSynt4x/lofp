@@ -1,0 +1,123 @@
+; The below script creates room number 5000. The room is named
+; The Test Room. It is defined as being in Region 0 (the Main
+; Cafe area) It has an an indoor floor, fixed lighting and an
+; ESP channel of 1 (anyone who is in another room with an ESP
+; channel of 1 can hear and broadcast thoughts to someone in
+; this room.
+
+NUMBER 5000
+NAME The Test Room
+REGION 0
+INDOOR_FLOOR
+FIXED_LIGHT
+CHANNEL 1
+
+
+; the below line creates an OUT exit to room 101 (The Cafe)
+
+EXIT O 101
+
+
+; the below lines create the following items in this room:
+; an oak desk, a comfy chair and a bay window (in that order)
+; We do this by using the ITEM command. You can have 10
+; such items in a room, numbered 0 - 9. The number (0-9)
+; allows us to later reference these items in the script.
+
+ITEM 0 328 ADJ1=646
+ITEM 1 215 ADJ1=198
+ITEM 2 1123 ADJ1=54
+
+
+; below we give the room a description...
+
+*DESCRIPTION_START
+You are in the Test Room. This room is here to help Cafe Hosts try to
+understand how to script. In this room is an oak desk, a comfy chair
+and a bay window.
+*DESCRIPTION_END
+
+
+; below we give descriptions to each of the items we defined above
+; by referencing their ITEM numbers.
+
+*DESCRIPTION_START ITEM EXAM 0
+It's an ordinary desk, made of oak.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+The chair sits directly behind the desk. It's upholestered in leather
+and looks very comfortable.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+You gaze out the bay window into the void beyond.
+*DESCRIPTION_END
+
+
+; below we check to see if you LOOK WINDOW and echo
+; something to the other people in the room. The letter
+; N preceeded by a percent sign gets filled in by the
+; name of the player performing the action. There are
+; several such tokens in the scripting language. Here
+; are a list of some...
+; h = his/her, s = he/she, i = him/her, c = a carriage
+; return, p = player_name's group. If you make put the
+; letter in all caps, it caps the pronoun capital.
+
+IFVERB EXAM 2
+	ECHO OTHERS %N gazes out the window.
+ENDIF
+
+
+; below we trap the verb GO on the chair item. Now when you
+; GO CHAIR it gives two echos, one for the player DOING the
+; go and one for the other players in the room. It also puts
+; you in the sit position. Notice the CLEARVERB. You use it
+; to clear the actions that the verb you are trapping would
+; normally do. Also notice that this time we use IFPREVERB,
+; not IFVERB, because we want to trap the action BEFORE it
+; happens, not after it happens like we did above for when
+; you look at the window. Also, you can only use CLEARVERB
+; with IFPREVERB, because you can't clear the action of the
+; verb after you've already let it happen.
+
+IFPREVERB GO 1
+	CLEARVERB
+	ECHO PLAYER You take a seat on the comfy chair.
+	ECHO OTHERS %N takes a seat on the comfy chair.
+	POSITION SIT
+ENDIF
+
+
+; below we trap the SIT verb to do the same thing as when
+; you GO CHAIR. You'll notice the -1. Usually the number
+; after the verb refers to an item in the room, such as 1
+; above in the trapping of GO. It refers to the CHAIR as
+; the CHAIR is ITEM 1 for this room. But here, we're not
+; using SIT on an item, so we use -1. But unlike GO, we
+; have to check if they're already sitting. The reason we
+; don't have to check if they're already sitting for the
+; GO command is because you have to be STANDING in order
+; to GO. We do this by checking the vaule of the variable
+; POSITION. It's values are 0 = standing, 1 = sitting,
+; 2 = lying, 3 = kneeling. You use the = sign to detect
+; if a variable is equal, < for less than, > for greater
+; than and ! for not equal.
+
+IFPREVERB SIT -1
+	CLEARVERB
+	IFVAR POSITION = 1
+		ECHO PLAYER You're already sitting.
+	ENDIF
+	IFVAR POSITION ! 1
+		ECHO PLAYER You take a seat on the comfy chair.
+		ECHO OTHERS %N takes a seat on the comfy chair.
+		POSITION SIT
+	ENDIF
+ENDIF
+
+
+; That's pretty much it for this test room. If you have any
+; questions, please feel free to ask.
+

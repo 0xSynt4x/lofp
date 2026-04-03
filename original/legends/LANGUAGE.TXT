@@ -1,0 +1,170 @@
+Drakin Language
+
+
+        Common..                             Drakin..
+
+        Above                                Tylion
+        Adventure/fun                        Chilge
+        Agree                                Say
+        All                                  Ganya
+        Ancestor(s)                          Duea'Ktrang
+        And                                  Bt
+        Are                                  Ree
+        Armor                                G'nassk
+        Ascend, go, up, climb                Vfnya
+        Assassin                             Lu'Chang
+        at                                   Saa
+        Aura                                 Badask
+        Bad times, ill luck                  Szzass
+        bank                                 Armso
+        Bar or Cantina                       Garak
+        Battle, war                          Vhaen
+        Bazzar Center                        Kartar
+        Be                                   tb
+        Berserk                              Vhodr
+        Big, huge gigantic                   Danar
+        Black                                Rash
+        Blade, sword                         Katanre
+        Blue                                 Morav
+        Can                                  Sa
+        Catacombs                            Biidan
+        Cavern, cave                         Baen
+        Charge                               Dedrya
+        Church                               Holitor
+        Clothing                             Tylirr
+        Come                                 Lar
+        Commoner                             Ced'Char
+        Council Room                         Borr
+        Curse                                Zr'Tgh'Dakre
+        Deal, Contract                       Gadinsa
+        Deep realms                          Ftundre
+        Descend, go down                     Ytagya
+        Die, death                           Khandin
+        Dragon (greater)                     Caaskri
+        East                                 Soooe
+        Elder/leader                         San
+        Enemy                                Shaido
+        Evil                                 Juplax
+        Fly                                  Aldarya
+        Foot hills                           Vandre
+        For                                  Torf
+        Foreigner, (non-member)              Matuke
+        Forever                              Torfat
+        Forest                               Yulre
+        Forge                                Heartk
+        free                                 Alapo
+        Friend                               Cho'Nya
+        From                                 Sdyan
+        Gift                                 Elrae
+        God (Very powerful being)            F'taghn
+        Gold                                 Rtann
+        Good                                 Jupla
+        Gray                                 Hass
+        Green                                Ishar
+        Guardian                             Vhate
+        Hard                                 Shae
+        Have                                 Arvv
+        haven                                Inhart
+        Hello                                Kvaahn
+        Help                                 Mopack
+        Him/her, his/hers                    Gyvan
+        Home                                 Ulnar
+        Hunting                              Roolak
+        I, I am, me, mine                    Gya
+        is                                   Zin
+        Island                               jandar
+        in                                   Vadhe
+        it                                   Be
+        Jeweler                              Hortar
+        Jokester/wise-ass                    Ch'Ast
+        Keep                                 Clatak
+        Know, knowledge                      Jonya
+        Laugh                                Lijya
+        Lie, falsehood (also a curse)        Shai
+        Loud                                 Lamar
+        Love                                 Chova
+        Magic or Enchantment                 Sassr'a
+        matters                              Vedasss
+        May                                  Vh
+        Merchant                             Ced'laest
+        Meeting                              Moontak
+        Miridaal                             Orash
+        Monsters                             Sh'nath
+        Mountain                             Ftandre
+        need                                 Nord
+        No                                   Chs'E
+        North                                Soor
+        Ocean or lake                        Ylin
+        of                                   Sdya
+        Ok                                   Lc
+        On                                   An
+        Order                                Qxqx
+        Passage, path                        Alkyr
+        Physicians guild                     Deak
+        Power                                Ntigoth
+        Prepare                              Telya
+        Priest                               Rtaeth
+        Proud                                Tara
+        Ready                                Chegya
+        River                                Ylir
+        Shattered Realms                     Erawe
+        Shield                               Dae
+        Sky (clouds)                         Han
+        Soar                                 Thlai
+        Soldier, warrior, fighter            Vha
+        Someone                              Unap
+        South                                Sooos
+        Stand                                Geshya
+        Strange                              Qt
+        Swamp                                Plei
+        Thanks                               Ulta
+        That                                 Taetra
+        The                                  esth
+        Thairs, them                         Gyan
+        These                                Estg
+        Thief                                Cho'vadar
+        Treasure                             Padyr
+        Trustworthy (adj. use only)          Chaer
+        Ugly or disgusting                   Gtarn
+        Undead                               Xvar
+        Valor                                Vhodahr
+        Want                                 Saxx
+        Was                                  Xss
+        Wastelands, desert                   Votar
+        Way of life, code                    Natae
+        We, ours, us                         Gyati
+        West                                 Sooow
+        Wet, stained, bloodied               Nethra
+        What                                 Gy
+        White                                Lac
+        Will                                 marth
+        With                                 Kon
+        Wizard                               DNaen
+        Yes, I agree                         Gya,Say
+        You, yours                           Gyi
+        Young                                Wydar
+
+
+                         -----------
+
+        It matters not.                      Be Vedasss Chs'E
+        Power of the Ancestors               Duea'Ktrang ntigoth
+        Go! <with him>                       Ghi Kon <person>
+        Come <with me>                       Ghi lar
+        Do you want <object>                 Ghi sazz <object>?
+        I am on the way .. (OTW)             Gya An Natae
+        I have a <object>                    Gya Arvv <object>
+        I need a <object>                    Gya'nord'<object>
+        I am at <location>                   Gya Saa <location>
+        Are you free for a meeting?          Gyi Alapo Torf Moontak?
+        Do you need help with?               Gyi Nord Mopack Kon?
+        What is that?                        Gy Taetra?
+        Brother                              Rak'Kahn
+        Sister                               Rak'Kash
+        Are you ok?                          Ree Gyi Lc?
+        Can I have <object>                  Sa Gya Arvv <object>
+        Forever is (It will always be)       Torfat Be Zin
+        Do you have <object>                 Vh Arvv <object>
+        May your sword be wet (with blood)   Vh Gyi Katan Tb Nethra
+        Goodbye, May your skies be clear     Vh'Han'Dakre
+        Most foul curse                      Zr'Tgh'Nriaa

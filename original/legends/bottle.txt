@@ -1,0 +1,37 @@
+Old description:
+
+[Inside bottle]
+You can't see anything through the walls of this strange room, but faint
+images. On the floor you see an exquisite oriental rug that covers the entire
+floor. Sitting by one wall is a beautiful antique oaken desk and a large,
+sturdy rocking chair. On top of the desk you see a strange looking device from
+an age long past. Hung on the walls in various spots are ancient weapons and
+tapestries. You can see a glowing hole here that illuminates the entire room
+with a soft white light.
+Obvious exits: none.
+
+New description requested:
+
+[Inside bottle]
+Faint images can be seen through the translucent walls of this strange room.
+The entire floor is covered by an exquisite oriental rug. A glowing hole in
+one wall illuminates the entire room with a soft white light, revealing a
+large, sturdy rocking chair next to the wall and a beautiful antique oaken
+desk with a strange looking device from long ago resting on it. Various
+medical texts and instruments are scattered about, plus books on psionics and
+the history of Amilor.
+Obvious exits: none.
+
+In the room are a hole, pillow, a chair, a desk, a rug and a computer.
+
+Can you please add a soft bed?
+
+Can you trap MARK with IFPREVERB so that people can't mark the bottle, but
+Delight and I can still use our marks to teleport to it?
+
+In the Physician's Guild room on the other side of the hole, where the bottle
+lives, can you add a dingy bottle that weighs 1000 lbs (or a glowing hole) and
+code the room so that if Taliesin and only Taliesin tries to GO BOTTLE or 
+GO HOLE then he and his group will magically shrink and enter the bottle? Or
+give me something I can carry to be able to enter the bottle? 
+

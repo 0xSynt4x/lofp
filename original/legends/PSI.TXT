@@ -1,0 +1,46 @@
+The cost to select a discipline or project is equal to the level.
+
+#    Discipline            Level  Maintain
+---  ----------------------------------------------------------------------
+1    Matter Awakening       1     
+2    Kinetic Thrust         1     
+3    Levitate               2     1
+4    Pyrokinetics           3     
+5    Cryokinetics           4     
+6    Capacitance            5       
+7    Electrify              6     
+8    Strengthen Steel       7       
+9    Manipulate Lock        8       
+10   Wall of Force          9     1
+11   Flight                10     2
+12   Call on Inner Power   13     
+13   Transform Steel       15      
+14   Teleportation         18      
+15   Force Field           20     4
+16   Immobilize            22      
+17   Ethereal Projection   24       
+18   Mind Awakening         1
+19   Telepathy              1
+20   Contact                2
+21   Psychic Probe          3
+22   Psychic Blast          4
+23   Psychic Screen         5
+24   Psychic Penetration    6
+25   Clairvoyance           7
+26   Eject                  8
+27   Cloak Aura             9
+28   Psychic Shield        10
+29   Psychic Crush         11
+30   Psychic Invasion      12
+31   Confuse               13
+32   Focus Skill           14
+33   Terror                15
+34   Psychic Barrier       16
+35   Psychic Insinuation   17
+36   Domination            18
+37   Disruption            19
+38   Psychic Fortress      20     4
+39   Warp Mind             22
+40   Psychic Siege         25
+41   Pain                  21
+42   Speed                 12     2

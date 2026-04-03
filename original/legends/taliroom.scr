@@ -1,0 +1,52 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2330
+NAME Living Area
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+*DESCRIPTION_START
+The main rooms of this simple but elegant home share the front of the house
+without walls between them, giving an open, spacious feeling. Conveniently
+placed next to the tidy kitchen is a long dining room table surrounded by
+high-backed chairs. The other side of the room features a large, comfortable
+sofa and easy chair facing a coffee table in front of the brick fireplace and
+fur rug. Bookshelves holding tomes and tools for healing, alchemy and
+psionics line the richly appointed study to the left of the fireplace, while
+a sewing area fills the corner to the right of the fireplace.
+*DESCRIPTION_END
+
+ITEM 0 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2331
+NAME Park Avenue
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+*DESCRIPTION_START
+Flowerbeds with violets and budding rose bushes grow by the side of the road
+surrounding a newly remodeled house. Lush grape vines twine up the side of a
+quaint gazebo, visible through its arch just to the north. A small stand with
+a sign displays the price of the flowers in season.
+*DESCRIPTION_END
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2332
+NAME Park Avenue
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+EXITO 2331
+
+*DESCRIPTION_START
+Large hanging pots containing lush plants grace the ceiling of the gazebo.
+Their foliage cascades down, displaying groups of brightly colored, tubular
+flowers. A heady perfume fills the air. An iron chair sits on the ground,
+overgrown by vines.
+*DESCRIPTION_END

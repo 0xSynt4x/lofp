@@ -1,0 +1,112 @@
+; The room numbers need to be changed, and exits inserted.
+
+NUMBER xxx
+NAME Apprentice Quarters
+REGION 15
+CHANNEL 72
+ASTRAL
+PARTIAL_DARKNESS
+;
+*DESCRIPTION_START
+Dribbles of wax have spread out from the flickering candle which is the sole
+illumination for this spartan chamber, sending lumpy tendrils across the
+worn surface of the old desk. Ashes fill an unemptied incense bowl in one
+corner of the desk. Scratched wantonly into the wooden surface are a few
+basic incantations and some initials within a pierced heart. A simple bed can
+be seen in reflection in the smudged mirror over the desk.
+*DESCRIPTION_END
+
+; bed
+ITEM 0 85
+; chair
+ITEM 1 86
+; desk
+ITEM 2 201
+; candle
+ITEM 3 640
+; mirror
+ITERM 4 745
+
+NUMBER xxx
+NAME Apprentice Quarters
+REGION 15
+CHANNEL 72
+ASTRAL
+PARTIAL_DARKNESS
+;
+*DESCRIPTION_START
+Dank smells and cramped quarters give this small room an oppressive feel,
+unalleviated by the dark, stained walls and the feeble light issuing from a
+small slit in the exterior wall. In the dim glow an unkempt bed and low table
+can be detected. A hypnotic pattern has been worked into the surface of the
+well-worn table.
+*DESCRIPTION_END
+
+; bed
+ITEM 0 85
+; chair
+ITEM 1 86
+; table
+ITEM 2 91
+; candle
+ITEM 3 640
+; mirror
+ITEM 4 745
+
+NUMBER xxx
+NAME Apprentice Quarters
+REGION 15
+CHANNEL 72
+ASTRAL
+PARTIAL_DARKNESS
+;
+*DESCRIPTION_START
+An encircled mystic design surrounds a nauseating stain that mars the floor of 
+this disturbing room. Unexplained chills caress the back of your neck
+accompanied by the sensation of sounds that don't seem loud enough to be
+heard. An alien aroma emanates from the direction of a bed that sags along the 
+edges rather than the center, lending the air an unhealthy quality when you
+inhale it. Strong iron bars in the small, high window seem designed to keep
+something in, rather than keeping unwanted visitors out. Your sight can't
+penetrate the shadows filling the corners of the room, yet it seems there's
+something lurking somewhere close.
+*DESCRIPTION_END 
+
+; bed
+ITEM 0 85
+; chair
+ITEM 1 86
+; table
+ITEM 2 91
+; candle
+ITEM 3 640
+; mirror
+ITEM 4 745
+
+NUMBER xxx
+NAME Mage's Laboratory
+REGION 15
+CHANNEL 72
+ASTRAL
+PARTIAL_DARKNESS
+;
+*DESCRIPTION_START
+Books, crystals, rods, scrolls, flasks and unfinished snacks are strewn with
+abandon about the laboratory on a myriad of shelves and available surface
+space. The decaying desk and sagging work table exhibit the results of
+countless experiments: some explosive, some messy, some smelly and some better 
+left to the imagination. 
+*DESCRIPTION_END
+
+; desk
+ITEM 0 201
+; chair
+ITEM 1 86
+; table
+ITEM 2 91
+; candle
+ITEM 3 640
+; mirror
+ITEM 4 745
+; shelves
+ITEM 5 341

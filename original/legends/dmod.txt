@@ -1,0 +1,13 @@
+131  Natural
+ 75  Force field
+ 25  Wall of force
+ 35  An eldritch titanium shield
+ 23  An eagle feathered headress (worn)
+ 15  Some eldritch titanium armor (worn)
+  5  A gulivira cloak (worn)
+  5  A heavy gold wedding ring
+  3  Some black ietain banded bracers (worn)
+  3  Some black ietain parrying bracers (worn)
+  3  A mysterious ring (worn)
+  2  Some deeplander boots (worn)
+  1  Some iron gauntlets adorned with the crescent wave of Amilor (worn)

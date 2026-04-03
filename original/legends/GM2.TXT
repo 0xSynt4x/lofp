@@ -1,0 +1,129 @@
+ITEMS           Daedalus                1401-1500
+NOUNS           Daedalus                1401-1500
+ADJECTS         Daedalus                1401-1500
+ROOMS           Daedalus                35-36, 1201-1300
+NPCS            Daedalus                41-50
+                                         41 Daedalus
+                                         42 Taliesin
+                                         43 Thinra
+MONSTER         Daedalus                41
+MACRO           Daedalus                16-20
+                                         16 Called from Room X
+                                         17 Called from Room Y
+CEVENT          Daedalus                15
+
+I've tweaked this with more detailed questions for the ones you could not
+answer. I put asterisks '*' next to the questions I've tweaked.
+
+>Thanks for the e-mail with monster scripting and some other answers. Were 
+>you going to send more samples of scripts for rooms and items? I received 
+>just the one message.
+
+I was going to let you ask for scripts of rooms that you see, but if just
+want random samples, I can send you some.
+
+>As expected, I wallow in questions.
+
+No problem. Ask as many as you want.
+
+*1)  Can a script trigger itself so that it can loop through again?
+Suppose I want a ball to bounce 5 times. Instead of having 5 bounces in the
+script, could I set a variable to 1, have it bounce, and then trigger itself
+to bounce again and bump the variable until it reaches 5? Is there a for loop?
+
+
+>2)  How can a script pause between actions?
+
+You can put a pause in your script using PLREVENT and CONTPLREVENT. If you
+want to insert a 5 second pause, you'd do this...
+
+PLREVENT 5
+CONTPLREVENT
+
+*3)  Can any action, like BOW or RECITE, be used in a script?
+If I want a ball to jump up and down like a player does with JUMP, can I
+put JUMP in the script? Or do I have to use echo to fake it?
+
+*4)  Is there some event a script can trigger on for periodic action? What is
+CEVENT? Suppose I want to have a fly buzz in your ear every 2 minutes. How
+can I have the room script get triggered every 2 minutes?
+
+
+>5)  How can a script detect if the player holds a given item?
+
+IFCARRY <ARCHNUM> -1
+
+>6)  Can a number be stored in the player and retrieved later to hold state 
+>information?
+
+Yep. Remember that INTNUM3 you stored the number 1 in (@SET INTNUM3 1)?
+There are 300 INTNUM's, 0 - 299. INTNUM's have to be assigned to you, as
+they have to be used on everyone the same way. For example, if your INTNUM3
+is 1, then scripts consider you to be a Host. Also, if you only care about
+this value while the person is in a particular room, you can use one of the
+4 FLAG variables, FLAG1 - FLAG4. These variables are reset on a person when
+they leave the room they are in.
+
+>7)  Can a number be stored in an object the player holds to keep state 
+>info?
+
+Yes. Each item has 6 VAL slots. ITEMVAL1 - ITEMVAL6. The first 3 VAL slots
+have special meaning to some items. For instance, ITEMVAL1 is almost always
+the monetary value of an item. ITEMVAL2 is the room destination of a portal,
+and the number of bites/sips in a food/liquid item. ITEMVAL3 is the spell
+that will be cast if you eat/drink a food/liquid, and the value that a
+lockable door and a key must equal to belong together.
+
+To be safe, if you want to assign an value to an item to be checked by
+scripts, use ITEMVAL6.
+
+Also, all items have 10 ITEMBIT's. ITEMBIT0 - ITEMBIT9. These bits can equal
+0 or 1.
+
+*8)  Can ECHO be kept from putting a newline at the end of the text, so that 
+>consecutive echoes will build up a line for output until the last one has 
+>the newline? How do I output a variable? Suppose I have a variable COUNT and 
+I want to echo: You have COUNT bites left. 
+Can I do this (using ECHON for one with no CRLF):
+ECHON You have
+ECHON COUNT
+ECHO bites left.
+
+
+>9)  How can a script detect the current weather?
+
+Well, there is no weather in the Virtual Cafe. At least not exactly. But
+either way, I'm not sure if you can check it (though I'm sure you can)
+because I've never had to deal with it. There are ways of faking it, though.
+
+>10)  Are there any lists that can be kept? Like a list of the cards a 
+>player might be holding?
+
+You're asking about arrays, aren't you? Nope, not with Script/1.
+
+>There's plenty more where that came from, but I'm hoping to learn more when 
+>I get some sample scripts. I need to talk to Danna and find out where she 
+>sent her documents for me. Thanks for taking the time to help me out. Your 
+>answers have succeeded in getting me going.
+>
+>-Daedalus
+
+My pleasure. Sorry if IEOS isn't has advanced yet as you had hoped. But
+there are MANY ways of tweaking the system to get the results that you want.
+If you give me examples of what you want to do, I can probably point you in
+the right direction.
+
+Now to assign you ADJECTIVE, NOUN, ITEM and ROOM and NPC numbers. Don't lose
+these numbers, and don't use any numbers that I haven't assigned to you.
+
+ITEMS           Daedalus                1401-1500
+NOUNS           Daedalus                1401-1500
+ADJECTS         Daedalus                1401-1500
+ROOMS           Daedalus                35-36, 1201-1300
+NPCS            Daedalus                41-50
+MONSTER         Daedalus                41
+
+I'll search through some scripts for some examples to send you as well.
+
+-- Mark
+

@@ -1,0 +1,280 @@
+*--*  4/5/97  -  3:40:34 PM  *--*
+a
+
+;ITEM #1341 is the telephone.
+
+NOUNDEF 1341 telephone
+INUMBER 1341
+NAME 1341
+WEIGHT 1000
+VOLUME 50
+HIDDEN
+
+;my script PUTs the telephone and the menu on ITEM 2 in my room. Obviously,
+;it must be a container on item. Also room service NEWPUTs the food items on
+;ITEM 2, but adds the liquid items to the player inventory.
+
+IFPREVERB EXAM -1
+          IFVAR ARCHNUM = 650
+                CLEARVERB
+                ECHO PLAYER The menu is taped to the bedside table. It reads:
+                ECHO PLAYER We are pleased to announce that we provide room service 24 hours a day.
+                ECHO PLAYER To use room service, pick up the phone and wait for instructions.
+                ECHO PLAYER The following items are available through room service.
+                ECHO PLAYER Appetizers and Snacks
+                ECHO PLAYER PIZZA....................8 credits
+                ECHO PLAYER Roast Beef Sandwich......5 credits
+                ECHO PLAYER Cookie...................2 credits
+                ECHO PLAYER BEVERAGES
+                ECHO PLAYER Pink Champagne...........5 credits
+                ECHO PLAYER Effervescent Water.......3 credits
+                ECHO PLAYER Dark Ale.................5 credits
+                ECHO PLAYER Sparkling Soda............2 credits
+                ECHO PLAYER Golden Whiskey...........10 credits
+            ENDIF
+ENDIF
+
+IFPREVERB READ -1
+          IFVAR ARCHNUM = 650
+                CLEARVERB
+                ECHO PLAYER The menu is taped to the bedside table. It reads:
+                ECHO PLAYER We are pleased to announce that we provide room service 24 hours a day.
+                ECHO PLAYER To use room service, pick up the telephone and wait for instructions.
+                ECHO PLAYER The following items are available through room service.
+                ECHO PLAYER Appetizers and Snacks
+                ECHO PLAYER PIZZA....................8 credits
+                ECHO PLAYER Roast Beef Sandwich......5 credits
+                ECHO PLAYER Cookie...................2 credits
+                ECHO PLAYER BEVERAGES
+                ECHO PLAYER Pink Champagne...........5 credits
+                ECHO PLAYER Effervescent Water.......3 credits
+                ECHO PLAYER Dark Ale.................5 credits
+                ECHO PLAYER Sparkling Soda............2 credits
+                ECHO PLAYER Golden Whiskey...........10 credits
+            ENDIF
+ENDIF
+
+IFPREVERB GET -1
+          IFVAR ARCHNUM = 1341
+          CLEARVERB
+          IFVAR POSITION ! 0
+             ECHO PLAYER You must stand to reach the phone.
+          ELSE
+             ECHO PLAYER You pick up the phone and listen.
+             ECHO OTHERS %n picks up the phone.
+             ECHO PLAYER A pleasant voice says, "To place an order for room service, say the complete name of the item from the menu.. Due to limitations of our staff, please only order one item at a time.
+             ECHO PLAYER May I take your order?"
+             EQUAL FLAG1 2
+        ENDIF
+    ENDIF
+ENDIF
+
+IFSAY pizza
+      IFVAR FLAG1 ! 2
+         ECHO PLAYER You must pick up the phone to place a room service order.
+      ELSE
+      IFVAR WEALTH0 > 9
+          ECHO PLAYER The room service waiter says, "Thank you for your order.
+          ECHO PLAYER It should arrive within a minute."
+          ECHO PLAYER You hang up the phone.
+          ECHO OTHERS %n hangs up the phone.
+          EQUAL FLAG1 0
+          PLREVENT 10
+          CONTPLREVENT
+          ECHO ALL There is a discreet knock and the door opens to admit a waiter. He places a pizza on the bedside table, collects the tab, and leaves, wishing you a pleasant stay.
+          SUB WEALTH0 10
+          NEWPUT 2 763
+       ELSE
+           ECHO PLAYER You realize you don't have enough to pay for the pizza.
+           ECHO OTHERS %n blushes as %s pats %i pockets, then hangs up the phone.
+           EQUAL FLAG1 0
+       ENDIF
+    ENDIF
+ ENDIF
+
+IFSAY roast_beef_sandwich
+      IFVAR FLAG1 ! 2
+         ECHO PLAYER You must pick up the phone to place a room service order.
+      ELSE
+      IFVAR WEALTH0 > 7
+          ECHO PLAYER The room service waiter says, "Thank you for your order.
+          ECHO PLAYER It should arrive within a minute."
+          ECHO PLAYER You hang up the phone.
+          ECHO OTHERS %n hangs up the phone.
+          EQUAL FLAG1 0
+          PLREVENT 30
+          CONTPLREVENT
+          ECHO ALL There is a discreet knock and the door opens to admit a waiter.
+          ECHO ALL He places a roast beef sandwich on the bedside table, collects the tab,
+          ECHO ALL and leaves, wishing you a pleasant stay.
+          SUB WEALTH0 8
+          NEWPUT 2 853 ADJ1=789 ADJ2=1342
+       ELSE
+           ECHO PLAYER You realize you don't have enough to pay for the pizza.
+           ECHO OTHERS %n blushes as %s pats %i pockets, then hangs up the phone.
+           EQUAL FLAG1 0
+       ENDIF
+    ENDIF
+ ENDIF
+
+IFSAY cookie
+      IFVAR FLAG1 ! 2
+         ECHO PLAYER You must pick up the phone to place a room service order.
+      ELSE
+      IFVAR WEALTH0 > 1
+          ECHO PLAYER The room service waiter says, "Thank you for your order.
+          ECHO PLAYER It should arrive within a minute."
+          ECHO PLAYER You hang up the phone.
+          ECHO OTHERS %n hangs up the phone.
+          EQUAL FLAG1 0
+          PLREVENT 30
+          CONTPLREVENT
+          ECHO ALL There is a discreet knock and the door opens to admit a waiter.
+          ECHO ALL He places a cookie on the bedside table, collects the tab,
+          ECHO ALL and leaves, wishing you a pleasant stay.
+          SUB WEALTH0 2
+          NEWPUT 2 275
+       ELSE
+           ECHO PLAYER You realize you don't have enough to pay for the pizza.
+           ECHO OTHERS %n blushes as %s pats %i pockets, then hangs up the phone.
+           EQUAL FLAG1 0
+       ENDIF
+    ENDIF
+ ENDIF
+
+IFSAY pink_champagne
+      IFVAR FLAG1 ! 2
+         ECHO PLAYER You must pick up the phone to place a room service order.
+      ELSE
+      IFVAR WEALTH0 > 6
+          ECHO PLAYER The room service waiter says, "Thank you for your order.
+          ECHO PLAYER It should arrive within a minute."
+          ECHO PLAYER You hang up the phone.
+          ECHO OTHERS %n hangs up the phone.
+          EQUAL FLAG1 0
+          PLREVENT 10
+          CONTPLREVENT
+          ECHO ALL There is a discreet knock and the door opens to admit a waiter.
+          ECHO ALL He hands you a glass of champagne, collects the tab,
+          ECHO ALL and leaves, wishing you a pleasant stay.
+          SUB WEALTH0 5
+          NEWITEM -1 472
+          NEWPUT -1 218 ADJ1=710 VAL2=8
+       ELSE
+           ECHO PLAYER You realize you don't have enough to pay for the pizza.
+           ECHO OTHERS %n blushes as %s pats %i pockets, then hangs up the phone.
+           EQUAL FLAG1 0
+       ENDIF
+    ENDIF
+ ENDIF
+
+IFSAY effervescent_water
+      IFVAR FLAG1 ! 2
+         ECHO PLAYER You must pick up the phone to place a room service order.
+      ELSE
+      IFVAR WEALTH0 > 6
+          ECHO PLAYER The room service waiter says, "Thank you for your order.
+          ECHO PLAYER It should arrive within a minute."
+          ECHO PLAYER You hang up the phone.
+          ECHO OTHERS %n hangs up the phone.
+          EQUAL FLAG1 0
+          PLREVENT 10
+          CONTPLREVENT
+          ECHO ALL There is a discreet knock and the door opens to admit a waiter.
+          ECHO ALL He hands you a glass, collects the tab,
+          ECHO ALL and leaves, wishing you a pleasant stay.
+          SUB WEALTH0 3
+          NEWITEM -1 472
+          NEWPUT -1 1110 ADJ1=306 VAL2=8
+       ELSE
+           ECHO PLAYER You realize you don't have enough to pay for the pizza.
+           ECHO OTHERS %n blushes as %s pats %i pockets, then hangs up the phone.
+           EQUAL FLAG1 0
+       ENDIF
+    ENDIF
+ ENDIF
+
+IFSAY dark_ale
+      IFVAR FLAG1 ! 2
+         ECHO PLAYER You must pick up the phone to place a room service order.
+      ELSE
+      IFVAR WEALTH0 > 6
+          ECHO PLAYER The room service waiter says, "Thank you for your order.
+          ECHO PLAYER It should arrive within a minute."
+          ECHO PLAYER You hang up the phone.
+          ECHO OTHERS %n hangs up the phone.
+          EQUAL FLAG1 0
+          PLREVENT 10
+          CONTPLREVENT
+          ECHO ALL There is a discreet knock and the door opens to admit a waiter.
+          ECHO ALL He hands you a glass of dark ale, collects the tab,
+          ECHO ALL and leaves, wishing you a pleasant stay.
+          SUB WEALTH0 5
+          NEWITEM -1 472
+          NEWPUT -1 4 ADJ1=257 VAL2=8
+       ELSE
+           ECHO PLAYER You realize you don't have enough to pay for the pizza.
+           ECHO OTHERS %n blushes as %s pats %i pockets, then hangs up the phone.
+           EQUAL FLAG1 0
+       ENDIF
+    ENDIF
+ ENDIF
+
+IFSAY sparkling_soda
+      IFVAR FLAG1 ! 2
+         ECHO PLAYER You must pick up the phone to place a room service order.
+      ELSE
+      IFVAR WEALTH0 > 1
+          ECHO PLAYER The room service waiter says, "Thank you for your order.
+          ECHO PLAYER It should arrive within a minute."
+          ECHO PLAYER You hang up the phone.
+          ECHO OTHERS %n hangs up the phone.
+          EQUAL FLAG1 0
+          PLREVENT 10
+          CONTPLREVENT
+          ECHO ALL There is a discreet knock and the door opens to admit a waiter.
+          ECHO ALL He hands you a glass of champagne, collects the tab,
+          ECHO ALL and leaves, wishing you a pleasant stay.
+          SUB WEALTH0 2
+          NEWITEM -1 472
+          NEWPUT -1 938 ADJ1=922 VAL2=8
+       ELSE
+           ECHO PLAYER You realize you don't have enough to pay for the pizza.
+           ECHO OTHERS %n blushes as %s pats %i pockets, then hangs up the phone.
+           EQUAL FLAG1 0
+       ENDIF
+    ENDIF
+ ENDIF
+
+IFSAY golden_whiskey
+      IFVAR FLAG1 ! 2
+         ECHO PLAYER You must pick up the phone to place a room service order.
+      ELSE
+      IFVAR WEALTH0 > 9
+          ECHO PLAYER The room service waiter says, "Thank you for your order.
+          ECHO PLAYER It should arrive within a minute."
+          ECHO PLAYER You hang up the phone.
+          ECHO OTHERS %n hangs up the phone.
+          EQUAL FLAG1 0
+          PLREVENT 10
+          CONTPLREVENT
+          ECHO ALL There is a discreet knock and the door opens to admit a waiter.
+          ECHO ALL He hands you a glass, collects the tab,
+          ECHO ALL and leaves, wishing you a pleasant stay.
+          SUB WEALTH0 10
+          NEWITEM -1 472
+          NEWPUT -1 1119 ADJ1=432 VAL2=8
+       ELSE
+           ECHO PLAYER You realize you don't have enough to pay for the pizza.
+           ECHO OTHERS %n blushes as %s pats %i pockets, then hangs up the phone.
+           EQUAL FLAG1 0
+       ENDIF
+    ENDIF
+ ENDIF
+
+
+
+
+Download complete.
+
+Press <Return> to continue...

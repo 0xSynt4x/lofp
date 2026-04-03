@@ -1,0 +1,327 @@
+<HTML><HEAD><TITLE>Updates</TITLE></HEAD>
+<BODY BGCOLOR="#ffffff">
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+
+<H2>Legends Updates</H2>
+
+Revelation: The @peek and @set commands are intimately related to variable
+manipulation in the scripting language. That is to say, that if you can
+@set a variable from within Legends, you can EQUAL it in a script.
+<P>
+
+<UL>
+        <LI>1) "Unconscious" corrected
+        <LI>2) Battlebrief thrown-weapons bug corrected
+        <LI>3) Bendspace no longer works between regions
+        <LI>4) WHISPER will no longer echo "okay." but rather, "You whiper
+        <LI>5) You can now LISTEN to monsters.
+        <LI>6) People in wolfform can SNIFF now.
+        <LI>7) Players can SNIFF those who are avoiding them now.
+        <LI>8) Assistant GM's can @UNHIDE
+        <LI>9) (Attempted percent-fix abandoned)
+        <LI>10) @NUM will work with a partial string.
+        <LI>11) @WHI and @ECHOP now echo text back to the GM.
+        <LI>12) An item's ARCHETYPE is editable via @EDIT.
+        <LI>13) @EXCLUDE [player #] has been added. It works in such a way
+as to echo a message to all those in a room other than the specified
+player.
+        <LI>14) @STAT [player #] now shows truename
+        <LI>15) The following variables can be @peek'ed and @set'ed and
+work from script: EXITN, EXITS, EXITE, EXITW, EXITU, EXITD, EXITA, EXITB,
+and EXITO They contain the room number of the EXIT [direction] or  -1 if
+there is no exit in that direction. From within Legends, you can //@SET
+EXITN 206//. This will create a northern exit in the current room that
+leads to room 206.
+        <LI>16) SPELLNUM can now be @peeked.
+        <LI>17) PONDER is now a verb.
+        <LI>18) MANAPOINTS, PSIPOINTS and BODYPOINTS are all @peek'able
+variables.
+        <LI>19) ORGRANK is a variable.
+        <LI>20) The commands SPELLS and CONTACT no longer reveal a hidden
+character, while SURVEY, FORAGE and MINE do.
+        <LI>21) @SPEECH has been added to alter a character's intonation.
+Usage: @SPEECH [player number] [1-12 character string]
+        <LI>22) Mechanoids INTONE when unemoted. Additionally, EMOTE and
+UNEMOTE messages have been altered.
+        <LI>23) @SND has been modified to translate a backslash "\" into a
+newline [cr] character.
+        <LI>24) Wolflings can SNIFF and LISTEN correctly while in wolfform.
+Equipment weight is no longer counted against fatigue when in wolfform.
+        <LI>25) Preliminary spells 410 and 1 have been added. Spell numbers
+1-99 are Ritual spells and should not be released on any scroll.
+
+<LI>30) Players can no longer contact invisible things.
+        <LI>31) Ressurections now show proposed experience gained as a
+GM-MSG when anyone in the Realms casts BoL.
+        <LI>32) Unuse and Unwield should work in the Cafe'.
+        <LI>33) The variables PLRMARK1-10 can be @peek'ed and @set. They
+correspond to the room numbers of the players' marked locations, or are set
+through script, you should not do so unless absolutely necessary. (Unless
+you really want to.) If you do set these marks, you should first make sure
+that the destination room is valid.
+
+<LI>34) Winter, Inferno and Storm Blades have been weakened.
+
+<LI>
+There is a poison charge cap on trap lore depending on the poison, (see forums.)
+<LI>
+STABTHROWN ToHit is based on the player's average of THROWN_WEAPONS and
+EDGED_WEAPONS skills.
+<LI>
+POLETHROWN ToHit is based on the player's average of THROWN_WEAPONS and
+POLEARMS skills.
+<LI>
+Damage based on weapon skill level seems to be based on raw skill value.
+This value is only lowered if the player is in the astral plane and has not
+learned a sufficient amount of transcendence.
+
+
+<LI>35) Changing NAME1 and NAME3 no longer changes a player's truename.
+Instead, truename alteration has been linked to the changing of a player's
+NAME2.Thus, it is advisable to change your last name when creating an NPC.
+<LI>36) Underscores are now interpreted as space characters when using @edp
+kvantar", "an ursine", or Dan's favorite, "the goblin". Do not attempt to
+play "a blaster ant", or anything with a madj, as it will not work.
+<LI>37) GM's whose INTNUM3's are equal to 0 will be given a balloon upon
+entering Legends/Cafe'. Eventually, this will be altered to allow new
+players to recieve clothing upon entering the game for the first time.
+<LI>38f) The @edp # 3 bug has been fixed. The first character of an altered
+name will only appear in lower case if the name begins with a_ or an_.
+<LI>39) Entering -NONE for a character's line2 and line3 will prevent them
+line3 is cleared, the "S/He appears to be healthy" line is not displayed.
+<LI>40) Summon Ghostly Warrior (Spell 353) has been implemented.
+<LI>41) @examine has been altered to allow GM's everywhere to see what
+noun, adjective, item, madjective and monster is at a given number.
+Additionally, @examine will now list the name of an NPC within a given slot
+if applicable.
+<LI>42) ACTbrief has been added. Thanks to new technology, players can opt
+<LI>43) Players are automatically placed in ACTION mode upon entering the Cafe'.
+<LI>44) TELepathy and UNTELepathy commands have been added to the Cafe'.
+<LI>45) @STAT has been altered and will no longer display a player's spells.
+<LI>46) @SPELLS has been added to allow GM's to view a player's spells.
+<LI>47) Slot 57 has been temporarially disabled until the cause of the Slot
+57 Death bug has been determined.
+</UL>
+Notes:
+<P>
+Weapon strength is calculated as follows:
+<OL>
+        DRAKIN_CRUSH or CRUSH_WEAPON = 40<BR>
+        TWOHAND_WEAPON = 45<BR>
+        PUNCTURE_WEAPON = 55<BR>
+        DRAKIN_POLE or POLE_WEAPON = 60<BR>
+        Everything else = 60
+        </OL>
+Then take your handy calculator and subtract from this number the weapon
+archetype's PARAMETER1, PARAMETER2, and your (AGILITY/15).
+<P>
+Add the following based on weapon substance:<OL>
+        SOFT_METAL = +5<BR>
+        WOOD = +10<BR>
+        STONE = +15<BR>
+        BRITTLE = +50
+</OL>
+Finally, there's a little subparagraph about adjectives making a difference
+One note of interest - from the way it's coded, I believe a "tin tin tin
+sword" is weaker than a "tin sword".
+
+<UL>
+<LI>48) Players can now KISS MONTAR PASSionately or DEEPly.
+<LI>49) @KILL and @HEAL have been modified to echo optional messages to
+players. They now work like @ECHOP if you specify a string after the player
+number. If no string is entered, the standard heal/kill messages are sent.
+<LI>50) @NUM now converts all underscores into spaces within the
+name-search  string. Characters in wolf-form can now be found by "@NUM
+a_wolf". Additionally, @NUM will now search through monster slots.
+<LI>51) Weapons with a VAL1 of 32000 now share the following
+    characteristics:<BR>
+        o They cannot be repaired if damaged or broken.<BR>
+        o They cannot be sold.<BR>
+        o A +30 is automatically added to their BREAKMOD.<BR>
+
+<LI>52) @summon and @spawn have been added. @summon generates a monster and
+places it under your control for use via COMMANDing. @spawn generates an
+already @activated monster. You should not @summon a second monster  until
+you dismiss the first one first. @summon'ed monsters need to be @act'ivated
+before they will attack.
+<LI>53) @exam shows spells
+<LI>54) Room number has been added to @qstat
+<LI>55) Players can now tell how much they're carrying via STAT display
+<LI>56) MONNUM is now a variable which describes a monster's slot number.
+This variable can be used in monster scripts.
+<LI>57) FLYING, SITTING, STANDING, KNEELING, LAYING and POSITION are now
+    variables. POSITION values are as follows:<BR>
+        0 - Standing<BR>
+        1 - Sitting<BR>
+        2 - Laying<BR>
+        3 - Kneeling<BR>
+        4 - Flying<BR>
+<LI>58) Phantom Form (spell 248) has been added.
+--- (The above are changes that have been made but not announced) ---
+<LI>59) @compile [filename] has been added so as to allow GM's everywhere
+sparingly, as script compilation slows down the system dramatically.
+<LI>60) A $SCRIPT message is now output to all GM channels whenever a
+script upload is initiated.
+<LI>61) @noun has been modified to take a range. The new format is @noun
+[lowest noun #] [highest noun #]. Generally, a list of more than 300 nouns
+will result in a disconnect.
+<LI>62) Players can now ENGRAVE anything that is wieldable. The
+prerequisite for this is 5 levels in jewler skill. The format for this
+command is ENGRAVE [weapon|shield] [text]
+<LI>63) Spells can now call scripts.
+<LI>64) The system now calls a script for all players once every three
+seconds. This will allow for things never before seen on primetime
+television. (ROOM X)
+<LI>65) Spellnum 410 has been fixed.
+
+<LI>66) SKINITEM and SKINADJ can now be @set.
+<LI>67) KEYs, ARMOR, LIQCONTAINERs and MINETOOLs are now engraveable.
+<LI>68) Items with a VAL1 of 32000 and TECH_ITEMs now react differently
+when detect magic is casted on them.
+<LI>69) Players can now WRITE on items scripted as WRITEABLE. WRITEABLE
+items should not be present in large numbers due to memory consumption.
+<LI>70) ROOM X should work properly now.
+<LI>71) The ']' PROMPT can now be set to [ON|OFF|NONE]
+<LI>72) ROOM Y has been added. (Removed)
+<LI>73) Wealth has been added to @stat.
+<LI>74) BODYPOINTS, PSIPOINTS and MANAPOINTS are now settable variables.
+<LI>75) FATPOINTS is now a peekable variable.
+<LI>76) IFSAYs will work with ROOM Y. This, combined with an IFCARRY could
+be used to simulate IFSAYs on items. (Removed)
+</UL>
+<HR>
+<H4>New Races</H4>
+<PRE>
+Date: Monday, October 10, 1994  4:07pm                      Electronic Mail
+
+** Effective immediately, the following aliens have landed:
+
+Any scripts using IFVAR RAC ! 9 to guarantee a "true" if/endif clause
+must be altered, as races 9+ will soon be implemented. As you might imagine,
+the downfall of all humanity might occur if a player of RAC 9 or 10 were to
+not trigger a certain IFVAR RAC somewhere in the game. (I think 9 will, in
+fact, be used to represent vampires, but that's unofficial.)
+
+If you need to change any IFVAR RAC ! 9's, change them to IFVAR PLRNUM ] 0
+or IFVAR RAC ] 0.
+
+Date:    10/20/94 at 15:49:38 EST
+
+The "Inorganic" Flag will allow us to create creatures whose physical
+makeup is mechanical, or otherwise...inorganic.
+
+Currently, inorganics cannot eat or drink, (and they don't need to
+sleep, either!) They cannot be healed via the Healing skill, but can
+automatically repair themselves and other, similar inorganics. They
+are immune to BR and BD spells and will eventually include a host of
+other immunities and vulnerabilities.
+
+I know, it's so exciting, you can hardly hold your water. But still,
+try it out Friday and see for yourself!
+</PRE>
+
+<B>Racial flags implemented:</B>
+
+<OL>
+        <LI>Acid Spit
+        <LI>Telepathy
+        <LI>Shrew Scream (WOTB)
+        <LI>Flight
+        <LI>Healing Touch (transfer of injured body points)
+        <LI>Hypnotic Gaze
+</OL>
+
+<B>Racial flags proposed:</B>
+
+<OL>
+        <LI>Breathing (cold, fire, acid, venomous cloud)
+        <LI>Natural Claws/Teeth
+        <LI>Night Vision
+        <LI>Phasing a' la ephemeral
+        <LI>Natural Climbing
+        <LI>Natural armour/carapace
+        <LI>Resistances/Vulnerabilities/Immunities
+        <LI>Breathing Underwater
+        <LI>Underwater Free-Action
+        <LI>Additional Genders
+        <LI>Resistance to hostile environments, (amonia breather)
+        <LI>Chamelion ability in certain terrains, (forest blending, etc)
+        <LI>Spiderman's nifty Web ability
+        <LI>Fear/Charm gaze
+        <LI>Natural haste
+        <LI>Different bp/fat/mana/psi restoration rates
+        <LI>Automatic limb regeneration
+        <LI>Divine Blessing
+        <LI>Poison/disease natural attacks
+        <LI>Natural mining ability
+        <LI>Animal Forms (shapeshifting)
+        <LI>Special attacks
+        <LI>Uncontrolable acts
+        <LI>Permanent Death
+        <LI>Machinations
+        <LI>Disadvantages (no reading, speech, hands)
+        <LI>Lowered Stat Ceilings
+        <LI>Frenzy
+        <LI>Ranged Physical Attacks
+        <LI>Altered bleeding rate
+        <LI>Entity detecton a' la wolflings
+</OL>
+
+Many of the proposed racial flags were concocted by our own Pat Sajaks; if
+there are any you really think should be implemented or left out, do say
+so, so that I may ignore you completely. If there are any racial flags that
+pop into your head, send them too! We're having a blowout sale on racial
+flags!
+<HR>
+<H4>New Room Changes</H4>
+
+Sometimes we'll script rooms with exits that the players can't actually get
+through. An example is follows:
+<PRE>
+NUMBER 2600
+NAME Jewelry City
+EXIT N 2600
+IFPREVERB N -1
+ CLEARVERB
+ ECHO PLAYER Sorry, you don't have a damn membership card!
+ENDIF
+</PRE>
+With the addition of the new SCAN command, you might think, "Oh, gee, if
+someone scans to the north, they're going to see room 2600." Not so!
+This has been taken care of most thoughtfully. What you do have to worry
+about now is rooms that take the following form:
+<PRE>
+NUMBER 2600
+NAME Mal's World, Somewhere
+EXIT D 590
+IFPREVERB D -1
+ CLEARVERB
+ ECHO PLAYER You can't seem to find a way down here.
+ENDIF
+.
+NUMBER 590
+NAME Players suck!
+</PRE>
+Something like that is used in Mal's world to allow monsters to go to a
+buffer room where they are destroyed. If your scripts contain any such
+rooms, then you can prevent players from scanning into them with the
+following line:
+<P>
+NAME NOSCAN
+<HR>
+<BR>
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+</BODY>
+</HTML>

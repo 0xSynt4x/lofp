@@ -1,0 +1,194 @@
+*--*  2/25/98  -  1:12:33 AM  *--*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Establishing connection]
+
+
+
+  NovaLink Interactive Networks (R)
+
+  "new" to open a new account
+  "info" for more information
+
+
+login: Testing for already online
+daedalus
+Password: *****
+
+
+          NovaLink (R)
+(C)1995 NovaLink USA Corporation
+
+Good morning, Daedalus.
+You are the 2,306,774tth login to date.
+It is now 04:13:14 EST.
+
+Your last recorded login was on 02/25/98 at 03:44:04 EST.
+
+
+You are accessing NovaLink via Autonet.
+Your account is exempt from these hourly charges.
+
+   #      Bulletin                                                /Go Page
+
+   R  ... Read your waiting mail
+   Q  ... Quickscan
+
+
+Select a bulletin to display, '?' to relist, or 'E' to enter NovaLink/exit> /who
+
+Legends of Future Past: (6 users, including 6 hidden)
+[90][!]Brnghurst   [91][!]Stingray    [92][*&]Monolith   [93][!]Alfred
+[94][!]Storm       [95][!]Willc
+
+Bulletins: (1 users, including 0 hidden)
+[96][!*]Daedalus
+
+There are a total of 7 users online (including 6 hidden users).
+
+Select a bulletin to display, '?' to relist, or 'E' to enter NovaLink/exit> /hel
+lo
+
+Select a bulletin to display, '?' to relist, or 'E' to enter NovaLink/exit>
+
+
+  NovaLink Interactive Networks (R)
+
+  "new" to open a new account
+  "info" for more information
+
+
+login: kahlua
+Password: *****
+
+
+          NovaLink (R)
+(C)1995 NovaLink USA Corporation
+
+Good morning, Kahlua.
+You are the 2,306,775tth login to date.
+It is now 04:13:26 EST.
+
+Your last recorded login was on 02/25/98 at 00:45:34 EST.
+NOTE: It has been 413 days since your last password change.  Changing
+      your password frequently is essential to your account's security.
+
+
+Users on via direct dial: 0
+Users on via NovaDial-X25: 0
+Users on via Internet: 0
+Users on via Flatrate: 5
+Users on via Autonet: 2
+
+You are accessing NovaLink via Autonet.
+Your account is exempt from these hourly charges.
+
+You have new mail messages waiting.  Type /GO READ to read them.
+
+
+   #      Bulletin                                                /Go Page
+
+   R  ... Read your waiting mail
+   Q  ... Quickscan
+   T  ... Toggle view of all bulletins
+   99 ... Reload BMP data file after modification
+
+
+Select a bulletin to display, '?' to relist, or 'E' to enter NovaLink/exit> 
+/go sysadm
+
+                   R E M O T E   O P E R A T O R   M E N U
+
+ SENDALL    Send Message to All          SYSTATS    View Overall Statistics
+    SEND    Send Message to User-ID     MODSTATS    View Module Usage
+   LOGON    Edit BBS Log-on Message     DEMSTATS    View System Demographics
+                                        CLSSTATS => View Class Statistics
+ ACCOUNT    Accounting functions
+  DETAIL    Detail Info on User-ID       EMULATE    Emulate a channel
+   AUDIT    Display the Audit Trail      MONITOR    Monitor All mode
+   USERS    Stats of Users Online          INPUT    Monitor Input mode
+  SEARCH    Account Database Search       CHANGE    Change Channel Status
+
+  HANGUP => Disconnect a User-ID            TYPE    DOS TYPE command
+ SUSPEND    Suspend/Unsuspend a User-ID     COPY    DOS COPY command
+ PROTECT    Exempt/Unexempt a User-ID     RENAME    DOS RENAME command
+  DELETE    Delete a User-ID                 DIR    DOS DIR command
+SHUTDOWN    Shutdown the System               MD    DOS MD command
+ CLEANUP    Force Cleanup or Event            RD    DOS RD command
+TRANSFER => Transfer files                   DEL    DOS DELETE command
+
+REMOTE SYSOP
+Select an option (or ? for menu): transfer
+
+        Remote Sysop File Transfer Menu
+        -------------------------------
+
+  U =>  Upload a file (or files) to the BBS
+  D =>  Download a file from the BBS
+  M =>  Upload a new BBSMNU.DAT (see manual for details)
+  X =>  Exit back to the main Remote Sysop Menu
+
+Select one of the above letters (or 'X' to exit): u
+
+Please enter the path prefix for upload (RETURN for current):
+
+Please enter the file name to upload (hit RETURN for multi-files):
+
+To start uploading these files, type:
+
+   B ... YMODEM Batch                    Z ... ZMODEM
+   G ... YMODEM-g                        K ... Kermit / Super Kermit
+
+   (Add '!' to automatically log off when done)
+
+Choose an upload option (or 'X' to exit): z
+
+(Hit Ctrl-X a few times to abort)
+Beginning ZMODEM upload
+**B0100000023be50
+**B0100000023be50
+
+***  UPLOAD COMPLETE  ***
+
+        Remote Sysop File Transfer Menu
+        -------------------------------
+
+  U =>  Upload a file (or files) to the BBS
+  D =>  Download a file from the BBS
+  M =>  Upload a new BBSMNU.DAT (see manual for details)
+  X =>  Exit back to the main Remote Sysop Menu
+
+Select one of the above letters (or 'X' to exit):

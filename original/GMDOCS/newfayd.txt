@@ -1,0 +1,59 @@
+                      Map of the New Fayd, Circa 1033
+                     Cartographer: Taliesin Pendragon
+                                                                       ##
+                                                                       |
+                                                                       ##
+                                                                       |
+         N                                                             ##
+         A                                                  Tilvaen Rd |
+         |                                          ##        ##-##-##-##
+    W <--*--> E                                       \ Hadan          |
+         |                                             ## Kentarus     ##
+         V                             Park Ave          \             |
+         S                  ##-##-##----RJ----##----##----##           ##
+                           /   |                          |            |
+                   ## ##-##    AS                         ##           ##
+                   | /Park     |                          |Grand Ave   |
+             ##-##-##          ##                         ##           ##
+ Hardwood   /                  |        First St          |            |Thinvar
+<##-##-##-##             ##-##-##-##----##-##-##-##----##-##           ##   Ave
+          /     First St/      |              |           |            |
+        ##      Ext.  ##       ##             ##          |   ##-##-##-##-##-##
+   Park /            /         |Elm St        |Trader's   |    |  Windrunner St
+    ##-##    ##-##-##          HS             ## Lane     |    ##
+   /        /                  |  Trader's Wy |           |     |O'Berin Way
+ ##    ##-##                   ##-##-##-##-##-##          ##    |
+ |                             |                          |     |
+ ##                            TS                         |     ##
+                               |                          |     |
+                               ##                         ## BN ##
+                               |                          | \|/ |
+    PW-##-##-##-TT-##-##-KC-##-##-##-CH-##-##-##-##-##----BW-BC-BE-##-##-##-GH
+       Main St          /|                 |              | /|\ |        |
+                      ## ##                ##             ## BS ##       ##
+             Commerce/   |Pleasant St      |Lance St         |           |
+                   AG    BF                ##                ##          ##
+                  /      |                 |                 |      Ferum|bras'
+                ##       |   Scimitar##    ##    ##          LF          ##
+               /         |           |     |     |           |         Fo|lly
+       PG-##-DB          ##    ##    ##    ##    ##          ##          ##
+      /                  | Braw|lers |     |     |           |           |
+    ##                   ##    ##    ##    ##    ##          ##          ##
+   /                     |     |     |     |     |Church St  |Broadway
+ ##                      ##    ##    ##    ##    ##          ##
+ |                       |     |     |     |     |          /
+ ##    ##-##-CB-##-##-##-##-##-##----##-FL-##-##-##-##-##-## 
+ |                     Broadway
+ ##
+
+ LF - Library of Fayd       FL - Fayd Liquors
+ CB - Citadel Building      GH - Gate House
+ PW - Palace Walls          TT - Twin Towers
+ CH - City Hall             BW - Bazaar West
+ BF - Bank of Fayd          BC - Bazaar Center
+ BW - Bazaar West           BS - Bazaar South
+ BN - Bazaar North          BE - Bazaar East
+ AG - Adventurer's Guild    DB - Druinor Building
+ PG - Physician's Guild     TS - Tailor Shop
+ AS - Alchemist Shop        RJ - Randolph's Jewelers
+ HS - Haberdashery Shop

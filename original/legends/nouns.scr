@@ -1,0 +1,8 @@
+; house.scr
+NOUNDEF 1401 nightstand
+NOUNDEF 1402 dresser
+NOUNDEF 1403 bannister
+
+; mass.scr
+NOUNDEF 1404 masseuse
+NOUNDEF 1405 masseur

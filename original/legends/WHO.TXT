@@ -1,0 +1,693 @@
+Race  Align  Name           Comment
+       +     Aban           Amilor
+             Adrianna
+Human  +     Aeyria
+             Aleathan       veteran
+       -     Annabelle      veteran, friend of Taliesin
+Human  +     Armoth         pirate
+       +     Autumn         formerly of Amilor
+Wlflng +     Blythe         veteran, friend of Taliesin
+             Brook          veteran, healer, mage, rezzer
+             Carter         veteran, psi, mage, funny
+Wlflng +     Claire         Natasha's sister, friend of Taliesin, Amilor
+             Conor          Healer, rezzer
+Ephmrl       Corianin
+Aelfen       Dara
+Wlflng -?    Darkheart      loves Silverfire
+Human        Delight
+Wlflng       Demetrius      veteran mage, jerk, acquaintence of Taliesin
+             Destrar
+             Deveraux       veteran, attorney
+             Dolkun
+             Doomslayer
+Hghlnd +     Drainpipe
+Human? +     Durnik         priest of Rorin
+Aelfen +     Foraker        forager mage, friend of Taliesin
+Hghlnd +     Forb           Rorinite
+Hghlnd +     Garin          veteran, vs. Korazon, mayor of Fayd
+Wlflng +     Heart          veteran, friend of Taliesin
+             Herark
+       +     Jasmine        High Priestess of Amilor
+Drakin       Jiyaj          Crimson Band
+Human  +     Kalyn          friend of Taliesin
+       +     Kardone        veteran, formerly of Amilor
+Human  -?    Kimi           healer, friendly with Taliesin (and evils too)
+Hghlnd +     Korazon        vs. Garin, veteran, church of Amilor
+Hghlnd +     Kryedar        veteran, Sheriff of Fayd
+Human        Lamentar
+       +     Lianna         mage, forager, friend of Taliesin
+       +     Lilly          veteran, friend of Taliesin
+Human  +     Linnaeus       veteran, mage
+       +     Maiko          psi, friend of Taliesin
+             Markan
+Human  +     Miria          Healer
+             Morion         rezzer
+             Nark
+       +     Natasha        Claire's sister, friend of Taliesin, Amilor
+Human  +     Nord           Priest of Rorin
+       -     Phule          veteran, really old, distant friend of Taliesin
+Hghlnd       Remachen
+       +     Revenge        Amilor
+Hghlnd       Rhune
+             Roc
+Hghlnd +?    Rose
+       -     Saryon         veteran, Very evil
+       -     Scalper        skinner, rezzer, acquaintence of Taliesin
+             Schrodingerscat veteran
+Human  +     Sharon         Weaver
+       -     Sierron        veteran, evil
+             Silence
+Wlflng -?    Silverfire     loves DarkHeart
+       +     Shane          veteran, Precept of Amilor
+             Skurge
+Human        Sun
+Human  +     Taliesin       psi healer
+Human? +     Tempus         veteran, forester, friend of Taliesin, gnomish
+Human  +     Thalion        veteran, Paladin of Shemri, friend of Brook
+D Aelf -     Tyldak         distant friend of Taliesin
+       +     Valkyri
+       -     Vlad           veteran, undead, distant friend of Taliesin
+D Aelf -     Winnowill      friend of Taliesin, mate of Tyldak?
+Human        Xman
+Wlflng       Xond
+Drakin       Zhou
+             Zorha          veteran, Queen of Fayd, psi
+             
+=============================================================================
+
+You see Aban Dug, Knight of Amilor. He is a mature male highlander.
+He is very short, average weight and incredibly muscular.
+He has hazel eyes, olive skin and shoulder length black hair.
+He is wearing a brown leather satchel, an icy fur beltpouch, a sharkhor leather
+pouch, a randar necklace, a white gold pin bearing an image of the scales of
+justice in shimmering elkyri, some eldritch titanium armor, an eldritch helm, a
+heavy silver signet ring of the Servants of Cytherin, a psychedelic purple
+cotton pouch, a golden amulet with a silver wave inscribed upon it, an oddly
+shaped ring shaped from the claws of a tiny red crab, a gulivira skin cloak and
+some deeplander boots.
+
+You see Abracax --, a mature male human.
+He is tall, average weight and muscular.
+He has blue eyes, pale skin and shoulder length black hair.
+He is wearing an enchanted helm, some boots and some enchanted leather armor.
+He has a well trimmed black goatee
+
+You see Aeyria Hiehthu, a young female human.
+She is tall, average weight and incredibly muscular.
+She has blue eyes, tan skin and long, flowing golden blond hair.
+She is wearing a diamond brooch, a snow-white fur cloak, some jade earrings, a
+jade bangle, an eldritch helm, a dark black ebony pin carved in the shape of a
+spruce pine, a snow-white fur beltpouch, some deeplander boots, an alexandrite
+studded pendant, a jade barrette, a sparkling silver amulet of the Chosen One,
+some eldritch light mail, a glowing amulet carved into the shape of a pegasus
+in flight and a silver ring.
+She is honored to be the Chosen One.
+
+You see Autumn Huecuva, a mature female human.
+She is short, average weight and incredibly muscular.
+She has hazel eyes, porcelain skin and long, flowing auburn hair.
+She is wearing an ivory chantilly lace bodystocking which provocatively
+highlights her curvaceous form, some black leather high-heeled hipboots which
+stretch tautly across her well-developed calves, a white gold ring inset with a
+sapphire, an emerald bracelet, a funky gold amulet that will temporarily
+replace lost thingies, a slim antique ivory hairpin topped with a sphere of
+gold and etched with flowers, a dark amulet with the image of a stern-faced man
+on the front, a gas mask, a spider skin g-string and some white gold earrings.
+
+You see the imposing form of Bruno. His rippling muscles extend from his
+broad shoulders to his massive arms. Dark brown hair, with streaks of gray,
+frames a handsome face with eyes of blue that echo years of experience.
+
+You see Camorra Amadaus, Duchess of Fayd. A seductive young woman, her tiny
+body moves with deadly grace within the shadows. She has intimate emerald
+eyes and white golden hair falling in soft curls below her waist.
+She is wearing a braided ring of alzyron and silver, a well-tailored white
+leather trenchcoat, a supple white elkyri circlet, some flawless white elkyri
+armor crafted of interlocking, crescent plates of the shimmering metal, some
+silvered white elkyri gauntlets jointed with wires of hardened gold, a white
+diamond anklet with a ruby clasp, a delicate ivory waist sash, some thigh-high
+white leather boots, some soft white gloves, an elegant white gold torc, a
+hooded white cloak spun from starlight, a shimmering white robe of a simple
+design, some bracers engraved with the Silver Oak surrounded by a circle formed
+from storm clouds, a wide black belt, some scarlet bracers and a ruby inset
+ring of honor.
+
+You see Carter Ullioth, a mature male human. He has tan skin, short disheveled
+dark brown hair and questionable fashion sense. His green eyes seem to take a
+delighted interest in everything, at least until his attention lapses.
+He is wearing a pretty blue t-shirt with the writing,"Faydian Maypole, 1026",
+under an image of Carter at a fountain, a shiny blue pin with "Save our friends
+the racoons! They're cleaner than most of us.", a cheap plastic watch, a
+glimmering white gold pendant, some silver earrings, a black leather satchel,
+some fuzzy brown racoon slippers with each one holding one half of a dead fish
+in its mouth, a red sash of The Order of the Way, some diamontine and titanium
+bracers, a horrible tie with purple cherubs against a background of lime green,
+an eldritch helm, some chartreuse poplin pants, an icy silver wedding ring and
+a delicate gold locket with tiny diamonds inset into the case in the shape of a
+heart.
+
+You see Claire Summer, a mature female wolfling.
+She is short, light weight and muscular.
+She has gray eyes, fair skin and short, wavy golden blond hair.
+She is wearing a white gold ring inset with a diamond, a glittering gold
+engagement ring with diamond dust imbedded within blue emeralds that rise and
+fall like waves, a battered old silver medal commending the wearer for bravery
+in some long-forgotten battle, some eldritch leather armor, a golden circlet
+with a silver wave inscribed upon it, some deeplander boots, a gleaming black
+tattoo of a vulture perched atop a black cross etched on her right ankle, a
+white gold pin bearing an image of the scales of justice in shimmering elkyri,
+a silver talisman, a forest brown cloak covered with many pictures of small
+animals, some kneepads, a sapphire inlaid gold necklace, some diamond earrings
+and a smooth red leather beltpouch.
+
+You see Corianin Delynav, a mature male ephemeral.
+He is tall, light weight and insubstantial.
+He has blue eyes, dark skin and short black hair.
+He is wearing a leather poncho, a glass amulet and a black tunic.
+His brilliant blue eyes are a startling contrast to his insubstantial form.
+
+You see Dara Lundy, a mature female aelfen.
+She is of medium height, light weight and incredibly muscular.
+She has hazel eyes, fair skin and short, wavy light brown hair.
+She is wearing a white gold anklet, a white shroud, some eldritch leather
+armor, a white doeskin beltpouch, some deep brown doeskin shoes, a deep brown
+doeskin backpack, a shimmering blue crystal amulet, an eldritch helm, a simple
+gold bracelet whose sparkling surface quickly catches your eye, an alexandrite
+nosering, a blue silk pouch and a magenta doeskin satchel.
+
+You see Darkheart Wildchild, a mature female wolfling.
+She is short, average weight and incredibly muscular.
+She has gray eyes, dark skin and long, flowing silvery hair.
+She is wearing a black gold pendant in a twisted shape that is impossible to
+completely focus upon, some black leather gloves with a grinning skull stitched
+into the backs of the hands, an ancient robe as dark as death, stained with
+fresh blood at the hem, some eldritch light mail, some knee-high black leather
+boots wrapped in strong silver chains, a shimmering black cape seemingly shaped
+from the very stuff of shadows which seems to caress her figure and an
+ensorcelled helm.
+Sleek as death, with an ageless quality, her eyes  measure you carefully.
+
+You see Delight d'Marcan, a mature female human.
+She is short, average weight and incredibly muscular.
+She has brown eyes, tan skin and shoulder length, wavy dark brown hair.
+She is wearing some diamond inset platinum earrings, an alexandrite bracelet,
+an organdy ribbon, some ensorcelled titanium mail, an eldritch helm, some hard
+leather boots, some lace stockings, an alexandrite necklace, a jade anklet and
+a blue leather sack.
+
+You see Drainpipe Stokavlk, a mature male highlander.
+He is very short, average weight, and is missing an ear and his left pinkie.
+He has gray eyes, rosy skin and unkempt dark brown hair.
+He is wearing some eldritch leather armor, a shimmering amulet, a cerulean
+crystal pendant, some sharkhor hide gloves, a shiny little silver pin of a
+happy lazy lizard with crossed eyes and a silly grin on its face, a black
+leather trenchcoat, a backpack, a moonstone encrusted helm, a khaki leather
+beltpouch, some deeplander boots and an inky black leather duster.
+
+You see Durnik, Priest of Rorin. His strong hands are calloused from working
+daily at the forge. Skin, deeply tanned from Rorin's fiery gaze, hazel eyes and
+long dark brown hair graying at the temples are also his.
+He is wearing a small leather holster, a sunburst yellow brocade sash, a golden
+satchel trimmed with fiery silver threads with a brilliant sunburst sewn on the
+sides, a small metal pin with BKTYFF written on it, some eldritch leather
+armor, a shimmering golden silk robe trimmed in fiery red with a brilliant
+sunburst on the back surrounding a heart, a jade amulet, some deeplander boots,
+a truesteel heavy amulet and an eldritch helm.
+
+You see Farseer Stormshield, a sipahi of the desert clans. He has a compact
+build and walk of a horseman. Penetrating hazel eyes smile at you over the
+black mask formed by the tail of his haik. His curly beard and hair are auburn.
+He is wearing some deeplander boots with high tops lined with werewolf fur, an
+emerald inset mirmach medallion, a white silk pouch, a green doeskin satchel
+emblazoned with the image of a Thunderbird in full, living color, some steel
+plate shoulder guards with dozens of leather straps and shiny brass buckles, a
+simple green leather garment embossed with the silver oak symbol of the
+Foresters, a long hooded desert robe with flowing sleeves which cover the arms
+to the elbows, some randar thigh guards carefully inlaid with silver and
+polished to a high shine, a holy white albescent pin carved in the shape of a
+spruce pine and a black leather helm.
+
+You see Firestar Ironheart, a Gnomish Woodsman.
+He's a very, very short wrinkled little person with an extremely
+large nose, twinkling eyes and a long gray beard.
+He is wearing a torn feather, a scabbard decorated with carvings of dragons
+with sparkling ruby eyes, a gold amulet, a delicate ring made entirely of
+thorns, a diamontine fingersight, a gray forester cap, a floor-length dark gray
+cape fringed with golden thread and emblazoned with a golden owl sigil, some
+randar bracers which are highly polished, with precisely riveted edges, a gray
+leather pouch, an emerald inset silver medallion engraved with a guardian gnome
+standing beside a large silver oak tree, a gray leather beltpouch, a gray
+leather beltpouch, some black leather boots with brass eyelets and thick
+leather laces, some light gray forester armor emblazoned with a silver oak tree
+with hundreds of birds of prey perched on it and some gray gloves with silver
+oaks on them, layered with a fine elkyri mesh.
+His feet are soaking wet.
+
+You see Foraker Salonanon, a mature male aelfen.
+He is of medium height, light weight and muscular.
+He has gray eyes, tan skin and short silvery hair.
+He is wearing some deeplander boots, some deep brown cotton socks, a blue
+cloak, an eldritch helm, some eldritch leather armor and a fiery silver
+engagement ring.
+
+You see Forb Guttifer, a mature male highlander.
+He is very short, average weight and incredibly muscular.
+He has blue eyes, olive skin and long, braided light brown hair.
+He is wearing some ursine fur gloves, some eldritch titanium armor emblazoned
+with Rorin's Orb and Swords in a dazzling burst of golden color, some linen
+socks, a fiery gold badge engraved with the image of a blazing sun gripped
+within a gleaming golden hand, some shimmering silver bracers carefully held
+together with golden rivets, an eldritch helm, a blank white silk cloak
+embroidered with a gold sunburst surmounted by a hand and some white leather
+boots that come up to mid-calf, with large golden clasps.
+
+You look down upon Garin Stonehand, Mayor of Fayd and Captain of the Queen's
+Guard.  He's a cheerful highlander with an odd sense of humor.  His dark eyes
+find laughter in everything.  His long hair is tied back in a ponytail.
+He is wearing some black light mail crafted of rings woven over hard leather, a
+well-worn steel helm adorned with two, perfectly preserved soultaker horns set
+in elkyri, some black leather gloves with the image of a sword emblazoned in
+red on the back of each, a white gold pin bearing an image of the scales of
+justice in shimmering elkyri, some deeplander boots bearing intricate silver
+clasps formed into the shapes of flying eagles, some faint purple randar
+gauntlets with a distinctly greenish cast, a wedding ring of purest gold
+encrusted with brilliant rubies, a ruby studded silver ring of the Crimson
+Band, a white metal talisman in the shape of the Open Hand of Shemri, a
+glistening pin in the shape of a snowman with "I balled!" written in ice, some
+green albescent bracers polished so you can see your reflection, tinted green,
+in their shiny surface, a gold pin of a golden eagle clutching a ruby serpent,
+a huge glowing purple button reading, "Vote Garin in '26 or he'll kill you",
+some ruby inlaid bracers, some polished steel shoulder guards engraved with the
+figure of an eagle with outstreched talons on each shoulder, some delicate
+steel-rimmed spectacles, a radiant white robe which shimmers with an inner
+light, a tiny tin medallion with Garin and Korazon standing side by side in
+enmity and a large silly plush pouch made to look like a short squat goblin,
+with a zippered mouth for an opening.
+
+As you look on Immanuel Lawson blood red eyes  burn through you and
+you sense the power and wisdom of the Ancient Dragons, which rest in
+him.
+He is wearing a medal of valor from the Order of the Way, a delicate ring made
+entirely of thorns, a white gold pin bearing an image of the scales of justice
+in shimmering elkyri, a sepia leather beltpouch, an engraved gold pendant
+shaped like a pair of crossed katanas, a pearl inlaid helm, a polished diamond
+medallion of a Drakin and a Dragon standing side by side in friendship, some
+dark green deeplander boots marked with the symbol of the order of the way and
+a red sash of The Order of the Way.
+His feet are soaking wet.
+
+You see Jasmine Abeya, High Priestess of Amilor.  The purple mark of a
+butterfly's wing on her cheek makes her green eyes shine with compassion and
+strength.  She has long, auburn hair braided neatly over one shoulder.
+She is wearing a heavy silver signet ring of the Servants of Cytherin, some
+deeplander boots, a coral earcuff, a faerie pin, a gold medallion, some heavy
+steel gauntlets etched with red swirls of magical flame, some forest green wool
+gloves, a forest green satchel, a green cloak, some silvery bracers with golden
+suns engraved onto each bracer, a light olive titanium ring, a brown and tan
+feather which dances in the wind, some forest green cotton socks and some soft
+green leather armor formed from supple tree branches and a myriad of vibrant
+oak leaves.
+
+You see Jiyaj Be', a young male drakin.
+He is short, huge and incredibly muscular.
+He has green eyes and his scales are jet black with violet splotches.
+He is wearing a malachite necklace, a shimmering silver dragon tattoo in flight
+on his chest, teeth bared in a roar, a crimson leather backpack, an eldritch
+helm, a small metal pin with BKTYFF written on it, some fluffy pink slippers
+with cute little bunny faces with swept back ears and plastic googly eyes and a
+crimson band initiate ring.
+
+You see Lord Joqain Visogoth, General of Fayd.
+He is tall and slender with an indifferent smile.
+He has black eyes, fair skin and pony-tailed shoulder length silvery hair.
+He is wearing a glittering alzyron ring formed from the powerful matter of the
+four elements that bind the world, a simple medallion on a heavy gold chain,
+some gulivira skin boots, a fiery silver torc surrounded by a faint glowing
+nimbus of pale fire, an illusionist's pouch, some glossy black aelfen armor
+trimmed with polished silver, a midnight black cloak, a trenchcoat, an aelfen
+crafted gold pentagram suspended from a braided rope of slender strands of
+sterling silver, some steel bracers, a silvered steel pentagram hanging from a
+polished chain of purest gold, a dark robe threaded with white gold, some runic
+bracers woven with strands of silver, an intricately tooled leather pouch, a
+silver ring which shimmers faintly with pinpoints of light, some black silk
+gloves that fit snugly on the hands, some ring mail gauntlets fortified with
+randar, some shimmering spurs and a wide-brimmed black hat with a scarlet band.
+
+You see Joshua Matrana, an aging male human.
+He is of medium height, average weight and incredibly muscular.
+He has brown eyes, tan skin and short, wavy light brown hair.
+He is wearing a sea blue leather beltpouch, some eldritch leather armor, a
+black leather quiver, a black doeskin satchel, a blood red leather beltpouch,
+an enchanted helm, a glowing amulet carved into the shape of an owl in flight,
+an onyx ring and some deeplander boots.
+
+You see Kalar Meyer, a mature female human.
+She is of medium height, average weight and incredibly muscular.
+She has green eyes, tan skin and long, wavy sandy blond hair.
+She is wearing some worn tiger fur boots with heavy brass clasps, an emerald
+studded earcuff, a delicate platinum bracelet studded with tiny sparkling
+emeralds, some honey blossoms, some emerald green lace stockings, a gold
+necklace, a tiger fur duster, an obsidian amulet, a platinum skull cap engraved
+with mystic runes, some eldritch leather armor, an emerald anklet, an emerald
+inset gold ring and an emerald green silk gown that flows softly about her
+body, with two diamond clasps at the neckline.
+
+You see Kalyn Kandelmaker, a serious young human with sky blue eyes. Her slight
+frame, pale skin and the scorched whisp of short white hair tucked behind one
+ear hint at long hours spent inside the alchemy lab.
+She is wearing some eldritch titanium armor, some deeplander boots, a heavy
+silver signet ring of the Servants of Cytherin, a shimmering talisman and a
+diamond inset platinum nosering.
+She is actually wearing Armor!  what next?
+
+You see Kimi Toyo, a young female human.
+She is short, average weight and incredibly muscular.
+She has brown eyes, porcelain skin and pony-tailed black hair.
+She is wearing a heavy silver panther bracelet with gold spots and ruby eyes,
+some shiny black shoes crafted in the mary-jane style, a short blue plaid skirt
+which shows off a large amount of her shapely legs, some white cotton socks,
+some mysterious purple copper sunglasses, a pale pink lace ribbon and a
+short-sleeved white cotton blouse with a peter pan collar.
+
+You see Korazon MountainMover, a brave-looking male highlander. His muscular
+body has been hardened and toned. His noble face is battle-scarred though still
+retains an impish grin. He meets your look with a determined gaze.
+He is wearing some heavy titanium armor inscribed with the silver wave of
+Amilor on a field of small, scale-like shapes, a ruby signet ring, a worn
+seashell skin satchel, a gold and silver circlet sculpted into stormclouds
+which swirl in a thunderous battle, some titanium thigh guards with raised
+ridges all over their polished surface, some finely crafted golden gauntlets
+covered with a thin network of clear ice crystals, some rugged leather gloves
+lined with cotton and trimmed with an embroidered pattern of breaking waves,
+some deeplander boots with tiny bite marks near the soles, some icy silver
+bracers whose thin filigree has small particles of ice clinging to it and a
+dark cape of swirling black and gray mist.
+He has a glow about his face, and walks with a spring in his step.
+
+You see Krista Runyon, Knight of Amilor. Her hair of spun gold hangs straight
+to her waist, framing her lithe aelfen body. She has pale skin
+with a touch of rose in her cheeks and vivid sparkling blue eyes.
+She is wearing a white gold pin bearing an image of the scales of justice in
+shimmering elkyri, a mysterious black robe with ruby-colored runes embroidered
+along its seams, a black cloak embroidered with a silvery pentacle, some silver
+bracers formed from flexible links, some ietain steel bracers, a shiny helm
+made of a mysterious substance that has gold threads running through it, some
+leather armor with straight silver lines traced all along it, a red crystal
+pendant, a light blue dress woven from the mist of the passionate sea, its
+pattern flowing with the wind, an intricate gold wedding ring infused with
+shimmering silver, blue and green strands in a wave-like pattern, an anklet of
+purest sapphire which glows softly from within, a cobalt blue silk ribbon that
+seems to shimmer and dance with threads of red and yellow fire, some white
+doeskin slippers woven from the sparkling mist of the beautiful sea, a golden
+amulet with a silver wave inscribed upon it, a transluscent blue negligee that
+seems hardly more than a hint of silvery mist, a sea blue silk robe decorated
+with a scene of Amilor rising from the sea as he smiles at the Merfolk and a
+gold ring with tiny streaks of ruby running through it.
+Crystal blue eyes impishly gaze at you from under long lashes of gold.
+
+You see Kryedar Alzyron, the Sheriff of the City of Fayd. Messy hair, unkempt
+clothing, and doughnut crumbs lodged in his jet black beard lend a sense
+of scruffiness to the otherwise serious Highlander.
+He is wearing a glowing amulet, some albescent gauntlets carefully polished and
+inset with a huge moonstone, some titanium thigh guards sprinkled with small
+moonstones, some diamontine bracers studded with sparkling diamonds, some
+elkyri shin guards emblazoned with the royal seal of Fayd, a black crystal
+talisman, some glittering gold enamelled armor engraved with "Sheriff Alzyron"
+beneath the crest of the City of Fayd, an ivory necklace, a platinum badge of
+the Sheriff of Fayd, a black cloak embroidered with a large crimson cross, a
+shiny black helmet that looks technologically advanced, some dark rat fur boots
+with large claws at the toes, some long rat fur gloves with long clawed fingers
+and a black leather belt with many rat parts hanging from it.
+He is wielding an eldritch diamontine shield and a fiery randar deeplander
+battleaxe with an edge of sharpened diamond, surrounded by a faint aura of
+fire.
+Take advantage of him.  He's been in a good mood since getting new donuts.
+
+You see Lamentar Lightfarer, a mature male human.
+He is tall, average weight and incredibly muscular.
+He has gray eyes, fair skin and shoulder length, wavy light brown hair.
+He is wearing a forest green leather cloak, some eldritch titanium armor, an
+enchanted helm and a gold amulet.
+He is wielding an eldritch diamontine shield and a fiery steel broadsword.
+
+You see Linnaeus Wanderfar, a mature male human.
+His grey eyes are bright and tinged with sparks of emerald green.
+He has shoulder length gray hair, fair skin and a warm smile.
+He is wearing a sparkling crystal locket in the shape of a pair of faerie wings
+and a gray cotton robe.
+He is wielding a carved rosewood mysterious pipe decorated with images of
+cavorting nymphs and satyrs.
+He seems less tired, more vibrant and alive.
+
+You see Lukas deCameron, Knight of Belinda's Kingdom, Headmaster of the
+Institute of Enlightenment and Protector of Children. He is vivacious,
+intelligent and hopeful. It is difficult to tell his age.
+He is wearing a heavy silver signet ring of the Servants of Cytherin, some cool
+elkyri bracers whose smoothly polished surface has a thin coating of ice, some
+leather covered deeplander boots lined with sheep's wool and some arcane azure
+leather armor glittering with tiny silver bolts of lightning.
+
+You see Maiko Ullioth, a young female human.
+She is of medium height, average weight and incredibly muscular.
+She has green eyes, tan skin and long, flowing sandy blond hair.
+She is wearing a pink plaid denim backpack, an icy silver wedding ring inset
+with a single flawless diamond, a shimmering white silk gown with thin straps
+criss-crossing the plunging diamond-outlined neck and back, a sheer black silk
+negligee that is backless and has a deep slit revealing most of the right
+thigh, some sharkhor hide boots, an eldritch helm, a silver anklet, a silver
+brooch, some diamond earrings, some eldritch titanium armor, a sharkhor hide
+pouch, a diamond studded hairpin and an evil ring.
+
+You see before you Markan ConDion, a tall man of thick heavy musculature whose
+casual readiness does nothing to hide the aura of a predatory animal. Wavy red
+hair falls to his shoulders and his remaining eye has a hard look to it.
+He is wearing a navy-blue wool dress uniform of the Crimson Band with gold
+buttons, a silver leaf collar and crimson cape, a black leather belt with an
+elkyri belt buckle in the shape of a fierce eagle, some polished black leather
+boots with silver clasps, some crisp white ursine-skin gloves, a diamond
+encrusted silver ring, a ruby studded silver ring of the Crimson Band, a beaded
+obsidian necklace with exactly seven ursine claws spaced evenly along it and a
+black leather satchel with silver clasps.
+A bandage covers his left eye totally and a fresh cut divides his cheek.
+
+You see Miki Daak, a chubby little boy who is just barely out of the toddler
+stage.  Pale blond hair, usually messy, tumbles about his face and blue eyes.
+He seems to be a cheerful child, always beaming.
+He is wearing some fuzzy brown slippers which resemble eekeys with a happy grin
+and mischevious glinting eyes, a green and red cap with bells and tassles on
+it, a tunic, a randar ring, a silver wolf shaped ring and a tiger fur sash.
+
+You see Miria Lilair, a growing young girl with a quiet smile and emerald eyes
+that reflect a wisdom beyond her tender years. Her soft red hair falls to her
+shoulders, delicately brushing against her birthmark, two intertwined serpents.
+She is wearing a snow-white velvet cloak with a deep hood and a star ruby clasp
+at the throat, a white silk ribbon that flutters in the wind forming a small
+blur, some black breeches, a white gold pin bearing an image of the scales of
+justice in shimmering elkyri, an emerald green amulet formed from a circle of
+beautiful leaves with silvery veins and a purple cotton t-shirt.
+
+You see Miriam Ravenwood, a distinguished female vampire with a cold glint
+in her icy grey eyes. Her straight, jet black hair is brushed back from her
+forehead, the grey streak at her temple accentuating her pallid complexion.
+She is wearing a white gold ring, a black silk wristlet, some long black satin
+gloves, a deep black magician's robe shrouded in a nimbus of pale blue flames,
+a perfectly spherical jade pendant polished to a high shine and hung from a
+gold chain, a glistening black sheath made from spider-skin, a flowing black
+silk gown covered with tiny onyx chips that shimmer and shine with every
+movement, some knee-high boots, a white gold hairpin, a platinum engagement
+ring with delicate golden leaves surrounding a sparkling diamond, an icy
+shadowsteel pendant exquisitely carved into a startlingly lifelike raven
+suspended on a leather cord, some jet black leather armor covered with black
+needle-sharp vines, a silver medallion shaped into a pentegram, a shimmering
+gray silk pouch with a silver clasp in the shape of a raven's head, an ebony
+spidersilk robe with an intricate array of silvery runes embroidered upon its
+entire length, a wide black velvet collar with a single enormous square ruby
+set in the front, a delicate electric helm which envelops the wearer's head in
+a force shield and some long platinum earrings set with large square rubies.
+
+You see High Enchantress Nissa Rhapsody of the Silver Arcana. She is a young
+aelfen with feminine curves gracing her lithe body. Her flowing auburn hair
+frames her soft, lavender eyes. Her rosy skin matches her blushing demeanor.
+She is wearing a black velvet cloak lined with satin and embroidered with pale
+red roses, a pendant of an aelf surrounded with mystic energy and a soft rose
+silk gown that gently caresses and follows the movement of her legs.
+
+You see Nord Stormhand. The steel blue eyes of the scribe are filled with
+profound sadness. A scar marks his weathered but youthful face on the left
+cheek. A tangle of brown hair falls to his shoulders, braided and tied.
+He is wearing some randar shoulder guards inlaid with brilliant fiery silver
+which glows faintly red, some eldritch leather armor with light plates of
+randar metal over the shoulders, arms, and thighs, some silver dragon scale
+bracers whose polished irridescent surface splits the light into a dazzling
+rainbow, a white silk pouch, a tarnished silver ring with faded engraving, a
+worn leather sheath hung from a circle of steel engraved with an open hand at a
+sunburst's center, some randar bracers streaked with rivers of flowing silver
+forming a web of glinting light, a quartz ring, a bronze medallion, a jade
+talisman, some fiery silver mail gloves emblazoned with Rorin's Sun and Swords
+sigil, a visored helm with a blazing sunburst emblazoned on the brow, a white
+silk robe trimmed with gold and embroidered with a brilliant sun orbited by
+seven swords, some worn rakshasha hide boots with tarnished gold clasps and
+some gleaming memarin gauntlets.
+He is extremely pale
+
+You see Polly, a pretty young woman with golden hair that cascades
+down to her shoulders in loose curls. Her heavily lashed eyes are a
+brilliant green and a hint of a blush caresses her fair cheeks.
+She is wearing a filmy figure flattering gown clinging tightly to her every
+sensous curve and exposing her leg with every move.
+There is a tattoo of a swan surrounded by white roses on her upper arm.
+
+You see Remachen Lodestar, a young male highlander.
+He is very short, average weight and muscular.
+He has brown eyes, pale skin and long, flowing black hair.
+He is wearing an emerald yarin medallion, a gray velvet hooded cloak trimmed
+with soft white fur, some enchanted leather armor and an enchanted helm.
+He is wearing the emblem of an Apprentice Alchemist, Be Gentle.
+
+You see Rhune Mason, an aging male highlander.
+He is very short, average weight and robust.
+He has brown eyes, tan skin and shoulder length silvery hair.
+He is wearing a snow-white leather satchel, an iron ring, a bone ring, some
+boots with fine yeti fur encasing the upper part of each, some blue breeches, a
+glowing necklace, a dirty brown leather pouch, a crimson velvet hat with a
+bright red plume fastened to it, a brilliant blue sharkhor-skin jacket and a
+blue crystal medallion.
+Ale is always in demand
+
+You see Rose Thornflower, a young female highlander.
+She is very short, light weight and incredibly muscular.
+She has hazel eyes, rosy skin and long, braided black hair.
+She is wearing some eldritch titanium mail, a silvery metal belt, an eldritch
+helm and an alexandrite studded hairpin.
+
+You see Sharon Sanders, a petite human about 23 with dark-blond hair.
+Blue-gray eyes gaze out at you with kindness, but they also hold a
+deep longing.
+She is wearing a simple silver necklace inset with a single large moonstone, a
+malachite medallion, some white wool stockings, some brown leather sandals, a
+brown wool robe, a red doeskin pouch, a sheath, a forest green leather cloak, a
+brown leather hood, a bronze pendant, a bronze pendant, a brown leather satchel
+and a brown poplin satchel.
+She is quite attractive, but her true beauty shines out from within.
+
+You see Silverfire D'frost, a mature male wolfling.
+He is short, average weight and incredibly muscular.
+He has gray eyes, dark skin and long, flowing silvery hair.
+He is wearing a deep hooded cloak as dark and supple as night, caressing his
+body like the shadows around him, a black crystal amulet, a blue crystal
+pendant, an eldritch helm, some eldritch leather armor, a copper nosering, a
+fuzzy kitten skin beltpouch, some knee-high deeplander boots, some smooth black
+leather gloves and a quartz amulet.
+His deep silvery eyes catch your glance with a wicket yet passionate stare.
+
+You see Sun Light, a young female human.
+She is short, average weight and incredibly muscular.
+She has green eyes, fair skin and long, flowing red hair.
+She is wearing a red leather pouch, some silver earrings inset with a brilliant
+fire opal, some enchanted leather armor, some black silk stockings, a red silk
+ribbon, a shimmering necklace, an ivory necklace, some leather hipboots and an
+alexandrite ring.
+Her eyes are like tiny sunbeams, and her red hair shines in the sunlight.
+
+You see Tashina Moyabar, a captivating aelfen female. Roughtly cut shoulder-
+length auburn hair frames the delicate featuers of her ebony hued face. Her
+steel gray eyes suggest a strength which cannot be measured.
+She is wearing an ebony silk dress, a diamond ring and some jade earrings.
+Something about her shy, reserved demeanor disturbs you.
+
+Taylor Quicksilver is a tall woman who meets your gaze with a mischievous
+twinkle in her emerald eyes. Flame-colored hair frames lovely features of
+fair skin marred slightly by a small ritual scar on her right cheek.
+She is wearing a polished teak barrette carved into the shape of a sleeping
+tiger, a carved bracelet inset with eight scarab charms carved from gemstones,
+some gleaming gold earrings hung with sapphire pendants, a silver pendant of a
+rose, a diamond anklet, a golden amulet with a silver wave inscribed upon it,
+some eldritch leather armor embroidered with a perfect silver rose, a silver
+eldritch helm etched with a single, long stemmed rose, a hued crimson ring,
+some black doeskin gloves, a silver bracelet engraved with two entwined vines
+of darker silver, each with many tiny leaves, a white gold wedding ring with
+firey opals and sparkling aquamarines encircling it in a wave pattern, some
+black leather boots which come up over her knees with silver buckles down the
+sides and a close-fitting robe whose subtle color shifts slightly with her
+every move.
+
+You see Tempus Evilbane, Knight Errant of the Silver Oak and a Master Forester.
+He is a little man whose features have been forged into those of a battle
+hardened warrior. He has green eyes, fair skin and pony-tailed red hair.
+He is wearing some black leather combat boots with, "These boots are made for
+stomping..all over you!", written on the tongues, an emerald inset mirmach
+medallion signifying a Forester High Master, some gauntlets, some eldritch
+deeplander plate armor engraved with a forester crushing the life from a large
+golden kobold and a forest green metal helm with a scene of gnomes guarding the
+Silver Oak.
+He reminds you of a Gnomish Warlord
+
+You see Thalion the Grey, the Paladin of Shemri. He moves with the fluid grace
+of an aelfen Blademaster. His steel grey eyes seem to peer into your soul.
+Dashing and debonaire, he is a true ladies man.
+He is wearing some translucent crystalline armor with tiny wisps of steam
+curling off it, forming strange twisting patterns, a blue cloak lined with
+silver fur, some gold bracers carved with pictographs of battles and wenching,
+some diamontine bracers plated with glowing red fiery gold and inset with a
+shimmering rainbow diamond, a holy white albescent pin carved in the shape of a
+Giant Eagle, a black velvet robe with bald patches that have come with age, a
+battered ancient helm with a gleaming ruby set in the brow, a square silver
+locket engraved with the emblem of Shemri, a silver dagger pendant, a beautiful
+silver-edged silk scarf, a lock of black hair , braided with a single silver
+strand in the midst of it, some dark brown hiking boots with brass clasps along
+the sides and a blue amulet.
+
+You see Vlad Drakulya, a man with fearsomely good looks. His face is
+aligned with the classical modem of handsomeness. His eyes are piercing and
+captivating despite their pale red color, and his white skin has a lustre...
+He is wearing an eldritch helm, some brass framed glasses that look very
+scholarly, some randar shoulder guards with a short black cape hung from the
+back, a tailored black robe with a small tiger embroidered into each sleeve, a
+glimmering pendant, a dark amulet with the image of a stern-faced man on the
+front, a white metal amulet engraved with a cross, some gleaming black armor
+with silver highlights along the smoothed seams and joints, some black leather
+gloves with silvered knuckles, a delicate ring made entirely of thorns, a black
+leather belt, a black silk pouch and some knee-high deeplander boots with a few
+teeth marks from a baby dragon.
+
+You see Xavria Theacratious, a mature female human.
+She is short, average weight and powerfully built.
+She has blue eyes, porcelain skin and pony-tailed black hair.
+She is wearing some deeplander boots, an enchanted helm, some ensorcelled
+leather armor, a platinum hair comb inlaid with hundreds of tiny icy blue
+diamonds, a simple ring of silver inset with an achingly beautiful diamond,
+some thin black randar earrings inset with cold blue sapphires, a polished
+randar anklet inset with cold blue sapphires, some black silk stockings and
+some long black gloves made of delicate lace.
+
+You see Xman Xman, a young male human.
+He is tall, average weight and incredibly muscular.
+He has brown eyes, fair skin and short light brown hair.
+He is wearing some gulivira skin boots, a gulivira skin cloak, some eldritch
+light mail, an ensorcelled helm and a bright green button with "Toadie for
+Mayor!" written across it.
+He is in Stat Herb Rehab.
+
+You see Xond Xoff, a mature male wolfling.
+He is short, average weight and robust.
+He has hazel eyes, tan skin and short light brown hair.
+He is wearing a sapphire blue silk sash embroidered with golden daggers, some
+light chain mail gauntlets, a dark black cloak with two glowing evil eyes
+surrounded by thorns embroidered across the back, an ensorcelled helm, some
+enchanted light mail and some black leather boots.
+
+You see Zhou Zhang, a young male drakin.
+He is short, huge and incredibly muscular.
+He has yellow eyes and his scales are jet black with crimson stripes.
+He is wearing some leather boots, some ragged brown leather trousers, a long
+sepia doeskin poncho, a studded collar and some steel sunglasses.
+He looks silly and dry.
+
+You see Officer Zoe Anashima, a young female human.
+She has striking emerald eyes and short black hair that falls to chin-length.
+She has soft polynesian features and creamy cappucino skin.
+She is wearing a coral anklet, a cerulean brocade beltpouch, a black silk gown,
+some leather sandals, a black organdy collar and a silver badge of the
+lawkeepers.
+
+

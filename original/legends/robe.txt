@@ -1,0 +1,30 @@
+You concentrate intently on a shimmering robe which seems to glow.
+You feel your vision dimming until everything becomes covered with a shade of
+black, there is a loud buzzing in your ears that is followed by a strong, clear
+voice speaking...
+"Greetings, I speak to you even though I now have passed from this mortal
+coil."
+"My name is Vasikhon, perhaps an unfamiliar name to you, but know that I was
+renowned in the ruined city of Mesthoron."
+"As a member of the Guardians of the Tome, my job was to study the magical
+forces that flow through this world in the wake of the Cataclysm."
+"My knowledge grew to be great and my interests turned towards crafting items
+that would harness the magical forces of this world."
+"This robe is one such item. The flows of magical power are trapped within many
+of this world's natural resources. This robe feeds off of the power contained
+in some of these items, empowering the wearer with certain magics, dependant
+upon what item has been 'fed' to it."
+"Use it well, and let the legacy of magic ever stay strong."
+
+reci The robe has been woven from delicate strands of crystal that have been treated with magical spidersilk collected under the full moon in a special ritual.
+reci Embroidered along the length of the robe are numerous golden runes that symbolize the forces of magical essence that flow throughout the world. The runes power nearly staggers you, being compose of gold dust,
+reci flecks of alzyron and magical waters from the Well of Worlds.
+
+reci You feel your vision dimming until everything becomes covered with a shade of black, there is a loud buzzing in your ears that is followed by a strong, clear voice speaking...
+reci "Greetings, I speak to you even though I now have passed from this mortal coil."
+reci "My name is Vasikhon, perhaps an unfamiliar name to you, but know that I was renowned in the ruined city of Mesthoron."
+reci "As a member of the Guardians of the Tome, my job was to study the magical forces that flow through this world in the wake of the Cataclysm."
+reci "My knowledge grew to be great and my interests turned towards crafting items that would harness the magical forces of this world."
+reci "This robe is one such item. The flows of magical power are trapped within many of this world's natural resources. This robe feeds off of the power contained in some of these items, empowering the wearer with certain magics,
+reci dependant upon what item has been 'fed' to it."
+reci "Use it well, and let the legacy of magic ever stay strong."

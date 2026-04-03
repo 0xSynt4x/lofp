@@ -1,0 +1,116 @@
+02/26/97                     The Art of Alchemy
+       Compiled and Arranged by Taliesin Pendragon in the year 1028.
+      This scroll is confidential and proprietary. Do not distribute.
+
+        B:HLTH  C:NEGN  D:PROT  E:MIND  F:HARM  G:ENHC  H:MMAG  I:SMAG  J:VMAG
+        ======= ======= ======= ======= ======= ======= ======= ======  =======
+1A:BODY BR I    UNDEAD  ARMOR   ----    BDI     CLAW    NT VISN STRI    ----
+2A:BODY ----    INVGII  ----    ----    BDII    CARAPCE ----    STRII   ----
+3A:BODY ----    ----    GLOBE   ----    BDIII   FLIGHT  ----    ----    ----
+
+1B:HLTH ....    ----    ----    ----    ----    ----    ----    ----    ----
+2B:HLTH ....    ----    DISEASE ----    ----    ----    ----    POISON  DISEASE
+3B:HLTH ....    ----    ----    ----    ----    ----    ----    STRIII  ----
+
+1C:NEGN ....    ....    ----    ----    ----    ----    WEATHER ----    ----
+2C:NEGN ....    ....    ----    ----    BR II   DISPEL  PLANT   ----    ----
+3C:NEGN ....    ....    ----    ----    ----    ----    WEBS    ----    ----
+
+1D:PROT ....    ....    ....    ----    ----    ----    ----    ----    ----
+2D:PROT ....    ....    ....    ----    ----    CAMOFLG ----    SPLSHLD ----
+3D:PROT ....    ....    ....    ----    ----    INVIS   ----    ----    SORCSUM
+
+1E:MIND ....    ....    ....    ....    ----    PRNOIA  ----    ----    ----
+2E:MIND ....    ....    ....    ....    ----    MNDLNK  ----    ----    ----
+3E:MIND ....    ....    ....    ....    ----    ----    ----    ----    ----
+
+1F:HARM ....    ....    ....    ....    ....    ----    ----    ----    ----
+2F:HARM ....    ....    ....    ....    ....    ----    ----    ----    ----
+3F:HARM ....    ....    ....    ....    ....    ----    ----    ----    MISTFRM
+
+1G:ENHC ....    ....    ....    ....    ....    ....    ----    AGILI   ----
+2G:ENHC ....    ....    ....    ....    ....    ....    ----    AGILII  ----
+3G:ENHC ....    ....    ....    ....    ....    ....    ----    AGILIII ----
+
+1H:MMAG ....    ....    ....    ....    ....    ....    ....    ----    ----
+2H:MMAG ....    ....    ....    ....    ....    ....    ....    HASTE   ----
+3H:MMAG ....    ....    ....    ....    ....    ....    ....    ----    ----
+
+1I:SMAG ....    ....    ....    ....    ....    ....    ....    ....    ----
+2I:SMAG ....    ....    ....    ....    ....    ....    ....    ....    ----
+3I:SMAG ....    ....    ....    ....    ....    ....    ....    ....    ----
+Example: analyze mandrake root        (Test for alchemical properties)
+         brew mandrake root in flask  (You begin brewing)
+         brew babich root in flask    (You continue brewing)
+         brew muur crystal in flask   (You finish brewing)
+         pour potion in cauldron, put clay in cauldron (make creme)
+   Bad recipes give a foul odor. If it shimmers magically, you made a good
+potion! If it bubbles violently, it's a good recipe, but beyond your current
+skill. To make a potion you must have as much alchemy skill as you would need 
+to cast the related spell. You can start several potions at once and brew
+them all in stages. You can start a brew and have another alchemist complete
+it. Brewing order is not important. Potions brewed will yield 2 to 5 sips. 
+   Alchemy is not needed to combine or extend potions. A potion poured into
+another potion of the same type (even if they appear different) will combine, 
+but change appearance. A potion can sometimes be extended by adding it to a
+different type (even BD). This will yield: the original potion, the added
+potion, an entirely different potion, a BD potion, a useless potion, or an
+explosion (destroys flask). It's recommended that a container be filled with
+a cheap, easy or BD potion, one sip taken from it, and then filled from the
+desired potion. Pouring can overflow a container, filling can't. 
+1:MCAT=Mld Catalyst SOME mandrake root AS 10g, sharkhor eyes, beetle hair TT
+2:SCAT=Strong Cat  SOME mandrake root AS 10g, fungal dust
+                   ant eyes,hairs,legs TT,  giant tooth, some meteor dust AS,
+3:VCAT=Very Strong doubloon dust HV, emeralds, some meteor dust AS
+A:BODY=Body        muur crystals AS 2g, onoki moss VI, some pearls     
+B:HLTH=Health      babich blossoms AS 1g, babich root PG, some pearls, 
+C:NEGN=Negation    garlic AS 2g, tricana seedlings VI, some pearls
+D:PROT=Protection  moonstones, mirmach bark GW, some pearls, troll tongue
+E:MIND=Mind        ettin beards GW, goblin hides
+F:HARM=Harmful     deadly nightshade PG, some pearls, toad eyes
+G:ENHC=Enhancing   golden flowers GW, some pearls, spriggan beards SC,
+                   brilliant feathers HV, roseate eggshells VI, skrag scales    
+H:MMAG=Mild magic  newt eyes AS 17g
+I:SMAG=Str magic   coconut HV, manango pits VI, spider fangs, fungal claws    
+J:VMAG=V Str magic riyong mushroom VI, rubies, glowing fungus
+
+Potion                  Code   Catalyst  Reagent  Reagent  Level Bottle Color
+BR I:                    1AB      MCAT     BODY     HLTH       1   Green
+BD I:                    1AF      MCAT     BODY     HARM       1
+Night Vision:            1AH      MCAT     BODY     MMAG       1   Black
+Claw Growth:             1AG      MCAT     BODY     ENHC       2   Ebony
+Destroy Undead:          1AC      MCAT     BODY     NEGN       3
+Resist Weather:          1CH      MCAT     NEGN     MMAG       3   Blue
+Paranoia:                1EG      MCAT     MIND     ENHC       3   Pink
+Strength I:              1AI      MCAT     BODY     SMAG       4   Rose
+Agility I:               1GI      MCAT     ENHC     SMAG       4   Khaki
+Mystic Shield (Armor):   1AD      MCAT     BODY     PROT       5   Silvery Blue
+BD II:                   2AF      SCAT     BODY     HARM       5
+BR II:                   2CF      SCAT     NEGN     HARM       5   Green
+Dispel Lesser Magic:     2CG      SCAT     NEGN     ENHC       5   Red
+Haste:                   2HI      SCAT     MMAG     SMAG       5   Sea Blue
+Camouflage:              2DG      SCAT     PROT     ENHC       7   Forest Camo
+Carapace:                2AG      SCAT     BODY     ENHC       8   Brown
+Strength II:             2AI      SCAT     BODY     SMAG       8   Rose
+Invigoration II:         2AC      SCAT     BODY     NEGN       9   Pink
+Mind link:               2EG      SCAT     MIND     ENHC       9   Azure
+Repel Plants:            2CH      SCAT     NEGN     MMAG      10   Mossy Green
+BD III:                  3AF      VCAT     BODY     HARM      10
+Cure Poison:             2BI      SCAT     HLTH     SMAG      11   Purple
+Agility II:              2GI      SCAT     ENHC     SMAG      11   Khaki
+Flight:                  3AG      VCAT     BODY     ENHC      11   Cerulean
+Cure Disease:            2BD      SCAT     HLTH     PROT      12   Pale Blue
+Cure Disease:            2BJ      SCAT     HLTH     VMAG      12   Pale Blue
+Spell Shield:            2DI      SCAT     PROT     SMAG      13   Silvery Blue
+Invisibility:            3DG      VCAT     PROT     ENHC      14   White
+Globe of Protection I:   3AD      VCAT     BODY     PROT      15   Violet
+Strength III:            3BI      VCAT     BODY     SMAG      16   Rose
+Agility III:             3GI      VCAT     ENHC     SMAG      16   Khaki
+Repel Plants & Webs:     3CH      VCAT     NEGN     MMAG      18   Forest Green
+Sorcerous Summons I:     3DJ      VCAT     PROT     VMAG      20   Yellow
+Mist Form:               3FJ      VCAT     HARM     VMAG      20   Gray
+Disjunct (no formula):                                        21   Ruby Red
+Phantom Form (no formula):                                    34   Prismtc Gray
+Age Reduction (no formula):
+Weight Reduction (no formula):
+Vial:2 sips  Flask:5 sips  Flagon:6 sips  Bottle:10 sips  Ewer:x sips

@@ -1,0 +1,131 @@
+ ** Taliesin has just entered the Realms.
+> MEMORY ERROR (PLEASE REPORT ERROR CODE #1)
+Error reading items (B)
+
+Interactive Entertainment System/2 Release 0.91b [Legends of Future Past]
+(c)1991-1995 NovaLink USA Corporation. Revision dated Oct 23 1996.
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+                      Welcome to the System/2 Beta-Test
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+This is where I will attempt to keep a list of known bugs.
+I will try to update it every couple of days but ask your patience and hope
+you will bear with me for a bit.
+
+Code Errors
+---- ------
+
+1) You cannot retreat from combat. This one is false. CAN retreat just use
+   4 letters. I will set it back to 3 when I get a chance.
+2) Ephemerals cannot phase insubstantial after making an action that renders
+   them physical.
+3) The arena death is not yet working.
+4) The word wrapping for room descriptions and such is a little flaky for some
+   reason. I am tired of seeing it so I will try to fix it soon.
+5) Exp required for next level increases as you hunt , ie I needed 100k to
+   level when I came in and now need 125k. And you thought progress was slow
+now
+   *cackle*
+6) Double check your haste spells. Ive had reports of it fizzling on a
+successful
+    cast.
+7) Status prompt reflects seemingly random prompts, very flaky.
+8) Problem recognizing spells being inactive upon purchase of cyberware.
+9) Double check RT in PG, it seems too short.
+10) The "set echo off" command is not working.
+11) Need to double check all the bonus granted by cyberware.
+12) I forgot to remove some debug messages from the drop and get commands when
+    money is involved.
+13) Evade does not work on pole arms.
+14) Method of calculating weights may be off. Have to double check.
+    Possibly this will mean we must make Garin go on a diet.
+15) Check the terrible tentacles spell to make sure its working right.
+16) Double check RT for picking up kentaurs.
+17) Look at cast chance calculation again. May be flaky.
+
+Script Errors
+------ ------
+
+1) Much work needs to be done about converting the game to kentaurs.  When
+   ready for retesting, we'll mention it.  This includes places where you were
+   required to put coins.
+2) Mandrake price is off and some undescribed bug that states, "alchemist shop
+is messed up"
+3) No manipulateable gates at the palace gates room.
+  ** These are simply not finished **
+4) Token machine takes coins as well as tokens.
+5) Echos for entrance to Cybertech are echoed to everyone inside the room as
+    well.
+6) Scriveners items are all unavailable.
+7) Hero`s Rest has no exit.
+8) Ebby is giving free rides and is too quick.
+9) Path on Hero`s Hill that you cant walk on.
+10) Ephies cant dump containers.
+11) Door to Randolphs seems to be broken.
+12) There are apparently avalances blocking the path to grym in the autumn.
+    Double check the weather scripts to make sure the right ones are
+    loaded.
+13) Titanium door to the Tech Guild is open from outside and closed from
+    inside.
+14) Some of the more obscure money types are undefined.
+15) Various items missing from many places such as plaques and gates that
+    you cant read or open etc etc.
+16) From someplace on Park Ave, there is a secret entrance to Heros Rest Upper
+    Hall if you GO PATH. Err?
+17) There is also an invisible stairway someplace at Hero`s Rest.
+18) No room below the path at the wastes or over Grymwood burned area and
+    various other places.
+
+Errors without Clear Causes
+------ ------- ----- ------
+
+1) Cant sell items back to shopkeepers.
+
+Errors We Want Rechecked
+------ -- ---- ---------
+
+1) Cannot go thru arch at palace entrance. ** Wasn't broken, but adjusted
+anyhow. **
+2) Shemri`s temple gives out a welcome message regardless of weather you
+   entered or not.
+  ** Fixed **
+3) Kvantars are too slow. Lets double check this one. ** Checked and adjusted
+**
+4) Gatehouse has no exit. ** I cannot find this problem **
+5) Some people seem to not log back into the game at the same point they left.
+    Please report if this is true for you.
+6) Lawkeepers act as if they are on crank. ** Fixed **
+7) Exit from town thru the gateway is missing. ** When checked, it works fine.
+**
+8) In South Tower, it says you are in the North Tower and there is no exit
+    from the room. ** The typo was fixed. Lack of exit not locatable. **
+9) Training areas need to be reworked so that people can enroll in guilds.
+  ** Not all training areas are guild enrolling spots.  Recheck and specify **
+  ** If you re-report. **
+10) Various concerns about the amount of loot critters give. Lets double
+    check that one but I need a specific critter to check.
+11) Going S from BC takes you to B SE.
+12) There are 2 rooms to go out of the gate and 1 to enter, at city
+    entrance. ** FIXED **
+
+Things That Aren't Bugs
+------ ---- ------ ----
+
+38) After drinking and laying down in cantina, you are thrown out as if you
+    fell asleep.
+
+Finally we have my personal all time favorite to date (its still early
+though)
+
+*********************************************
+Memory Error Code #1 Memory Error at startup
+*********************************************
+
+I have an especially evil glint in my eye for the one who found this.
+You know who you are. ;)
+
+Madman C.
+
+[Saloon]

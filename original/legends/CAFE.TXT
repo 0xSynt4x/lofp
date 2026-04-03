@@ -1,0 +1,119 @@
+
+Anyway, we are currently working on getting the Cafe/Hotel area finished.
+After that is done, we can start working on ways of traveling to the other
+existing pocket-universes.
+
+Below is a map of what is so-far the Virtual Cafe. For sake of time, I
+didn't "map" the hallways outside of each of the hotel rooms on the floors
+above the lobby. The map simply shows the hotel rooms themselves. It should
+be understood that these are the hallways containing the hotel rooms that
+are displayed on the map.
+
+
+  The Hotel Rooms and Floors
+
+  +---+ +---+ +---+ +---+
+  |504| |404| |304| |204|
+  +---+ +---+ +---+ +---+
+    |     |     |     |            The rest of the Virtual Cafe
+  +---+ +---+ +---+ +---+              +---+ +---+ +---+
+  |503| |403| |303| |203|              |FOY| |LOU| |WOM|
+  +---+ +---+ +---+ +---+              +---+ +---+ +---+
+    |     |     |     |                  |     |     |
+  +---+ +---+ +---+ +---+        +---+ +---+ +---+ +---+ +---+
+  |EL5| |EL4| |EL3| |EL2|        |ARB|-|HOT|-|CAF|-|COR|-|CLO|
+  +---+ +---+ +---+ +---+        +---+ +---+ +---+ +---+ +---+
+    |     |     |     |                  |     |     |
+  +---+ +---+ +---+ +---+        +---+ +---+ +---+ +---+
+  |502| |402| |302| |202|        |101|-|HW1| |CLC| |MEN|
+  +---+ +---+ +---+ +---+        +---+ +---+ +---+ +---+
+    |     |     |     |                  |
+  +---+ +---+ +---+ +---+        +---+ +---+
+  |501| |401| |301| |201|        |102|-|HW2|
+  +---+ +---+ +---+ +---+        +---+ +---+
+                                         |
+                                 +---+ +---+
+                                 |103|-|HW3|
+                                 +---+ +---+
+                                         |
+                                 +---+ +---+
+                                 |104|-|HW4|
+                                 +---+ +---+
+
+
+100 Start Room (not shown)
+101 Cafe (CAF)
+102 Corridor (COR)
+103 Women's Room (WOM)
+104 Left Stall (not shown)
+105 Center Stall (not shown)
+106 Right Stall (not shown)
+107 Men's Room (MEN)
+108 Left Stall (not shown)
+109 Center Stall (not shown)
+110 Right Stall (not shown)
+111 Broom Closet (CLO)
+112 Cozy Little Corner (CLN)
+113 Lounge (LOU)
+114 Hotel (HOT)
+115 Foyer (FOY)
+116 elevator (not shown)
+117 Hallway 1 (HW1)
+118 Hallway 2 (HW2)
+119 Hallway 3 (HW3)
+120 Hallway 4 (HW4)
+121 Room 101 (101)
+122 Room 102 (102)
+123 Room 103 (103)
+124 Room 104 (104)
+125 Outside Elevator on 2nd floor (EL2)
+126 Hallway outside of room 201 (not shown)
+127 Hallway outside of room 202 (not shown)
+128 Hallway outside of room 203 (not shown)
+129 Hallway outside of room 204 (not shown)
+130 Room 201 (201)
+131 Room 202 (202)
+132 Room 203 (203)
+133 Room 204 (204)
+134 Outside Elevator on 3rd floor (EL3)
+135 Hallway outside of room 301 (not shown)
+136 Hallway outside of room 302 (not shown)
+137 Hallway outside of room 303 (not shown)
+138 Hallway outside of room 304 (not shown)
+139 Room 301 (301)
+140 Room 302 (302)
+141 Room 303 (303)
+142 Room 304 (304)
+143 Outside Elevator on 4th floor (EL4)
+144 Hallway outside of room 401 (not shown)
+145 Hallway outside of room 402 (not shown)
+146 Hallway outside of room 403 (not shown)
+147 Hallway outside of room 404 (not shown)
+148 Room 401 (401)
+149 Room 402 (402)
+150 Room 403 (403)
+151 Room 404 (404)
+152 Outside Elevator on 5th floor (EL5)
+153 Hallway outside of room 501 (not shown)
+154 Hallway outside of room 502 (not shown)
+155 Hallway outside of room 503 (not shown)
+156 Hallway outside of room 504 (not shown)
+157 Room 501 (501)
+158 Room 502 (502)
+159 Room 503 (503)
+160 Room 504 (504)
+
+The 16 hotel rooms on the floors above the Lobby are going to be basic,
+generic hotel rooms. The four hotel rooms down the hall from the Lobby are
+going to be THEME hotel rooms. Danna is currently working on the Generic
+hotel rooms. I'm currently working on some of the main rooms, such as the
+Cozy Little Corner and the Elevator subroutines for the hotel. 
+Basically, I want all of the rooms listed above to be completed first,
+before anything else is worked on. When that has been accomplished, I will
+cut the new Cafe over to the Main Cafe, and that is what we'll be using.
+Only rooms that have been assigned numbers in the list above are the ones
+we'll be working on for now. If any of you want to volunteer for anything
+specific out of these rooms, let me know. Otherwise, I'll just assign a
+group of rooms to each of you.
+
+-- Mark

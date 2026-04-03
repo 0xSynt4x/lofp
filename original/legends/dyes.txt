@@ -1,0 +1,105 @@
+Dyes and Their Sources
+Original list by Delight d'Marcan
+Augmented by Taliesin Pendragon and Sashi Greensleeves
+
+KEY
+ S = skinned              A = Autumn
+ F = Foraged              W = Winter
+SE = search              Sp = Spring
+                         Su = Summer
+VI = Volcanic Isle
+
+*      denotes a rare item, price accordingly
+&      denotes an item skinned from a non-aggressive creature
+$      denotes an item that has use as a healing herb
+         (may be more expensive due to this)
+
+****************************************************************************
+  Color                          Dye Item (season)       Source
+      Season      Miscellaneous
+****************************************************************************
+  Red                            dye                     dye store
+  Crimson                        beetle saliva           S fire beetles (nearly extinct)
+  Vermillion (bright red)        fire berries (A)        F mountains
+  Ruby Red                       rubies
+  Blood Red                      red blossoms (Sp Su)    F
+  Scarlet Red                    white/red blossom       F
+* Glossy Red                     jupaaskri antenna       S jupaaskri
+------------------------------------------------------------------------
+  Pink                           straw flowers
+  Pale Pink                      coral
+$ Pink Polka-dotted              fresh sori
+  Hot Pink                       freshwater crustaceans
+  Rose                           roseate eggshells       VI SE
+  Dusty Rose                     hemp vines
+------------------------------------------------------------------------
+  Green                          green dye               dye store Druinor
+  Forest Green                   wart stems
+  Mossy Green                    moss, cybernetic leaves
+  Sparkling Green                dragonslayer bromeliad
+  Dark Green                     tricana seedlings       VI SE
+  Emerald Green                  emeralds
+  Chartreuse (brill. lime-green) onoki glowworms         VI SE
+  Syrupy Green                   sugar cane, sweet cane
+  Olive Green                    yulman leaves
+$ Forest Camoflague              cocooned larva          VI SE
+------------------------------------------------------------------------
+  Blue                           blue dye                dye store, Druinor
+  Teal                           chelmite                VI
+  Cobalt Blue                    glowing fungus
+  Cerulean (sky blue)            honey blossoms
+  Midnight Blue                  yew root
+  Pale Blue                      pale azurine orchids    VI SE
+  Cobalt                         sufa flowers            VI SE
+  Azure                          harby hair              S, harpy
+  Silvery Blue                   yarrow sprigs
+  Sea Blue                       abalone shells
+* Faded Blue                     kraken roe              VI S, kraken
+  Soft Aquamarine                rattlesnake weeds
+------------------------------------------------------------------------
+  Yellow                         yellow dye              dye store, Druinor
+* Champagne Gold                 golden flowers
+* Golden                         yellow blossoms
+------------------------------------------------------------------------
+  Orange                         orange dye              dye store, Druinor
+  Saffron                        saffron                 stalls, BSW
+------------------------------------------------------------------------
+  Brown                          brown dye               dye store, Druinor
+  Deep Brown                     mirmach bark
+  Khaki                          shay-ahm seeds
+  Khaki                          manango pits            VI SE
+$ Mahogany                       riyong mushrooms        VI SE
+  Dirty Brown                    acorns
+& Light Brown                    turkey feathers         VI S, turkey
+  Beige                          light mud
+  Sepia       (medium brown)     tick legs               VI S, tick
+  Russet     (red-brown)         golden fruit            F poisonous
+  mottled dun                    vith scale              S, vith
+------------------------------------------------------------------------
+  Black                          black dye               dye store, Druinor
+  Inky Black                     sharkhor spleens        S, sharkhor
+& Ebony                          lizard scales           S, kuari lizard
+  Sooty Black                    smoky dust              VI F
+------------------------------------------------------------------------
+  Purple                         purple dye              dye store, Druinor
+  Imperial Purple                si-kri snails           stall, BSW
+$ Lavender                       maufra lichen           VI SE
+  Mauve                          gooey sap               VI SE
+  Magenta                        pungent purple berries, any berries
+* Deep Magenta                   eel oil                 S, eel, (now extinct)
+  Violet                         violets                 stall, Park Ave
+  Bright Purple                  raw sarsparilla
+  Psychedelic purple             wrinkled mushrooms
+------------------------------------------------------------------------
+  White                          bleaching liquid        dye store, Druinor
+  Snow-white                     muur crystals           Alchemist Shop
+* bone white                     dripping twig           special item
+* wildflower pollen              luminescent pearl       special item
+------------------------------------------------------------------------
+  Gray
+  Dove Gray                      all paws
+  Prismatic Gray                 ash
+------------------------------------------------------------------------
+  Potent                         early onoki glowworms    VI SE
+* glimmering Rainbow             Glimmerines, any color
+------------------------------------------------------------------------

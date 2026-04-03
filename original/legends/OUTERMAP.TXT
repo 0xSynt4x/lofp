@@ -1,0 +1,133 @@
+            .--------------,     Eltinmar River     B1 = GO BRIDGE to reach
+            |Fayd Exterior |          .--,               Mountain Path (B2)
+            |Page 1 of 2   |          |B1|
+            `--------------'          `--'          FG = Foresters' Guild
+                                       |
+                            .--,      .--,          GM = Gilnaerd Mansion
+             K  = Keep      |K |      |  |
+                            `--'      `--'
+                                \    /
+        B3 = CLIMB BRIDGE        .--, .--,  GO  .--, .--,      .--,   To the
+             to reach west       |  |-|  | PATH |FG|-|  |      |GM|   Waste-
+             bank (B4)           `--' `--'      `--' `--'      `--'   lands-->
+             (requires climb         \                          |
+             skill)                   .--,           .--, .--, .--, .--, .--,
+                                      |  |           |  |-|  |-|  |-|  |-|WT|
+                                      `--'           `--' `--' `--' `--' `--'
+        AF = Abner's Ferry             |              |    |    |
+             - fare: 1 shilling       .--,           .--, .--, .--,
+             - GO GANGPLANK to        |  |           |  |-|  |-|  |
+                 board raft           `--'           `--' `--' `--'
+             - Lands at EF                \              \ |  /
+                                 .--, .--, .--,           .--,      WT = Watch
+                                 |  |-|  |-|  |           |  |           Tower
+                                 `--' `--' `--'           `--'
+                                /              \           |
+                  .--, .--, .--,                .--, .--, .--,
+                  |  |-|  |-|  |                |CG|-|  |-|  |
+      E           `--' `--' `--'   Herein lies  `--' `--' `--'
+      l          /           |      the City     |
+      t .--, .--,           .--,     of Fayd    .--,
+      i |B3|-|  |           |  |                |  |
+      n `--' `--'           `--'                `--'
+      m     /                   \              /
+      a .--,      .--,           .--, .--, .--,
+      r |AF|      |WG|           |  |-|  |-|  |     CG = Fayd City Gate
+        `--'      `--'           `--' `--' `--'
+      R            |                   C  \
+      i      .--, .--, .--,            L   .--,
+      v      |WP| |  |-|PA|            I   |  |
+      e      `--' `--' `--'          P M   `--'
+      r       |            \         A B    |
+             .--,           .--, .--,T     .--,     S1 = CLIMB STAIR to
+             |  |           |KT| |  |H     |S1|          Heroes' Hill (HH)
+             `--'           `--' `--'      `--'
+                 \              /         /    \
+                  .--,      .--,      .--, .--, .--,
+                  |  |      |  |      |  | |HH| |  |
+                  `--'      `--'      `--' `--' `--'
+                      \    /              \    /
+                       .--,                .--,     HH = Heroes' Hill
+                       |  |                |  |          CLIMB STAIR to S1
+                       `--'                `--'
+                                            |
+                                           .--,
+        WP = Woods, Brackish Pond          |  |     HF = Haunted Farmhouse
+             GO UP to reach WG             `--'
+                                            |
+        WG = Woods, Grove                  .--,  GO  .--,
+             GO DOWN to reach WP           |  | PATH |HF|
+                                           `--'      `--'
+        PA = Pit of the Ancient One         |
+                                           .--, T1 = GO TRAIL to reach
+        KT = Kvantar Tree                  |T1|      the Shore (T2)
+                                           `--'
+
+
+            .--------------,    .--------------,     .--, .--, .--,
+            |Fayd Exterior |    |The Shore of  |     |  |-|T2|-|  |
+            |Page 2 of 2   |    |The Inner Sea |     `--' `--' `--'
+            `--------------'    `--------------'    /              \
+                                      .--, .--, .--,                .--,
+        T2 = GO TRAIL to reach        |  |-|  |-|  |                |  |
+             the Grasslands (T1)      `--' `--' `--'                `--'
+                                     /                                  \
+                                 .--,                 Herein Lies        .--,
+                                 |TW|                The Inner Sea       |  |
+        TW = Tower (Also the     `--'                                    `--'
+             point at which one                                           |
+             reaches land if one                                         .--,
+             should fall while        S2 = CLIMB STAIRS to reach         |S2|
+             climbing the bridge           the cliff top (requires       `--'
+             at B3)                        much climb skill or luck)
+
+      ------------------------------------------------------------------------
+
+             .--,     .--------------,
+             |  |     |Mountain Path |     .--,      TS = The Start of the
+             `--'     `--------------'     |TS|           Teeth of Shartan
+            /    \                         `--'
+        .--,      .--, .--,           CLIMB|  ^
+        |  |      |  |-|  |            DOWN|  |CLIMB
+        `--'      `--' `--'                |  |LADDER
+         |              |         CLIMB    V  |
+        .--,           .--, .--,--WALL---->.--,
+        |  |           |  |-|  |           |  |
+        `--'           `--' `--'<-GO DOWN--`--'
+            \                               |
+             .--, .--,                     .--,
+             |  |-|  |                     |  |          B2 = GO BRIDGE
+             `--' `--'                     `--'               to reach the
+                      \                        \              Grasslands (B1)
+                       .--, .--,                .--, .--,
+                       |  |-|  |                |  |-|T |
+      GR = Start of    `--' `--'                `--' `--'
+           Grymwood        /                             \
+                       .--,          T = Tower            .--,
+                       |  |                               |B2|
+                   GO  `--'                               `--'
+                  PATH |  ^                          Eltinmar River
+                       |  |
+                       V  |  GO
+      .--,CLIMB TRAIL->.--, NORTH
+      |GR|             |  |
+      `--'<--GO WEST---`--'
+
+      ------------------------------------------------------------------------
+
+                 .------------,   E       GE = Grymwood Entrance
+        .--,     |Across River|   l
+        |GE|     `------------'   t
+        `--'                      i       B4 = CLIMB BRIDGE to reach
+         |                        n            east bank (B3)
+        .--,                .--,  m            (requires climb skill)
+        |  |                |B4|  a
+        `--'                `--'  r
+            \                |     R      EF = Ebby's Ferry
+             .--,           .--,   i           - fare: 1 shilling
+             |  | CLIMB PATH|EF|   v           - GO GANGPLANK to board dingy
+             `--'           `--'   e           - Lands at AF
+                                   r
+
+
+

@@ -1,0 +1,48 @@
+Amilor			Jabberwock
+Arcana			Questor
+Crafters		Witchlet
+Crimson Band    Kloak
+Eliditur    	Chyme
+Evils			Amer
+Foresters		n/a
+Lawkeeps		Carnage
+Ordanin			Jabberwock
+Rakes			Mayhem
+Rorin           
+Shemri          Chanatahe
+Masquerade		Sniffles
+Tech Guild  	Morthain
+Teiwaz			Chyme
+Thieves Guild   Bacca
+T'kasta			
+Way             Witchlet
+Wolflings       Chyme
+Yarin			Shadow
+Ysarda			Sniffles
+
+GM Name    - UID/RL Name/PC
+====================================
+Jabberwock - Jabber/Cheryl/Leander
+Witchlet   - Witchlet/Deb/Delight
+Amer       - Amer/Randy/Zorha
+Shadow     - Shadows/Sean/Jayd
+Chyme      - Gypsy/Tammy/Vixen
+Kloak      - Kloak/Brian/Stonebender
+Carnage    - Carnage/Steve/Stefan
+Morthain   - Morthain/Kevin/Snafu
+Chanatahe  - Druid/Gary/Cartin
+! Sniffles   - Sniffles/Cindy/Miria
+! Dragon     - Mayhem/Alex/Gildren
+Monolith   - Monolith/Mike/Dolkun
+! Scortch    - Scortch/Calvin/Vran
+Seti       - Seti/Greg/Tyldak
+           - //Arleez
+Thresher   - Thresher/Mike/Saxon
+! Darcwolf   - Darcwolf/Clint
+Bacca      - Bacca/Jason/Destrar
+!           - Night/Shawn
+Pixel      - Cricket/Laini/Taylor
+           - Lark
+             Neil
+Rain       - Rain/Nathan/Darkthorn
+Questor    - Questor//Chronis?

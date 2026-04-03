@@ -1,0 +1,66 @@
+My friend Sashi (EdH) has taken to standing around BC juggling balls
+and doing other tricks.  I think it would be fun if she had some
+juggling balls which could do the following actions.  Each suggestion 
+has the command, what Sashi would see and what everyone else would
+see.  Thanks! 
+
+Sincerely,
+Taliesin Pendragon
+
+
+> i
+You are carrying:
+    Some brightly colored juggling balls.
+
+
+> open juggling balls  (OPEN BALL)
+    You begin to juggle some brightly colored balls.
+    **Sashi begins to juggle some brightly colored balls.
+
+
+> lean ball
+    You lift one leg high and catch a brightly colored ball
+    underneath.
+    **Sashi lifts one leg high and catches a brightly colored
+      ball underneath.
+
+
+> toast ball
+    You juggle two brightly colored balls in one hand.
+    **Sashi juggles two brightly colored balls in one hand.
+
+
+> eat ball
+    You catch one brightly colored ball on your chin briefly.
+    **Sashi catches one brightly colored ball on her chin
+      briefly.
+
+    ("...on the chin..." is okay if it's not easy to make
+    the adjective 'his/her/your' match the person EATing the
+    juggling balls.)
+
+
+> kick ball
+    You lightly bounce a brightly colored ball off of one foot.
+    **Sashi lightly bounces a brightly colored ball off of
+      one foot.
+
+
+> flip ball
+    You do a standing backflip.
+    **Sashi does a standing backflip.
+
+
+> close ball
+    You throw the brightly colored balls high into the air and catch
+    them behind your back. 
+    **Sashi throws the brightly colored juggling balls high
+      and catches them behind her back.
+
+    ("...behind the back" is okay.)
+
+> punch ball
+    You drop your balls and they hit someone in the head!
+    **Sashi fumbles the balls and one hits you in the head!
+
+

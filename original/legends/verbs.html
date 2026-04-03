@@ -1,0 +1,350 @@
+<html><head><title>@Verbs</title></head>
+<body>
+
+<a name="verbsum">
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+
+<h2>@verb summary</h2>
+
+<table border=0>
+<tr><td>@activate</td><td>Activates a "monster" that you have @GENMON'ed.</td></tr>
+<tr><td>@additem <archnum></td><td>Adds an item into the room you are in.</td></tr>
+<tr><td>@announce <MODE] <MESSAGE></td><td>Announce msg to 1:global 2:mindlink</td></tr>
+<tr><td>@assist?</td><td>Answers/removes an ASSIST, teleports you there</td></tr>
+<tr><td>@close [item name></td><td>Closes an item with no echo.</td></tr>
+<tr><td>@delete [item name></td><td>Deletes an item.</td></tr>
+<tr><td>@echoplr [job #] [text></td><td>Echoes text to a player.</td></tr>
+<tr><td>@editem [item name></td><td>Edit item parameters.</td></tr>
+<tr><td>@edplayer [job #></td><td>Edits players parameters.</td></tr>
+<tr><td>@edn [item record #]</td><td>Edits an item by record number (from @pinv).</td></tr>
+<tr><td>@eds [Job#] [Skill#] [Level#]</td><td>Adds a skill.</td></tr>
+<tr><td>@entry [text]</td><td>Changes your entry echo.</td></tr>
+<tr><td>@examine [#]</td><td>Lets you see what types correspond with a number.</td></tr>
+<tr><td>@exclude [job #] [text]</td><td>Echoes text to everyone in a room EXCEPT job #.</td></tr>
+<tr><td>@exp [job #] [points]</td><td>Grant experience to a player.</td></tr>
+<tr><td>@exit [text]</td><td>Changes your exit echo.</td></tr>
+<tr><td>@find [ARCHNUM]</td><td>Finds all of a particular item that is active.</td></tr>
+<tr><td>@genmon [Monster #]</td><td>Generates a monster in the room with you.</td></tr>
+<tr><td>@get [RECORD #]</td><td>GETs an item that you've found with @FIND.</td></tr>
+<tr><td>@gm</td><td>Puts on your "Host Hat", listing you as a gm.</td></tr>
+<tr><td>@go [Room #]</td><td>Lets you teleport to a room.</td></tr>
+<tr><td>@goplr [Job #]</td><td>Lets you teleport to a player.</td></tr>
+<tr><td>@glossary [word]</td><td>Let's you look up words for their number.</td></tr>
+<tr><td>@grantsp [Job #] [spell]</td><td>Gives a spell to a player.</td></tr>
+<tr><td>@heal [Job #]</td><td>Heals a player.</td></tr>
+<tr><td>@hide</td><td>Removes you from the WHO list.</td></tr>
+<tr><td>@invis</td><td>Makes you invisible.</td></tr>
+<tr><td>@kill [Job #]</td><td>Kills a player.</td></tr>
+<tr><td>@line1 [Job #]</td><td>Changes line 1 of a player's description.</td></tr>
+<tr><td>@line2 [Job #]</td><td>Changes line 2 of a player's description.</td></tr>
+<tr><td>@line3 [Job #]</td><td>Changes line 3 of a player's description.</td></tr>
+<tr><td>@list</td><td>List all the items.</td></tr>
+<tr><td>@lock [item name]</td><td>Locks an item with no echo.</td></tr>
+<tr><td>@look [Record #]</td><td>Let's you look inside of a container.</td></tr>
+<tr><td>@lwho</td><td>Lists everyone including job and room #'s.</td></tr>
+<tr><td>@msg</td><td>Let's you toggle the viewing of Host messages.</td></tr>
+<tr><td>@num [player Name]</td><td>Shows you a player's job number.</td></tr>
+<tr><td>@oldcomp [script name]</td><td>Compiles a script from your home directory.</td></tr>
+<tr><td>@open [item name]</td><td>Like @CLOSE and @LOCK. It opens an item.</td></tr>
+<tr><td>@peek [variable name]</td><td>Allows you to view the value of a variable.</td></tr>
+<tr><td>@pinv [Job #]</td><td>Allows you to view a player's inventory.</td></tr>
+<tr><td>@psi [Job #] [discipline #]</td><td>Gives a psi technique to a player.</td></tr>
+<tr><td>@queue itemnum counter</td><td>Puts something in the monster queue.</td></tr>
+<tr><td>@qstat [player #]</td><td>Show a "quick" version of the players stats.</td></tr>
+<tr><td>@rdata [Room #]</td><td>Shows you room data.</td></tr>
+<tr><td>@register [player #]</td><td>Registers a player for paramutual betting.</td></tr>
+<tr><td>@restore [NPC #]</td><td>Loads a character from an NPC slot. @Save first!</td></tr>
+<tr><td>@rflag</td><td>This is the opposite of @GM.</td></tr>
+<tr><td>@rnd [#]</td><td>Generates a random number based on 1 to #.</td></tr>
+<tr><td>@save [NPC #]</td><td>Saves your persona in an NPC slot.</td></tr>
+<tr><td>@script</td><td>No longer operative.</td></tr>
+<tr><td>@sedate [Monster name]</td><td>This is the opposite of @ACTIVATE.</td></tr>
+<tr><td>@set [variable] [value]</td><td>This allows you to set the value of a variable.</td></tr>
+<tr><td>@snd [text]</td><td>This echos text into the room you are in.</td></tr>
+<tr><td>@spawn [Monster #]</td><td>Gen a monster already activated.</td></tr>
+<tr><td>@speech [Job #] [text]</td><td>This changes the speech pattern of a player.</td></tr>
+<tr><td>@suggest [text]</td><td>Adds a suggestion to the suggestion file.</td></tr>
+<tr><td>@trace</td><td>Debugging tool.</td></tr>
+<tr><td>@unhide</td><td>Puts you back on the WHO list.</td></tr>
+<tr><td>@unlock</td><td>The opposite of @LOCK.</td></tr>
+<tr><td>@unqueue itemnum</td><td>Remove an item from the monster queue.</td></tr>
+<tr><td>@vis</td><td>The opposite of @INVIS. Makes you visible.</td></tr>
+<tr><td>@whisper [Job #] [text]</td><td>Lets you whisper to a person not in the room.</td></tr>
+<tr><td>@who</td><td>Shows all players and monsters and their job #'s.</td></tr>
+<tr><td>@yank [Job #]</td><td>Yanks a player into the room with you.</td></tr>
+<tr><td>@zap [monster name]</td><td>Zaps a monster that is in the room with you.</td></tr>
+</table>
+
+<a name="verbs">
+<A HREF="#top"><IMG BORDER=0 WIDTH=14 HEIGHT=14 SRC="btnup.gif" ALT="*">Back to top</A><BR>
+<HR ALIGN=CENTER WIDTH=80% SIZE=4>
+
+<h2>@verbs</h2>
+
+<h3>@activate</h3>
+
+<p>This command allows you to activate a "monster" that you have @GENMON'ed.</p>
+
+   (See @GENMON, @ZAP and @SEDATE)
+
+<h3>@additem [archnum]</h3>
+
+<p>This command adds an item into the room you are in.</p>
+
+   (See @GLOSSARY)
+
+<h3>@announce [MODE] [MESSAGE]</h3>
+
+<p>This command allows you to announce a message to all players.
+There are 5 different modes. They are 1 (GLOBAL) 
+and 2 (ESP/Mindlink) 
+
+<h3>@answer</h3>
+
+<p>This command allows you to answer an ASSIST by removing the ASSIST from
+the queue and teleporting you to the room of the player who issued the
+ASSIST.</p>
+
+
+<h3>@close [item name]</h3>
+
+<p>This command simply closes an item. It DOES NOT echo that you closed the
+item to anyone else who is in the room.</p>
+
+
+<h3>@compile</h3>
+
+<p>This command USED TO allow you to compile scripts. It no longer works.</p>
+
+   (See @OLDCOMP)
+
+
+<h3>@delete [item name]</h3>
+
+<p>This command allows you to delete an item.</p>
+   
+<h3>@echoplr [job #] [text]</h3>
+
+<p>This command allows you to echo text to a player.</p>
+
+(See @EXCLUDE, @LWHO, @SND, and @WHISPER)
+
+   
+<h3>@editem [item name]</h3>
+
+<p>This command allows you to edit the below parameters on an item.</p>
+
+<table>
+<tr><td>Adjective #1<br>Adjective #2<br>Adjective #3</td>
+    <td>These 3 can take adjective NUMBERS or NAMES</td></tr>
+
+<tr><td>Val1<br>Val2<br>Val3<br>Val4<br>Val5<br>Val6<br></td>
+    <td>These slots are used for various functions, such as room
+destinations for portals, number of sips in a drink, "money" value of an
+item, etc.</td></tr>
+
+<tr><td>Cycles to deletion</td>
+    <td>Ignore this. It isn't implemented.</tr>
+
+<tr><td>Item Location Type</td>
+    <td>Can be 1 (player), 2 (bank), 3 (contained), 4 (room)</td></tr>
+
+<tr><td>Item Location</td>
+    <td>This is paired with Item Location Type. If the type is a player,
+you'd enter the job number here. If bank, then you'd enter the region. If
+contained, then you'd enter the RECORD NUMBER of the item to contain it. And
+if room, then the room number.</td></tr>
+
+<tr><td>Special Description</td>
+    <td>This allows you to add text to an item if someone LOOKS, READS or
+EATS/DRINKS it. Simply precede the text with the followly letters: E, R or T
+(respectively)</td></tr>
+
+<tr><td>Extended name</td>
+    <td>This allows you to add text past the item name.</td></tr>
+
+<tr><td>Seek ID field</td>
+    <td>This is an advanced function and I will explain it later if you
+really want to know what it is for. But for now, skip it. </td>
+
+<tr><td>Archtype</td>
+    <td>This tells the item what it is. It allows you to turn the item into a 
+totally different item while keeping the adjectives, vals and other
+parameters the item has. </td></tr>
+
+<tr><td>Bitfield</td>
+    <td>Not implemented. Ignore.</td></tr>
+</table>
+
+
+<h3>@edplayer [job #]</h3>
+<p>This allows you to edit various parameters on a player, such as name,
+strength, racial attributes, etc.</p>
+
+
+<h3>@edn [item record #]</h3>
+<p>This allows you to edit an item that isn't either in the room you are in
+or in your inventory. It works just like @EDITEM, 'cept that it requires the
+RECORD NUMBER (not ARCHNUM) of the item you wish to edit. </p>
+
+<h3>@entry [text]</h3>
+<p>This allows you to change the text people see when you @GO to a room.
+Typing it by itself clears the entry text. </p>
+
+(See @GO, @GOP, and @EXIT)
+
+<h3>@examine [#]</h3>
+<p>This lets you see what CEVENT, ITEM, MADJECTIVE, ADJECTIVE, NOUN, MONSTER, 
+SPELL and NPC that corresponds with a number. </p>
+                        
+<h3>@exclude [job #] [text]</h3>
+<p>This lets you send text to everyone in a room EXCEPT the person you are
+excluding.</p>
+
+<h3>@exit [text]</h3>
+<p>Works the same as @ENTRY, 'cept that it's for your exiting text. </p>
+
+<h3>@find [ARCHNUM]</h3>
+<p>This lets you find all of a particular item that is active in the game. </p>
+
+(See @GET)
+                        
+<h3>@genmon [Monster #]</h3>
+<p>This lets you generate a monster in the room with you.</p>
+
+(See @ACTIVATE, @SEDATE and @ZAP)
+
+<h3>@get [RECORD #]</h3>
+<p>This allows you to GET an item that you have found with the @FIND command. 
+Be very careful using this command. If you @GET an item that is scripted into 
+a room, it will "break" the room until it is recompiled. </p>
+
+<h3>@gm</h3>
+<p>Puts on your "Host Hat", making you listed as being a Host. </p>
+
+(See @RFLAG)
+                        
+<h3>@go [Room #]</h3>
+<p>Lets you teleport to a room.</p>
+
+<h3>@goplr [Job #]</h3>
+<p>Lets you teleport to a player.</p>
+
+<h3>@glossary [word]</h3>
+<p>Let's you look up items, nouns, adjectives, monsters and spells. </p>
+
+<h3>@heal [Job #]</h3>
+<p>Heals a player.</p>
+
+<h3>@hide</h3>
+<p>Removes you from the WHO list.</p>
+
+<h3>@invis</h3>
+<p>Makes you invisible.</p>
+
+<h3>@kill [Job #]</h3>
+<p>Kills a player.</p>
+
+<h3>@line1 [Job #]</h3><p>Let's you change line 1 of a player's description.</p>
+<h3>@line2 [Job #]</h3><p>Let's you change line 2 of a player's description.</p>
+<h3>@line3 [Job #]</h3><p>Let's you change line 3 of a player's description.</p>
+
+<h3>@lock [item name]</h3>
+<p>Locks an item. Doesn't display an echo to players in the room. </p>
+
+<h3>@look [Record #]</h3>
+<p>Let's you look inside of a container.</p>
+
+<h3>@lwho</h3>
+<p>Lists everyone in the game, including their job and room #'s.</p>
+
+<h3>@msg</h3>
+<p>Let's you toggle on/off the viewing of Host messages. </p>
+
+<h3>@num [player Name]</h3>
+<p>Shows you a player's job number.</p>
+
+<h3>@oldcomp [script name]</h3>
+<p>Let's you compile a script that is in your home directory. All scripts
+must end in .SCR and when you compile them, you leave off the .SCR. So if you 
+want to compile myscript.scr that is in the scripts directory in your home
+directory, you would type "@ old scripts/myscript".</p>
+
+<h3>@open [item name]</h3>
+<p>Like @CLOSE and @LOCK. It opens an item.</p>
+
+<h3>@peek <variable name></h3>
+<p>Allows you to view the value of a variable.</p>
+
+(See @SET)
+
+<h3>@pinv [Job #]</h3>
+<p>Allows you to view a player's inventory.</p>
+
+<h3>@rdata [Room #]</h3>
+<p>Shows you room data.</p>
+
+
+<h3>@restore [NPC #]</h3>
+<p>Loads a character from an NPC slot. This will overwrite your current
+persona, so DO NOT USE THIS COMMAND until you have been assigned an NPC slot 
+to store yourself in. </p>
+
+(See @SAVE)
+
+<h3>@rflag</h3>
+<p>This is the opposite of @GM.</p>
+
+<h3>@rnd [#]</h3>
+<p>Generates a random number based on 1 to #.</p>
+
+<h3>@save [NPC #]</h3>
+<p>Saves your persona in an NPC slot. You must be ASSIGNED an NPC slot. Don't 
+just @SAVE into any slot you want, as you will more than likely be
+overwriting someone else's NPC. </p>
+
+<h3>@sedate [Monster name]</h3>
+<p>This is the opposite of @ACTIVATE.</p>
+
+(See @ACTIVATE, @GENMON, @ZAP)
+                        
+<h3>@set [variable] [value]</h3>
+<p>This allows you to set the value of a variable.</p>
+
+(See @PEEK)
+                        
+<h3>@snd [text]</h3>
+<p>This echos text into the room you are in.</p>
+
+<h3>@speech [Job #] [text]</h3>
+<p>This changes the speech pattern of a player.</p>
+
+<h3>@suggest [text]</h3>
+<p>Adds a suggestion to the suggestion file.</p>
+
+<h3>@unhide</h3>
+<p>Puts you back on the WHO list.</p>
+
+<h3>@unlock</h3>
+<p>The opposite of @LOCK.</p>
+
+(See @OPEN, @CLOSE, @LOCK)
+
+<h3>@vis</h3>
+<p>The opposite of @INVIS. Makes you visible.</p>
+
+(See @INVIS)
+                        
+<h3>@whisper [Job #] [text]</h3> 
+<p>Allows you to whisper to a person who is not in the room with you. </p>
+                        
+<h3>@who</h3>
+<p>Shows all players and monsters in the game, with their job #'s. </p>
+
+<h3>@yank [Job #]</h3>
+<p>Yanks a player into the room with you. More polite to use @GOP. </p>
+
+<h3>@zap [monster name]</h3>
+<p>Zaps a monster that is in the room with you.</p>
+
+</body></html>

@@ -1,0 +1,169 @@
+                               Team Tactics
+                           by Taliesin Pendragon
+
+WARNING
+
+ This is a confidential document and neither the document nor the strategies
+ detailed are to be copied, shared or described to anyone outside your
+ temple, church or guild on pain of death or worse. 
+
+INTRODUCTION
+
+ I am the sad survivor of many a battle on and off of Andor. During these
+ skirmishes I have witnessed many acts of heroism, and many mistakes which
+ could have been avoided. With your help, we will develop better strategies
+ for team members to act together, support each other and triumph over our
+ opponents. 
+
+TERMS
+
+ A field leader commands all the teams.
+
+ A team leader directs the actions of a team, and identifies the next in
+ command. If a member disagrees with a team leader he can voice an objection 
+ once, but if the leader doesn't change his mind, the member must follow
+ orders.
+
+ A group leader is the one everyone follows behind, and is not necessarily
+ the commanding team leader. A group leader should announce when the group is
+ about to move, and allow enough time for everyone to be ready. A group
+ leader is often the strongest member, since they must stay visible, but may
+ be the team leader or simply the one who knows the path best. 
+
+COMMANDS
+
+  Commands are only given by a team leader, only obeyed if issued by the
+  team leader.
+  
+  Move ......... Group leader announces "Moving" and proceeds.
+  Pause ........ Group leader stops.
+  Disband ...... Group leader disbands.
+  Guard ........ Defenders guard weaker members.
+  Search ....... Searcher searches the area.
+  All Search ... Everyone searches the area.
+  Attack ....... Begin combat.
+  Cease ........ End combat.
+  Health ....... Everyone checks their health, restores or heals.
+  Reveal ....... Lead mage casts Revelation or Dispel Invis.
+  Hide ......... All but group leader hides or invises.
+  All Hide ..... Everyone, including group leader, hides or goes invisable.
+  At Ease ...... End of combat status.
+  Report ....... Psionist reports team status to field leader.
+  Scout ........ Scouts look ahead and report to team leader.
+  Regroup ...... Return to meeting point.
+  Roll Call .... Every member states their name.
+  Buddy Check .. Every member checks the health and id of their buddy.
+  Silence ...... Nobody speaks or makes a noise.
+  End Silence .. End of Silence.
+  Freeze ....... No motions at all.
+  End Freeze ... End of Freeze.
+
+COMBAT ROLES
+
+ In combat you have people who attack, defend, support and coordinate.
+ Your fighters should defend your weaker team-mates and attack your 
+ opponents. Mages should attack your opponents when they aren't maintaining
+ the health and spells of their team-mates. Psionists should attack your 
+ opponents when not disabling opponents or maintaining secure communications.
+
+ FIGHTERS
+
+  Your primary duties are to guard those who need it, and attack your
+  opponents. You should keep herbs on hand to maintain your health and 
+  overcome poison (rowik berries) and disease (maufra lichen). Also 
+  invaluable are potions or fruit to go invisible, reveal hidden people, 
+  disjunct to dispel bubbles and spells, and earthwave (to knock down mages
+  and fighters).
+
+ MAGES
+
+  Your services are vital to a good team. You must help the defenses of your
+  teammates, disable the opponents and fight as necessary.
+
+ Offense: There are several ways to disable and inhibit fighters. 
+  Mages should use one of many spells to keep the opposing fighters out of
+  action, such as webbing, slowing, stunning, tentacling and earthwave. A psi 
+  can stun, Pain or immobilize a fighter. 
+
+ Defense:
+  Your team's fighters can be supported with defensive spells, strength,
+  haste and invigoration. Missile users can use True Aim and confidence.
+  Mages should keep an eye on the health of their fighters and restore it as
+  necessary. Mages and psionists can disable the opponents of the fighters.
+
+Mages: 
+
+ Offense:
+  Opposing mages should be disabled by being silenced or stunned.
+  
+ Defense:
+  Mages should be defended if needed by the fighters.
+
+Psionists:
+
+ Offense:
+  Opposing psionists should be stunned and/or slowed.
+
+ Defense:
+  Psionists need to be defended by fighters and their health maintained by
+  mages. 
+
+
+Team Tactics
+
+ Every member of a team should know the strengths, weaknesses and abilities
+ of their team-mates. Know how people fight and what they need when fighting.
+ The strongest members should know who needs guarding. Every member should 
+ have a buddy. 
+
+ Once a group is in motion, no member should perform any act which will slow
+ him down without warning the group leader and allowing time for reaction. 
+ Once a group stops, the stronger members should guard the weaker ones if 
+ necessary. A team leader can direct the defenders to hold off unless he 
+ commands, "Guard." 
+
+
+Team Leader
+
+Command: Decision making
+Control: Orders issued
+Communications: Commands issued and reports returned
+Combat:
+Intelligence:
+
+
+SOME GENERAL COMBAT TIPS
+
+ * If a teammate is stunned, hold their hand and drag them out.
+ 
+ * If a teammate is stunned and on their knees, sitting or laying, have them
+   submit (you can submit while stunned) then pick them up (take them) and
+   carry them out.
+
+ * If a teammate is knocked down while flying, have them submit, pick them up
+   then carry them somewhere where you can descend.
+
+ * If you hear the voice of someone you can't see and you recognize the voice,
+   then they are hidden and can be revealed by searching. If you don't
+   recognize the voice, you just know someone is speaking, then they are
+   invisible or in phantom form and must be revealed with Dispel Invisibility 
+   or Revelation. 
+
+ * Try to keep your opponents busy. Knock them down so they have to stand up. 
+   Have a healer heal them while they're down. Dispel their spells. Have a
+   mage Slow them. Try to get them bubbled, webbed, immobilized, snared, 
+   tentacled or stunned.
+
+
+TIPS FOR USING POTIONS
+
+ * Use bottles with different colors so you can select them easily.
+
+ * Use bottle colors that make sense, like red for Disjunct.
+
+ * Engrave the bottle so you know what potion is inside.
+
+ * Example: a red bottle engraved with the writing, "DISJUNCT"
+
+ * Keep all your bottles closed, except possible the one you use the most.
+   Then when you open the bottle, it reveals which potion to drink.

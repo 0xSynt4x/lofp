@@ -1,0 +1,4852 @@
+;HOLODECKS
+;
+;ANCIENT CASTLE (HOLODECK PROGRAM)
+NUMBER 3476
+NAME Ancient Castle
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+ITEM 0 195 ADJ1=312
+ITEM 1 196
+ITEM 2 250
+ITEM 3 194 ADJ1=298
+ITEM 4 91 ADJ1=183 ADJ2=1225 ADJ3=216
+PUT 4 1570 ADJ1=178 ADJ2=838 ADJ3=39 OPEN 
+ITEM 5 86 ADJ1=1283 ADJ2=216
+ITEM 6 1249 ADJ1=25 ADJ2=169
+ITEM 7 358 ADJ1=178 ADJ2=143 OPEN
+PUT 7 237 ADJ1=102 ADJ2=347 VAL2=100
+ITEM 8 420
+PUT 8 50 ADJ1=658 VAL5=9
+PUT 8 45 ADJ1=241 VAL5=9
+
+*DESCRIPTION_START
+Snapping and crackling flames roar in a huge blaze from the massive stone
+fireplace on your right, warming the air in this otherwise damp room. Heraldic
+banners hang from the wooden beamed ceiling on either side of a black iron
+chandelier, light from its dozens of sputtering flames flickering about the
+room. A soft bearskin covers the floor between the log laden hearth and a long
+sturdy oak table, surrounded by high backed wooden chairs. Glinting suits of
+silvery armor and polished swords are displayed between the huge tapestries
+lining the stone walls.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+Huge bricks hewn from gray granite create the hearth for this ancient stone
+fireplace. There is a huge blaze inside it at the moment. Beside a fresh supply
+of logs stacked to one side is a poker in an iron stand.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM IN 0
+Several burning logs blaze inside the stone fireplace.
+*DESCRIPTION_END
+
+IFPREVERB POKE 0
+   CLEARVERB
+   ECHO PLAYER Using the poker, you stoke the blazing fire.
+   ECHO OTHERS %N tends the fire with a poker.
+ENDIF
+
+IFTOUCH 0
+   CLEARVERB
+   ECHO PLAYER You extend your hands out in front of the flames warming your fingers.
+   ECHO OTHERS %N warm %h hands before the fire.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+The oaken logs are very dry and will kindle quickly.
+*DESCRIPTION_END
+
+IFPREVERB GET 1
+   CLEARVERB
+   ECHO PLAYER You pick up a log and add it to the blaze.
+   ECHO OTHERS %N adds another log to the fire.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 2
+Several huge vibrantly woven tapestries depict life in a magical land. There
+are people plowing fields, churning butter and tending their gardens. There is
+a knight on a silver charger prancing toward a small castle nestled in a copse
+of trees. The sky is filled with fire-breathing dragons and a lone wizard in a
+pointed cap surveys the scene from a solitary peak.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+It looks like aperfect place to stretch out in front of the warm fireplace
+with someone special.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 4
+The sturdy oak table stretches almost from one end of the room to the other,
+several high-backed wooden chairs surrounding it. Resting on top of the table
+in front of each chair are large ruby-encrusted bronze goblets, while in the
+center of the table is a large glass decanter filled with dry white wine.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 5
+Each chair has the face of the moon carved into its back. A crimson cushion
+pads each seat.
+*DESCRIPTION_END
+
+IFPREVERB CLIMB 5
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      ECHO PLAYER You climb up on one of the high-backed wooden chairs.
+      ECHO OTHERS %N climbs up on one of the high-backed wooden chairs.
+   ENDIF
+   IFVAR FLAG1 = 1
+      ECHO PLAYER You're already standing in one of the chairs.
+   ENDIF
+   EQUAL FLAG1 1
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 6
+Five iron arms, like spokes on a wheel, stretch out from the center of the
+chandelier, rows of flickering candles ensconced along its surface. Suspended
+high from the ceiling on sturdy chains, it hangs well out of your reach.
+*DESCRIPTION_END
+
+IFPREVERB2 PUT 6
+   CLEARVERB
+   ECHO PLAYER The chandelier is too high to place anything on it. Even if you were to try
+   ECHO PLAYER jumping from the chair, your chances of success are slim at best.
+ENDIF
+
+IFTOUCH 6
+   IFVAR FLAG1 = 0
+      CLEARVERB
+      ECHO PLAYER The chandelier is well out of your reach.
+   ENDIF
+ENDIF
+
+IFPREVERB GET 6
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      IFVAR ROUNDTIME ! 0
+         STRCVT 0 ROUNDTIME
+         ECHO PLAYER [Wait %0 seconds...]
+      ENDIF
+      IFVAR ROUNDTIME = 0
+         EQUAL FLAG1 0
+         EQUAL ROUNDTIME 10
+         ECHO PLAYER You leap from the chair and try to grab the black iron chandelier...
+         ECHO OTHERS %N leaps from the chair and tries to grab the black iron chandelier...
+         PLREVENT 2
+         CONTPLREVENT
+         RANDOM DUMMY1 1 10 0
+         IFVAR DUMMY1 > 5
+            ECHO PLAYER but you miss and land sprawled out on the bearskin with a loud thud.
+            ECHO OTHERS but %s misses and lands sprawled out on the bearskin with a loud thud.
+            POSITION LAY
+         ENDIF
+         IFVAR DUMMY1 < 6
+            ECHO PLAYER You miraculously manage to grab the edge of the chandelier and swing gracefully across the
+room, landing on the other side of the table.
+            ECHO OTHERS %N miraculously manages to grab the edge of the chandelier and swings gracefully across the
+room, landing on the other side of the table.
+         ENDIF
+      ENDIF
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 7
+The glass decanter contains some dry white wine. Why not fill a goblet and
+have a refreshing sip?
+*DESCRIPTION_END
+
+IFPREVERB CLOSE 7
+   CLEARVERB
+   ECHO PLAYER The top to the decanter appears to be missing.
+ENDIF
+
+IFPREVERB LOOK -1
+   IFVAR ARCHNUM = 50
+      IFVAR ITEMVAL5 = 9
+         CLEARVERB
+         ECHO PLAYER You can almost imagine the valiant knights that wore this very armor, riding
+         ECHO PLAYER off to battle astride their white steads, a reflection of the flickering flames
+         ECHO PLAYER from the hearth causing a momentary illusion of a blazing battle scene.
+      ENDIF
+   ENDIF
+   IFVAR ARCHNUM = 45
+      IFVAR ITEMVAL5 = 9
+         CLEARVERB
+         ECHO PLAYER The large polished swords hang from the wall in pairs, their blades crossed
+         ECHO PLAYER together. Though they are mostly for decoration, you are certain that they have
+         ECHO PLAYER been kept razor-sharp.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB TOUCH -1
+   IFVAR ARCHNUM = 50
+      IFVAR ITEMVAL5 = 9
+         CLEARVERB
+         ECHO PLAYER You decide it would be best not to disturb the armor.
+      ENDIF
+   ENDIF
+   IFVAR ARCHNUM = 45
+      IFVAR ITEMVAL5 = 9
+         ECHO PLAYER You decide it would be best not to touch the swords.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB GET -1
+   IFVAR ARCHNUM = 1570
+      IFVAR ITEMVAL5 ! 9
+         CLEARVERB
+         NEWITEM -1 1570 ADJ1=178 ADJ2=838 ADJ3=39 VAL5=9 OPEN 
+         ECHO PLAYER You remove a goblet from the table.
+         ECHO OTHERS %N removes a goblet from the table.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB DRINK -1
+   IFVAR ARCHNUM = 237
+      IFVAR ITEMVAL2 = 100
+         CLEARVERB
+         ECHO PLAYER Drinking from the decanter? Why not from a goblet instead?
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You take a seat on one of the chairs.
+      ECHO OTHERS %N takes a seat on one of the chairs.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF     
+   IFVAR POSITION = 2
+      ECHO PLAYER You get up from the bearskin and sit in a chair.
+      ECHO OTHERS %N gets up from the bearskin and sits in a chair.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You take a seat on one of the chairs.
+      ECHO OTHERS %N takes a seat on one of the chairs.
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You lay down on the bearskin, stretching out comfortably in the soft fur.
+      ECHO OTHERS %N lays down and stretches out on the bearskin.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You move from the chair to lay on the bearskin.
+      ECHO OTHERS %N get up from the chair and lays on the bearskin.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying down.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You lay down on the bearsking, stretching out comfortably in the soft fur.
+      ECHO OTHERS %N lays down and stretches ou on the bearskin.
+   ENDIF
+   POSITION LAY
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You hear the crackle and roar of the fire.
+      ECHO PLAYER %N listens.
+   ENDIF
+ENDIF
+
+IFPREVERB SNIFF -1
+   CLEARVERB
+   ECHO PLAYER You inhale the smokey castle air, tinged with the scent of the warming wine
+   ECHO PLAYER in the decanter.
+   ECHO OTHERS %N sniffs.
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3476
+   CALL 38
+ENDIF
+;
+;
+;BACKSEAT (Holodeck Program)
+NUMBER 3477
+NAME Backseat
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+ITEM 0 1802
+ITEM 1 249
+
+IFVAR POSITION = 0
+   POSITION LAY
+ENDIF
+
+*DESCRIPTION_START
+The lights in the distance twinkle in the darkness as you gaze down upon the
+slumbering city far below your position in the leather backseat of this 1965
+Mustang. Looking out the front windshield you can see the stars reflecting in
+the candy apple red finish of the hood. The sounds of rock and roll emanate
+from the eight track tape player in the dashboard, muffling the sounds of
+various couplings from other cars parked nearby.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+Upholstered in burgundy leather, you are surprised at its smooth softness.
+*DESCRIPTION_END
+
+IFPREVERB LEAN 0
+   CLEARVERB
+   IFVAR POSITION = 1
+      ECHO PLAYER You lean back in the seat.
+      ECHO OTHERS %N leans back in the seat.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You roll on your side and prop your head up on your elbow.
+      ECHO OTHERS %N rolls on %h side and props %h head up on %h elbow.
+   ENDIF
+ENDIF
+
+IFPREVERB ROLL 0
+   IFVAR POSITION = 2
+      CLEARVERB
+      IFVAR FLAG1 = 1
+         ECHO PLAYER You roll over on your back.
+         ECHO OTHERS %N rolls over on %h back.
+         EQUAL FLAG2 0
+      ENDIF
+      IFVAR FLAG1 = 0
+         ECHO PLAYER You roll over on your stomach.
+         ECHO OTHERS %N rolls over on %h stomach.
+         EQUAL FLAG2 1
+      ENDIF
+      EQUAL FLAG1 FLAG2
+      EQUAL FLAG2 0
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+You can barely make out the vague shapes of other cars through the darkness
+of night. A few of them seem to be rocking back-and-forth.
+*DESCRIPTION_END
+
+IFPREVERB ROLL 1
+   CLEARVERB
+   IFVAR ITEMVAL1 = 0
+      ECHO PLAYER You roll down the window.
+      ECHO OTHERS %N rolls down the window.
+      EQUAL ITEMVAL2 1
+   ENDIF
+   IFVAR ITEMVAL1 = 1
+      ECHO PLAYER You roll up the window.
+      ECHO OTHERS %N rolls up the window.
+      EQUAL ITEMVAL2 0
+   ENDIF
+   EQUAL ITEMVAL1 ITEMVAL2
+   EQUAL ITEMVAL2 0
+ENDIF
+
+IFPREVERB TOUCH 1
+   CLEARVERB
+   RANDOM DUMMY1 1 3 0
+   IFVAR DUMMY1 = 1
+      ECHO PLAYER You draw an obscene picture on the steamed-up window.
+      ECHO OTHERS %N draws an obscene picture on the steamed-up window.
+   ENDIF
+   IFVAR DUMMY1 = 2
+      ECHO PLAYER You draw a cute smily face on the steamed-up window.
+      ECHO OTHERS %N draws a cute smily face on the steamed-up window.
+   ENDIF
+   IFVAR DUMMY1 = 3
+      ECHO PLAYER You scribble the words "%N was here" on the steamed-up window.
+      ECHO OTHERS %N scribbles the words "%N was here" on the steamed-up window.
+   ENDIF
+ENDIF
+
+IFPREVERB LICK 1
+   CLEARVERB
+   ECHO PLAYER You lick at the moisture that has collected on the windows.
+   ECHO OTHERS %N licks at the moisture that has collected on the windows.
+ENDIF
+
+IFVERB LICK -1
+   RANDOM DUMMY1 1 5 0
+   IFVAR DUMMY1 = 2
+      PLREVENT 2
+      CONTPLREVENT
+      ECHO ALL The windows steam up a bit.
+   ENDIF
+ENDIF
+
+IFVERB KISS -1
+   RANDOM DUMMY1 1 5 0
+   IFVAR DUMMY1 = 2
+      PLREVENT 2
+      CONTPLREVENT
+      ECHO ALL The windows steam up a bit.
+   ENDIF
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 1
+      ECHO PLAYER You lay down on the seat.
+      ECHO OTHERS %N lays down beside you.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying down.
+   ENDIF
+   POSITION LAY
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up in the seat.
+      ECHO OTHERS %N sits up in the seat.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You are already sitting.
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFPREVERB KNEEL -1
+   CLEARVERB
+   ECHO PLAYER There's not enough room to kneel here.
+ENDIF
+
+IFPREVERB STAND -1
+   CLEARVERB
+   ECHO PLAYER You attempt to stand up, and bump your head on the roof of the car.
+   ECHO OTHERS %N attempts to stand up, and bumps %h head on the roof of the car.
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You hear your favorite songs of the early seventies and your thoughts turn
+      ECHO PLAYER to pleasant memories of the past.
+      ECHO OTHERS %N listens closely to the music for a moment.
+   ENDIF
+ENDIF
+
+IFPREVERB GAZE -1
+   CLEARVERB
+   IFVAR ARCHNUM = -1
+      ECHO PLAYER You gaze out through the windshield at the nightscap beyond.
+      ECHO OTHERS %N gazes through the windshield.
+   ENDIF
+ENDIF
+
+IFPREVERB SMELL -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You sniff and smell the genuine leather upholstery.
+      ECHO OTHERS %N sniffs.
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3477
+   CALL 38
+ENDIF
+;
+;
+;BARN LOFT (Holodeck Program)
+NUMBER 3478
+NAME Barn loft
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+*DESCRIPTION_START
+The crowing of a rooster momentarily breaks the silence of this already warm
+summer morning. A gentle neighing and a low moo in the distance respond to the
+piercing greeting as golden sunlight begins to seep through the cracks in this
+wooden barn. Fresh hay, its newly harvested scent still sweet in the air, is
+mounded everywhere in deep piles as well as strewn about to cover the earthen
+floor. Leather harnesses and reins hang forgotten on metal hooks pounded into
+the sturdy wooden beams bearing the weight of the high peaked roof.
+*DESCRIPTION_END
+
+ITEM 0 1121 
+ITEM 1 1122 ADJ1=222 ADJ2=272
+ITEM 2 1842 ADJ1=415 ADJ2=180
+
+*DESCRIPTION_START ITEM EXAM 0
+The hay forms a comfortable bed with its sweetness and softness lulling you.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+You see a rusty old metal hook pounded into the sturdy wooden beams, a worn
+leather harness hanging from it.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+The harness is old and worn. You trust that it hasn't been used in ages.
+*DESCRIPTION_END
+
+IFPREVERB GET 2
+   ECHO PLAYER You really have no use for that, since there aren't any horses around at the
+   ECHO PLAYER moment. You decide to leave it where it is.
+   ECHO OTHERS %n contemplates taking the harness, but changes %h mind.
+   CLEARVERB
+ENDIF
+
+IFPREVERB PULL 2
+   ECHO PLAYER With a sly grin you show the harness to your friend.
+   ECHO OTHERS %n shows you the harness with a sly grin on %h face.
+   CLEARVERB
+ENDIF 
+   
+IFPREVERB PULL 1
+   ECHO PLAYER You discover the hook is sturdy enough to support your weight.
+   ECHO OTHERS %n grabs on to the hook and hangs from it.
+   CLEARVERB
+ENDIF
+
+IFPREVERB PUSH 0
+   ECHO PLAYER You push some hay around to form a soft pile.
+   ECHO OTHERS %n pushes some hay around until %s forms a soft pile.
+   CLEARVERB  
+ENDIF 
+
+IFPREVERB LICK 0
+   ECHO PLAYER You decide to taste some hay. Now wasn't that silly?
+   ECHO OTHERS %n puts some hay in %h mouth and tastes it. %H expression is priceless.      
+   CLEARVERB 
+ENDIF  
+
+IFPREVERB LEAN 0
+   ECHO PLAYER You bury yourself within the pile of hay!
+   ECHO OTHERS You notice %n trying to hide %iself in the hay.
+   CLEARVERB
+ENDIF 
+ 
+IFPREVERB KICK 0
+   ECHO PLAYER You scatter the hay!
+   ECHO OTHERS %n kicks the hay and scatters it everywhere! 
+   CLEARVERB
+ENDIF  
+
+IFPREVERB GET 0
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER You take some hay and throw it at your friend!
+      ECHO OTHERS %n throws some hay at you!
+   ENDIF
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER You toss some hay up in the air and it comes floating back down, landing in
+      ECHO PLAYER your hair.
+   ENDIF
+   CLEARVERB
+ENDIF  
+
+IFPREVERB EAT 0
+   ECHO PLAYER Do you really want to do that with all the animals around here?
+   ECHO OTHERS %n picks up some hay, looks thoughtful and drops it again.
+   CLEARVERB
+ENDIF
+  
+IFPREVERB LIGHT 0
+   ECHO PLAYER As you light a match, Smokey the Bear comes in and lectures you.
+   ECHO OTHERS As %N lights a match, Smokey the Bear comes in and says to %i, "Only YOU can prevent forest fires."
+   CLEARVERB
+ENDIF       
+
+IFPREVERB PULL 0
+   ECHO PLAYER You pull another bale of hay over.
+   ECHO OTHERS %n pulls over another bale of hay.
+   CLEARVERB
+ENDIF
+
+IFPREVERB SIT -1
+   ECHO PLAYER You sit down on a pile of soft hay.
+   ECHO OTHERS %n has a seat in a pile of hay.
+   CLEARVERB 
+   POSITION SIT
+ENDIF 
+
+IFPREVERB TAP -1
+   ECHO PLAYER You tap your foot on the sturdy wooden floor.
+   ECHO OTHERS %n taps %h foot on the floor causing the animals in the barn to stir.
+   CLEARVERB
+ENDIF  
+
+IFPREVERB SNIFF -1
+   CLEARVERB
+   ECHO PLAYER The sweet smell of hay tickles your nose.
+   ECHO OTHERS %N's nose starts to twitch a little.
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You hear soft rustling sounds around you.
+      ECHO OTHERS %N looks thoughtful.
+   ENDIF
+ENDIF
+
+IFPREVERB RECALL -1
+   ECHO PLAYER You reflect on carefree days with no responsibility.
+   CLEARVERB
+ENDIF
+
+IFPREVERB LAY -1
+   ECHO PLAYER You lie down on the soft hay.
+   ECHO OTHERS %n lies down on the soft hay.
+   CLEARVERB
+   POSITION LAY
+ENDIF
+
+IFPREVERB JUMP -1
+   ECHO PLAYER You jump into a huge pile of hay!  
+   ECHO OTHERS You watch as %n jumps into a big pile of hay!  
+   CLEARVERB
+   POSITION SIT
+ENDIF     
+
+IFPREVERB ROLL 0
+   ECHO PLAYER You decide you can't resist the urge any longer and roll around in the hay!
+   ECHO OTHERS %N rolls around in the hay! You have a strong desire to join %i.
+   CLEARVERB  
+   POSITION LAY
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3478
+   CALL 38
+ENDIF
+;
+;
+;CABIN HIDEAWAY (Holodeck Program)
+NUMBER 3479
+NAME Cabin Hideaway
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+ITEM 0 249
+ITEM 1 343
+ITEM 2 196
+ITEM 3 85 ADJ1=178 ADJ2=32
+ITEM 4 1304 ADJ1=222 ADJ2=728
+ITEM 5 362 ADJ1=138
+ITEM 6 378 ADJ1=165 CLOSED
+ITEM 7 193 ADJ1=367 ADJ2=493
+ITEM 8 1770 ADJ1=493
+
+*DESCRIPTION_START
+The howling wind rattles the shutters outside the frost covered windows of
+this small wooden cabin. A fire blazes merrily inside the stone hearth, staving
+off the bitter cold and filling the air with the scent of burning pine. The
+cozy mountain hideaway shudders with each blast of the raging storm outside. A
+large brass bed piled high with soft plump pillows stands against the far wall,
+creaking softly in the draft. Basking in the warmth of the glowing fire is an
+old tattered sofa and a soft fur rug.
+*DESCRIPTION_END
+
+; FLAG1 = 0 SOFA
+; FLAG1 = 1 RUG
+; FLAG1 = 2 BED
+
+*DESCRIPTION_START ITEM EXAM 0
+A layer of frost covers the clouded, uneven panes of glass on the outside.
+On the inside, a coating of steam further enhances their opacity.
+*DESCRIPTION_END
+
+IFTOUCH 0
+   IFVAR POSITION ! 0
+      CLEARVERB
+      ECHO PLAYER You can't reach the window from here.
+   ENDIF
+ENDIF
+
+IFPREVERB TOUCH 0
+   IFVAR POSITION = 0
+      CLEARVERB
+      ECHO PLAYER You begin drawing silly pictures on the steamed up window with your finger.
+      ECHO OTHERS %N begins drawing silly pictures on the steamed up window with %h finger.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+Not a work of masonary excellence, the bricks of this small hearth are a bit
+haphazard in the way they lay. Here and there, bulges of hardened mortar
+protrude from the grouting. Still it serves it purpose, spewing heat into the
+drafty room.
+*DESCRIPTION_END
+
+IFTOUCH 1
+   IFVAR FLAG1 = 0
+      IFVAR POSITION ! 0
+         CLEARVERB
+         ECHO PLAYER You can't reach the hearth from here.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You can't reach the hearth from here.
+   ENDIF
+ENDIF
+
+IFPREVERB TOUCH 1
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+         CLEARVERB
+         ECHO PLAYER You reach out toward the hearth and warm your hands by the fire.
+         ECHO OTHERS %N reaches out toward the hearth and warms %h hands by the fire.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You reach out toward the hearth and warm your hands by the fire.
+      ECHO OTHERS %N reaches out toward the hearth and warms %h hands by the fire.
+   ENDIF
+ENDIF
+
+IFPREVERB POKE 1
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+         CLEARVERB
+         ECHO PLAYER Using the poker, you carefully move some of the blazing logs, stoking the
+         ECHO PLAYER blazing fire.
+         ECHO OTHERS %N tends the fire with a poker.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER Using the poker, you carefully move some of the blazing logs, stoking the
+      ECHO PLAYER blazing fire.
+      ECHO OTHERS %N tends the fire with a poker.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 2
+The logs are a bit greener than you'd like, smoking and hissing as they burn.
+*DESCRIPTION_END
+
+IFTOUCH 2
+   IFVAR FLAG1 = 0
+      IFVAR POSITION ! 0
+         CLEARVERB
+         ECHO PLAYER You can't reach the logs from here.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You can't reach the logs from here.
+   ENDIF
+ENDIF
+
+IFPREVERB GET 2
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+         CLEARVERB
+         ECHO PLAYER You pick up a log and add it to the little hearth.
+         ECHO OTHERS %N adds another log to the blazing hearth.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You pick up a log and add it to the little hearth.
+      ECHO OTHERS %N adds another log to the blazing hearth.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 3
+Covered by a warm goose down quilt and piles of soft plump pillows, the old
+fashioned feather bed is fluffed. A little too far from the fire, it is never
+the less the warmest place in the room for two.
+*DESCRIPTION_END
+
+IFTOUCH 3
+   IFVAR FLAG1 ! 2
+      IFVAR POSITION ! 0
+         CLEARVERB
+         ECHO PLAYER You can't reach the bed from here.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB GO 3
+   CLEARVERB
+   IFVAR FLAG1 = 2
+      ECHO PLAYER You are already in bed.
+   ENDIF
+   IFVAR FLAG1 ! 2
+      ECHO PLAYER You walk over to the bed and hop in.
+      ECHO OTHERS %N walks over to the bed and hops in.
+      EQUAL FLAG1 2
+      POSITION LAY
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 4
+In another era it was a probably a fine piece of upholstered furniture, fit
+to grace the finest room. However, that was a very long time ago. Relegated in
+its retirement to this rustic abode, it serves well as a comfortable place to
+sit and be close to the fire.
+*DESCRIPTION_END
+
+IFTOUCH 4
+   IFVAR FLAG1 ! 0
+      CLEARVERB
+      ECHO PLAYER You can't reach the sofa from here.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 5
+The fur rug came from the back of a bear. The deep pile is warm and inviting
+from its position so close to the fire.
+*DESCRIPTION_END
+
+IFTOUCH 5
+   IFVAR FLAG1 ! 1
+      IFVAR POSITION ! 0
+         CLEARVERB
+         ECHO PLAYER You can't reach the fur rug from here.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB GO 5
+   CLEARVERB
+   ECHO PLAYER You stroll over to the fur rug and plop down on top of it, relaxing in the
+   ECHO PLAYER warmth of the stone hearth.
+   ECHO OTHERS %N strolls over to the fur rug and plops down on top of it.
+   EQUAL FLAG1 1
+   POSITION LAY
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 6
+A little battered, but still in good working order, the ice box hums away.
+Some how it seems silly to keep things in it when just outside the door is the
+gigantic natural ice box the fire is working so hard to keep at bay.
+*DESCRIPTION_END
+
+IFTOUCH 6
+   IFVAR FLAG1 ! 0
+      IFVAR POSITION ! 0
+         CLEARVERB
+         ECHO PLAYER You can't reach the ice box from here.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB OPEN 6
+   CLEARVERB
+   IFITEM 9
+      ECHO PLAYER You go to get another bottle of beer, but there is already one out. You'll
+      ECHO PLAYER need to pick it up first.
+   ENDIF
+   IFNOITEM 9
+      ECHO PLAYER You open the ice box and set out a bottle of beer.
+      ECHO OTHERS %N opens the ice box and sets out a bottle of beer.
+      NEWITEM 9 158 ADJ1=152 VAL5=9
+      NEWPUT 9 1562 ADJ1=61 VAL2=10
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 7
+The pillow is fluffed and plump, ready for a weary head.
+*DESCRIPTION_END
+
+IFTOUCH 7
+   IFVAR FLAG1 ! 2
+      IFVAR POSITION ! 0
+         CLEARVERB
+         ECHO PLAYER You can't reach the pillow from here.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB GET 7
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+         CLEARVERB
+         IFVAR PLRSINROOM > 1
+            ECHO PLAYER You grab the pillow and start smacking others in the head with it!
+            ECHO OTHERS %N grabs the pillow and starts smacking you in the head with it!
+         ENDIF
+         IFVAR PLRSINROOM = 1
+            ECHO PLAYER As you grab the pillow, you wish there was someone else here to smack with it.
+         ENDIF
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      IFVAR PLRSINROOM > 1
+         ECHO PLAYER You grab the pillow and start smacking others in the head with it!
+         ECHO OTHERS %N grabs the pillow and starts smacking you in the head with it!
+      ENDIF
+      IFVAR PLRSINROOM = 1
+         ECHO PLAYER As you grab the pillow, you wish there was someone else here to smack with it.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB PULL 7
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+         CLEARVERB
+         ECHO PLAYER You begin pulling the stuffing out of the pillow!
+         ECHO OTHERS %N begins wrestling around with the pillow.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You begin pulling the stuffing out of the pillow!
+      ECHO OTHERS %N begins wrestling around with the pillow.
+   ENDIF
+ENDIF
+
+IFPREVERB PUSH 7
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You scrunch up the pillow and wedge it beneath your head.
+      ECHO OTHERS %N scrunches up the pillow and wedges it beneath %h head.
+      POSITION LAY
+   ENDIF
+ENDIF
+   
+*DESCRIPTION_START ITEM EXAM 8
+The quilt is very soft and warm, filled with luxurious down held in by a 
+patchwork of multi-colored soft cotten squares.
+*DESCRIPTION_END
+
+IFTOUCH 8
+   IFVAR FLAG1 ! 2
+      IFVAR POSITION ! 0
+         CLEARVERB
+         ECHO PLAYER You can't reach the quilt from here.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB PULL 8
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+         CLEARVERB
+         ECHO PLAYER You try to pull the quilt off the bed, but it won't budge.
+         ECHO OTHERS %N tries, without success, to pull the quilt off the bed.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You pull the quilt up around you and snuggle into the bed.
+      ECHO OTHERS %N pulls the quilt up around %i and snuggles into the bed.
+      POSITION LAY
+   ENDIF
+ENDIF
+
+IFPREVERB SMELL -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER The room smells old like an attic, a warm friendly mixture of mustiness and
+      ECHO PLAYER mold with a touch of pine smoke from the sputtering fire.
+      ECHO OTHERS %N sniffs.
+   ENDIF
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You listen to the fury of the snow storm banging against the old cabin, its
+      ECHO PLAYER shutters rattling loudly.
+      ECHO OTHERS %N stops to listen to the storm for a minute.
+   ENDIF
+ENDIF
+
+IFPREVERB JUMP -1
+   CLEARVERB
+   ECHO PLAYER You climb on to the bed and begin jumping up and down like a kid for a bit.
+   ECHO PLAYER Then feeling a bit silly, you let yourself drop into its warm softness.
+   ECHO OTHERS %N climbs on to the bed and begins jumping up and down like a kid. After a moment, %s looks a little
+bashfull and then plops down on to the bed.
+   POSITION LAY
+   EQUAL FLAG1 2
+ENDIF
+
+IFPREVERB ROLL -1
+   CLEARVERB
+   IFVAR FLAG2 = 1
+      ECHO PLAYER You roll on to your back.
+      ECHO OTHERS %N rolls on to %h back.
+      EQUAL FLAG3 0
+   ENDIF
+   IFVAR FLAG2 = 0
+      ECHO PLAYER You roll on to your stomach.
+      ECHO OTHERS %N rolls on to %h stomach.
+      EQUAL FLAG3 1
+   ENDIF
+   EQUAL FLAG2 FLAG3
+   EQUAL FLAG3 0
+ENDIF
+
+IFPREVERB STAND -1
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You roll out of bed.
+      ECHO OTHERS %N rolls out of bed.
+      POSITION STAND
+   ENDIF
+   EQUAL FLAG1 0
+   EQUAL FLAG2 0
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already lying down.
+   ENDIF
+   IFVAR POSITION ! 2
+      IFVAR FLAG1 = 1
+         ECHO PLAYER You lay back on the fur rug.
+         ECHO OTHERS %N lays back on the fur rug.
+      ENDIF
+      IFVAR FLAG1 = 2
+         ECHO PLAYER You lay back in bed.
+         ECHO OTHERS %n lays back in bed.
+      ENDIF
+      IFVAR FLAG1 = 0
+         IFVAR POSITION ! 0
+            ECHO PLAYER You lay back on the sofa.
+            ECHO OTHERS %N lays back on the sofa.
+         ENDIF
+         IFVAR POSITION = 0
+            ECHO PLAYER You lay down on the fur rug in front of the hearth.
+            ECHO OTHERS %N lays down on the fur rug in front of the hearth.
+            EQUAL FLAG2 1
+         ENDIF
+      ENDIF
+      POSITION LAY
+   ENDIF
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting down.
+   ENDIF
+   IFVAR POSITION ! 1
+      IFVAR FLAG1 = 1
+         ECHO PLAYER You sit down on the fur rug.
+         ECHO OTHERS %N sits down on the fur rug.
+      ENDIF
+      IFVAR FLAG1 = 2
+         ECHO PLAYER You sit up in bed.
+         ECHO OTHERS %n sits up in bed.
+      ENDIF
+      IFVAR FLAG1 = 0
+         IFVAR POSITION ! 0
+            ECHO PLAYER You sit up on the sofa.
+            ECHO OTHERS %N sit up on the sofa.
+         ENDIF
+         IFVAR POSITION = 0
+            ECHO PLAYER You sit down on the fur rug in front of the hearth.
+            ECHO OTHERS %N sits down on the fur rug in front of the hearth.
+            EQUAL FLAG2 1
+         ENDIF
+      ENDIF
+      POSITION SIT
+      EQUAL FLAG2 0
+   ENDIF
+ENDIF
+  
+IFPREVERB KNEEL -1
+   CLEARVERB
+   IFVAR POSITION = 3
+      ECHO PLAYER You're already kneeling.
+   ENDIF
+   IFVAR POSITION ! 3
+      IFVAR FLAG1 = 1
+         ECHO PLAYER You kneel on the fur rug.
+         ECHO OTHERS %N kneels on the fur rug.
+      ENDIF
+      IFVAR FLAG1 = 2
+         ECHO PLAYER You want to kneel on a bed?
+      ENDIF
+      IFVAR FLAG1 = 0
+         IFVAR POSITION = 0
+            ECHO PLAYER You kneel down on the fur rug in front of the hearth.
+            ECHO OTHERS %N kneels down on the fur rug in front of the hearth.
+            EQUAL FLAG1 1
+         ENDIF
+         IFVAR POSITION ! 0
+            ECHO PLAYER You want to kneel on a sofa?
+         ENDIF
+      ENDIF
+      POSITION KNEEL
+      EQUAL FLAG2 0
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3479
+   CALL 38
+ENDIF
+;
+;
+;FERN GROTTO (Holodeck Program)
+NUMBER 3480
+NAME Fern Grotto
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+ITEM 0 324 ADJ1=56 ADJ2=77 ADJ3=29
+ITEM 1 198 ADJ1=56 ADJ2=77 ADJ3=29 VAL2=100
+ITEM 2 661 ADJ1=152
+ITEM 3 411 ADJ1=297
+ITEM 4 380 ADJ1=294 ADJ2=658
+ITEM 5 367 ADJ1=297 ADJ2=491
+EXTEND 5 laying just beneath the surface of the water
+
+;flag1 = 1 (in pool)
+;flag1 = 0 (not in pool)
+
+*DESCRIPTION_START
+Silvery moonbeams stream in from the open ceiling to play and sparkle upon the
+surface of a crystal clear blue pool. The sound of water trickling down the
+moss covered stone walls echoes through the grotto in a soft cachaphoney. The
+entire area, every nook and cranny, every inch of the soft earth floor, sports
+a profusion of lacey green ferns bending gracefully in the shimmering light.
+Smooth rock steps lead down into the beckoning pool.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+The pool is fed by a tiny hotspring. The water emerges from a small fissure
+above your head and runs no faster than a trickle, cooling as it runs down the
+rock wall. There is very little algae to cloud the water, probably due to the
+appetite of the small fish living here.
+*DESCRIPTION_END
+
+IFPREVERB GAZE 0
+   CLEARVERB
+   ECHO PLAYER You gaze into the pool.
+   ECHO OTHERS %N gazes into the pool.
+   RANDOM DUMMY1 1 20 0
+   IFVAR DUMMY1 = 20
+      PLREVENT 2
+      CONTPLREVENT
+      ECHO PLAYER You reflection in the pool suddenly changes into that of someone you have
+      ECHO PLAYER never seen before in your life.
+   ENDIF
+ENDIF
+
+IFPREVERB GO 0
+   CLEARVERB
+   IFVAR FLAG1 = 1
+      ECHO PLAYER You're already in the pool.
+   ENDIF
+   IFVAR FLAG1 = 0
+      ECHO PLAYER Your body glides effortlessly through the warm water as you carefully step
+      ECHO PLAYER down the rocks into the pool, breaking the glassy surface with gentle ripples.
+      ECHO PLAYER Looking down through the crystal pool you can see small silvery fish nibbling
+      ECHO PLAYER at the air bubbles that cling to your toes. The indentations on the tops of
+      ECHO PLAYER several smooth flat boulders resting just below the surface of the water seem
+      ECHO PLAYER to have been made intentionally as a place to lie and enjoy the traquility of
+      ECHO PLAYER this lush grotto.
+      ECHO OTHERS %N steps down the rocks into the pool.
+      EQUAL FLAG1 1
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+The luke warm water of the pool is filled with miniscule fish. Their silvery
+skin reflects the moonlight, creating the effect of hundreds of tiny shimmering
+rainbows.
+*DESCRIPTION_END
+
+IFPREVERB GAZE 1
+   CLEARVERB
+   ECHO PLAYER You gaze into the pool.
+   ECHO OTHERS %N gazes into the pool.
+   RANDOM DUMMY1 1 20 0
+   IFVAR DUMMY1 = 20
+      PLREVENT 2
+      CONTPLREVENT
+      ECHO PLAYER You reflection in the pool suddenly changes into that of someone you have
+      ECHO PLAYER never seen before in your life.
+   ENDIF
+ENDIF
+
+IFPREVERB GO 1
+   CLEARVERB
+   IFVAR FLAG1 = 1
+      ECHO PLAYER You're already in the pool.
+   ENDIF
+   IFVAR FLAG1 = 0
+      ECHO PLAYER Your body glides effortlessly through the warm water as you carefully step
+      ECHO PLAYER down the rocks into the pool, breaking the glassy surface with gentle ripples.
+      ECHO PLAYER Looking down through the crystal pool you can see small silvery fish nibbling
+      ECHO PLAYER at the air bubbles that cling to your toes. The indentations on the tops of
+      ECHO PLAYER several smooth flat boulders resting just below the surface of the water seem
+      ECHO PLAYER to have been made intentionally as a place to lie and enjoy the traquility of
+      ECHO PLAYER this lush grotto.
+      ECHO OTHERS %N steps down the rocks into the pool.
+      EQUAL FLAG1 1
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 2
+The lacey green ferns grow every which way out of the soft earth. You notice
+their fractal nature as each branch divides into more branches.
+*DESCRIPTION_END
+
+IFTOUCH 2
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You can't reach the ferns from the pool.
+   ENDIF
+ENDIF
+
+IFPREVERB TOUCH 2
+   IFVAR FLAG1 ! 1
+      CLEARVERB
+      ECHO PLAYER You run your fingers through the soft green ferns.
+      ECHO OTHERS %N runs %h fingers through the soft green ferns.
+   ENDIF
+ENDIF
+
+IFPREVERB GO 2
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      ECHO PLAYER You lie down in the ferns.
+      ECHO OTHERS %N lies down in the ferns.
+   ENDIF
+   IFVAR FLAG1 = 1
+      ECHO PLAYER You get out of the pool and lie down in the ferns.
+      ECHO OTHERS %n gets out of the pool and lies down in the ferns.
+      EQUAL FLAG1 0
+   ENDIF
+   POSITION LAY
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 3
+The rocks are smooth, though the evidence is that they were once part of the
+ceiling that gave away and is now open to the sky. They have been worn down by
+the flowing water over the eons.
+*DESCRIPTION_END
+
+IFPREVERB TOUCH 3
+   CLEARVERB
+   ECHO PLAYER You run your fingers across the smooth rocks.
+   ECHO OTHERS %N runs %h fingers across the smooth rocks.
+ENDIF
+
+IFPREVERB KICK 3
+   CLEARVERB
+   ECHO PLAYER You stub your toe on a rock!
+   ECHO OTHERS %N stubs %h toe on a rock!
+ENDIF
+
+IFPREVERB ROLL 3
+   CLEARVERB
+   ECHO PLAYER You rock and roll!
+   ECHO OTHERS %N starts strumming an invisible guitar.
+ENDIF
+
+IFPREVERB GO 3
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      ECHO PLAYER Your body glides effortlessly through the warm water as you carefully step
+      ECHO PLAYER down the rocks into the pool, breaking the glassy surface with gentle ripples.
+      ECHO PLAYER Looking down through the crystal pool you can see small silvery fish nibbling
+      ECHO PLAYER at the air bubbles that cling to your toes. The indentations on the tops of
+      ECHO PLAYER several smooth flat boulders resting just below the surface of the water seem
+      ECHO PLAYER to have been made intentionally as a place to lie and enjoy the traquility of
+      ECHO PLAYER this lush grotto.
+      ECHO OTHERS %N steps down the rocks into the grotto pool.
+      EQUAL FLAG2 1
+   ENDIF
+   IFVAR FLAG1 = 1
+      ECHO PLAYER You climb the rocks out of the grotto pool.
+      ECHO OTHERS %N climbs the rocks out of the grotto pool.
+      EQUAL FLAG2 0
+   ENDIF
+   EQUAL FLAG1 FLAG2
+   EQUAL FLAG2 0
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 4
+The tiny fish swim back and forth in the crystal blue pool, sometimes coming
+up to the smooth rocks for a closer look, but then immediately darting back out
+into the deeper waters.
+*DESCRIPTION_END
+
+IFTOUCH 4
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      ECHO PLAYER The fish are in the water. And you aren't. 
+   ENDIF
+   IFVAR FLAG1 = 1
+      ECHO PLAYER They avoid you.
+   ENDIF
+ENDIF
+
+IFPREVERB2 PUT 4
+   CLEARVERB
+   ECHO PLAYER Interesting concept.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 5
+Lying just beneath the surface of the water, these smooth flat boulders are
+the perfect place to lie and lanquish in the tranquility of this lush grotto.
+*DESCRIPTION_END
+
+IFTOUCH 5
+   IFVAR FLAG1 = 0
+      CLEARVERB
+      ECHO PLAYER The boulders lie just beneath the surface of the water in the grotto pool.
+   ENDIF
+ENDIF
+
+IFPREVERB GO 5
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      IFVAR POSITION = 0
+         ECHO PLAYER You take a seat on one of the boulders that lies just beneath the surface of
+         ECHO PLAYER the water.
+         ECHO OTHERS %N takes a seat on one of the boulders that lies just beneath the surface of the water.
+      ENDIF
+      IFVAR POSITION ! 0
+         ECHO PLAYER You're already on one of the boulders.
+      ENDIF
+      POSITION SIT
+   ENDIF
+ENDIF
+
+IFPREVERB SMELL -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You sniff and catch the scent of jasmine drifting in the still air.
+      ECHO OTHERS %N sniffs.
+   ENDIF
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You focus your attention on the sounds of the dripping water for a moment.
+      ECHO OTHERS %N listens.
+   ENDIF
+ENDIF
+
+IFPREVERB KICK 1
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You push off and swim across the pool.
+      ECHO OTHERS %N pushes off and swims across the pool.
+      POSITION STAND
+   ENDIF
+ENDIF
+
+IFPREVERB SLAP 1
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You paddle out into the middle of the pool.
+      ECHO OTHERS %N paddles out into the center of the pool.
+      POSITION STAND
+   ENDIF
+ENDIF
+
+IFPREVERB JUMP -1
+   IFVAR FLAG1 = 0
+      CLEARVERB
+      ECHO PLAYER You take a running jump into the grotto pool, splashing water everywhere.
+      ECHO OTHERS %N takes a running jump into the grotto pool, spashing you with water.
+      EQUAL FLAG1 1
+   ENDIF
+ENDIF
+
+IFPREVERB SPIT -1
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You take in a mouthful of water and shoot it out in an arching spout.
+      ECHO OTHERS %N takes in a mouthful of water and shoots it out in an arching spout.
+   ENDIF
+ENDIF
+
+IFPREVERB OUT -1
+   CLEARVERB
+   ECHO PLAYER You climb the rocks out of the grotto pool.
+   ECHO OTHERS %N climbs the rocks out of the grotto pool.
+   EQUAL FLAG1 0
+   POSITION STAND
+ENDIF
+
+IFPREVERB KNEEL -1
+   CLEARVERB
+   ECHO PLAYER There's really no place to kneel here.
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+         ECHO PLAYER You sit down on a smooth rock.
+         ECHO OTHERS %N sits down on a smooth rock.
+      ENDIF
+      IFVAR POSITION = 1
+         ECHO PLAYER You're already sitting.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You sit up.
+         ECHO OTHERS %N sits up.
+      ENDIF
+      IFVAR POSITION = 3
+         ECHO PLAYER You sit down on a smooth rock.
+         ECHO OTHERS %n sits down on a smooth rock.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 1
+      IFVAR POSITION = 0
+         ECHO PLAYER You take a seat on one of the boulders that lies just beneath the surface of
+         ECHO PLAYER the water.
+         ECHO OTHERS %N takes a seat on one of the boulders that lies just beneath the surface of the water.
+      ENDIF
+      IFVAR POSITION = 1
+         ECHO PLAYER You're already sitting.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You sit up.
+         ECHO OTHERS %N sits up.
+      ENDIF
+      IFVAR POSITION = 3
+         ECHO PLAYER You take a seat on one of the boulders that lies just beneath the surface of
+         ECHO PLAYER the water.
+         ECHO OTHERS %N takes a seat on one of the boulders that lies just beneath the surface of the water.
+      ENDIF
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+         ECHO PLAYER You lay down on the ferns.
+         ECHO OTHERS %N lays down on the ferns.
+      ENDIF
+      IFVAR POSITION = 1
+         ECHO PLAYER You lay back in the ferns.
+         ECHO OTHERS %N lays back in the ferns.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You're already laying down.
+      ENDIF
+      IFVAR POSITION = 3
+         ECHO PLAYER You lay back in the ferns.
+         ECHO OTHERS %N lays back in the ferns.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 1
+      IFVAR POSITION ! 2
+         ECHO PLAYER You stretch out on one of the boulders that lies just beneath the surface of
+         ECHO PLAYER the water.
+         ECHO OTHERS %N stretches out on one of the boulders that lies just beneath the surface of the water.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You're already laying down.
+      ENDIF
+   ENDIF
+   POSITION LAY
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3480
+   CALL 38
+ENDIF
+;
+;
+;ISLAND BEACH (Holodeck Program)
+NUMBER 3481
+NAME Island Beach
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+ITEM 0 413 ADJ1=162 ADJ2=635
+PUT 0 433 ADJ1=425 ADJ2=143 VAL5=9
+ITEM 1 198 ADJ1=67 ADJ2=29 VAL2=100
+ITEM 2 86 ADJ1=1227
+ITEM 3 665 ADJ1=183
+ITEM 4 229 ADJ1=1149
+
+*DESCRIPTION_START
+Swirls of brillant orange and vibrant yellow paint the sky with wide swaths of
+color as a smoldering red sun sinks into the horizon. The long arched fronds of
+tall palm trees rustle in the cool ocean breezes which caress this small island
+surrounded by a placid crystal clear blue sea. Smooth pieces of colorful glass,
+rounded by warm ocean currents, are washed ashore in the gently cresting waves.
+The soft sand glitters in the fading rays of the sun, its comfortable surface
+warm and inviting.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+When you look very closely at the sand, you can see a tiny rainbow reflected
+in every transluscent grain.
+*DESCRIPTION_END
+
+IFPREVERB PLAY 0
+   CLEARVERB
+   EQUAL ROUNDTIME 5
+   IFVAR ITEMVAL5 = 0
+      NEWITEM 5 916 ADJ1=455
+      ECHO PLAYER You begin to make a sand castle by carefully pushing the sand into a mound.
+   ENDIF
+   IFVAR ITEMVAL5 > 0
+      IFVAR ITEMVAL5 < 4
+         ECHO PLAYER You continue to enlarge a sand mound by piling more and more sand on top.
+         ECHO OTHERS %N continues to enlarge a mound of sand by piling more and more sand on top.
+      ENDIF
+   ENDIF
+   IFVAR ITEMVAL5 = 4
+      ECHO PLAYER You add the final load to what is now a very large mound of sand.
+      ECHO OTHERS %N adds the final load to what is now a very large mound of sand.
+   ENDIF
+   IFVAR ITEMVAL5 = 5
+       ECHO PLAYER You begin the process of carving out a castle from the mound.
+       ECHO OTHERS %N begins the process of carving out a castle from the mound.
+       REMOVEITEM 5
+       NEWITEM 5 1211 ADJ3=455
+   ENDIF
+   IFVAR ITEMVAL5 = 6
+       ECHO PLAYER You carefully edge what will be the ramparts with crenelations.
+       ECHO OTHERS %N carefully edges what will be the ramparts with crenalations.
+   ENDIF
+   IFVAR ITEMVAL5 = 7
+       ECHO PLAYER You shape jagged towers at the corners of the battlements and put tiny windows in them with your
+little finger.
+       ECHO OTHERS %N shapes jagged towers at the corners of the battlements and put tiny windows in them with %h
+little finger.
+   ENDIF
+   IFVAR ITEMVAL5 = 8
+       ECHO PLAYER You dig a trench around the new castle to serve as a moat.
+       ECHO OTHERS %N digs a trench around the castle to serve as a moat.
+       SETITEMVAL 5 5 8
+   ENDIF
+   IFVAR ITEMVAL5 = 9
+       SETITEMADJ 5 2 663
+       ECHO PLAYER The sand castle is finished. You stand back to admire it.
+       ECHO OTHERS %N stands back and admires the finished sand castle.
+   ENDIF
+   IFVAR ITEMVAL5 < 9
+       ADD ITEMVAL5 1
+       SETITEMVAL 5 5 ITEMVAL5
+   ENDIF
+ENDIF
+
+IFPREVERB GET 0
+   CLEARVERB
+   ECHO PLAYER You scoop up a handful of the warm silky feeling sand and drizzle it slowly
+   ECHO PLAYER through your fingers.
+   ECHO OTHERS %N scoops up a handful of sand and drizzles it slowly through %h fingers.
+ENDIF
+
+IFPREVERB SLAP 0
+   CLEARVERB
+   ECHO OTHERS %N throws sand at you.
+   ECHO PLAYER You pick up some sand and toss it around.
+ENDIF
+
+IFPREVERB KICK 0
+   ECHO PLAYER You kick up some sand.
+   ECHO OTHERS %N kicks up some sand nearly blinding you.
+   CLEARVERB
+ENDIF
+
+IFPREVERB PUSH 0
+   CLEARVERB
+   ECHO PLAYER You dig your feet into the silky sand, letting its smooth warmth seep around
+   ECHO PLAYER your toes.
+   ECHO OTHERS %N digs %h feet into the sand.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+You're not quite sure, but as you look into the clear blue water you think
+you catch a glimpse of an exotic orange fish hiding in a reef just below the
+surface.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM IN 1
+You see a big orange fish staring back at you.
+*DESCRIPTION_END
+
+IFPREVERB DRINK 1
+   CLEARVERB
+   ECHO OTHERS %N makes an ugly face after taking a sip of the salty sea water.
+   ECHO PLAYER The water is salty!
+ENDIF
+
+IFPREVERB TOUCH 1
+   ECHO PLAYER You reach out and touch the water, feeling its gentle warmth.
+   ECHO OTHERS %N tests the water temperature.
+   CLEARVERB
+ENDIF
+
+IFPREVERB GO 1
+   CLEARVERB
+   ECHO PLAYER You wade into the cool blue water, splashing around a bit, and then return
+   ECHO PLAYER to the beach.
+   ECHO OTHERS %N wades into the water and splashes around a bit.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 2
+It's an everyday beach chair, straps pulled across an aluminum frame, with a
+terry cloth covered cushion.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+The long fronds belong to a nearby queen palm.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 4
+The queen palm tree sprouts beautifully drooping long full fronds from its
+absolutely straight trunk.
+*DESCRIPTION_END
+
+IFPREVERB LOOK 5
+   CLEARVERB
+   IFVAR ITEMVAL5 < 6
+      ECHO PLAYER Its your basic piled up mound of sand. It would not take very much effort to
+      ECHO PLAYER turn it into a splendid sand castle.
+   ENDIF
+   IFVAR ITEMVAL5 > 5
+      IFVAR ITEMVAL5 < 9
+         ECHO PLAYER This is going to be a great castle when you finish it.
+      ENDIF
+      IFVAR ITEMVAL5 = 9
+         ECHO PLAYER It is a perfectly little castle with a moat around it. You can almost imagine tiny knights
+walking around it battlements.
+      ENDIF
+   ENDIF
+   SETITEMVAL 0 5 ITEMVAL5
+ENDIF
+
+IFPREVERB GET 5
+   CLEARVERB
+   ECHO PLAYER You can't get that.
+ENDIF
+
+IFPREVERB KICK 5
+   CLEARVERB
+   IFVAR ITEMVAL5 < 6
+      ECHO PLAYER You kick some sand of the top of the mound making it much smaller.
+      ECHO OTHERS %N kicks some sand off the top of the mound making it much smaller
+      SUB ITEMVAL5 1 
+      IFVAR ITEMVAL5 = 0
+         ECHO ALL The mound is utterly destroyed.
+         REMOVEITEM 5
+      ENDIF
+   ENDIF
+   IFVAR ITEMVAL5 > 5
+      ECHO PLAYER You kick %a turning it back into a mere mound of sand.
+      ECHO OTHERS %N kicks %a turning it back into a mere mound of sand.
+      REMOVEITEM 5
+      NEWITEM 5 916 ADJ1=274 VAL5=5
+   ENDIF
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You hear the squawk of gulls flying over the water.
+      ECHO OTHERS %N listens %h surroundings.
+   ENDIF
+ENDIF
+
+IFPREVERB SNIFF -1
+   CLEARVERB
+   ECHO PLAYER You detect the scent of salt and seaweed on the breeze.
+   ECHO OTHERS %N sniffs.
+ENDIF
+
+IFPREVERB STAND -1
+   EQUAL FLAG1 0
+ENDIF
+
+IFPREVERB SIT -1
+   IFVAR POSITION = 1
+      CLEARVERB
+      ECHO PLAYER You take a seat on the on a lounge chair.
+      ECHO OTHERS %N takes a seat on a lounge chair.
+      POSITION SIT
+      EQUAL FLAG1 0
+   ENDIF
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You lay down on the sand, stretching out, and letting your body catch the warming rays from the
+everlasting sunset.
+      ECHO OTHERS %N lays down and stretches out on the sand.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You relax in your lounge chair, reclining it back into a laying position.
+      ECHO OTHERS %N relaxes in %h lounge chair, reclining it back into a laying position.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You lay down on the sand, stretching out, and letting your body catch the warming rays from the
+everlasting sunset.
+      ECHO OTHERS %N lays down and stretches out on the sand.
+   ENDIF
+   POSITION LAY
+ENDIF
+
+IFPREVERB ROLL -1
+   IFVAR POSITION = 2
+      CLEARVERB
+      IFVAR FLAG1 = 0
+         ECHO PLAYER You roll over onto your stomach.
+         ECHO OTHERS %N rolls over onto %h stomach.
+         EQUAL FLAG2 1
+      ENDIF
+      IFVAR FLAG1 = 1
+         ECHO PLAYER You roll over onto your back.
+         ECHO OTHERS %N rolls over onto %h back.
+         EQUAL FLAG2 0
+      ENDIF
+      EQUAL FLAG1 FLAG2
+      EQUAL FLAG2 0
+   ENDIF
+   IFVAR POSITION = 0
+      CLEARVERB
+      ECHO PLAYER You turn a somersault on the sand.
+      ECHO OTHERS %N turns a somersault on the sand.
+      POSITION LAY
+   ENDIF
+ENDIF
+
+IFPREVERB JUMP -1
+   IFITEM 5
+      CLEARVERB
+      ECHO PLAYER You begin to jump up and down on the sand castle.
+      ECHO OTHERS %N begins to jump up and down on the sand castle.
+      IFVAR PLRSINROOM > 2
+         ECHO PLAYER Suddenly everyone else starts jumping on the sand castle too!
+         ECHO OTHERS You join %n jumping up and down on the sand castle!
+      ENDIF
+      ECHO ALL The sand castle is utterly destroyed.
+      REMOVEITEM 5
+      SETITEMVAL 0 5 0
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3481
+   CALL 38
+ENDIF
+;
+;
+;RUSHING RIVER (Holodeck Program)
+NUMBER 3482
+NAME Rushing River
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+EXIT BELOW 3483
+
+ITEM 0 1312 ADJ1=145
+ITEM 1 1125 ADJ1=355
+ITEM 2 198 VAL2=100
+EXTEND 2 from the rushing river
+ITEM 3 403 ADJ1=355
+ITEM 4 1108 ADJ1=355 VAL2=3483
+ITEM 5 881 ADJ1=163
+EXTEND 5 draped with dangling pale green moss
+
+*DESCRIPTION_START
+Rushing water splashes loudly against this wooden deck that juts out into the
+rapidly flowing river. Huge heavy limbed trees, draped with dangling pale green
+moss, are barely visible through the darkness of night. Colored lanterns strung
+between wooden beams brighten very little beyond the area of the deck itself.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+The colorful string of lanterns provide a nice dim glow around the deck.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+The old planks have been worn down with time, yet seem more than sturdy enough
+to support any activity you wish to partake on it. You may want to watch your
+step though, as the deck is very wet due to the spray from the rushing river.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+Gazing into the dark water reveals little of the depths below.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+You see a wooden raft tethered to one of the beams of the deck. It is sturdy
+looking and seems to be of fine craftsmanship.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 4
+The sturdy ladder leads down to the wooden raft.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 5
+The huge heavy limbed trees are barely visible through the darkness. You can
+just make out some pale green moss, which seems to almost glow in the light of
+the moon, dangling from the tree limbs.
+*DESCRIPTION_END
+
+IFTOUCH 0
+   CLEARVERB
+   ECHO PLAYER The lanterns are just out of reach.
+ENDIF
+
+IFPREVERB LIGHT 0
+   CLEARVERB
+   ECHO PLAYER The lanterns are just out of reach.
+ENDIF
+
+IFPREVERB UNLIGHT 0
+   CLEARVERB
+   ECHO PLAYER The lanterns are just out of reach.
+ENDIF
+
+IFPREVERB KICK 1
+   CLEARVERB
+   IFVAR ROUNDTIME ! 0
+      STRCVT 0 ROUNDTIME
+      ECHO PLAYER [Wait %0 seconds...]
+   ELSE
+      EQUAL ROUNDTIME 6
+      ECHO PLAYER You kick at a slippery board and lose your footing...
+      ECHO OTHERS %N kicks at a slippery board and loses %h footing...
+      PLREVENT 1
+      CONTPLREVENT
+      ECHO PLAYER You seem to hang in mid-air for a few seconds...
+      ECHO OTHERS %S seems to hang in mid-air for a few seconds...
+      PLREVENT 1
+      CONTPLREVENT
+      POSITION LAY
+      ECHO PLAYER You land on your back with a thud!
+      ECHO OTHERS %S lands on %h back with a thud!
+   ENDIF
+ENDIF
+
+IFPREVERB TOUCH 2
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You sit down and lazily dangle your feet in %a.
+      ECHO OTHERS %N sits down and lazily dangles %h feet in %a.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You lazily dangle your feet in %a.
+      ECHO OTHERS %N lazily dangles %h feet in %a.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up and lazily dangle your feet in %a.
+      ECHO OTHERS %N sits up and lazily dangles %h feet in the %a.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You sit down and lazily dangle your feet in the clear blue water.
+      ECHO OTHERS %N sits down and lazily dangles %h feet in the clear blue water.
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFPREVERB DRINK 2
+   CLEARVERB
+   ECHO PLAYER You cup your hands and take a drink of %a.
+   ECHO OTHERS %N cups %h hands and takes a drink of %a.
+ENDIF
+
+IFPREVERB GO 2
+   CLEARVERB
+   ECHO PLAYER You consider taking a swim in the dark waters of this rapidly rushing river,
+   ECHO PLAYER but then decide it wouldn't be such a great idea. You notice a sturdy looking
+   ECHO PLAYER raft tethered nearby.
+ENDIF
+
+IFPREVERB GO 3
+   CLEARVERB
+   ECHO PLAYER You notice that the raft is several feet below the top of the deck, and you
+   ECHO PLAYER don't think jumping would be such a great idea. But lucky for you, there is
+   ECHO PLAYER a sturdy wooden ladder leading down the side of the deck.
+ENDIF
+
+IFPREVERB CLIMB 4
+   CLEARVERB
+   ECHO PLAYER You descend the ladder and climb aboard the sturdy raft.
+   ECHO OTHERS %N climbs down the wooden ladder.
+   DISBAND
+   MOVE 3483
+   AFFECT 3483
+   ECHO OTHERS %N climbs aboard the raft.
+ENDIF
+
+IFPREVERB GO 4
+   CLEARVERB
+   ECHO PLAYER You descend the ladder and climb aboard the sturdy raft.
+   ECHO OTHERS %N climbs down the wooden ladder.
+   DISBAND
+   MOVE 3483
+   AFFECT 3483
+   ECHO OTHERS %N climbs aboard the raft.
+ENDIF
+
+IFTOUCH 5
+   CLEARVERB
+   ECHO PLAYER The trees are too far away.
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already stretched out on the wooden deck.
+   ENDIF
+   IFVAR POSITION ! 2
+      POSITION LAY
+      ECHO PLAYER You stretch yourself out on the wooden deck, gazing up at a partially hidden
+      ECHO PLAYER moon through the tree limbs.
+      ECHO OTHERS %N stretches %iself out on the wooden deck and gazes up at the nighttime sky.
+   ENDIF
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up.
+      ECHO OTHERS %N sits up.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You take a seat on the wooden deck.
+      ECHO OTHERS %N takes a seat on the wooden deck.
+   ENDIF
+   IFVAR POSITION = 0
+      RANDOM DUMMY1 1 4 0
+      IFVAR DUMMY1 = 1
+         ECHO PLAYER As you take a seat on the wooden deck you yelp out in pain as a very sharp
+         ECHO PLAYER splinter pokes you in the butt!
+         ECHO OTHERS %N yelps out in pain as %s takes a seat on the wooden deck!
+      ELSE
+         ECHO PLAYER You take a seat on the wooden deck.
+         ECHO OTHERS %N takes a seat on the wooden deck.
+      ENDIF
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFPREVERB JUMP -1
+   CLEARVERB
+   IFVAR ROUNDTIME ! 0
+      STRCVT 0 ROUNDTIME
+      ECHO PLAYER [Wait %0 seconds...]
+   ENDIF
+   IFVAR ROUNDTIME = 0
+      RANDOM DUMMY1 1 5 0
+      IFVAR DUMMY1 > 3
+         EQUAL ROUNDTIME 6
+         ECHO PLAYER Jumping up and down, you land on a slippery board and lose your footing...
+         ECHO OTHERS Jumping up and down, %N lands on a slippery board and loses %h footing...
+         PLREVENT 1
+         CONTPLREVENT
+         ECHO PLAYER You seem to hang in mid-air for a few seconds...
+         ECHO OTHERS %S seems to hang in mid-air for a few seconds...
+         PLREVENT 1
+         CONTPLREVENT
+         POSITION LAY
+         ECHO PLAYER You land on your back with a thud!
+         ECHO OTHERS %S lands on %h back with a thud!
+      ENDIF
+      IFVAR DUMMY1 < 4
+         ECHO PLAYER You jump up and down on the wooden deck.
+         ECHO OTHERS %N jumps up and down on the wooden deck.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER The sound of rushing water mingles with the quiet singing of the crickets.
+      ECHO OTHERS %N listens to the music of the night.
+   ENDIF
+ENDIF
+
+IFPREVERB SMELL -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You inhale the fresh clean scent in the air.
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3482
+   CALL 38
+ENDIF
+;
+;
+;THE RAFT (Holodeck Program)
+NUMBER 3483
+NAME The Raft
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+EXIT ABOVE 3482
+
+ITEM 0 403 ADJ1=1225 ADJ2=355
+ITEM 1 1125 ADJ1=355
+ITEM 2 198 ADJ1=441 VAL2=100
+ITEM 3 1667
+ITEM 4 1108 ADJ1=355 VAL2=3482
+ITEM 5 1312
+
+*DESCRIPTION_START
+The sounds of rushing water assault your hearing as your senses try to take in
+the surrounding scene. In the near total darkness, you are barely able to make
+out lumbering shapes swimming in the murky waters below. Through the hazy mist
+you can see the dim glow of the lanterns back on the deck.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+From its position on the far side of the wooden deck, the raft is protected
+from most of the roughness of the rushing river. You notice that it is tethered
+to the deck by a strong rope, which is a good thing, since it would undoubtably
+be swept down stream into the darkness of the unknown if it were not. 
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+You notice a wooden ladder leading back up to the top of the deck.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+In the darkness you can see large shapes swimming through the murky water.
+*DESCRIPTION_END
+
+IFPREVERB TOUCH 2
+   CLEARVERB
+   ECHO PLAYER You dangle your fingers in %a.
+   ECHO OTHERS %N dangles %h fingers in %a.
+   PLREVENT 1
+   CONTPLREVENT
+   RANDOM DUMMY1 1 5 0
+   IFVAR DUMMY1 > 2
+      ECHO PLAYER You feel something bump against your fingers, and quickly snatch them away!
+      ECHO OTHERS %N gasps and quickly snatches %h fingers away from the water.
+   ENDIF
+ENDIF
+
+IFPREVERB GO 2
+   CLEARVERB
+   ECHO PLAYER You consider taking a swim in the dark waters of this rapidly rushing river,
+   ECHO PLAYER but then decide it wouldn't be such a great idea.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 3
+The rope is securly tethering the raft to the deck.
+*DESCRIPTION_END
+
+IFPREVERB PULL 3
+   CLEARVERB
+   ECHO PLAYER You pull on the rope, but it stays securely attached to both the raft and
+   ECHO PLAYER the deck.
+   ECHO OTHERS %N pulls on %a.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 4
+The secure looking ladder leads back to the deck.
+*DESCRIPTION_END
+
+IFPREVERB CLIMB 4
+   CLEARVERB
+   ECHO PLAYER You ascend the ladder and climb aboard the wooden deck.
+   ECHO OTHERS %N climbs up the wooden ladder.
+   DISBAND
+   MOVE 3482
+   AFFECT 3482
+   ECHO OTHERS %N climbs aboard the deck.
+ENDIF
+
+IFPREVERB GO 4
+   CLEARVERB
+   ECHO PLAYER You ascend the ladder and climb aboard the wooden deck.
+   ECHO OTHERS %N climbs up the wooden ladder.
+   DISBAND
+   MOVE 3482
+   AFFECT 3482
+   ECHO OTHERS %N climbs aboard the deck.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 5
+The light from the lanterns is very dim, having to fight its way through the
+heavy mist thrown into the air by the rushing river.
+*DESCRIPTION_END
+
+IFTOUCH 5
+   CLEARVERB
+   ECHO PLAYER The lanterns are too far away.
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER The sound of rushing water fills your ears.
+      ECHO OTHERS %N relaxes to the sounds of the river.
+   ENDIF
+ENDIF
+
+IFPREVERB SMELL -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You inhale the misty air.
+      ECHO OTHERS %N takes a deep breath.
+   ENDIF
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You sit down on the raft, causing it to bob gently.
+      ECHO OTHERS %N sits down on the raft, jostling it slightly.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up in the raft.
+      ECHO OTHERS %N sits up in the raft.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You sit down on the raft, causing it to bob gently.
+      ECHO OTHERS %N sits down on the raft, jostling it slightly.
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You gently lay down on the raft, careful not to disturb it.
+      ECHO OTHERS %N gently lays down on the raft.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You gently lay back on the raft.
+      ECHO OTHERS %N gently lays back on the raft.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying down.
+   ENDIF
+   POSITION LAY
+ENDIF
+
+IFPREVERB STAND -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You're already standing.
+   ELSE
+      ECHO PLAYER You stand up in the raft, causing it to bob gently.
+      ECHO OTHERS %N stands up in the raft, jostling it slightly.
+   ENDIF
+   POSITION STAND
+ENDIF
+
+IFPREVERB JUMP -1
+   CLEARVERB
+   ECHO PLAYER You jump up and down on the raft, making it rock violently.
+   ECHO OTHERS %N jumps up and down on the raft, making it rock violently.
+   PLREVENT 1
+   CONTPLREVENT
+   RANDOM DUMMY1 1 5 0
+   IFVAR DUMMY1 > 2
+      ECHO PLAYER You lose your balance and fall into the rushing river, immediately getting swept downstream!
+      ECHO PLAYER Due to holodeck safeguards, you are teleported back to the wooden deck.
+      DISBAND
+      MOVE 3482
+      SHOWROOM 3482
+      ECHO OTHERS %N loses %h balance and falls into the rushing river, immediately getting sept downstream!
+      AFFECT 3482
+      ECHO OTHERS A shimmering light appears, and forms into %N.
+   ELSE
+      ECHO PLAYER You lose your balance and fall on your butt!
+      ECHO OTHERS %N loses %h balance and falls on %h butt!
+      POSITION SIT
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3482
+   CALL 38
+ENDIF
+;
+;
+;WESTERN SALOON (Holodeck Program)
+NUMBER 3484
+NAME Western Saloon
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+ITEM 0 1677 ADJ1=355
+ITEM 1 1050 ADJ2=32
+ITEM 2 1342 ADJ1=183 ADJ2=241 ADJ3=355
+ITEM 3 204 ADJ1=227
+ITEM 4 1676
+ITEM 5 91 ADJ1=317
+ITEM 7 529 ADJ1=961
+ITEM 8 1279 ADJ2=32
+
+STOREITEM 1562 -1 0
+STOREITEM 1561 -1 0
+STOREITEM 1560 -1 0
+
+*DESCRIPTION_START
+Muffled conversations, deep belly laughs, and clanking spurs resound through
+this saloon. The smell of leather boots and chaps mingle with the strong aroma
+of whiskey and beer emanating from the tall mugs and shot glasses held by most
+of the patrons. A grinning band, strumming out a danceable tune, thump their
+feet to the steady beat of the music, stopping only to add to the spitoon. An
+empty table and a few stools are available near the bar.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+Someone has spinkled sawdust across this wooden floor. Here and there it has
+congealed into disgusting little clumps where people have missed the spitoon.
+Footprints in the dust is evidence of the dancing that has recently taken place
+in this western saloon.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+The long brass railing skirts the bottom of the bar.
+*DESCRIPTION_END
+
+IFPREVERB LEAN 1
+   CLEARVERB
+   ECHO PLAYER You rest your leg on the railing. You think you look cool.
+   ECHO OTHERS %N strikes a pose.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 2
+The bar stretches the length of the room. You can see your reflection in the
+polished wood top, but the sides are a bit scuffed from peoples' feet.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+The bar's offerings are written here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 3
+The sign reads:
+
+      Beer           25 cents a glass
+      Whiskey        1 dollar a shot
+      SlimJims       10 cents each
+
+*DESCRIPTION_END
+
+IFTOUCH 3
+   CLEARVERB
+   ECHO PLAYER The sign is out of reach in its position behind the bar.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 4
+The band consists of four rather scraggly musicicans. There's Bill on drums,
+Beau on piano, Billy Bob on guitar and Floyd on kazoo.
+
+Bill is, to put it politely, portly. He sits in back of the drums on a small
+stool in a dirty plaid shirt that leaves an an excellent view of his ample butt
+crack. Beads of sweat run down his face as he wails away on the drums, nearly
+in rhythm.
+
+Beau is as skinny as a rail with messy black hair and a long scraggly beard. He
+bobs his head up and down intensly with his eyes closed as he pounds away on
+the keys piano.
+
+Billy Bob is a handsome devil and he knows it. He gyrates around on the tiny
+stage, winking at the girls with his baby blue eyes and smiling rakishly as he
+stares down any nearby cleavage.
+
+Floyd appears to be in an altered state of conciousness as he hums through the
+kazoo, his eyes shut and face relaxed as if in a trance. He apparently takes
+kazoo playing very seriously.
+*DESCRIPTION_END
+
+IFTOUCH 4
+   CLEARVERB
+   ECHO PLAYER A large gorilla of a man steps out of nowhere, successfully blocking your
+   ECHO PLAYER access to the stage.
+   ECHO OTHERS %N makes toward stage, but a large gorilla of a man steps out of nowhere, blocking %h way.
+   IFVAR GEN = 0
+      ECHO PLAYER Billy Bob and the rest of the band frown at you.
+      ECHO OTHERS Billy Bob and the band give %n a dirty look.
+   ENDIF
+   IFVAR GEN = 1
+      ECHO PLAYER Billy bob and the band smiles at you appreciatively.
+      ECHO OTHERS Billy Bob and the band smile at %N appreciatively.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 5
+This is one of the many chest-high tables scattered around the saloon. They
+are comfortable for either sitting or standing at.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 7
+The seats of the tall wooden stools are hard, but they do spin around.
+*DESCRIPTION_END
+
+IFPREVERB TURN 7
+   IFVAR POSITION = 1
+      CLEARVERB
+      ECHO PLAYER You spin yourself around on the bar stool.
+      ECHO OTHERS %N spins around on the bar stool.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 8
+It looks like a large brass vase. Wisely, you avoid looking in it.
+*DESCRIPTION_END
+
+IFSAY BILLY_BOB!
+   ECHO ALL Billy Bob responds by yelling, "Yeeeehaw!" and wiggling his hips."
+ENDIF
+
+IFSAY BILL!
+   ECHO ALL Bill goes wild on drums!
+ENDIF
+
+IFSAY FLOYD!
+   ECHO ALL The band goes quiet as Floyd launches into a kazoo solo.
+ENDIF
+
+IFSAY BEAU!
+   ECHO ALL Beau bangs out a series of arpeggios.
+ENDIF
+
+IFSAY BILLY_BOB
+   ECHO ALL Billy Bob responds by yelling, "Yeeeehaw!" and wiggling his hips."
+ENDIF
+
+IFSAY BILL
+   ECHO ALL Bill goes wild on drums!
+ENDIF
+
+IFSAY FLOYD
+   ECHO ALL The band goes quiet as Floyd launches into a kazoo solo.
+ENDIF
+
+IFSAY BEAU
+   ECHO ALL Beau bangs out a series of arpeggios.
+ENDIF
+
+IFSAY WHISKEY
+   ECHO ALL The bartkeep yells, "Buy it fer yerself."
+ENDIF
+
+IFSAY WHISKEY!
+   ECHO ALL The bartkeep yells, "Buy it fer yerself."
+ENDIF
+
+IFSAY BEER
+   ECHO ALL The barkeep yells, "Whadda I look like, a frigg'n char'ty?"
+ENDIF
+
+IFSAY BEER!
+   ECHO ALL The barkeep yells, "Whadda I look like, a frigg'n char'ty?"
+ENDIF
+
+IFPREVERB DANCE -1
+   CLEARVERB
+   ADD FLAG1 1
+   IFVAR FLAG1 = 1
+      ECHO PLAYER You put your left hand in.
+      ECHO OTHERS %N puts %h left hand in.
+   ENDIF
+   IFVAR FLAG1 = 2
+      ECHO PLAYER You take your left hand out.
+      ECHO OTHERS %N takes %h left hand out.
+   ENDIF
+   IFVAR FLAG1 = 3
+      ECHO PLAYER You put your left hand in and you shake it all about.
+      ECHO OTHERS %N puts %h left hand in and %s shakes it all about.
+   ENDIF
+   IFVAR FLAG1 = 4
+      ECHO PLAYER You do the Hokey Pokey and you turn yourself around.
+      ECHO OTHERS %N does the Hokey Pokey and %s turns %iself around.
+      ECHO ALL That's what it's all about!
+   ENDIF
+   IFVAR FLAG1 = 5
+      ECHO PLAYER You put your left foot in.
+      ECHO OTHERS %N puts %h left foot in.
+   ENDIF
+   IFVAR FLAG1 = 6
+      ECHO PLAYER You take your left foot out.
+      ECHO OTHERS %N takes %h left foot out.
+   ENDIF
+   IFVAR FLAG1 = 7
+      ECHO PLAYER You put your left foot in and you shake it all about.
+      ECHO OTHERS %N puts %h left foot in and %s shakes it all about.
+   ENDIF
+   IFVAR FLAG1 = 8
+      ECHO PLAYER You do the Hokey Pokey and you turn yourself around.
+      ECHO OTHERS %N does the Hokey Pokey and %s turns %iself around.
+      ECHO ALL That's what it's all about!
+   ENDIF
+   IFVAR FLAG1 = 9
+      ECHO PLAYER You put your right hand in.
+      ECHO OTHERS %N puts %h right hand in.
+   ENDIF
+   IFVAR FLAG1 = 10
+      ECHO PLAYER You take your right hand out.
+      ECHO OTHERS %N takes %h right hand out.
+   ENDIF
+   IFVAR FLAG1 = 11
+      ECHO PLAYER You put your right hand in and you shake it all about.
+      ECHO OTHERS %N puts %h right hand in and %s shakes it all about.
+   ENDIF
+   IFVAR FLAG1 = 12
+      ECHO PLAYER You do the Hokey Pokey and you turn yourself around.
+      ECHO OTHERS %N does the Hokey Pokey and %s turns %iself around.
+      ECHO ALL That's what it's all about!
+   ENDIF
+   IFVAR FLAG1 = 13
+      ECHO PLAYER You put your right foot in.
+      ECHO OTHERS %N puts %h right foot in.
+   ENDIF
+   IFVAR FLAG1 = 14
+      ECHO PLAYER You take your right foot out.
+      ECHO OTHERS %N takes %h right foot out.
+   ENDIF
+   IFVAR FLAG1 = 15
+      ECHO PLAYER You put your right foot in and you shake it all about.
+      ECHO OTHERS %N puts %h right foot in and %s shakes it all about.
+   ENDIF
+   IFVAR FLAG1 = 16
+      ECHO PLAYER You do the Hokey Pokey and you turn yourself around.
+      ECHO OTHERS %N does the Hokey Pokey and %s turns %iself around.
+      ECHO ALL That's what it's all about!
+   ENDIF
+   IFVAR FLAG1 = 17
+      ECHO PLAYER You put your whole body in.
+      ECHO OTHERS %N puts %h whole body in.
+   ENDIF
+   IFVAR FLAG1 = 18
+      ECHO PLAYER You take your whole body out.
+      ECHO OTHERS %N takes %h whole body out.
+   ENDIF
+   IFVAR FLAG1 = 19
+      ECHO PLAYER You put your whole body in and you shake it all about.
+      ECHO OTHERS %N puts %h whole body in and %s shakes it all about.
+   ENDIF
+   IFVAR FLAG1 = 20
+      ECHO PLAYER You do the Hokey Pokey and you turn yourself around.
+      ECHO OTHERS %N does the Hokey Pokey and %s turns %iself around.
+      ECHO ALL That's what it's all about!
+      EQUAL FLAG1 0
+   ENDIF
+ENDIF
+
+IFPREVERB SIT -1
+   IFVAR POSITION ! 1
+      CLEARVERB
+      IFVAR FLAG1 > 0
+         ECHO PLAYER You stop dancing and take a seat on one of the tall stools.
+         ECHO OTHERS %N stops dancing and sits down.
+      ENDIF
+      IFVAR FLAG1 = 0
+         ECHO PLAYER You hop up onto a bar stool.
+         ECHO OTHERS %N hops up onto a bar stool.
+      ENDIF
+      EQUAL FLAG1 0
+      POSITION SIT
+   ENDIF
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   ECHO PLAYER You think about laying on the floor...then you think again.
+   ECHO OTHERS %N looks like %s might pass out from the drink soon.
+ENDIF
+
+IFPREVERB KNEEL -1
+   CLEARVERB
+   ECHO PLAYER You think about kneeling on the dirty floor... then you think again.
+ENDIF
+
+IFPREVERB STAND -1
+   IFVAR POSITION = 1
+      CLEARVERB
+      POSITION STAND
+      ECHO PLAYER You slide down off the bar stool.
+      ECHO OTHERS %N slides down off the bar stool.
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3484
+   CALL 38
+ENDIF
+;
+;
+;SECLUDED GROVE (Holodeck Program)
+NUMBER 3485
+NAME Secluded Grove
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+ITEM 0 1557 ADJ1=87
+ITEM 1 229 ADJ1=317 ADJ2=234
+ITEM 2 395 ADJ1=443
+
+EXIT ABOVE 3486
+
+*DESCRIPTION_START
+Your hearing is overwhelmed by the almost deafening thunder claps in the dark
+sky all around you. Large droplets of water, shaken from the tall pines and
+evergreens by the gusting winds, mingle with a steady downpour of warm spring
+rain. Lightning flashes through the leaves above you, highlighting everything
+for a brief second in a brilliant white flash of light. A smooth moss covered
+log lies sheltered beneath one of the heavily leafed pines, surrounded by a
+scattering of pine needles mounded up near a small opening in a heavy thicket.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+It looks as though there could be a small area beyond the opening, but it is
+too low to walk through.
+*DESCRIPTION_END
+
+IFPREVERB GO 0
+   ECHO PLAYER The opening is very low, you will need to duck to get through it.
+   CLEARVERB
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+The lower trunk of this enormous conifer tree is still mostly dry, protected
+from the storm by its heavily needled upper limbs.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+The moss appears to have formed a nice cushioned cover on the log, a good
+place to relax and watch the falling rain.
+*DESCRIPTION_END
+
+IFPREVERB TOUCH 2
+   CLEARVERB
+   ECHO PLAYER The log feels dry and sturdy under its thick covering of spongy green moss.
+   ECHO OTHERS %N sinks %h fingers into the soft green moss covering the log.
+ENDIF
+
+IFPREVERB DUCK -1
+   CLEARVERB
+   ECHO PLAYER You get down on all fours and crawl through the dark opening.
+   ECHO OTHERS %N gets down on all fours and ducks through the dark opening.
+   POSITION KNEEL
+   DISBAND
+   MOVE 3486
+   AFFECT 3486
+   ECHO OTHERS %N crawls in through the dark opening.
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You take a seat on the log.
+      ECHO OTHERS %N sits on the log.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up.
+      ECHO OTHERS %N sits up.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You take a seat on the log.
+      ECHO OTHERS %N sits on the log.
+   ENDIF
+   POSITION SIT   
+ENDIF
+
+IFPREVERB LAY -1
+   IFVAR POSITION ! 2
+      CLEARVERB
+      ECHO PLAYER You lay down on the pine needle carpet.
+      ECHO OTHERS %N lays down on the pine needle carpet.
+      POSITION LAY
+   ENDIF
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You hear the muffled sounds of animal hiding from the rain.
+      ECHO PLAYER %N tilts %h head to one side to listen.
+   ENDIF
+ENDIF
+
+IFPREVERB SNIFF -1
+   CLEARVERB
+   ECHO PLAYER The smell the fresh scent of a summer thunderstorm.
+   ECHO OTHERS %N sniffs.
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3485
+   CALL 38
+ENDIF
+;
+;
+;SECRET THICKET (Holodeck Program)
+NUMBER 3486
+NAME Secret Thicket
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+EXIT BELOW 3485
+
+ITEM 0 1557
+ITEM 1 376 ADJ1=298 ADJ2=135
+EXTEND 1 of fallen pine needles
+PUT 1 1484 ADJ1=25
+ITEM 2 664 ADJ1=297
+ITEM 3 1232
+EXTEND 3 laden with juicy red berries
+PUT 3 493 ADJ1=750 ADJ2=259 VAL2=2 VAL5=9
+ITEM 4 411 ADJ1=308
+
+*DESCRIPTION_START
+You feel a thick mat of soft pine needles cushioning your knees as your eyes
+slowly adjust to the dim light in this warm, dry hideaway. The low ceiling,
+allowing just enough room to kneel, is an impenetrable mass of intertwining
+smooth wooded vines. A silver leafed berry bush protects the thicket from the
+wind, the sound of the summer storm still raging on outside. All you feel is a
+warm breeze drifting in through the leafy opening.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+Through the opening you see brief flashes from the raging thunderstorm.
+*DESCRIPTION_END
+
+IFPREVERB GAZE 0
+   CLEARVERB
+   ECHO PLAYER You peer out the leafy opening and into the pouring rain.
+   ECHO OTHERS %N peers out into the rain.
+ENDIF
+
+IFPREVERB GO 0
+   ECHO PLAYER Perhaps you should try ducking out the opening.
+   CLEARVERB
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+The ground cover mat consists of dried pine needles and soft feathery leaves
+from the berry bush.
+*DESCRIPTION_END
+
+IFPREVERB TOUCH 1
+   CLEARVERB
+   ECHO PLAYER The natural mattress of soft fragrant needles is dry and inviting.
+   ECHO OTHERS %N rests %h hand on the soft needles, pressing down a few times with a pleased smile on %s lips.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 2
+Soft green stems spport a lattice of smooth, green, heart-shaped leaves.
+*DESCRIPTION_END
+
+IFPREVERB TOUCH 2
+   CLEARVERB
+   ECHO PLAYER The smooth wood feels just slightly damp, a few drops of water sliding downwards to bump against your
+finger.
+   ECHO OTHERS As %N touches the vines, they shift slightly sending a few escaped drops of water plummeting to the
+floor.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 3
+It is bushy and dense with aromatic leaves, its thin branches laden with red
+juicy berries.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 4
+Its just a regular old rock with a flat top, a perfect little picnic table.
+*DESCRIPTION_END
+
+IFPREVERB DUCK -1
+   CLEARVERB
+   ECHO PLAYER You crawl out of the leafy opening.
+   ECHO OTHERS %N ducks through the leafy opening.
+   DISBAND
+   MOVE 3485
+   AFFECT 3485
+   ECHO OTHERS %N crawls out through the leafy opening.
+   POSITION STAND
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You hear the splatter of heavy rain hitting the leaves outside.
+      ECHO PLAYER %N tilts %h head to one side to listen.
+   ENDIF
+ENDIF
+
+IFPREVERB SNIFF -1
+   CLEARVERB
+   ECHO PLAYER You inhale deeply, detecting the aromatic spice from the leaves of the berry
+   ECHO PLAYER bush on a background of a warm musty wet forest smell.
+   ECHO OTHERS %N deeply inhales the pure mountain air.
+ENDIF
+
+IFPREVERB GET -1
+   IFVAR ARCHNUM = 493
+      CLEARVERB
+      ECHO PLAYER You remove a juicy red berry from the bush.
+      ECHO OTHERS %N removes a juicy red berry from the bush.
+      NEWITEM -1 493 ADJ1=750 ADJ2=259 VAL2=2 VAL5=9
+   ENDIF
+ENDIF
+
+IFPREVERB STAND -1
+   CLEARVERB
+   ECHO PLAYER There is no room to stand up here.
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3485
+   CALL 38
+ENDIF
+;
+;
+;SNOWY DECK (Holodeck Program)
+NUMBER 3487
+NAME Snowy Deck
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+ITEM 0 1125 ADJ1=510 ADJ2=407
+ITEM 1 460 ADJ1=355 ADJ2=162
+ITEM 2 198 ADJ1=162 ADJ2=42 VAL2=100
+ITEM 3 451 
+ITEM 4 86 ADJ1=63 ADJ2=1227
+ITEM 5 821 ADJ1=317 UNLOCKED
+PUT 5 1015 ADJ1=344 VAL5=9
+ITEM 6 247 ADJ1=29
+ITEM 7 247 ADJ1=347
+ITEM 8 247 ADJ1=259
+
+;FLAG1 = 1 (In Hot Tub)
+;FLAG1 = 0 (Not In Hot Tub)
+
+*DESCRIPTION_START
+Clouds of steam rising up from a hot tub, its smooth rounded rim just slightly
+above the surface of the snow covered wooden deck, envelopes the hot, bubbling
+water in a veiled curtain of soothing warmth. Perched safely here on the crest
+of a high mountaintop, the sturdy snow covered deck affords you a spectacular
+view of the surrounding snow capped peaks and white blanketed valleys below.
+Several lounge chairs, their soft cushions covered with thick wool blankets,
+are tucked beneath a protective overhang beside a warming cabinet.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+It's covered in snow.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+The tub is immaculately clean, a soft magical light glowing dimly over its
+polished redwood walls. Small openings, placed strategically along the smooth
+inner surface of the tub, shoot massaging jets of bubbles in every angle. Amber
+spotlights, highlighting the steamy water, are recessed in the molded seats in
+each wall. Along one rim of the tub are three buttons; red, white and blue.
+*DESCRIPTION_END
+
+IFPREVERB GO 1
+   CLEARVERB
+   IFVAR FLAG1 = 1
+      ECHO PLAYER You're already in the hot tub.
+   ENDIF
+   IFVAR FLAG1 = 0
+      ECHO PLAYER You lower yourself into the steamy tub.
+      ECHO OTHERS %N lowers %iself into the steamy tub.
+      POSITION SIT
+      EQUAL FLAG1 1
+   ENDIF
+ENDIF
+
+IFPREVERB TOUCH 2
+   IFVAR FLAG1 = 0
+      CLEARVERB
+      ECHO PLAYER You dip your fingers in %a, testing the temperature.
+      ECHO OTHERS %N dips %h fingers in %a, testing the temperature.
+   ENDIF
+ENDIF
+
+IFPREVERB WAVE 2
+   CLEARVERB
+   ECHO OTHERS %N splashes a little water at you.
+   ECHO PLAYER You splash a little water around.
+ENDIF
+
+IFPREVERB SLAP 2
+   CLEARVERB
+   ECHO OTHERS %N splashes a lot of water at you!
+   ECHO PLAYER You splash a lot of water around!
+ENDIF
+
+IFPREVERB PLAY 2
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      ECHO PLAYER You play your fingers across the surface of the water.
+      ECHO OTHERS %N plays %h fingers across the surface of the water.
+   ENDIF
+   IFVAR FLAG1 = 1
+      ECHO PLAYER You pretend to be a little submarine by submerging yourself completely and
+      ECHO PLAYER blowing some friendly bubbles.
+      ECHO OTHERS %N submerges %iself completely, blowing some friendly bubbles your way.
+      POSITION LAY
+   ENDIF
+ENDIF
+
+IFPREVERB GO 2
+   CLEARVERB
+   IFVAR FLAG1 = 1
+      ECHO PLAYER You're already in the water.
+   ENDIF
+   IFVAR FLAG1 = 0
+      ECHO PLAYER You lower yourself into the steamy tub.
+      ECHO OTHERS %N lowers %iself into the steamy tub.
+      POSITION SIT
+      EQUAL FLAG1 1
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 3
+Delicate snowflakes melt instantly upon touching the warm mist hanging over
+this cozy haven.
+*DESCRIPTION_END
+
+IFTOUCH 3
+   CLEARVERB
+   ECHO PLAYER You wave your hand through the mist.
+   ECHO OTHERS %N waves %h hand through the mist.
+ENDIF
+
+IFPREVERB GAZE 3
+   CLEARVERB
+   ECHO PLAYER You gaze into the mist.
+   ECHO OTHERS %N stares into the mist with a far away look on %h face.
+   RANDOM DUMMY1 1 25 0
+   IFVAR DUMMY1 = 20
+      ECHO PLAYER You have a vision of another world in another time...
+      SHOWROOM 206
+   ENDIF
+ENDIF
+
+IFTOUCH 4
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You can't reach that from the hot tub.
+   ENDIF
+ENDIF
+
+IFTOUCH 5
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You can't reach that from the hot tub.
+   ENDIF
+ENDIF
+
+IFVERB PUSH 6
+   ECHO ALL Bubbly hot water begins to jet from the sides of the tub.
+ENDIF
+
+IFVERB PUSH 7
+   IFVAR ITEMVAL1 = 1
+      ECHO ALL The music goes off.
+      EQUAL FLAG2 0
+   ENDIF
+   IFVAR ITEMVAL1 = 0
+      ECHO ALL The strains of Ravel's "Bolero" emanate from hidden speakers and fill the steamy air.
+      EQUAL FLAG2 1
+   ENDIF
+   EQUAL ITEMVAL1 FLAG2
+   EQUAL FLAG2 0
+ENDIF
+
+IFVERB PUSH 8
+   ECHO ALL A wall panel slides open, exposing a cold bottle of ale.
+   NEWITEM 9 158 ADJ1=152 VAL5=9
+   NEWPUT 9 1546 VAL2=10
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You hear the hoot of a nearby owl.
+      ECHO OTHERS %N listens to the night.
+   ENDIF
+ENDIF
+
+IFPREVERB SNIFF -1
+   CLEARVERB
+   ECHO PLAYER You sniff and detect the chlorine in the hot tub.
+   ECHO OTHERS %N sniffs.
+ENDIF
+
+IFPREVERB SPIT -1
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You take in a mouthful of water and shoot it out in an arching spout.
+      ECHO OTHERS %N take in a mouthful of water and shoots it out in an arching spout.
+   ENDIF
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+         ECHO PLAYER You sit down on the edge of the deck.
+         ECHO OTHERS %N sits down on the edge of the deck.
+      ENDIF
+      IFVAR POSITION = 1
+         ECHO PLAYER You are already sitting.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You sit up.
+         ECHO OTHERS %N sits up.
+      ENDIF
+      IFVAR POSITION = 3
+         ECHO PLAYER You sit down on the edge of the deck.
+         ECHO OTHERS %N sits down on the edge of the deck.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 1
+      IFVAR POSITION = 0
+         ECHO PLAYER You slowly sit down, immersing yourself in the soothing suds.
+         ECHO OTHERS %N slowly sits down, immersing %iself in the soothing suds.
+      ENDIF
+      IFVAR POSITION = 1
+         ECHO PLAYER You're already sitting.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You slowly sit up, leaning back against the walls of the tub.
+         ECHO OTHERS %N slowly sits up, leaning back against the walls of the tub.
+      ENDIF
+      IFVAR POSITION = 3
+         ECHO PLAYER You slowly sit down, immersing yourself in the soothing suds.
+         ECHO OTHERS %N slowly sits down, immersing %iself in the soothing suds.
+      ENDIF
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      IFVAR POSITION ! 2
+         ECHO PLAYER You lay down at the edge of the hot tub, dangling your hand in the bubbling
+         ECHO PLAYER water.
+         ECHO OTHERS %N lays down at the edge of the hot tub and dangles %h hand in the bubbling water.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You're already laying down.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 1
+      IFVAR POSITION ! 2
+         ECHO PLAYER You dive under the water.
+         ECHO OTHERS %N dives under the water.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You're already laying down.
+      ENDIF
+   ENDIF
+   POSITION LAY
+ENDIF
+
+IFPREVERB STAND -1
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You stand up out of the hot tub.
+      ECHO OTHERS %N stands up out of the hot tub.
+      EQUAL FLAG1 0
+      POSITION STAND
+   ENDIF
+ENDIF
+
+IFPREVERB OUT -1
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You stand up out of the hot tub.
+      ECHO OTHERS %N stands up out of the hot tub.
+      EQUAL FLAG1 0
+      POSITION STAND
+   ENDIF
+ENDIF
+
+IFPREVERB DUCK -1
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You dive under the water.
+      ECHO OTHERS %N dives under the water.
+      POSITION LAY
+   ENDIF
+ENDIF
+
+IFPREVERB GET -1
+   IFVAR ARCHNUM = 1015
+      NEWPUT 6 1015 ADJ1=344 VAL5=9
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3487
+   CALL 38
+ENDIF
+;
+;
+;UNDERSEA (Holodeck Program)
+NUMBER 3488
+NAME Undersea
+REGION 1
+UNDERSEA
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+ITEM 0 380 ADJ1=425
+ITEM 1 1774
+ITEM 2 337 ADJ1=281
+ITEM 3 1029
+ITEM 4 198 VAL2=100
+ITEM 6 1557
+
+*DESCRIPTION_START
+Gaily colored fish dart in and out of the huge anemones that have latched on
+to the coral here. An old rotting ship lays on the ocean floor, Its mast broken
+and its hull layed open to the sea. From deep within, a pair of glowing eyes
+surveys you keenly. Every where you look, the area is teaming with life, from
+the thousands of varied crabs scurrying hither and thither, to the sea plants
+gracully swaying in the ocean currents.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+These bright orange fish are known as garabaldi, their young a more bright
+bluish color with orange spots. The clownfish lay amond the tenticles of the
+anemones, and trigger fish poke aroundthe sand for morsels. Here and there on
+the rocks you can see starfish clinging along the mussles and clams.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+Once a forty foot sloop, it is now a foundation for the newly forming coral.
+Its mast has been broken off cruelly near the deck, its hull not much more than
+a gaping opening. Its once strong rigging is tangled in sea weed and is barely
+visible above the silt. Hardly an inch of its surface remains clear of some
+kind of growth, but you can still make out a name on the hull -- "Caliopsis."
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM IN 1
+Peering into the gaping hull, you see a giant moray eel staring back at you
+from deep within the bowels of the ship. An intact case of wine bottles lays
+within, well guarded by this fierce sea serpent.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+Among the many green sea weeds, you recognize the giant kelp as one growing
+from a sort of floating root ball in long strands up to the surface. There is
+also some grasses, and when you look closely amond their blades, you discern a
+tiny sea horse.
+*DESCRIPTION_END
+
+IFTOUCH 0
+   CLEARVERB
+   ECHO PLAYER They avoid you.
+ENDIF
+
+IFPREVERB GET 3
+   CLEARVERB
+   IFNOITEM 5
+      EQUAL ROUNDTIME 20
+      ECHO PLAYER You swim into the ship to grab the case of wine...
+      ECHO OTHERS %N swims into the ship to grab the case of wine...
+      PLREVENT 2
+      CONTPLREVENT
+      ECHO PLAYER You swim deeper into the ship and slowly up to the eel...
+      ECHO OTHERS %N swims deeper into the ship and slowly up to the eel...
+      PLREVENT 2
+      CONTPLREVENT
+      RANDOM DUMMY2 1 4 0
+      IFVAR DUMMY2 ! 1
+         ECHO PLAYER The eel tries to eat you! You barely escape with your life.
+         ECHO OTHERS The eel tries to eat %i! %S barely escapes with %h life.
+      ENDIF
+      IFVAR DUMMY2 = 1
+         ECHO PLAYER You manage to evade the eel and snag a bottle of wine!
+         ECHO OTHERS %N successfully snags a bottle of wine.
+         NEWITEM 5 158 VAL5=9
+         NEWPUT 5 237 ADJ1=259 VAL2=10
+      ENDIF
+   ENDIF
+   IFITEM 5
+      ECHO PLAYER Since you already have one untouched bottle, why risk you neck for another.
+   ENDIF
+ENDIF
+
+IFTOUCH 3
+   IFVAR ROUNDTIME = 0
+      CLEARVERB
+      ECHO PLAYER You'll have to wrestle past that eel first.
+   ENDIF
+ENDIF
+
+IFPREVERB DRINK 4
+   ECHO PLAYER You sample a swig of salty swill and swiftly spit it out. Yech! Awful! Why did you do that?
+   ECHO OTHERS %N samples a swig of salty swill and swiftly spits it out.
+   CLEARVERB
+ENDIF
+
+IFPREVERB KICK 4
+   CLEARVERB
+   ECHO PLAYER You swim around a bit.
+   ECHO OTHERS %N swims around a bit.
+ENDIF
+
+IFPREVERB SLAP 4
+   CLEARVERB
+   ECHO PLAYER You take a few strokes through the water.
+   ECHO OTHERS %N takes a few strokes through the water.
+ENDIF
+
+IFPREVERB GO 6
+   CLEARVERB
+   ECHO PLAYER As you swim toward the opening, a moray eel darts out, snapping at you!
+   ECHO OTHERS As %N swims toward the opening, a moray eel darts out, snapping at %i!
+ENDIF
+
+POSITION STAND
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You hear the same sound you hear when you hold a seashell to you ear, it was the sound of the sea,
+just like the old wives' tale said.
+      ECHO OTHERS %N listens to %h surroundings.
+   ENDIF
+ENDIF
+
+IFPREVERB SNIFF -1
+   CLEARVERB
+   ECHO PLAYER You snort in some water and practically drown!
+   ECHO OTHERS %N snorts in some water and practically drowns!
+ENDIF
+
+IFPREVERB CURSE -1
+   CLEARVERB
+   ECHO PLAYER Yes, you can do _that_ underwater.
+ENDIF
+
+IFPREVERB KNEEL -1
+   CLEARVERB
+   ECHO PLAYER You bring your knees up which cause you to tumble in a backwards somersault.
+   ECHO OTHERS %N tumbles over and over in the water.
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   ECHO PLAYER You bring your knees up which cause you to tumble in a backwards somersault.
+   ECHO OTHERS %N tumbles over and over in the water.
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   ECHO PLAYER You try to lay down on the ocean bottom, but keep floating back up.
+   ECHO OTHERS %N is trying to lay on the ocean bottom, but %s keeps floating up.
+ENDIF
+
+IFSAY ASDFJWEOSIFUAOASSF
+   POSITION STAND
+ELSE
+   IFVAR FLAG1 = 0
+      EQUAL FLAG1 1
+      PLREVENT 1
+      CONTPLREVENT
+      ECHO PLAYER You suddenly wonder how it is you can actually breathe and talk underwater.
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3488
+   CALL 38
+ENDIF
+;
+;
+;WATERFALL (Holodeck Program)
+NUMBER 3489
+NAME Waterfall
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+EXIT ABOVE 3490
+
+ITEM 0 198 VAL2=100
+ITEM 1 704 ADJ1=1200 ADJ2=382
+ITEM 2 367 ADJ1=178 ADJ2=297 ADJ3=491
+ITEM 3 229 ADJ1=178
+EXTEND 3 spreading over the pond
+ITEM 4 661
+ITEM 5 662
+ITEM 6 344 ADJ1=1123 VAL2=3490
+
+; 0 = WATER
+; 1 = POND
+; 2 = BOULDER
+; 3 = TREE
+; 4 = FERNS
+; 5 = BROMELIAD
+; 6 = WATERFALL
+
+;FLAG1 = 0 STANDING
+;FLAG1 = 1 IN TREE
+;FAGL1 = 2 IN pond
+
+*DESCRIPTION_START
+Crystal clear rivulets of water dance against huge algae covered rocks and then
+flows down the face of a waterfall to splash into a rippling pound at its base.
+Lush tender leafed ferns sprout from the soft grass covered earth while small
+heavily leafed shrubs surround the pond, clinging to the rocky crevices. Large
+shade trees spread out over several smooth flat boulders that lay just beyond
+the shimmering curtain of water, and provide shade from the summer sun.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+You see crystal clear blue water, alive with zillions of bubbles made by the
+rushing falls.
+*DESCRIPTION_END
+
+IFTOUCH 0
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER All you have to do is jump.
+   ENDIF
+ENDIF
+
+IFPREVERB SLAP 0
+   IFVAR FLAG1 ! 1
+      CLEARVERB
+      ECHO PLAYER You playfully splash some water around.
+      ECHO OTHERS %N playfully splashes you with some water!
+   ENDIF
+ENDIF
+
+IFPREVERB PLAY 0
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You play in the water, splashing about, blowing bubbles and being silly.
+      ECHO OTHERS %N starts splashing around the pond, blowing bubbles and being silly.
+   ENDIF
+   IFVAR FLAG1 = 0
+      CLEARVERB
+      IFVAR POSITION = 0
+         ECHO PLAYER You play along the surface of the water with your toes.
+         ECHO OTHERS %N plays along the surface of the water with %h toes.
+      ENDIF
+      IFVAR POSITION ! 0
+         ECHO PLAYER You dangle your arm in the water of the pond.
+         ECHO OTHERS %N dangles %h arm in the water.
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB GO 0
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You're already in the pond.
+   ENDIF
+   IFVAR FLAG1 = 0
+      CLEARVERB
+      ECHO PLAYER You step down into the pond.
+      ECHO OTHERS %N steps down into the pond.
+      EQUAL FLAG1 1
+   ENDIF
+ENDIF
+
+IFPREVERB KICK 0
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You kick your feet, slowly propelling yourself around the pond.
+      ECHO OTHERS %N kicks around the pond.
+   ENDIF
+ENDIF
+
+IFPREVERB WAVE 0
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You wave your hands like little fins, and paddle slowly about the pond.
+      ECHO OTHERS %N paddles liesurely around the pond.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+Amid a circle of boulders beneath the falls, this shallow pond has formed.
+Smooth clean granite lines the bottom so the water stays clear, except for the
+zillions of bubbles racing toward the surface.
+*DESCRIPTION_END
+
+IFTOUCH 1
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER All you have to do is jump.
+   ENDIF
+ENDIF
+
+IFPREVERB GO 1
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You're already in the pond.
+   ENDIF
+   IFVAR FLAG1 = 0
+      CLEARVERB
+      ECHO PLAYER You step down into the pond.
+      ECHO OTHERS %N steps down into the pond.
+      EQUAL FLAG1 1
+   ENDIF
+ENDIF
+
+IFPREVERB KICK 1
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You kick your feet, slowly propelling yourself around the pond.
+      ECHO OTHERS %N kicks around the pond.
+   ENDIF
+ENDIF
+
+IFPREVERB WAVE 1
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You wave your hands like little fins, and paddle slowly about the pond.
+      ECHO OTHERS %N paddles liesurely around the pond.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 2
+The boulders are gray sedimentary rock. Where they are chipped or broken you
+can see their layers. Time and running water have made them smooth and flat.
+*DESCRIPTION_END
+
+IFTOUCH 2
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You can't reach that while in the tree.
+   ENDIF
+ENDIF
+
+IFPREVERB GO 2
+   IFVAR FLAG1 = 0
+      CLEARVERB
+      ECHO PLAYER You take a seat on one of the smooth boulders surrounding the pond.
+      ECHO OTHERS %N takes a seat on one of the smooth boulders surrounding the pond.
+   ENDIF
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You step out of the pond onto a flat smooth boulder.
+      ECHO OTHERS %N steps out of the pond.
+      EQUAL FLAG1 0
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 3
+The huge tree is open and spreading, with pointed heart-shaped leaves that
+are bright green above and silvery green below. The tree blooms in this 
+perpetual summer with tiny fragrant yellow blossoms.
+*DESCRIPTION_END
+
+IFTOUCH 3
+   IFVAR FLAG1 = 2
+      ECHO PLAYER You can't reach that from in the pond.
+   ENDIF
+ENDIF
+
+IFPREVERB CLIMB 3
+   CLEARVERB
+   IFVAR FLAG1 = 1
+      ECHO PLAYER You're already up a tree.
+   ENDIF
+   IFVAR FLAG1 = 2
+      ECHO PLAYER You'll need to get out of the pond first.
+   ENDIF
+   IFVAR FLAG1 = 0
+      ECHO PLAYER You shimmy up a nearby tree.
+      ECHO OTHERS %N shimmies up a nearby tree.
+      EQUAL FLAG1 1
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 4
+Its lush green ferns sprout out in several directions, surrounding the pond.
+*DESCRIPTION_END
+
+IFTOUCH 4
+   IFVAR FLAG1 ! 0
+      CLEARVERB
+      ECHO PLAYER You can't reach that from where you are.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 5
+You see a slightly fleshy plant, with long spiney leaves, growing from a
+single center. Toward the top of the plant the new leafs are scarlet, and in
+their midst is a cluster of tiny nondescript blossoms.
+*DESCRIPTION_END
+
+IFTOUCH 5
+   IFVAR FLAG1 ! 0
+      CLEARVERB
+      ECHO PLAYER You can't reach that from where you are.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 6
+A vertical curtain of water, it continuously splashes into the pond below,
+creating billions of small bubbles that rise to the surface.
+*DESCRIPTION_END
+
+IFTOUCH 6
+   IFVAR FLAG1 ! 2
+      CLEARVERB
+      ECHO PLAYER You can't reach that from here.
+   ENDIF
+ENDIF
+
+IFPREVERB LEAN 6
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You put your head back under the waterfall so that it pummels your face with
+      ECHO PLAYER its invigorating coolness. You open your mouth and let some of the delicious
+      ECHO PLAYER pure water run in.
+      ECHO OTHERS %N put %h head back under the falls.
+   ENDIF
+ENDIF
+
+IFPREVERB GO 6
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You step into the waterfall.
+      ECHO OTHERS %N steps into the waterfall.
+      DISBAND
+      MOVE ITEMVAL2
+      AFFECT ITEMVAL2
+      ECHO OTHERS %N arrives through the waterfall.
+   ENDIF
+ENDIF      
+
+IFPREVERB D -1
+   IFVAR FLAG1 = 1
+      CLEARVERB
+      ECHO PLAYER You climb down out of the tree.
+      ECHO OTHERS %N climbs down out of the tree.
+      EQUAL FLAG1 0
+   ENDIF
+ENDIF
+
+IFPREVERB O -1
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You step out of the pond.
+      ECHO OTHERS %N steps out of the pond.
+      EQUAL FLAG1 0
+   ENDIF
+ENDIF
+
+IFVERB SEARCH -1
+   ECHO PLAYER You find a lovely blooming bromeliad nestled between two rocks.
+ENDIF
+
+IFPREVERB DUCK -1
+   IFVAR FLAG1 = 2
+      CLEARVERB
+      ECHO PLAYER You dunk yourself under the surface of the pond.
+      ECHO OTHERS %N dunks %iself under the surface of the pond.
+   ENDIF
+ENDIF
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You listen to the roar of the falls pummeling the boulders beneath it.
+      ECHO PLAYER %N listens to the surroundings.
+   ENDIF
+ENDIF
+
+IFPREVERB SNIFF -1
+   CLEARVERB
+   ECHO PLAYER You sniff and detect the scent of honey on the breeze.
+   ECHO OTHERS %N sniffs.
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+          ECHO PLAYER You sit on one of the smooth flat boulders surrounding the pond.
+          ECHO OTHERS %N sits on one of the smooth flat boulders surrounding the pond.
+      ENDIF
+      IFVAR POSITION = 1
+         ECHO PLAYER You're already sitting.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You sit up.
+         ECHO OTHERS %N sits up.
+      ENDIF
+      IFVAR POSITION = 3
+         ECHO PLAYER You sit on one of the smooth flat boulders surrounding the pond.          
+         ECHO OTHERS %N sits on one of the smooth flat boulders surrounding the pond.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 1
+      IFVAR POSITION = 0
+         ECHO PLAYER You find a seat on a comfortable branch.
+         ECHO OTHERS %N finds a seat on a comfortable branch.
+      ENDIF
+      IFVAR POSITION = 1
+         ECHO PLAYER You're already sitting.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You sit up.
+         ECHO OTHERS %N sits up.
+      ENDIF
+      IFVAR POSITION = 3
+         ECHO PLAYER You find a seat on a comfortable branch.
+         ECHO OTHERS %N finds a seat on a comfortable branch.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 2
+      IFVAR POSITION = 0
+         ECHO PLAYER You sit down, immersing yourself in the pond.
+         ECHO OTHERS %N sits down, immersing %iself in the pond.
+      ENDIF
+      IFVAR POSITION = 1
+         ECHO PLAYER You're already sitting.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You stop floating.
+         ECHO OTHERS %N stops floating.
+      ENDIF
+      IFVAR POSITION = 3
+         ECHO PLAYER You sit down, immersing yourself in the pond.
+         ECHO OTHERS %N sits down, immersing %iself in the pond.
+      ENDIF
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR FLAG1 = 0
+      IFVAR POSITION = 0
+         ECHO PLAYER You stretch out on one of the smooth flat boulders, basking in the sun.
+         ECHO OTHERS %N stretches out on one of the smooth flat boulders.
+      ENDIF
+      IFVAR POSITION = 1
+         ECHO PLAYER You lie back.
+         ECHO OTHERS %N lies back.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You're already laying down.
+      ENDIF
+      IFVAR POSITION = 3
+         ECHO PLAYER You stretch out on one of the smooth flat boulders, basking in the sun.
+         ECHO OTHERS %N stretches out on one of the smooth flat boulders.
+      ENDIF
+   ENDIF
+   IFVAR FLAG1 = 1
+      ECHO PLAYER There's no place in this tree to lie down.
+   ENDIF
+   IFVAR FLAG1 = 2
+      IFVAR POSITION ! 2
+         ECHO PLAYER You lie back, floating on the water.
+         ECHO OTHERS %N lies back, floating on the water.
+      ENDIF
+      IFVAR POSITION = 2
+         ECHO PLAYER You're already floating on your back.
+      ENDIF
+   ENDIF
+   POSITION LAY
+ENDIF
+
+IFPREVERB KNEEL -1
+   IFVAR FLAG1 ! 0
+      CLEARVERB
+      ECHO PLAYER There's no place to kneel here.
+   ENDIF
+ENDIF
+
+IFPREVERB STAND -1
+   IFVAR FLAG1 = 2
+      IFVAR POSITION = 2
+         CLEARVERB
+         ECHO PLAYER You stop floating.
+         ECHO OTHERS %N stops floating.
+         POSITION STAND
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB JUMP -1
+   CLEARVERB
+   IFVAR ROUNDTIME ! 0
+      STRCVT 0 ROUNDTIME
+      ECHO PLAYER [Wait %0 seconds...]
+   ENDIF
+   IFVAR ROUNDTIME = 0
+      IFVAR FLAG1 = 0
+         ECHO PLAYER You take a running jump into the pond, splashing water everywhere!
+         ECHO OTHERS %N takes a running jump into the pond, splashing you with water!
+      ENDIF
+      IFVAR FLAG1 = 1
+         EQUAL FLAG2 0
+         ECHO PLAYER You boldly swan dive off a high tree branch and into the pond...
+         ECHO OTHERS %N swan dives off a high tree branch and into the pond...
+         PLREVENT 1
+         CONTPLREVENT
+         ECHO PLAYER ...You plummet head first toward the pond...
+         ECHO OTHERS ...%N plummets toward the pond...
+         PLREVENT 1
+         CONTPLREVENT
+         RANDOM DUMMY1 1 9 0
+         RANDOM DUMMY2 1 9 0
+         STRCVT 1 DUMMY1
+         STRCVT 2 DUMMY2
+         ECHO PLAYER You belly flop with a huge splash. After some consideration the judges award you a %1.%2.
+         ECHO OTHERS %N belly flops with a huge splash. You give %i a %1.%2.
+      ENDIF
+      IFVAR FLAG1 = 2
+         ECHO PLAYER You dive under the water and emerge on the other side of the pond.
+         ECHO OTHERS %N dives under the water and emerges on the other side of the pond.
+      ENDIF
+      POSITION LAY
+      EQUAL FLAG1 2
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3489
+   CALL 38
+ENDIF
+;
+;
+;WATERFALL CAVERN
+NUMBER 3490
+NAME Waterfall Cavern
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+EXIT O 3489
+
+ITEM 0 344 VAL2=3489
+ITEM 1 363 ADJ1=183
+ITEM 2 368 ADJ2=183
+ITEM 3 277 ADJ1=312
+EXTEND 3 covered with spongy moss
+PUT 3 1690 ADJ1=1344 VAL5=666
+
+*DESCRIPTION_START
+Just enough light filters through the cascade of water to brighten this large
+cavern. Its stone surfaces are very wet and slippery from the constant spray of
+the waterfall, several long stalagmites and stalactites making maneuvering next
+to impossible. A stone shelf covered with spongy moss seems to be the only dry
+place to sit or lay.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+An almost solid curtain of water, it completely covers the cavern opening,
+blocking both the view from the inside and out. It seems even louder on this
+side of the majestic waterfall, its thounderous roar echoing from stalagmite
+to stalagtite.
+*DESCRIPTION_END
+
+IFTOUCH 0
+   IFVAR POSITION ! 0
+      CLEARVERB
+      ECHO PLAYER You can't reach that from here.
+   ENDIF
+ENDIF
+
+IFPREVERB TOUCH 0
+   IFVAR POSITION = 0
+      CLEARVERB
+      ECHO PLAYER You run your fingers through the curtain of water.
+      ECHO OTHERS %N runs %h fingers through the waterfall.
+   ENDIF
+ENDIF
+
+IFPREVERB GO 0
+   CLEARVERB
+   ECHO PLAYER You step through the waterfall.
+   ECHO OTHERS %N steps through the waterfall.
+   AFFECT 3489
+   ECHO OTHERS %N arrives through a waterfall.
+   MOVE 3489
+   POSITION LAY
+   EQUAL FLAG1 2
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+Over several decades, dripping water has left behind stone icicles that both
+hang down from the ceiling and stretch up from the floor of this cavern, a few
+here and there meeting in the middle.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+Over several decades, dripping water has left behind stone icicles that both
+hang down from the ceiling and stretch up from the floor of this cavern, a few
+here and there meeting in the middle.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 3
+In a corner of the cavern, a stone shelf juts out between two walls. Covered
+in a thick layer of spongy moss, it looks both dry and relatively comfortable.
+*DESCRIPTION_END
+
+IFPREVERB GO 3
+   CLEARVERB
+   IFVAR POSITION ! 0
+      ECHO PLAYER You're already on the stone shelf.
+   ENDIF
+   IFVAR POSITION = 0
+      ECHO PLAYER You hop up on the stone shelf.
+      ECHO OTHERS %N hops up on the stone shelf.
+      POSITION SIT
+   ENDIF
+ENDIF
+
+IFPREVERB GET -1
+   IFVAR ARCHNUM = 1690
+      IFVAR ITEMVAL5 = 666
+         CLEARVERB
+         ECHO PLAYER You pull some spongy moss off the stone shelf.
+         ECHO OTHERS %N pulls some spongy moss off the stone shelf.
+         NEWITEM -1 1690 ADJ1=1344 VAL2=1 VAL3=403 VAL5=9
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB PULL -1
+   IFVAR ARCHNUM = 1690
+      IFVAR ITEMVAL5 = 666
+         CLEARVERB
+         ECHO PLAYER You pull some spongy moss off the stone shelf.
+         ECHO OTHERS %N pulls some spongy moss off the stone shelf.
+         NEWITEM -1 1690 ADJ1=1344 VAL2=1 VAL3=403 VAL5=9
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB EAT -1
+   IFVAR ARCHNUM = 1690
+      IFVAR ITEMVAL5 = 666
+         CLEARVERB
+         ECHO PLAYER Why not pull off some moss from the stone shelf before you try to eat it?
+      ENDIF
+   ENDIF
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You hop up on the stone shelf.
+      ECHO OTHERS %N hops up on the stone shelf.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up.
+      ECHO OTHERS %N sits up.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You hop up on the stone shelf.
+      ECHO OTHERS %N hops up on the stone shelf.
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION ! 2
+      ECHO PLAYER You stretch out on the stone shelf.
+      ECHO OTHERS %N stretches out on the stone shelf.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying down.
+   ENDIF
+   POSITION LAY
+ENDIF
+
+IFPREVERB KNEEL -1
+   CLEARVERB
+   ECHO PLAYER The stalagmites make it impossible to kneel anywhere.
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   EQUAL EXIT 3489
+   CALL 38
+ENDIF
+;
+;
+;ARABIAN NIGHTS
+NUMBER 3491
+NAME Arabian Nights
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+EXIT ABOVE 3492
+
+ITEM 0 605 ADJ1=286 ADJ2=1037
+ITEM 1 1035 ADJ1=222 ADJ2=925
+ITEM 2 413 ADJ1=67
+
+*DESCRIPTION_START
+An expansive waste stretches out behind you, nothing to be seen but mile after
+mile of sand glittering in the moonlight. In front of you, bursting up from the
+desert like the ancient stone walls of some half-buried fortress, a sheer rock
+face rises into the darkness of the nighttime sky.
+*DESCRIPTION_END
+
+IFPREVERB EXAM 0
+   CLEARVERB
+   ECHO PLAYER Nearly a vertical wall of stone, it rises several hundred feet into the air,
+   ECHO PLAYER vanishing into the darkness above. There's just enough moonlight to make out
+   ECHO PLAYER some old etched writing in the side of the rock face, obscured by the scouring
+   IFITEM 3
+      ECHO PLAYER wind-blown sand. A large cave leads deep inside the rock face.
+   ENDIF
+   IFNOITEM 3
+      ECHO PLAYER wind-blown sand.
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM READ 0
+There's just enough moonlight to make out a few crudely etched letters...
+
+Ali Baba was here.
+*DESCRIPTION_END
+
+IFPREVERB CLIMB 0
+   CLEARVERB
+   ECHO PLAYER You attempt to climb the rock face, but your hands and feet find no purchase.
+   ECHO OTHERS %N tries in vain to climb the sheer rock face.
+ENDIF
+
+IFVERB LEAN 0
+   RANDOM DUMMY1 1 10 0
+   IFVAR DUMMY1 = 10
+      ECHO PLAYER You feel something on the rock face shift beneath your back.
+   ENDIF
+ENDIF
+
+IFVERB PUSH 0
+   RANDOM DUMMY1 1 10 0
+   IFVAR DUMMY1 = 10
+      ECHO PLAYER You feel it budge just a little.
+   ENDIF
+ENDIF
+
+IFVERB KNOCK 0
+   ECHO ALL It sounds hollow.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+There's just enough moonlight to make out a few crudely etched letters...
+
+Ali Baba was here.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM READ 1
+There's just enough moonlight to make out a few crudely etched letters...
+
+Ali Baba was here.
+*DESCRIPTION_END
+
+IFPREVERB GET 2
+   CLEARVERB
+   ECHO PLAYER You scoop up a handful of sand, letting it sift through your fingers.
+   ECHO OTHERS %N scoops up a handful of sand, letting it sift through %h fingers.
+   RANDOM DUMMY1 1 100 0
+   IFVAR DUMMY1 = 100
+      ECHO PLAYER You find a valuable gem in the sand!
+      ECHO OTHERS %N finds a valuable gem in the sand!
+      NEWITEM -1 1538 ADJ1=275 VAL1=300
+   ENDIF
+ENDIF
+
+IFPREVERB PLAY 2
+   CLEARVERB
+   ECHO PLAYER The sand is too dry to make a sand castle with.
+   ECHO OTHERS %N tries to build a sand castle, but the sand won't stick.
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You sit down on the cool sand.
+      ECHO OTHERS %N sits down on the cool sand.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You sit up.
+      ECHO OTHERS %N sits up.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You sit down on the cool sand.
+      ECHO OTHERS %N sits down on the cool sand.
+   ENDIF
+   POSITION SIT
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 0
+      ECHO PLAYER You lay down on the cool sand.
+      ECHO OTHERS %N lays down on the cool sand.
+   ENDIF
+   IFVAR POSITION = 1
+      ECHO PLAYER You lay back on the cool sand.
+      ECHO OTHERS %N lays back on the cool sand.
+   ENDIF
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying down.
+   ENDIF
+   IFVAR POSITION = 3
+      ECHO PLAYER You lay down on the cool sand.
+      ECHO OTHERS %N lays down on the cool sand.
+   ENDIF
+   POSITION LAY
+ENDIF
+
+IFSAY OPEN_SESAME.
+   IFNOITEM 3
+      ECHO ALL You hear a low rumble as a large crevice begins to form in the once seamless sheer rock face. Slowly
+opening ever wider, the entrance to a vast cave is revealed beyond.
+      NEWITEM 3 1829 VAL2=3492
+      AFFECT 3492
+      NEWITEM 9 1829 VAL2=3491
+      ECHO PLAYER You hear a low rumble as a large crevice begins to form, opening out into a
+      ECHO PLAYER cave that leads back outside.
+   ENDIF
+ENDIF
+
+IFSAY OPEN_SESAME!
+   IFNOITEM 3
+      ECHO ALL You hear a low rumble as a large crevice begins to form in the once seamless sheer rock face. Slowly
+opening ever wider, the entrance to a vast cave is revealed beyond.
+      NEWITEM 3 1829 VAL2=3492
+      AFFECT 3492
+      NEWITEM 9 1829 VAL2=3491
+      ECHO PLAYER You hear a low rumble as a large crevice begins to form, opening out into a
+      ECHO PLAYER cave that leads back outside.
+   ENDIF
+ENDIF
+
+IFSAY OPEN_SESAME
+   IFNOITEM 3
+      ECHO ALL You hear a low rumble as a large crevice begins to form in the once seamless sheer rock face. Slowly
+opening ever wider, the entrance to a vast cave is revealed beyond.
+      NEWITEM 3 1829 VAL2=3492
+      AFFECT 3492
+      NEWITEM 9 1829 VAL2=3491
+      ECHO PLAYER You hear a low rumble as a large crevice begins to form, opening out into a
+      ECHO PLAYER cave that leads back outside.
+   ENDIF
+ENDIF
+
+IFSAY OPEN_SAYS_ME
+   IFNOITEM 3
+      ECHO ALL You hear a low rumble as a large crevice begins to form in the once seamless sheer rock face. Slowly
+opening ever wider, the entrance to a vast cave is revealed beyond.
+      NEWITEM 3 1829 VAL2=3492
+      AFFECT 3492
+      NEWITEM 9 1829 VAL2=3491
+      ECHO PLAYER You hear a low rumble as a large crevice begins to form, opening out into a
+      ECHO PLAYER cave that leads back outside.
+   ENDIF
+ENDIF
+
+IFSAY OPEN_SAYS_ME!
+   IFNOITEM 3
+      ECHO ALL You hear a low rumble as a large crevice begins to form in the once seamless sheer rock face. Slowly
+opening ever wider, the entrance to a vast cave is revealed beyond.
+      NEWITEM 3 1829 VAL2=3492
+      AFFECT 3492
+      NEWITEM 9 1829 VAL2=3491
+      ECHO PLAYER You hear a low rumble as a large crevice begins to form, opening out into a
+      ECHO PLAYER cave that leads back outside.
+   ENDIF
+ENDIF
+
+IFSAY OPEN_SAYS_ME.
+   IFNOITEM 3
+      ECHO ALL You hear a low rumble as a large crevice begins to form in the once seamless sheer rock face. Slowly
+opening ever wider, the entrance to a vast cave is revealed beyond.
+      NEWITEM 3 1829 VAL2=3492
+      AFFECT 3492
+      NEWITEM 9 1829 VAL2=3491
+      ECHO PLAYER You hear a low rumble as a large crevice begins to form, opening out into a
+      ECHO PLAYER cave that leads back outside.
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   IFITEM 3
+      REMOVEITEM 3
+   ENDIF
+   AFFECT 3492
+   IFITEM 9
+      REMOVEITEM 9
+   ENDIF
+   EQUAL EXIT 3491
+   CALL 38
+ENDIF
+;
+;
+;Treasure Trove
+NUMBER 3492
+NAME Treasure Trove
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+ITEM 0 373 ADJ1=526 LIT
+ITEM 1 916
+EXTEND 1 of gold and silver coins
+PUT 1 161 ADJ1=147 ADJ2=592 ADJ3=292
+PUT 1 968 ADJ1=468 VAL5=666
+PUT 1 1084 ADJ1=579 ADJ2=147 VAL5=666
+PUT 1 138 ADJ1=141 ADJ2=114 VAL5=666
+PUT 1 1213 ADJ1=487 ADJ2=39 VAL5=666
+ITEM 2 1668
+EXTEND 2 of pearls
+ITEM 3 468
+EXTEND 3 of solid gold eggs
+ITEM 4 386 ADJ1=663
+PUT 4 387
+ITEM 5 1565 ADJ1=539 ADJ2=32
+ITEM 6 1181 ADJ1=695 ADJ2=973
+EXTEND 6 with tattered tassels woven at each corner
+ITEM 7 1308 ADJ1=222
+ITEM 8 346 ADJ1=187
+
+*DESCRIPTION_START
+Glittering brilliantly from nearby torchlight, a virtual mountain of treasure
+fills this enormous cavern. A magnificent candelabra rises triumphantly from a
+gargantuan mound of gold and silver coins, while long strings of pearls drape
+various objets d'art. A golden harp rests near a large nest of solid gold eggs,
+juxtaposed by a simple, unadorned brass lamp. The air is crisp, and the sound
+of mineral rich water occasionally dripping from centuries-old stalactites in
+neighboring caves can be eerily heard.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+It juts from the wall in a brass sconce, flooding this cavern with a bright
+but flickering light. On the stone wall beside it, someone has etched the words
+"Foxy was here."
+*DESCRIPTION_END
+
+IFPREVERB UNLIGHT 0
+   CLEARVERB
+   ECHO PLAYER You extinguish the burning torch.
+   ECHO OTHERS %N extinguishes the burning torch.
+   PLREVENT 1
+   CONTPLREVENT
+   ECHO ALL It magically relights itself!
+ENDIF
+
+IFVERB PULL 0
+   IFITEM 9
+      ECHO ALL You hear a slight grinding noise.
+   ENDIF
+   IFNOITEM 9
+      NEWITEM 9 1829 VAL2=3491
+      ECHO PLAYER You hear a low rumble as a large crevice begins to form, opening out into a
+      ECHO PLAYER cave that leads back outside.
+      AFFECT 3491
+      ECHO ALL You hear a low rumble as a large crevice begins to form in the once seamless sheer rock face. Slowly
+opening ever wider, the entrance to a vast cave is revealed beyond.
+      NEWITEM 3 1829 VAL2=3492
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 1
+This gargantuan mound of coins seems to go on forever, creating an ocean of
+opulence that covers the entire floor of the cavern. You have a sudden desire
+to jump in and take a swim!
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 2
+Each length is hand knotted and bears perfecly round, natural pearls. They
+drape over several old portraits, a gem-encrusted chalice, a marble statue, and
+a beautiful bronze hourglass.
+*DESCRIPTION_END
+
+IFPREVERB TOUCH 2
+   CLEARVERB
+   ECHO PLAYER You run your hands across a string of pearls.
+   ECHO OTHERS %N runs %h hands across a string of pearls.
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 3
+This rather large nest is filled with solid gold goose eggs. An intricately
+colored carpet with tattered tassels woven at each corner is stretched out in
+front of it.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM IN 3
+It is filled to overflowing with solid gold goose eggs.
+*DESCRIPTION_END
+
+IFPREVERB GO 3
+   CLEARVERB
+   ECHO PLAYER Your maternal instincts taking over, you roost upon the nest, fidgeting 'til
+   ECHO PLAYER you are comfortable and are able to manage to swathe the eggs in the warm folds
+   ECHO PLAYER of your behind. An uncontrollable cluck escapes your lips.
+   ECHO OTHERS %N sits upon the nest and begins clucking.
+   POSITION SIT
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 4
+It holds eighteen candles and can could easily illuminate the dimmest of
+dark gloomy mansions.
+*DESCRIPTION_END
+
+IFPREVERB LIGHT 4
+   CLEARVERB
+   IFVAR ITEMVAL5 = 0
+      ECHO PLAYER You light the eighteen candles on the candelabra, and light floods the
+      ECHO PLAYER cavern, causing you to shield your eyes for a moment while they adjust.
+      ECHO OTHERS %N lights the eighteen candles on the candelabra, and light floods the cavern, causing you to shield
+your eyes for a moment while they adjust.
+   ENDIF
+   IFVAR ITEMVAL5 = 1
+      ECHO PLAYER The candelabra is already lit.
+   ENDIF
+   EQUAL ITEMVAL5 1
+ENDIF
+
+IFPREVERB UNLIGHT 4
+   CLEARVERB
+   IFVAR ITEMVAL5 = 0
+      ECHO PLAYER The candelabra is not lit.
+   ENDIF
+   IFVAR ITEMVAL5 = 1
+      ECHO PLAYER You extinguish the candelabra, and the light returns to its shadowy state.
+      ECHO OTHERS %N extinguishes the candelabra, and the light returns to its shadowy state.
+   ENDIF
+   EQUAL ITEMVAL5 0
+ENDIF
+
+IFPREVERB GO 4
+   CLEARVERB
+   ECHO PLAYER You jump over the candelabra...
+   ECHO OTHERS %N jumps over the candelabra...
+   PLREVENT 1
+   CONTPLREVENT
+   RANDOM DUMMY1 1 2 0
+   IFVAR DUMMY1 = 1
+      ECHO PLAYER ... Nimble and quick, you gracefully land on your feet, sinking into the treasure up to your knees.
+      ECHO OTHERS ... Nimble and quick, %s gracefully lands on %h feet, sinking into the treasure up to %h knees.
+   ENDIF
+   IFVAR DUMMY1 = 2
+      ECHO PLAYER ... Clumsily you catch your foot on an arm of the candelabra and tumble down the side of the
+treasure mound!
+      ECHO OTHERS ... Clumsily %s catches %h foot on an arm of the candelabra and tumbles down the side of the
+treasure mound!
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 5
+It looks like it might feel smooth.
+*DESCRIPTION_END
+
+IFPREVERB OPEN 5
+   CLEARVERB
+   ECHO PLAYER You lift the small stopper from the lamp and spy a tiny blue genie in the
+   ECHO PLAYER lamp bathing! He screams in surprise, and his arm reaches out and snatches the
+   ECHO PLAYER stopper from you, closing the lamp.
+   ECHO OTHERS %N lifts the small stopper from the lamp and peeks inside.
+   ECHO OTHERS You hear a startled scream, then a large blue hand reaches through the opening, grabs the stopper and
+closes the lamp!
+ENDIF
+
+IFPREVERB LISTEN 5
+   CLEARVERB
+   ECHO PLAYER You hear rattling inside!
+   ECHO OTHERS %N presses %h ear to the side of the lamp.
+ENDIF
+
+IFPREVERB TOUCH 5
+   CLEARVERB
+   RANDOM DUMMY1 1 3 0
+   IFVAR DUMMY1 = 1
+      ECHO PLAYER You rub the lamp, and a cloud of smoke billows out, congealing into the form
+      ECHO PLAYER of a blue genie! He discontinues his pedicure long enough to give you a nasty
+      ECHO PLAYER look before he retreats back into the lamp!
+      ECHO OTHERS %N rubs the lamp, and a cloud of smoke billows out, congealing into the form of a blue genie! He
+discontinues his pedicure long enough to give you a nasty look before he retreats back into the lamp!
+   ENDIF
+   IFVAR DUMMY1 = 2
+      ECHO PLAYER You rub the lamp, and a cloud of smoke billows out, congealing into the form
+      ECHO PLAYER of a blue genie, his face covered with an oatmeal masque and his eyes covered
+      ECHO PLAYER by cucumber slices. With an irritated wave of his hand, he disperses back into
+      ECHO PLAYER the lamp!
+      ECHO OTHERS %N rubs the lamp, and a cloud of smoke billows out, congealing into the form of a blue genie, his
+face covered with an oatmeal masque and his eyes covered by cucumber slices. With an irritated wave of his hand, he
+disperses back into the lamp!
+   ENDIF
+   IFVAR DUMMY1 = 3
+      ECHO PLAYER You rub the lamp, and a cloud of smoke billows out, congealing into the form
+      ECHO PLAYER of a blue genie wearing a bathrobe and slippers with his hair wrapped up in a
+      ECHO PLAYER bath towel. Without putting down his Harlequinn Romance, he saunters back into
+      ECHO PLAYER the lamp!
+      ECHO OTHERS %N rubs the lamp, and a cloud of smoke billows out, congealing into the form of a blue genie wearing
+a bathrobe and slippers with his hair wrapped up in a bath towel. Without putting down his Harlequinn Romance, he
+saunters back into the lamp!
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 6
+Though you are certain it was once a magnificently woven carpet, its threads
+have become worn and its tassels tattered.
+*DESCRIPTION_END
+
+IFPREVERB GO 6
+   CLEARVERB
+   IFVAR ITEMVAL1 = 1
+      ECHO PLAYER It's still in the air!
+   ENDIF
+   IFVAR ITEMVAL1 = 0
+      EQUAL ITEMVAL1 1
+      ECHO PLAYER You step onto the carpet.
+      ECHO OTHERS %N steps onto the carpet.
+      ECHO ALL It immediately lifts into the air and begins soaring around the room, dodging around stalagmites and
+low-hanging stalactites.
+      PLREVENT 1
+      CONTPLREVENT
+      ECHO PLAYER It suddenly rears up, tossing you onto the mound of coins!
+      ECHO OTHERS It suddenly rears up, tossing %N onto the mound of coins!
+      POSITION LAY
+      PLREVENT 1
+      CONTPLREVENT
+      ECHO ALL It slowly drifts back down to rest in front of the nest of golden eggs.
+      SETITEMVAL 6 1 0
+   ENDIF
+ENDIF
+
+*DESCRIPTION_START ITEM EXAM 7
+You admire a large portrait of a full figured woman with long-flowing bright
+red hair wearing many accessories.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 8
+You see a marble statue of a handsome, muscular man bearing no fig leaf.
+*DESCRIPTION_END
+
+IFPREVERB LISTEN -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER The air is still and absolutely silent, save for an occassional drip.
+      ECHO OTHERS %N listens to %h surroundings.
+   ENDIF
+ENDIF
+
+IFPREVERB SNIFF -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER An earthy, mineral smell permeates the air.
+      ECHO OTHERS %N sniffs.
+   ENDIF
+ENDIF
+
+IFPREVERB SIT -1
+   CLEARVERB
+   IFVAR POSITION = 1
+      ECHO PLAYER You're already sitting.
+   ENDIF
+   IFVAR POSITION ! 1
+      ECHO PLAYER You make a place for yourself amongst the treasure.
+      ECHO OTHERS %N takes a seat amongst the treasure.
+      POSITION SIT
+   ENDIF
+ENDIF
+
+IFPREVERB LAY -1
+   CLEARVERB
+   IFVAR POSITION = 2
+      ECHO PLAYER You're already laying down.
+   ENDIF
+   IFVAR POSITION ! 2
+      ECHO PLAYER You lay back in the mound of gold and silver coins.
+      ECHO OTHERS %N lays back in the mound of gold and silver coins.
+      POSITION LAY
+   ENDIF
+ENDIF
+
+IFPREVERB GAZE -1
+   IFVAR ARCHNUM = -1
+      CLEARVERB
+      ECHO PLAYER You gaze about in wonderment at the unbelievable specatacle before you.
+      ECHO OTHERS %N gazes about the area.
+   ENDIF
+ENDIF
+
+IFPREVERB JUMP -1
+   CLEARVERB
+   ECHO PLAYER You dive head-first into the mound of gold and silver coins, swimming in its
+   ECHO PLAYER shifting riches.
+   ECHO OTHERS %N dives head-first into the mound of gold and silver coins, swimming in its shifting riches.
+   POSITION LAY
+ENDIF
+
+IFPREVERB EXAM -1
+   IFVAR ARCHNUM = 161
+      CLEARVERB
+      ECHO PLAYER The fabulous wealth represented by the millions of coins staggers your mind.
+      ECHO OTHERS %N stares at the millions of coins, a gleam of greed shining in %h eyes.
+   ENDIF
+   IFVAR ARCHNUM = 138
+      CLEARVERB
+      ECHO PLAYER A gem-encrusted chalice catches your eye.
+   ENDIF
+   IFVAR ARCHNUM = 1213
+      CLEARVERB
+      ECHO PLAYER A beautiful bronze hourglass drains crimson sand from one end to the other.
+   ENDIF
+   IFVAR ARCHNUM = 968
+      CLEARVERB
+      ECHO PLAYER The artisanship of this great instrument is unsurpassed.
+   ENDIF
+   IFVAR ARCHNUM = 1084
+      CLEARVERB
+      ECHO PLAYER Though made of solid gold, from its size and shape you can easily tell that
+      ECHO PLAYER it's from a goose.
+   ENDIF
+ENDIF
+
+IFPREVERB READ -1
+   IFVAR ARCHNUM = 1035
+      CLEARVERB
+      ECHO PLAYER You read, "Foxy was here!"
+   ENDIF
+ENDIF
+
+IFPREVERB GET -1
+   IFVAR ARCHNUM = 161
+      CLEARVERB
+      ECHO PLAYER You scoop up armfuls of gold and silver coins, letting them spill all over
+      ECHO PLAYER you in a shower of sheer opulence.
+      ECHO OTHERS %N scoops up armfuls of gold and silver coins, letting them shower down on top of %i.
+   ENDIF
+   IFVAR ITEMVAL5 = 666
+      CLEARVERB
+      ECHO PLAYER You can't take that.
+   ENDIF
+ENDIF
+
+IFPREVERB EAT -1
+   IFVAR ARCHNUM = 161
+      CLEARVERB
+      ECHO PLAYER What did your mother tell you about putting dirty money in your mouth?!
+      ECHO OTHERS %N exhibits the poorest of personal hygeine and licks some gold and silver coins. Who knows where
+those dirty things have been?!
+   ENDIF
+   IFVAR ARCHNUM = 1084
+      CLEARVERB
+      ECHO PLAYER You bite into a solid gold egg and chip a tooth!
+      ECHO OTHERS %N bites into a solid gold egg and chips a tooth!
+   ENDIF
+ENDIF
+
+IFPREVERB LICK -1
+   IFVAR ARCHNUM = 161
+      CLEARVERB
+      ECHO PLAYER What did your mother tell you about putting dirty money in your mouth?!
+      ECHO OTHERS %N exhibits the poorest of personal hygeine and licks some gold and silver coins. Who knows where
+those dirty things have been?!
+    ENDIF
+ENDIF
+
+IFPREVERB TICKLE -1
+   IFVAR ARCHNUM = 968
+      CLEARVERB
+      ECHO PLAYER You tickle the harp and it giggles!
+      ECHO OTHERS %N tickles the harp and it giggles!
+   ENDIF
+ENDIF
+
+IFPREVERB KISS -1
+   IFVAR ARCHNUM = 968
+      CLEARVERB
+      ECHO PLAYER You kiss the harp and it giggles!
+      ECHO OTHERS %N kisses the harp and it giggles!
+   ENDIF
+ENDIF
+
+IFSAY LEAVE_PROGRAM
+   IFVAR PLRSINROOM < 2
+      ECHO PLAYER A soft voice from nowhere in tones, "You are on the only inhabitant of this
+      ECHO PLAYER holodeck program. To leave, please say END PROGRAM and then exit the holodeck.
+   ENDIF
+   IFVAR PLRSINROOM > 1
+      ECHO PLAYER A swirling light begins to surround you. When it fades, you find you are no
+      ECHO PLAYER longer where you were before...
+      ECHO OTHERS A swirling light begins to surround %N. When it fades, %s is no longer there.
+      MOVE 1920
+      AFFECT 1920
+      ECHO OTHERS You hear a low hum, and then %N appears surrounded by a swirling light that soon fades.
+   ENDIF
+ENDIF
+
+IFSAY END_PROGRAM
+   ECHO ALL The scene fades instantly away...
+   PLREVENT 1
+   CONTPLREVENT
+   IFITEM 9
+      REMOVEITEM 9
+   ENDIF
+   AFFECT 3491
+   IFITEM 3
+      REMOVEITEM 3
+   ENDIF
+   EQUAL EXIT 3491
+   CALL 38
+ENDIF
+;
+;
+;Moonlit Forest
+NUMBER 3493
+NAME Moonlit Forest
+REGION 1
+INDOOR_FLOOR
+FIXED_LIGHT
+CAFE
+MOVEMENT_ASTRAL
+CHANNEL 777
+
+CALL 49
+
+RELOGIN 1920
+
+

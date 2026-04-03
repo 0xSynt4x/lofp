@@ -1,0 +1,199 @@
+                        The Leap of Faith 
+                       by Taliesin Pendragon
+               Delivered by UID courier: Brnghurst 
+                       (aka David K Goodman)
+ 
+The Leap of Faith is an ancient abandoned mine shaft high in the
+Shartans, from which one can exit by only two routes: a chute that
+takes you safely to the bottom of the mountain, and a broken chute
+that leaves you dead and mangled at the bottom.  The only way to know
+which chute to take is the word of the person ahead of you.
+ 
+The entrance to the Leap is an archway blocked by a misshapen
+boulder.  You enter the leap by pushing the boulder, which can only
+be done if there is no-one behind it. Once inside, the boulder rolls 
+back into place, blocking your exit.  There are three openings, one
+of which is randomly blocked by the boulder.  This leaves only two
+openings, and you don't know which order they are in.  You can't see
+what's beyond each opening.  Climbing the boulder takes you to a
+ledge above this tight shaft.
+ 
+From the ledge, you can see which opening leads to which chute. The
+only exit from the ledge is down. You can only go down if no-one is
+in the room below you.  While you are on the ledge, some-one can
+enter the room below.  While some-one is on the ledge, no-one else
+can climb the boulder.  You locate the openings by searching.  If the 
+boulder is moved, you must search again to see if the openings have
+changed.
+ 
+You can't MARK the ledge or the room below, nor Teleport or Bend
+Space out, nor use Mist or other forms to fool the rooms.
+ 
+A lone person can enter and climb the boulder to determine which
+opening is which, then climb down and select one.  They may choose to 
+take a fast, fun ride to the bottom, or kill themselves, or not look
+first and blindly pick one, casting their fate to the gods.
+ 
+A person leading another must communicate the situation to the one
+who follows them in.  They can only leave once the person below
+chooses an opening.  The person below must trust the person above
+them.  Some guilds or assocations may make use of this situation to
+test the faith of their followers or new initiates.
+ 
+The archway is somewhere high in the Shartans.  Both chutes leave you 
+at the top of the wall in the gobs, but in different conditions of 
+health <grin>.  It would be nice if the person on the ledge could 
+observe the room below.  It would be even nicer if there were an 
+observation room above the ledge from which people could observe the 
+ledge and the lower room.
+ 
+Another aspect of this setup can occur during a pursuit.  If a person 
+is being stalked or followed, they can step into the Leap.  If the 
+pursuer follows, it become a whole different situation.  If the two 
+people are less than friendly, then the question becomes, should the 
+one on the ledge give good or bad directions, and should the person 
+below trust them or not?
+ 
+ 
+; FROM OUTSIDE THE ARCHWAY TO THE LEAP OF FAITH **************************
+ 
+> look
+[Shartan Landslide]
+A landslide (or snowdrift) has revealed an ancient archway, blocked
+by a misshapen boulder. Written down the side of a fallen timber are
+strange pictograms. You don't read pictogram, but you know a skull
+and crossbones when you see it.
+ 
+> look archway
+You see nothing extraordinary.
+ 
+> go archway
+You can't go there!
+ 
+> look timber
+ox  :-O  :'-( 
+ 
+; IF SOMEONE IS BEHIND THE BOULDER
+> push boulder
+Something prevents you from pushing the boulder.
+ 
+; IF IT'S CLEAR BEHIND THE BOULDER
+> push boulder
+As you pass through the archway, the boulder rolls randomly back into 
+place, blocking your exit and one of the three openings. 
+ 
+ 
+; INSIDE THE LEAP OF FAITH **********************************************
+ 
+> look
+[The Leap of Faith]
+You are in a tight shaft, with room for one person only. A misshapen
+boulder is blocking your exit through the archway you came through.
+There are two openings, but from this vantage point nothing can be
+seen of what lays beyond. 
+Obvious exits: none. 
+ 
+; SAFE CHUTE
+> go x opening        ; x is either 1 or 2
+You go through the opening and find yourself in an icy chute.  Your
+body descends at high speed, exhilirating in the speed as the wind
+whistles past your head. The sights are just a blur as you carom from 
+turn to turn. Finally, your reach an upturn which slows your descent, 
+and you fly off the end of the chute, landing gently at the feet of
+the Shartans. 
+ 
+; BROKEN CHUTE
+You go through the opening and find yourself in an icy chute.  Your
+body descends at high speed, exhilirating in the speed as the wind
+whistles past your head. The sights are just a blur as you carom from 
+turn to turn. Then, you gasp in disbelief when you notice a broken
+gap in the chute! Your body flails wildly for a moment before it
+augers into the dirt at the feet of the Shartans. You'd be spitting
+dirt except for one thing: you're dead. 
+ 
+ 
+> go archway
+You can't go there!
+ 
+; WITH SOMEONE ON A LEDGE
+> climb boulder
+Something prevents you from climbing the boulder.
+ 
+; WITH NO-ONE ON A LEDGE
+> climb boulder
+You carefully climb the boulder, reaching a ledge above.
+ 
+ 
+> look
+[Ledge above a Boulder]
+From this lofty perch you behold a breathtaking view of the land and
+sea below you.  Wind blows crisply past your head, making your eyes
+water.  You see two openings in the shaft below you.
+Obvious exits: down.
+ 
+> search
+The first opening you see leads to an icy chute leading to the bottom 
+of the mountain.  The second leads to a broken chute which drops off
+into space. 
+ 
+; WITH SOME-ONE BELOW YOU
+> down
+Something prevents you from climbing down the boulder.
+ 
+; WITH NO-ONE BELOW YOU
+> down
+You climb down the boulder to the room below.
+ 
+ 
+                       DISCOVERED MANUSCRIPT
+ 
+When the rooms are first discovered, I'd like the following decaying
+manuscript to be found within (which may be removed by the finder): 
+ 
+ On (a date 3 years ago Old Calendar), my son, Taliesin Pendragon,
+ died at the hands of another.  Lest he be forgotten, I've committed
+ his story to parchment.  It starts with a girl ... Mariquilla. 
+ 
+ Mariquilla was a lovely young woman.  Tall and slender she was, with 
+ long, flowing hair and a quick smile.  She loved to wander alone in
+ the woods, reveling in the beauty and mysteries of nature.  Although 
+ a talented weaver with no fighting skills, she had no fear of the
+ creatures she found, and they never bothered her. She was often seen 
+ in remote locations, from the Inner Sea to the high Shartans. 
+ 
+ From the first time he saw Mariquilla, Taliesin was smitten with
+ her.  His love of nature and knowledge of the wilds made them
+ instant friends, and they became inseparable.  Fayd's maidens were
+ sad at the loss of another bachelor, but the love Mari and Tali
+ shared brought joy to the hearts of all. 
+ 
+ The tragedy began when Taliesin was called to aid his cousins in a
+ far-off village.  Shield in hand, he kissed Mariquilla farewell and
+ left to defend his kinfolk.  For six months, he battled against the
+ creatures that threatened that village.  When at last they had
+ succeeded in driving off the attackers, a weary Taliesin returned to 
+ Fayd.  In his absence, however, Mari had fallen for another man. 
+ 
+ In her travels, Mariquilla had discovered an ancient mine shaft high 
+ in the Shartans.  She brought Taliesin to that shaft, and there she 
+ broke the news and his heart in one stroke.  He vowed to pursue her
+ to the ends of Andor, and to slay all who might try to keep her from
+ him.  It was this she had feared.  Only two openings led from the 
+ shaft he was in, and from a ledge above, Mari could tell him which 
+ opening led to safety.  She advised him to enter the opening to the 
+ left, and trusting her, he took it.
+ 
+ Taliesin's quick plunge down an icy chute was followed by disaster
+ as he flew off the end of the broken chute, falling through space to 
+ land in a heap at the feet of the Shartans.  His screams of rage and
+ anguish as he fell had been heard echoing all the way to the City
+ Gate.  Travellers from Grymwood had seen him fall, but by the time
+ they reached the bottom, nothing was left but a pool of blood.  His
+ body is presumed to have been dragged off by animals. 
+ 
+ My wife, gods rest her soul, had been taken from us not long before.  
+ I am grateful she did not live to see Taliesin's untimely fall, and
+ pray that he is with her now.  The people of Fayd have spoken of
+ sealing the mine shaft, but I would rather that it stand as a
+ monument to my son.  Remember him.
+

@@ -1,0 +1,210 @@
+Conjuration spells.
+------------------
+100: Flame Bolt: Lev=1
+101: Force Blade: Lev=3
+102: Mystic Armor: Lev=5
+103: Lightning Bolt: Lev=7
+105: Globe of Protection: Lev=15
+106: Summon Fire Elemental: Lev=12
+107: Summon Air Elemental: Lev=12
+108: Summon Water Elemental: Lev=12
+109: Summon Gargoyle: Lev=16
+112: Call Meteor:  Lev=20
+113: Light: Lev=1
+114: Mystic key: Lev=2
+115: Shockwave: Lev=4
+116: Thunder Call: Lev=21
+117: Call Fire:  Lev=8
+118: Flaming Sphere: Lev=13
+119: Ice Bolt: Lev=3
+120: Frost Ray: Lev=6
+121: Freezing Sphere: Lev=9
+122: Summon Familiar: Lev= 2
+123: Summon Earth Elemental: Lev=12
+124: Inferno Glyph: Lev=20
+125: Thunder Glyph: Lev=10
+126: Ice Glyph: Lev=15
+127: Web: Lev=10
+130: Mass Protection: Lev=23
+131: Flaming Arrows: Lev=18
+132: Chain Lightning: Lev=23
+133: Globe of Protection II: Lev=30
+134: Siryx's Terrible tentacles: Lev=25
+135: Storm Blade: Lev=24
+136: Inferno Blade: Lev=19
+137: Winter Blade: Lev=22
+138: Energy Maelstrom: Lev=31
+139: Sorcerous Summons I: Lev=20
+140: Sorcerous Summons II: Lev=35
+141: Pyrotechnics: Lev=17
+142: Cloak of Shadow ?
+143: Wish ?
+144: Tindareth's Chaotic Summons: Lev=28
+
+
+Enchantment Spells
+------------------
+200: Fear: Lev=1
+201: Charm: Lev=3
+202: Enchantment I: Lev=4
+203: Enchantment II: Lev=15
+204: Enchantment III: Lev=30
+205: Command: Lev=6
+206: Domination I: Lev=12
+207: Strength I: Lev=4
+208: Strength II: Lev=8
+209: Strength III: Lev=16
+210: Haste: Lev=5
+211: Slow: Lev=5
+212: Mass Invisibility: Lev=25
+213: Bend Space I: Lev=17
+214: Domination II: Lev=24
+215: Scry: Lev=10
+216: Slumber I: Lev=2
+217: Slumber II: Lev=6
+218: Slumber III: Lev=18
+219: Silence: Lev=7
+220: Dancing Blade: Lev=1
+221: Dancing Sword: Lev=6
+222: Bend Space II: Lev=23
+223: Open Astral Gate ?
+224: Fly: Lev=11
+225: Invisibility: Lev=14
+226: Paranoia: Lev=3
+227: Imprisonment Rune: Lev=13
+228: Identify: Lev=7
+229: Wizard's Armor: Lev=9
+230: Disjunction: Lev=21
+231: Imprison: Lev=19
+232: Mist Form: Lev=20
+233: Mich's Hold ?
+234: Spell Shield: Lev=13
+235: Cloak Mind: Lev=22
+236: Time Trap ?
+237: Warp Mana ?
+238: Disintegrate ?
+239: Sorcerous Binding I ?
+239: Sorcerous Binding II ?
+242: Babble ?
+243: Charge Wand: Lev=26
+244: Enchant an Item: Lev=31
+245: Slime Form: Lev=13
+246: Yshtarin's Confounding Translocation: Lev=29
+247: Brain Drain ?
+248: Phantom Form: Lev=34
+250: Revelation ?
+
+Necromancy
+-----------------
+301: Turn Undead I: Lev=2
+302: Turn Undead II: Lev=8
+303: Cure Poison: Lev=11
+304: Turn Undead III: Lev=16
+305: Breath of Life: Lev=14
+306: Animate Skeleton: Lev=6
+307: Animate Zombie: Lev=10
+308: Control Undead I: Lev=7
+309: Control Undead II: Lev=13
+310: Control Undead III: Lev=21
+311: Speak with Dead: Lev=3
+312: Wail of the Banshee: Lev=20
+313: Body Destruction I: Lev=1
+314: Body Destruction II: Lev=5
+315: Bond Destruction III: Lev=10
+316: Body Restoration I: Lev=1
+317: Body Restoration II: Lev=5
+318: Body Restoration III: Lev=10
+319: Cure Disease: Lev 12
+320: Contagion: Lev=23
+321: Poison: Lev=17
+322: Symbol of Death: Lev=25
+323: Spectral Fist: Lev=3
+326: Spectral Shield: Lev=9
+327: Improve Constitution ?
+328: Improve Agility ?
+329: Improve Strength ?
+330: Improve Quickness ?
+331: Improve Perception ?
+332: Improve Empathy ?
+333: Improve Willpower ?
+334: Invigoration I: Lev=2
+335: Invigoration II: Lev=9
+336: Wight Animation: Lev=17
+337: Reconstruction: Lev=4
+338: Unstun: Lev=9
+339: Destroy Undead I: Lev=3
+340: Destroy Undead II: Lev=8
+341: Destroy Undead III: Lev=13
+342: Staunch Flow ?
+343: Regeneration: Lev=27
+344: Disruption ?
+345: Spectral Sword: Lev=7
+346: Malthesia'a Life Drain ?
+347: Divine Blessing: Lev=10
+348: Curse ?
+349: Warp Mind ?
+350: Call of the Grave ?
+351: Wither Limb: Lev=24
+352: Raise Undead: Lev=23
+353: Summon Spectral Warrior: Lev=32
+354: Rorin's Fire: Lev=17
+355: Damnthing's Song
+356: Bald-Headed Freak
+
+General Magic
+-------------------
+400: Detect Magic: Lev=1
+401: Dispel Lesser Magic: Lev=5
+403: Mindlink: Lev=9
+404: Aura Sense: Lev=14
+405: See Hidden: Lev=3
+406: Dispel Invisibility: Lev=8
+407: Analyze Ore: Lev=3
+408: Truename: Lev=18
+409: Dispel Greater Magic ?
+410: Dispel Player ?
+411: Mystic Chant ?
+412: Rite of Preparation ?
+415: My Happy Spell ?
+
+Druidic Spells
+------------------
+500: Plant Snare: Lev=4
+501: Call Storm: Lev=23
+502: Disperse Storm: Lev=19
+503: Call Lightning: Lev=17
+504: Call Animal: Lev=1
+505: Freedom: Lev=9
+506: Resist Weather: Lev=3
+507: Heat Shield: Lev=7
+508: Cold Shield: Lev=6
+509: Repel Plants: Lev=10
+510: Repel Plants and Webs: Lev=18
+511: Carapace: Lev=8
+512: True Aim: Lev=15
+513: Agility I: Lev=4
+514: Agility II: Lev=11
+515: Agility III: Lev=16
+516: Wall of Thorns: Lev=14
+517: Stick to Snake: Lev=5 
+518: Claw Growth: Lev=2
+519: Sunray: Lev=13
+520: Night Vision: Lev=1
+521: Camouflage: Lev=7
+522: Insect Swarm: Lev=25
+523: Earth Spike: Lev=5
+524: Earth Wave: Lev=12
+525: Whirlwind ?
+526: Creeping Death ?
+527: Animal Form ?
+528: Free Action: Lev=20
+529: Ice Storm ?
+530: Spider Climb ?
+531: Tree Door: Lev=10
+532: Ride the Lightning: Lev=34
+533: Commune to Nature: Lev=27
+534: Claws of the Elder Wolf: Lev=21
+535: Form Lock: Lev=18
+536: Wolf Form: Lev=26
+537: Burning Claws ?
+538: Scion of the Earthsoul

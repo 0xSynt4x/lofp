@@ -1,0 +1,478 @@
+<HTML><HEAD><TITLE>Monster Scripting</TITLE></HEAD>
+<BODY BGCOLOR="#ffffff">
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+
+<H2>Monster Scripting</H2>
+<HR>
+<H3>Monster Adjectives</H3>
+
+Adjectives for monsters are difined similar to, but not the same as they
+are for items. Everyone must be assigned numbers for monster adjectives.
+To define a monster adjective you use MADJDEF # [adjective].
+<P>
+Example:
+<UL>
+       MADJDEF 10 giant
+</UL><B>
+To initiate a monster block you state MNUMBER #. Once again you must be
+assigned Monster numbers.</B>
+<HR>
+<H3>Monsters</H3>
+
+<H3>NAME [name text]</H3>
+<UL>
+Defines the name for the monster. Do not use a capital letter to start the
+monsters name unless you are making it a UNIQUE monster.
+</UL>
+<H4>ADJECTIVE #</H4>
+<UL>Defines the adjective for the monster. Do not use Adjectives with
+Unique monsters. This number is defined by the MADJ(See monsterAdjectives
+above).</UL>
+
+<H4>HUMAN</H4>   <UL>This is a macro that defines the creatures body parts as
+           humanoid.</UL>
+<H4>AVINE</H4>    <UL>Defines the creatures body parts as birdlike.</UL>
+<H4>ANIMAL</H4>  <UL>Defines a creatures body parts as a quadripedal
+animal.</UL>
+
+<H4>PART #</H4>   <UL>This can be used in conjunction with or alone to define
+           body parts on creatures.</UL>
+
+The available body parts are as follows:
+<PRE>
+00 - head
+01 - body
+02 - back
+03 - second head
+04 - thorax
+05 - right arm
+06 - left arm
+07 - right leg
+08 - left leg
+09 - right hind leg
+10 - left hind leg
+11 - right foreleg
+12 - left foreleg
+13 - right hand
+14 - left hand
+15 - right wing
+16 - left wing
+17 - tail
+18 - right paw
+19 - left paw
+</PRE>
+<H4>Monster Descriptions</H4>
+
+Standard description field just like it is used for rooms.
+<P>
+*DESCRIPTION_START<BR>
+Blah blah blah<BR>
+*DESCRIPTION_END<BR>
+
+<H4>BODY #</H4>
+<UL>Defines the number of body points that are factored into the exp value
+of the monster.</UL>
+
+<H4>EXTRABODY</H4>
+<UL>Defines an added amount of body point between 50-100% of the actual number
+that is NOT factored into the exp value of the monster.</UL>
+
+<H4>ATTACK1 #</H4>
+<UL>Defines the monsters attack modifier of the creatures primary attack.</UL>
+
+<H4>ATTACK2 #</H4>
+<UL>Defines the attack modifier of the creatures secondary attack. This is
+not used at the moment.</UL>
+
+<H4>DEFENSE #</H4>
+<UL>Defines the monsters defend modifier.</UL>
+
+<H4>STRATEGY #</H4>
+<UL>This defines how the monster reacts in combat and overall behavior. The
+following strategies are available.</UL>
+<PRE>
+0011-100 Non-hostile, flee when attacked. (note: if 1-25, the
+         creature will also cry for help and alert legal authorities)
+
+101-200  Non-hostile, defend themselves when attacked. 101-125 will
+         cry for help and alert legal authorities.
+
+201-300  Animals that always flee even if not attacked but defend
+         themselves if attacked.
+
+301-400  Hostile, flee when wounded.  (group A)
+401-500  Hostile, flee when wounded.  (group B)
+501-600  Hostile, fight to the death. (group A)
+601-700  Hostile, fight to the death. (group B)
+
+There is no destinction between group A and B at this time.
+The intention  of the difference in the future will be that
+Group A and group B will be mutually hostile.
+</PRE>
+<H4>TREASURE #</H4>
+<UL>Defines the treasure level for the creature. If this is zero, the
+creature has no treasure.</UL>
+
+<H4>IMMUNITY (immunity #) (immunity level)</H4>
+
+<UL>This defines a monster has having immunity to certain forms of attack.
+Or in some cases extra susceptability to certain forms of attack. Immunity
+level defines how susceptable or immune it is to that form of attack in
+half-units. 2 is the default setting which means the creature is affected
+2/2 (in full). 1 would be half damage. 3 would be 1 and 1/2 damage and 4
+would be double damage. All immunities, unless noted otherwise, are set to
+the default 2 except for #8 which is set to 0.</UL>
+<PRE>
+The available immunities are:
+
+0 - Ensnaring attacks, particularly large or supernatural creatures
+    would ignore this form of attack.
+
+1 - Crushing weapons.
+
+2 - Edged weapons.
+
+3 - Heat attacks.
+
+4 - Electrical attacks.
+
+5 - Cold attacks.
+
+6 - Nervous system attacks. Creature would be immune to spells like
+    charm, sleep, psionic blast, etc. due to the lack of a normal
+    nervous system.
+
+7 - Life affecting. creatures would be immune to body destruction,
+    poison, disease and body restoration due to a lack of an active
+    "life force" or  are to unlike normal
+    life.
+
+8 - Undead affecting. This is the only immunity that is default to 0
+    and it must be set to a special value. When set to 3 it defines a
+    creature as a lesser undead, and includes creatures up to and
+    including a lesser wight. Setting it to 2 defines it as a greater
+    undead such as a mummy, lesser vampire, etc. Setting it to 1
+    should be reserved for extremely powerful undead such as a lich,
+    a greater vampire, etc.
+
+9 - Susceptability to death criticals. If set to 0 the creature would
+    not receive a fancy death critical. This should be given to any
+    creature that lacks a normal humanoid or animal physiology.
+</PRE>
+
+<H4>RACE #</H4>
+<UL>Defines the creatures racial group. At the moment this is only used in
+conjunction with certain VALue settings on weapons for weapons of slaying.
+</UL>
+<P>
+The available races are as follows:
+<PRE>
+21 - extraplanar, creatures that come from other planes.
+22 - Undead
+23 - Arachnid
+24 - Kvantar
+25 - Troll
+26 - Lycanthrope
+27 - Giant
+28 - Constructs (either magical or technological)
+29 - Goblin
+30 - Ogre
+31 - Dragon
+</PRE>
+<H4>WEAPON (weapon#) (adjective#) (weighted probability)</H4>
+
+<UL>This defines the type of weapon the creature uses. Weapon# is the
+archetype # for the weapon. Adjective defines a standard adjective for the
+weapon and the weighted probability is the percent out of 100 that the
+creature attacks with this weapon.</UL>
+
+<H4>WEAPONPLUS #</H4>
+<UL>Defines the creatures weapon as magical with # being the bonus of the
+weapon. For obvious reasons you want to be carefull not to set this value
+
+<H4>ARMOR #</H4>
+<UL>Defines the percentage value of damage reduction that the monster
+receives.</UL>
+
+<H4>MAGICWEAPON (1, 2 or 3)</H4>
+<UL>If this is defined, then a magic weapon is needed to damage the
+creature. If MAGICWEAPON 1, then any magic weapon will do. 2 requires a
+bonus of at least +10. 3 requires a bonus of at least +21.</UL>
+
+<H4>SKINADJ [#]</H4>
+<UL>Defines the standard adjective number to attach to any items skinned
+
+<H4>SKINITEM [item#] [probability] [coppervalue] [magic]</H4>
+
+<UL><B>Item#</B> defines the archetype number of a certain skin that is
+available on a givenr monster. The"probability" is another weighted
+probability similar to that used for distibuting weapon selection.
+"Coppervalue is the items average value in copper. "Magic is a number
+thatwhich specifies the magic content of the item. If 0 which most skins
+should be, the item is non-magical. Otherwise it is a spell component.Some
+item archetypes you may use for creature skins are:</UL>
+<PRE>
+504 - beard
+505 - claw
+506 - scalp
+507 - scale
+508 - ear
+509 - pelt
+510 - tooth
+512 - dust
+513 - talon
+514 - hide
+515 - hair
+516 - beak
+517 - feathers
+518 - paw
+519 - horn
+520 - eye
+521 - tongue
+522 - tail
+523 - skin
+524 - tusk
+525 - finger
+526 - toe
+527 - leg
+528 - fangs
+</PRE>
+<H4>DISCOPORATE</H4>
+<UL>This indicates that if the monster is killed it will not leave a corpse
+behind.</UL>
+
+<H4>ETERNAL</H4>
+<UL>This indicates that the creature will not be unloaded by the system
+until it is killed.</UL>
+
+<H4>GENDER [0, 1 or 2]</H4>
+<PRE>
+0 - male,
+1 - female
+2 - neutral (defualt)
+</PRE>
+<H4>STEALABLE</H4>
+<UL>This indicates the monster may be stolen from.</UL>
+
+<H4>POISON [% chance] [x]</H4>
+
+<UL>If defined, this provides a percent chance that a level x poison is
+delivered to the victim upon being struck.</UL>
+
+<H4>DISEASE [% chance] [x]</H4>
+
+<UL>This is basically the same as POISON.</UL>
+
+<H4>FATIGUE [%chance] [x]</H4>
+
+<UL>This is the equivalent of a life draining attack.</UL>
+
+<H4>RESIST [x]</H4>
+
+<UL>This defines the creatures magic resistance.</UL>
+
+<H4>SPEED [x]</H4>
+
+<UL>The default setting is 3. It defines how fast the creature attacks and
+moves. 1 is fastest and 4 or more is for extremely slow creatures.</UL>
+
+<H4>HIDESKILL [X]</H4>
+
+<UL>This defines a percentage chance that the creature will be able to
+hide. it is also used to define the creatures skill at backstab. X is the
+base chance. Warning: do not define X above 100.</UL>
+
+<H4>GUARD [X]</H4>
+
+<UL>defines what creature this monster will guard where X is the monster
+number that is to be guarded.</UL>
+
+<H4>UNIQUE</H4>
+<UL>Indicates that this creature is unique and has a personal rather than
+general name. Use this definition BEFORE defining the creatures name.</UL>
+<HR>
+<H3>Spell Casting</H3>
+
+<H4>MANA [X]</H4>
+
+<UL>Defines the number of mana points a monster has.</UL>
+
+<H4>SPELLUSE [% chance]</H4>
+
+<UL>Defines the chance of the monster using its spells as opposed to its
+weapon or special attack.</UL>
+
+<H4>SPELLSKILL [X]</H4>
+
+<UL>Defines the base spellcraft skill the creature has.</UL>
+
+<H4>CASTLEVEL [x]</H4>
+
+<UL>Defines the duration of a creatures spell.</UL>
+
+<H4>NONDISRUPTABLE</H4>
+<UL>This indicates that the creature's spell will not be disrupted by an
+attack.</UL>
+
+<H4>SILENCEIGNORE</H4>
+<UL>This indicates that the Silence spell will not affect the creature's
+ability to cast a spell.</UL>
+
+<H4>SPELL [Spell#]</H4>
+
+<UL>Grants the creature the given spell. NOTE: Not all spells will work but
+almost all offensive and defensive spells will work.</UL>
+<HR>
+<H3>Psionics</H3>
+
+<H4>PSIRESIST [x]</H4>
+
+<UL>Defines the creature's psionic resistance.  If you don't specify any,
+it will default to the same as its normal magic resistance. (Note: This is
+a monsters resistance to mental attacks, ie stuns).</UL>
+
+<H4>PSI [x]</H4>
+
+<UL>The number of psi points the creature has.</UL>
+
+<H4>DISCIPLINE [x]</H4>
+
+<UL>Gives the creature the psionic discipline # you specify.</UL>
+
+<H4>PSIUSE [x]</H4>
+
+<UL>Specifies a percentage (1-100) of the time that this creature will opt
+
+<H4>PSISKILL [x]</H4>
+
+<UL>The total chance that the psionic creature has when invoking apsionic
+power.  Powerful psionic creatures should have well overa 100 so as to
+defeat a player's natural resistance to psionics.</UL>
+
+<H4>PSILEVEL [x]</H4>
+
+<UL>The creature's effective skill level in the Mind over Matter skill.
+This is used for determining the effectiveness of Cryokinetics,
+Pyrokinetics, Electrify and Kinetic Thrust.</UL>
+<HR>
+<H4>How to design a good psionic creature</H4>
+<P>
+Psionic creatures should always have at least one psionic attack discipline
+for overcoming a psionicist's defense modes;  it should also have a defense
+mode of its own.  Then just give it whatever you think it should have.  It
+will probably take some testing to find out what monsters can use well.
+I've tried to build in some intelligence for monsters so that they'll make
+wise selections from the disciplines you give them based on their
+situation.
+<P>
+One difference with psionic creatures v. magic creatures:  if you give them
+a defense discipline (be it a mental defense or the physical defenses),
+they get genned with those disciplines already active. Make sure you give
+psionic monsters enough psi to maintain whatever they have.
+<P>
+Don't give monsters non-battle psionic disciplines (like levitation,
+flight, strengthen steel, etc.).  Don't give them Domination either,
+because they aren't smart enough to make use of it properly (at this time
+anyway).
+<HR>
+<H3>Defining Special Attacks</H3>
+
+Besides giving a creature spells to cast, you may give it a "special attack
+form" which is an attack that always works.
+
+<H4>SPECUSE [%chance]</H4>
+
+<UL>Defines the percent chance that the creature will choose to use its
+special attack in preference to other attacks.</UL>
+
+<H4>SPECUSES [x]</H4>
+
+<UL>Limits the creatures ability to use its special attack to x times.</UL>
+
+<H4>SPECBASE [x]</H4>
+
+<UL>Sets the [minimum] damage that this attack will do.</UL>
+
+<H4>SPECDMG [x]</H4>
+
+<UL>Sets the additional [random] damage range that this attack will do.</UL>
+
+<H4>SPECDMGTYPE [Heat, cold, slash, electric]</H4>
+
+<UL>Sets the damage type for special attack forms.</UL>
+
+<H4>TEXX [special attack text output..]</H4>
+<UL>This text assumes the following format. "%s blah blah blah %s." You
+must have the two %s strings in there. They have nothing to do with the
+echo command uses. They are replaced with the attacking creatures name and
+the victim creatures name respectively. do not include quotes in your
+definition.</UL>
+
+Example:    TEXX %s breathes a gout of flame at %s!
+
+<H4>Redifining the Defualt text fields for monsters</H4>
+
+<UL>The text fields may be redefined by using the TEX? commands.</UL>
+
+Example:    TEXH A thief fails to sink into the shadows.
+
+<UL>Redefines the text for a certain creature that is shown when that
+creature fails its % chance to hide. The available redefinitions are as
+follows.</UL>
+<PRE>
+TEXB   Text displayed when the creature is leading a group and its
+       group arrives.
+TEXC   Text displayed when the creature is leading a group and its
+       group leaves the room.
+TEXV   Text output when a creature prepares a spell when it is
+       invisible.
+TEXH   When the creature fails to hide.
+TEXX   When the creature uses its special attack.
+TEXE   Creature enters a room.
+TEXI   When an attack is made with a weapon that is not enchanted
+       powerfully enough to affect the monster.
+TEXQ   When  the creature fails its spellcraft check.
+TEXZ   A text field output once and a while when the monster is in
+       the room with a dead person. Somewhere in this string must be
+       a %s(has nothing to do with the ECHO usage %s) which indicates
+       that the name of the creature who is to be the target of the
+       monster's mockery should be replaced there.
+
+TEX1  \
+TEX2   \ These define some text which can be output once and a while
+TEX3   / selected randomly. They provide you with the ability to
+TEX4  /  animate your creatures.
+
+TEXD   Text output when the creature is killed.
+TEXF   Output when the creature flees. Don't add extra spaces or
+       punctuation on the end of this line, since the game needs to
+       append the direction of movement.
+       For example:  TEXF A goblin scrambles Might generate "A
+       goblin scrambles north."
+
+TEXM   Output when the creature moves. Like TEXF, don't add extra
+       spaces or punctuations on the end.
+TEXG   Output when the creature is generated in the room.
+TEXS   Output when the creature prepares a spell.
+TEXL   Output when the creature gestures (casts its spell).
+TEXA   When the creature advances. Similar to TEXF and TEXM don't add
+       extra spaces or punctuations.
+TEXR   When the creature retreats.
+</PRE>
+<HR>
+<BR>
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+</BODY>
+</HTML>

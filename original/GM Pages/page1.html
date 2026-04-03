@@ -1,0 +1,392 @@
+<HTML>
+<HEAD>
+
+<TITLE>Nouns, Adjectives and Items</TITLE>
+
+
+</HEAD>
+<BODY BGCOLOR="#fffff">
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+<H2>Basic scripting</H2>
+<HR>
+The script language compiles plain ASCII text files: document formats from
+word processors cannot be used. A text editor is recommended for creating
+script files. The blocks of text are read into the compiler, ignoring
+leading tabs and spaces,  and interpreted into a machine format that
+Legends of Future Past interprets as players interact with the game. Lines
+of text in the script file that begin with a semicolon are ignored as
+"comment lines." It is not case-sensitive.Nouns and Adjectives
+
+The most simple element of the script language is the ability to define
+all the nouns and adjectives that Legends will recognize. This is done
+with the NOUNDEF and ADJDEF commands, which take the format NOUNDEF [noun
+#] [noun name].
+<PRE>
+                Examples:
+
+                        NOUNDEF 0 agate
+                        NOUNDEF 1 alexandrite
+                        NOUNDEF 2 amethyst
+                        NOUNDEF 3 altar
+                        NOUNDEF 4 amulet
+                        NOUNDEF 5 anklet
+                        NOUNDEF 6 aquamarine
+                        NOUNDEF 7 arch
+
+                        ADJDEF 0 acid
+                        ADJDEF 1aelfen
+                        ADJDEF 2 alexandrite
+                        ADJDEF 3 alkyline
+                        ADJDEF 4 amazing
+                        ADJDEF 5 alzyron
+                        ADJDEF 6 amethyst
+                        ADJDEF 7 ancient
+</PRE>
+<HR>
+<H2><A NAME="defitem">Defining items</A></H2>
+<P>
+Before an item can be placed in your room description they must be
+defined. By capturing a @list of items or @gloss for a particular item
+name you can determine if what you want is already in the system. Even
+with the large amount of items already available you will find it
+necessary, at some time, to script a new item.
+<P>
+You will begin all item definitions with the INUMBER command, which takes
+the format INUMBER #. Before you assign the item you are making a number
+you must be assigned a block of blank item numbers with which to work.
+Always use the lowest item number you are assigned and work upwards.
+<P>
+The first thing that every item needs is a name. To give the item a name,
+use the NAME command which takes the format NAME [noun #]. Now that you
+have defined the INUMBER and the NAME of the tiem there are a variety of
+other things that must now be defined as well.
+<P>
+Item type: On a line by itself choose one of the following that best
+describes your item. If left undefined, the script assumes it to be MISC
+(miscellaneous).
+<P>
+        <TABLE BORDER ALIGN=CENTER VALIGN=TOP>
+<TR>
+<TD VALIGN=TOP>
+<B>AMMO</B><BR>
+        <B>ARMOR</B><BR>
+        <B>BITE_WEAPON</B><BR>
+        <B>BOW_WEAPON</B><BR>
+        <B>CLAW_WEAPON</B><BR>
+        <B>CRUSH_WEAPON</B><BR>
+        <B>DRAKIN_CRUSH</B><BR>
+        <B>DRAKIN_POLE</B><BR>
+        <B>DRAKIN_SLASH</B><BR>
+        <B>DRAKIN_THROWN</B><BR>
+        <B>FOOD</B><BR>
+        <B>HANDGUN</B><BR>
+        <B>KEY</B><BR>
+        <B>LIQCONTAINER</B><BR>
+        <B>LIQUID</B><BR>
+        <B>LOCKPICK</B><BR>
+        <B>MINETOOL</B><BR>
+        <B>MISC</B><BR>
+        <B>MONEY</B><BR>
+        <B>POLE_WEAPON</B><BR>
+        <B>POLETHROWN</B><BR>
+        <B>PORTAL_THROUGH</B><BR>
+        <B>PORTAL_CLIMB</B><BR>
+        <B>PORTAL_UP</B><BR>
+        <B>PORTAL_DOWN</B><BR>
+        <B>PUNCTURE_WEAPON</B><BR>
+        <B>RIFLE</B><BR>
+        <B>SCROLL</B><BR>
+        <B>SHIELD</B><BR>
+        <B>SLASH_WEAPON</B><BR>
+        <B>STABTHROWN</B><BR>
+        <B>THROWN_WEAPON</B><BR>
+        <B>TRAP</B><BR>
+        <B>TWOHAND_WEAPON</B><BR>
+        </TD>
+        <TD VALIGN=TOP>
+Ammunition (arrows, bolts, bullets)<BR>
+Anything worn for protection<BR>
+Teeth, jaws, etc. used by monsters<BR>
+  Any archaic missle weapon(bows, handguns)<BR>
+   laws, etc. that belongs to monsters<BR>
+ Crushing weapons<BR>
+Drakin (oriental) crushing weapons<BR>
+Drakin polearms<BR>
+Drakin slashing weapons<BR>
+ Drakin thrown weapons<BR>
+Any item that is edible<BR>
+ Technological one hand missle  weapons<BR>
+Anything that can be used to unlock items<BR>
+ A liquid container (flasks, jugs)<BR>
+   Any item that is drinkable<BR>
+Any item used for springing locks<BR>
+  Mining implements (Pickaxe, shovel)<BR>
+ Anything that won't fit in elsewhere<BR>
+Coins<BR>
+  Polearms (halberds, glaives, lances)<BR>
+ Polearms that can be thrown (spears..)<BR>
+  Doors, archways, etc.<BR>
+Ropes, ladders, etc.<BR>
+   Ramps, trails, paths, etc.<BR>
+  Ramps, trails, paths<BR>
+  Puncturing weapons (rapiers, stillettos)<BR>
+Large technological missle weapons<BR>
+  Magical scrolls<BR>
+   Shields<BR>
+Slashing weapons (swords, axes)<BR>
+  Weapons that can stab/be thrown (dagger)<BR>
+ darts, rocks<BR>
+Traps<BR>
+ Two handed edged weapons (greatswords, battleaxes)<BR>
+ </TD>
+ </TR>
+ </TABLE>
+<H4>WEIGHT [pounds]</H4>
+<P>
+This is simply the weight of the item in pounds.  Any object with a weight
+of 1000 or more is not moveable by the players (they can't pick it up and
+take it with them, etc.). Doors, trails, and other such permanent items
+should be defined as having a weight of 1000.
+
+<H4>VOLUME [amount]</H4>
+
+This is an abstract value representing the amount of space that item will
+take up. It is not based upon any type of "real" volume.  This value
+limits what can be put in what containers, e.g. a great sword can not fit
+in a lock box.  The rough valumne equivalent are as follows:
+<PRE>
+1    Keys, arrows, daggers, gems or smaller
+2    Hand axe
+3    Light crossbow
+4    Club
+5    Short sword, light armor
+6    Short bow, scimitar, long sword
+7    Greatsword
+8    Long bow, polearm, full armor
+9+   Very large objects, probably to big to carry
+</PRE>
+<H4>SUBSTANCE [substance type (see below)]</H4>
+<P>
+This describes the type of material the object is made of. If the exact
+substance is unavailable, then choose the thing that is closest in
+hardness and durability. If an object is made of more than one material
+(e.g., a hand axe is made of a metal head and a wooden shaft) chose a
+substance type which is an average of the two types. If left undefined,
+the substances is assumed to be INDESTRUCTRABLE.  The substance types are:
+<PRE>
+INSUBSTANTIAL   Gas and liquids
+PAPER           Scrolls, letters
+CLOTH           Clothing, ropes
+BRITTLE         Glass bottles, gems
+WOOD            Anything made of wood
+STONE           Primitive stone tools, harder gems, etc.
+SOFTMETAL       Softer metals (silver, gold, tin, brass)
+HARDMETAL       Harder metals (iron, steel, titanium)
+INDESTRUCTABLE  Anything extremely hard (Alzyron or magical metals) or otherwise
+                indestructable for reasons of game integrity (Doors,
+trails, etc.)
+</PRE>
+<H4>ARTICLE [a/an/the/some/your]</H4>
+
+If left undefined "ARTICLE A" is assumed. This defines how the game refers
+
+<H4>CONTAINER [in/on/under/behind]</H4>
+
+Defines the object as a type of container, i.e., any object that can have
+something put on, in, under or behind it. No object may contain items in
+two different ways (e.g., a bed could have things able to be put on it or
+under it, but not both).
+
+<H4>INTERIOR [amount]</H4>
+
+This value is only necessary for items that will act as containers of some
+sort. It defines how much the container can hold, it may contain uup to
+[amount] in total volume of items, as defined by the VOLUMNE definitions
+of the contained items. Note howeve,r that the container's VOLUME value
+itself also comes into play when the game is determining whether or not an
+object can fit in the container: if the item to be contained is equal to
+or greater than the container's VOLUME, it won't fit.
+
+<H4>PARAMETER1 [value]</H4>
+
+Defines a value for special parameter 31. It is unnecessary for most
+items.  Fo liquids, it is the amount of drinks that can be taken from it
+before it runs out (and if over 100, it is treated as unlimited). For
+weapons, it defines the maximum damage the weapon will do and for armor it
+defines the percentage of damage that the armor absorbs. Keep in mind the
+values given for other such items when deciding on what this value should
+be. The usefulness of this parameter may be expanded in the future.
+
+<H4>PARAMETER2 [value]</H4>
+
+Defines a value for special parameter2. It is unnecessary for most items.
+For missile weapons, it defines the item number to be used as its
+ammunition type. For ammunition, it defines the number of individual units
+of ammunition are included in a bundle.
+<BR>(The usefulness of this parameter may be expanded in the future.)
+
+<H4>PARAMETER3 [value]</H4>
+
+This is similar to PARAMETER1 and PARAMETER2 on items. It will be used for
+more complex item archetypes in the future.
+<P>
+<H3><A NAME="addparam">Additional parameters</A></H3>
+Any of the following may appear on a line by
+themselves to define special information about an object. You could use
+one of them, none of them or any combination of them.
+
+
+
+
+<TABLE BORDER ALIGN=CENTER VALIGN=TOP>
+<TR>
+        <TD VALIGN=TOP>
+        <B>CRAFTABLE</B><BR><BR><BR><BR><BR><BR><BR>
+        <B>ENCRUSTABLE</B><BR><BR>
+        <B>DYEABLE</B><BR><BR><BR>
+        <B>DYE</B><BR><BR><BR><BR><BR><BR>
+        <B>FLIPABLE</B><BR>
+        <B>HIDDEN</B><BR>
+        <B>LATCHABLE</B><BR>
+        <B>LIGHTABLE</B><BR>
+        <B><A HREF="#regeant">REAGENT</B></A><BR>
+
+
+
+
+        <B>LOCKABLE</B><BR>
+        <B>SKIN</B><BR>
+        <B>TURNABLE</B><BR><BR>
+        <B>WORN_AROUND</B><BR>
+        <B>WORN_BACK</B><BR>
+        <B>WORN_BODY</B><BR>
+        <B>WORN_DON</B><BR>
+        <B>WORN_EAR</B><BR>
+        <B>WORN_FEET1</B><BR>
+        <B>WORN_FEET2</B><BR>
+        <B>WORN_HAIR</B><BR>
+        <B>WORN_HANDS</B><BR>
+        <B>WORN_HEAD</B><BR>
+        <B>WORN_NECK</B><BR>
+        <B>WORN_RING</B><BR>
+        <B>WORN_TORSO1</B><BR>
+        <B>WORN_TORSO2</B><BR>
+        <B>WORN_TORSO3</B><BR>
+        <B>WORN_TRUNK1</B><BR>
+        <B>WORN_TRUNK2</B><BR>
+        <B>WORN_WRIST</B><BR><BR>
+        <B>SEALED</B><BR><BR>
+        <B>TECH</B><BR><BR>
+        <B>PORTAL_UP</B><BR>
+        <B>PORTAL_DOWN</B><BR>
+        <B>PORTAL_OVER</B><BR>
+        </TD>
+        <TD VALIGN=TOP>
+        When placed on an item, it makes that item available for crafting by a
+player craftsman. Be carefull with this. Players are limited as to what
+craftable items they can actually make as follows: if an item is a weapon,
+then the player's smithing skill must >= the weapons parameter1 field. If
+it is a piece of armor, it is limited by one-third the armors weight. If it
+is a piece of clothing or jewelry it is limited by whatever parameter2
+happens to be. NOTE: No more than one item should be craftable per
+noun.<BR><BR>
+
+        This makes it possible to use the INSET, INLAY, ENCRUST and similar
+verbs
+on an item.<BR><BR>
+
+        This is an item modifier that states that the given item archetype
+can be
+died, assuming it has no adjectives in slots #1 or #2.<BR><BR>
+
+        This is an item modifier that can be used with other item definitions.
+When defined, it allows anyone with Dyer/weaver skill to extract the
+pigment from the object and use it to color a cloth item. On DYE items,
+PARAMETER1 defines the #1 adjective and PARAMETER3 defines the #2
+adjective to place on an item it is dyed with. A different archetype needs
+
+        Items may be flipped (as in a switch)<BR>
+        Item is hidden from being listed with other objects in the room.<BR>
+        Item can latch shut. Items that are latched can't be opened.<BR>
+        Item will shed light.<BR>
+        If it is set then the val5 field of this item will determine what
+type of
+reagent it is.<BR>
+        Item can be locked.<BR>
+Allows you to make an item available for skinning from a monster.<BR>
+Item can be turned.<BR><BR>
+Item may be worn around the body (belts, girdles, etc.)<BR>
+Capes, backpacks, etc.<BR>
+Robes, Trenchcoats, etc.<BR>
+This is reserved for accesory items like medals, badges, sunglasses, etc.<BR>
+Earrings, earcuffs, etc.<BR>
+Socks, stockings, etc.<BR>
+Shoes, boots, etc.<BR>
+Hairpins, barrettes, etc.<BR>
+Gloves, gauntlets, etc.<BR>
+Hats, helmets, etc.<BR>
+Torcs, amulets, etc.<BR>
+Anything worn around the finger.<BR>
+Bras, undershirts, etc.<BR>
+Shirts, blouses, etc.<BR>
+Jackets, vests, etc.<BR>
+Panties, boxers, etc.<BR>
+Breeches, skirts, etc.<BR>
+Bracers, bracelets, etc.<BR><BR>
+
+This modifier is to be used in an portal that, when closed, may not be
+seeped through if a player is in mist form. Use it on portals such as
+Gates, Doors, trapdoors, etc.<BR>
+
+
+Defines an item as a "tech" treasure item.<BR><BR>
+
+
+Same as PORTAL, except phrases the output as the person/group going up
+something.<BR>
+
+
+Same as PORTAL, except phrases the output as the person/group going down
+something.<BR>
+
+
+Same as PORTAL, except phrases the output as the person/group going over
+something.<BR>
+</TD>
+</TD>
+</TABLE>
+
+<P>
+<A NAME="regeant"><B>Reagent type</B></A>
+<PRE>
+01           Power 1
+02           Power 2
+03           Power 3
+04           Health
+05           Harm
+06           Body
+07           Resist
+08           Enhancement
+09           Miscellaneous, common
+10           Miscellaneuos, uncommon
+11           Miscellaneous, rare
+12           Mind
+13           Protect
+</PRE>
+<HR>
+<BR>
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+</BODY>
+</HTML>

@@ -1,0 +1,514 @@
+MLIST 45 131 40 6
+MLIST 45 132 30 3
+MLIST 45 133 30 2
+MNUMBER 131
+NAME gulivira
+*DESCRIPTION_START
+The gulivira is a mottled gray color with large lumpy black protrusions on its skin. Bristling spines are set into its body, looking sharp and dangerous. The fish is fairly large, and due to its coloration is hard to spot amongst the rocks.
+*DESCRIPTION_END
+ARMOR 25
+ATTACK1 225
+BODY 175
+CASTLEVEL 25
+DEFENSE 180
+IMMUNITY 6 0
+MANA 100
+NONDISRUPTABLE
+PART 0
+PART 1
+PART 2
+PART 21
+POISON 40 20
+RESIST 100
+SILENCEIGNORE
+SKINADJ 825
+SKINITEM 510 5 20000 0
+SKINITEM 522 40 3500 0
+SKINITEM 523 50 3000 0
+SPECBASE 5
+SPECDMG 10
+SPECDMGTYPE SLASH
+SPECUSE 10
+SPECUSES 15
+speed 3
+SPELL 321
+SPELLSKILL 180
+SPELLUSE 30
+STRATEGY 301
+TEX1 The spines on a gulivira bristle.
+TEXD spirals to the cave floor, leaking a yellow liquid.
+TEXE A gulivira darts in.
+TEXG A gulivira darts out from a rock formation.
+TEXL A gulivira deflates, emitting a cloud of smoke
+TEXQ A cloud of blue smoke emits from the gulivira.
+TEXS A gulivira inflates like a balloon.
+TEXX %s inflates then deflates rapidly hurling its spines at %s!
+WEAPON 280 -1 20
+;
+MNUMBER 132
+ADJECTIVE 10
+NAME eel
+ARMOR 40
+ATTACK1 245
+BODY 300
+DEFENSE 200
+EXTRABODY 50
+FATIGUE 40 10
+IMMUNITY 1 1
+IMMUNITY 4 0
+IMMUNITY 6 0
+IMMUNITY 9 0
+PART 1
+SKINADJ 819
+SKINITEM 1009 10 1000 0
+SKINITEM 510 40 5100 0
+SKINITEM 523 50 4100 0
+SPECBASE 5
+SPECDMG 20
+SPECDMGTYPE ELECTRIC
+SPECUSE 30
+SPECUSES 5
+speed 3
+STRATEGY 501
+TEX1 A giant eel coils itself up.
+TEX2 Sparks of electricity shoots from a giant eel.
+TEXD floats to the ground, spinning slowly.
+TEXE A giant eel swims in.
+TEXG A giant eel strikes out from a hole in the wall.
+TEXX %s crackles with electricity and hurls it at %s!
+WEAPON 280 -1 20
+;
+MNUMBER 133
+ADJECTIVE 10
+NAME squid
+ARMOR 40
+ATTACK1 235
+BODY 350
+DEFENSE 200
+FATIGUE 20 15
+GUARD 270
+IMMUNITY 0 0
+IMMUNITY 1 1
+IMMUNITY 5 1
+IMMUNITY 9 0
+PART 0
+PART 1
+PART 20
+SKINADJ 818
+SKINITEM 516 20 5500 0
+SKINITEM 520 10 2500 15
+speed 3
+STRATEGY 501
+TEX1 A giant squid waves its tentacles.
+TEX2 A giant squid snaps its beak at you.
+TEXD floats to the bottom, tentacles quivering.
+TEXZ A giant squid wraps a tentacle around %s.
+WEAPON 1008 -1 20
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2340 
+NAME Under the Inner Sea
+REGION 12
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT D 2341
+*DESCRIPTION_START
+Enormous fronds of kelp and seaweed float lazily in the currents,
+occasionally catching a glint of sunlight through the water. Schools of
+fish dart here and there, scattering around you, then reforming in the
+distance. Below you, the water gets murkier, and it is nearly
+impossible to see the ocean floor.
+*DESCRIPTION_END
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2341 
+NAME Underwater Caves
+REGION 62
+CHANNEL 777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+UNDERSEA
+EXIT U 2340
+EXIT W 2342
+*DESCRIPTION_START
+Unusual plants grow among the stones scattered across the ocean floor,
+some barely inches high, others towering out of sight. Through the murky
+water, you sense movement more than see it. Off to the west, the light
+seems to swallowed by a dark cave opening.
+*DESCRIPTION_END
+IFENTRY
+  ECHO ALL A sea turtle swims slowly by, seeming totaly disinterested.
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2342 
+NAME Ocean Floor, Caves
+REGION 62
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT E 2341
+*DESCRIPTION_START
+A sandy cliff rises directly in front of you, its walls pockmarked with
+crevices and openings. The underwater vegetation seems to grow thicker
+to the east than it does here, the plants considerably smaller. A stray
+fish or two swims by, eyeing you curiously before darting into a
+crevice.
+*DESCRIPTION_END
+ITEM 0 69 VAL2=2343
+IFPREVERB GO 0
+  CLEARVERB
+  IFVAR FLAG1 = 0
+    ECHO PLAYER You can't seem to find the right crevice.
+  ELSE
+  DISBAND
+  ECHO PLAYER You wriggle into a narrow crevice.
+  ECHO OTHERS %n wriggles into a narrow crevice.
+  MOVE 2343
+ENDIF
+ENDIF
+IFPREVERB SEARCH -1
+  clearverb
+  RANDOM DUMMY1 1 10 0
+  IFVAR DUMMY1 = 1
+    ECHO PLAYER You peer into one of the crevices, and realize that it is the entrance to a cave.
+    EQUAL FLAG1 1
+  ENDIF
+  IFVAR DUMMY1 = 2
+    ECHO PLAYER You search carefully, and find a gold coin!
+    NEWITEM -1 1223 ADJ1=147
+  endif
+  IFVAR DUMMY1 > 2
+    ECHO PLAYER You search carefully, and find nothing.
+  endif
+  ECHO PLAYER [Round: 3 sec]
+  EQUAL ROUNDTIME 3
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2343 
+NAME Sea Cave, Entrance 
+REGION 62
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+*DESCRIPTION_START
+The narrow passage twists and turns through the cliff's interior. In
+most places, the walls are barely two feet apart, forcing you to edge
+along sideways. A faint light ahead at least tells you that there is an
+end to it.
+*DESCRIPTION_END
+IFENTRY
+  ECHO PLAYER You squeeze through the narrow entrance, turning sideways and edging along.
+  ECHO OTHERS %n squeezes into the narrow entrance turning sideways.
+  EQUAL ROUNDTIME 10
+  ECHO PLAYER [Round: 15 sec]
+  PLREVENT 3
+  CONTPLREVENT
+  ECHO PLAYER The walls narrow further, and for a moment you worry that you'll have to turn back...
+  ECHO OTHERS %n edges along through the crevice, muttering...
+  PLREVENT 1
+  CONTPLREVENT
+  ECHO PLAYER ...but eventually, you find yourself able to move more easily.
+  PLREVENT 1
+  CONTPLREVENT
+  ECHO PLAYER Finally, the narrow passage opens onto a ledge overlooking a deep cavern.
+  ECHO OTHERS %n steps out of the crevice.
+  MOVE 2344
+  SHOWROOM 2344
+  AFFECT 2344
+  ECHO OTHERS %n steps out onto the ledge.
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2344 
+NAME On the Ledge
+REGION 62
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT N 2345
+EXIT S 2346
+EXIT D 2347
+*DESCRIPTION_START
+A narrow ledge runs along the cliff face, providing barely enough
+footing for travel in single file. Far below, you see brief flashes of
+light and movement, and off in the distance you can barely make out
+another cliff face. The ledge extends north and south, curving out of
+sight in either direction.
+*DESCRIPTION_END
+ITEM 0 69 VAL2=2348
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2345 
+NAME Sea Cavern, North Ledge
+REGION 62
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT S 2344
+EXIT D 2349
+*DESCRIPTION_START
+A narrow ledge runs along the cliff face, providing barely enough
+footing for travel in single file. Far below, you see brief flashes of
+light and movement, and off in the distance you can barely make out
+another cliff face. The ledge curves out of sight to the south,
+and completely disappears to the north.
+*DESCRIPTION_END
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2346 
+NAME Sea Cavern, South Ledge
+REGION 62
+CHANNEL 777
+FIXED_LIGHT
+EXIT N 2344
+EXIT D 2350
+*DESCRIPTION_START
+A narrow ledge runs along the cliff face, providing barely enough
+footing for travel in single file. Far below, you see brief flashes of
+light and movement, and off in the distance you can barely make out
+another cliff face. The ledge extends curves out of sight to the north,
+and drops off suddenly to the south.
+sight in either direction.
+*DESCRIPTION_END
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2347 
+NAME Murky Depths 
+REGION 62
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT U 2344
+EXIT N 2349
+EXIT S 2350
+*DESCRIPTION_START
+A few feet out from the ledge, the ground drops away below your feet,
+leaving no choice but to swim. It's nearly impossible to tell if the
+ground is a right below your toes, or another thousand feet below.
+Light flashes briefly around you, but the heaviness of the water makes
+it even more difficult to see anything clearly.
+*DESCRIPTION_END
+MONSTER_GROUP 45
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2348 
+NAME Sea Cave, Entrance 
+REGION 62
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+*DESCRIPTION_START
+The narrow passage twists and turns through the cliff's interior. In
+most places, the walls are barely two feet apart, forcing you to edge
+along sideways. A faint light ahead at least tells you that there is an
+end to it.
+*DESCRIPTION_END
+IFENTRY
+  ECHO PLAYER You squeeze through the narrow entrance, turning sideways and edging along.
+  ECHO OTHERS %n squeezes into the narrow entrance turning sideways.
+  EQUAL ROUNDTIME 10
+  ECHO PLAYER [Round: 15 sec]
+  PLREVENT 3
+  CONTPLREVENT
+  ECHO PLAYER The walls narrow further, and for a moment you worry that you'll have to turn back...
+  ECHO OTHERS %n edges along through the crevice, muttering...
+  PLREVENT 1
+  CONTPLREVENT
+  ECHO PLAYER ...but eventually, you find yourself able to move more easily.
+  PLREVENT 1
+  CONTPLREVENT
+  ECHO PLAYER Finally, the narrow passage opens onto a ledge overlooking a deep cavern.
+  ECHO OTHERS %n steps out of the crevice.
+  MOVE 2342
+  SHOWROOM 2342
+  AFFECT 2342
+  ECHO OTHERS %n steps out of the crevice.
+ENDIF
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2349 
+NAME Murky Depths
+REGION 62
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT U 2346
+EXIT S 2347
+*DESCRIPTION_START
+A few feet out from the ledge, the ground drops away below your feet,
+leaving no choice but to swim. It's nearly impossible to tell if the
+ground is a right below your toes, or another thousand feet below.
+Light flashes briefly around you, but the heaviness of the water makes
+it even more difficult to see anything clearly.
+*DESCRIPTION_END
+MONSTER_GROUP 45
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NOUNDEF 1555 porpoise
+INUMBER 1957
+NAME 1555
+VOLUME 1
+WEIGHT 1
+TURNABLE
+FLIPABLE
+IFPREVERB HUG -1
+  CLEARVERB
+  IFVAR RNUM = 2350
+    ECHO PLAYER You wrap your arms tightly around the porpoise and it chitters at you. Suddenly it streaks upward, dragging you with it!
+    ECHO OTHERS %n hugs a porpoise, and it streaks up out of sight.
+    MOVE 2351
+  ELSE
+    ECHO PLAYER You wrap your arms tightly around the porpoise and it chitters at you playfully.
+    ECHO OTHERS %n hugs a porpoise and it chitters playfully.
+  ENDIF
+ENDIF
+EQUAL ITEMVAL1 RNUM
+SUB ITEMVAL1 2300
+IFVAR ITEMVAL1 < 0
+  REMOVEITEM -1
+  ECHO PLAYER With a final chitter, the porpoise slaps the water with its tail and arcs into the air before disappearing.
+ENDIF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2350 
+NAME Murky Depths 
+REGION 62
+CHANNEL 777
+FIXED_LIGHT
+UNDERSEA
+EXIT U 2344
+EXIT N 2349
+*DESCRIPTION_START
+A few feet out from the ledge, the ground drops away below your feet,
+leaving no choice but to swim. It's nearly impossible to tell if the
+ground is a right below your toes, or another thousand feet below.
+Light flashes briefly around you, but the heaviness of the water makes
+it even more difficult to see anything clearly.
+*DESCRIPTION_END
+MONSTER_GROUP 45
+IFPREVERB CONCENTRATE -1
+  CLEARVERB
+  ECHO PLAYER You concentrate intently, sending out a call with your mind.
+  ECHO OTHERS %n concentrates intently.
+  PLREVENT 1
+  CONTPLREVENT
+  ECHO PLAYER A slender shape streaks down toward you.
+  ECHO OTHERS A slender shape streaks down toward %n.
+  NEWITEM -1 1957
+  ECHO PLAYER A porpoise chitters at you playfully.
+ENDIF
+  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2351 
+NAME Undersall Gates
+REGION 62
+CHANNEL 777
+UNDERSEA
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2352 
+NAME Undersall2352 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2353 
+NAME Undersall2353 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2354 
+NAME Undersall2354 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2355 
+NAME Undersall2355 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2356 
+NAME Undersall2356 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2357 
+NAME Undersall2357 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2358 
+NAME Undersall2358 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2359 
+NAME Undersall2359 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2360 
+NAME Undersall2360 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2361 
+NAME Undersall2361 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2362 
+NAME Undersall2362 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2363 
+NAME Undersall2363 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2364 
+NAME Undersall2364 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 2365 
+NAME Undersall2365 
+REGION 62
+CHANNEL       777
+FIXED_LIGHT
+OUTDOOR_FLOOR
+ASTRAL
+

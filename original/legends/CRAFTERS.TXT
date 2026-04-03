@@ -1,0 +1,46 @@
+
+   Name      Title-Skill
+-----------  --------------------------------------------------
+Alshani      C-Weaver
+Angus        M-Smith
+Candi        j-Weaver
+Delight      n-Bowyer, M-Weaver
+Delran       n-Jeweler, a-Miner, M-Smith
+Durek        M-Smith
+Durnik       M-Smith
+Elroy        C-Weaver
+Farley       M-Jeweler, a-Smith
+Grond        M-Jeweler
+Ika          j-Alchemist, j-Bowyer, n-Miner, n-Weaver
+Jedico       M-Smith
+Jyx          a-Smith
+Kyrel        j-Jeweler
+Lelldorin    M-Bowyer
+Loussah      a-Bowyer
+Miki         C-Alchemist, C-Bowyer, M-Weaver
+Nexus        M-Bowyer
+Raningeth    C-Alchemist, n-Weaver
+Rughar       n-Miner, M-Smith, n-Weaver
+Savannah     n-Bowyer, M-Weaver
+Seither      M-Smith
+Snafu        n-Alchemist, j-Bowyer, M-Jeweler, n-Miner, n-Weaver
+Taliesin     j-Alchemist
+Tharin       M-Miner
+Vixen        M-Jeweler
+
+Code   Title          Ranks        Skill Name     Job Function
+----   -----------   -------       -----------    ------------
+ n     Novice         1 - 6        Alchemy        Alchemist
+ a     Apprentice     7 - 12       Woodlore       Bowyer
+ j     Jourenyman    13 - 19       Jeweler        Jeweler
+ C     Craftsman     20 - 29       Mining         Miner
+ M     Master          30+         Weaponsmith    Smith
+
+Help keep the list updated, when you train enough to change categories
+email me your new ranks. Also, tell ANY crafter you know who is really
+interested in crafting (as opposed to pure XP gain) to email me their
+UID, Character Name, Email Address, and ranks of all the listed skills
+so I can add them to the list. We can't have a Crafter's Guild without
+all the information.
+
+                                        Thanks!   -Morthain Da'Karian

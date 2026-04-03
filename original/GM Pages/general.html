@@ -1,0 +1,317 @@
+<HTML>
+<HEAD>
+
+<TITLE>General Scripting</TITLE>
+
+
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+<H2>General Scripting</H2>
+<HR>
+<H3>Conditional statements</H3>
+
+There are a number of control commands available within the scripting
+languae, which will be discussed later in this section. Most of these
+controls are best used within conditional statements. The script language
+offers a variety of <B>IF </B>type expressions for allowing you to program
+what happens when people do certain things or certain conditions are met.
+<P>
+As a matter of being orderly it is usual for conditional statements to be
+placed at the end of the item  room block, after you have placed all of the
+basic definitions.
+<P>
+Basic outline of a conditional statement:
+<P>
+<H4>
+<PRE>
+IF [arguments]
+.
+.    [control commands or additional conditions]
+.
+ENDIF
+</PRE>
+</H4>
+The following is a list of the available conditional statements.
+<P>
+<UL>
+<H4>
+<LI>IFITEM
+<LI>IFTOUCH
+<LI>IFVERB
+<LI>IFVERB2
+<LI>IFPREVERB
+<LI>IFPREVERB2
+<LI>IFVAR
+<LI>IFNOITEM
+<LI>IFFULLDESC
+<LI>IFENTRY
+<LI>IFSEEK
+<LI>IFSAY
+</H4>
+</UL>
+<P>
+<H4>IFIN [item tag #] [var]  </H4>
+This if statement is true if the item archetype specified by 'var' is
+located inside the item specified by the item tag number. If it is found,
+the "current item" is set to the first such item located.
+
+<H4>IFCARRY [var]  [plr #]</H4>
+This if statement is true if the item archetype specified by 'var' is
+located in the current player's inventory. If it is found, the "current
+item" is set to the first such item located.
+<H3>
+Variables and Arithmetic
+</H3>
+Variables may be defined to keep track of numeric values. To define a
+variable, simply place <B>VARIABLE [varaible name]</B> on a line by itself
+anywhere in your script.
+<P>
+You can perform arithmetic functions on your variables or base conditional
+statements upon them. All of them assume the format:
+<PRE>
+[arithmetic function] [destination variable name] [source variable or value]
+</PRE>
+The available arithmetic funstions are:
+<PRE>
+ADD    | Addition
+DIV    | Division
+EQUAL  | Equal to
+MOD    | Modulus division
+MULT   | Multiplication
+SUB    | Subtraction
+</PRE>
+Example:
+<PRE>
+VARIABLE TESTVAR
+VARIABLE VAR2
+EQUAL TESTVAR 3
+EQUAL VAR2 7
+ADD VAR2 3
+MUL TESTVAR VAR2
+</PRE>
+The above would define two variables, "Testvar and Var2." Testvare is set
+equal to 3 and Var2 equal to 7. The number 3 is then added to Var2 making
+it 10. Testvar is then multiplied by Var2.
+<P>
+Internal Variables (for more variables see <A HREF="variables.html">Listing
+of Variables</A>)
+<P>
+A number of internal variables are already predefined to mean special
+things. You may perform arithmetic on them, use as an argument in a
+conditional statement, etc:
+<PRE>
+LEV        | Level
+QUI        | Quickness
+PER        | Perception
+RAC        | Race
+STR        | Strength
+TIM        | Time of day
+WEA        | Weather
+WEI        | Weight
+WIL        | Willpower
+ORG        | Orginization
+AGE        | Age
+AGI        | Agility
+ALIGN      | Alignment
+CON        | Constitution
+EMP        | Empathy
+FLAG1      |
+FLAG2      |
+FLAG3      |
+FLAG4      |
+GEN        | Gender
+HEI        | Height
+DAY        | Equals 1 if day, 0 if night
+DATE       | Day of month
+MONTH      | Month (1-13, 13=feast days)
+YEAR       | Current Year
+OBJWEIGHT  | Weight of current item
+ITEMADJ1   | Adjective 1 of current item
+ITEMADJ2   | Adjective 2 of current item
+ITEMADJ3   | Adjective 3 of current item
+SLEEPING   | Equals 1 if character is sleeping, o otherwise
+MOVEABLE   | Equals 1 if the character is able to move, 0 otherwise
+TEMP       | temperature in farenheit
+MISTFORM   | Equals 1 if the character is in mistform
+WOLFFORM   | Equals 1 if the character is in wolfform
+SLIMEFORM  | Equals 1 if the character is in slimeform
+OUTDOOR    | Equals 0 if the character is outside
+WILDERNESS | Equals one if the player is outside and not in a room
+           | that is not
+           | movement_astral
+ASTRAL     | Equals 1 if the player is in a room that is either
+           | ASTRAL or MOVEMENT_ASTRAL
+TERRAIN    | INDOOR_FLOOR=1
+           | INDOOR_GROUND=2
+           | FOREST=3
+           | MOUNTAIN=4
+           | PLAIN=5
+           | SWAMP=6
+           | OUTDOOR_OTHER=7
+           | OUTDOOR_FLOOR=8
+           | WASTE=9
+           | JUNGLE=10
+           | CAVE=11
+           | ASTRAL=12
+           | AERIAL=13
+DUMMY1     | These are volatile, general use variables meant to be
+DUMMY2     | used for temproray purposes so you don't need to keep
+DUMMY3     | creating new ones for single-use along with script
+DUMMY4     | commands like DAMAGE.
+DUMMY5     |
+ITEMVAL1   | You may manipulate the VAL fields of an item directly as
+ITEMVAL2   | normal internal valuables.
+ITEMVAL3   |
+ITEMVAL4   |
+ITEMVAL5   |
+ARCHNUM    | This is equal to the item archetype number of the
+           | currently active item or -1 if there is no active item.
+PLAYERNUM  | Equals -1 if there is no player active, or any other
+           | number denoting the currently active player for the
+           | script. This should be used with cevents that might
+           | need a player active to perform a certain operation.
+</PRE>
+<A NAME="race">
+The variable RAC is to be used with these values:
+<PRE>
+1: Human                          5: Murg
+2: Aelfen                         6: Drakin
+3: Highlander                     7: Mechanoid
+4: Wolfling                       8: Ephemeral
+                                  9: Vampire
+</PRE>
+The variable WEA is to be used with these values:
+<PRE>
+0: Sunny                          4: Moderate rain
+1: Partially cloudy               5: Heavy rain
+2: Overcast                       6: Thunderstorm
+3: Light rain                     7: Gale
+                                  8: Hurricane
+</PRE>
+General Scripting Commands:
+
+<PRE>
+%H - his/her
+%I - him/her
+%s - he/she
+%c - carriage return
+%n - name
+%a - itemname and adjectives
+</PRE>
+<H4>
+*DESCRIPTION_START ITEM [on/in/under/behind/read/examine] [#]
+<BR>*DESCRIPTION_END
+<P>
+SKILLCHECK [skill#] [+/- tochance] [var]
+</H4>
+will check (skill# * 5%)  +/- tochance + base chance = %chance
+<BR>%chance - roll = Success or Failure
+<BR>   If %chance is + Sucess
+ <BR>  If %chance is - Failure
+<BR>Base chance, 0 ranks of skill#, 25 % chance
+
+<H4>SHOWROOM [x]</H4>
+Echos the room description of room x to the current player as if they had
+typed "look" in that room.
+
+<H4>ZAPMON</H4>
+Deletes the monster from the room as well as anything it was carrying.
+
+<H4>RECALC</H4>
+ This causes the player's offensive and defensive  statistics to be
+recalculated based on their current environment.  This is mainly important
+for making sure peoples OM/DM are correct after passing through planar
+portals.
+
+<H4>MLIST [group #] [monster #] [ratio] [qty]</H4>
+
+<H4>CEVENT [event#] [period in 3-second intervals] room to affect]</H4>
+
+<H3>General Scripting Variables</H3>
+<PRE>
+ALIGN
+ALIGN >= 10  Yellow
+        > 1
+       < 10  Green
+      >= -5
+       =< 0  Blue
+       < -5  Deep Purple
+     < -250  Black (I think)
+</PRE>
+<H4>DEAD</H4>
+A variable: equals one if the monster is dead, zero otherwise.
+
+<H4>ROUNDTIME</H4>
+The current player's round time, in seconds.  This variable may only be
+set, not examined.
+
+<H4>ARENADEATH</H4>
+Equals one if the current player's death was trapped by an <H4>ARENA</H4>
+type room.
+
+<H4>SUBMITTING</H4>
+Equals 1 if the character is submitting
+
+<H4>DEPARTROOM</H4>
+Equals the last room the character departed from, or 0 if they have not
+departed recently.
+
+<H4>REGION</H4>
+Equals the number of the region the character is presently standing in.
+
+<H4>SPELLNUM</H4>
+The number of the spell the player is currently preparing.  This can be set
+spell for a real surprise).  Could be used in scripts with an <H4>IFPREVERB
+CAST</H4> to see if the character is using a particular spell...
+
+<H4>WIELDED</H4>
+Equals the item archetype number of whatever the person is wielding in
+their 'primary' hand, or zero if they are not wielding anything.
+
+<H4>DISGUISED</H4>
+Equals one if the player is disguised in any way (with disguise skill or
+invisible).
+
+<H4>WEALTHX</H4>
+The amount of wealth they have of a particular type:
+<PRE>
+WEALTH1
+WEALTH2
+WEALTH3
+WEALTH4
+WEALTH5
+WEALTH6
+WEALTH7
+WEALTH8
+WEALTH9
+</PRE>
+<H3>Miscellaneous Scripting Notes...</H3>
+
+<H4>Lockpicking</H4>
+<PRE>
+Perception is stat modifier for Lockpicking skill
+(10 percetopn points = +1 toRoll).
+
+1 Rank of Lockpicking (skill#22) = 30% base
+each additional rank             = 05%
+
+Chance to open = ItemVal1 - 30 + (Ranks of skill#22 - 1) * 5 + PER/10
+</PRE>
+<HR>
+<BR>
+<center><font size=2>
+<a href="">Previous</a> |
+<a href="toc.html">Contents</a> |
+<a href="index.html">Index</a> |
+<a href="">Next</a>
+</font></center>
+
+</BODY>
+</HTML>

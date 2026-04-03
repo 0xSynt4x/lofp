@@ -1,0 +1,35 @@
+                               Number Usage
+
+ITEMS           1401-1500
+NOUNS           1401-1500
+ADJECTS         1401-1500
+ROOMS           35-36, 1201-1300
+NPCS            41-50
+
+                                   ROOMS
+
+;      In GARAGE1.SCR
+;   35 Daedalus' Garage
+;   36 Daedalus' Basement
+
+;      In  HOUSE.SCR
+; 1201 Front lawn
+; 1202 Side of home
+; 1203 Cellar
+; 1204 Laundry room
+; 1205 Mop closet
+; 1206 Kitchen
+; 1207 Dining room
+; 1208 Foyer
+; 1209 Hallway, south end
+; 1210 Hallway, north end
+; 1211 Hall closet
+; 1212 Study
+; 1213 Bedroom, south
+; 1214 Bedroom, north
+; 1215 Bathroom
+; 1216 Bedroom closet, south
+; 1217 Bedroom closet, north
+; 1218 Attic
+; 1219 Coat closet
+

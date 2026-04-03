@@ -1,0 +1,1299 @@
+*--*  3/15/98  -  10:45:54 PM  *--*
+@list
+0: thing
+1: axe
+2: battleaxe
+3: blowgun
+4: bolts
+5: bo-stick
+6: bow
+7: bow
+8: bow
+9: club
+10: crossbow
+11: crossbow
+12: dagger
+13: dart
+14: dirk
+15: glaive
+16: greatsword
+17: gun
+18: halberd
+19: handgun
+20: harpoon
+21: javelin
+22: katana
+23: kusari-gama
+24: lance
+25: mace
+26: mattock
+27: naginata
+28: nunchaku
+29: pike
+30: pistol
+31: quarterstaff
+32: rapier
+33: rifle
+34: sabre
+35: sai
+36: scimitar
+37: shotgun
+38: shuriken
+39: sling
+40: spear
+41: staff
+42: star
+43: stiletto
+44: stone
+45: sword
+46: sword
+47: trident
+48: wakizashi
+49: warhammer
+50: armor
+51: armor
+52: mail
+53: mail
+54: mail
+55: basinet
+56: helm
+57: buckler
+58: shield
+59: shield
+60: arch
+61: bridge
+62: crack
+63: crevice
+64: anti-item
+65: door
+66: door
+67: anti-item
+68: gate
+69: entrance
+70: hole
+71: hole
+72: opening
+73: passage
+74: path
+75: road
+76: trail
+77: tunnel
+78: boulder
+79: hole
+80: path
+81: stairway
+82: trail
+83: wall
+84: bed
+85: bed
+86: chair
+87: chest
+88: chest
+89: lantern
+90: lockpick
+91: table
+92: batik
+93: coffer
+94: bag
+95: sack
+96: trunk
+97: casket
+98: strongbox
+99: agate
+100: alexandrite
+101: amethyst
+102: aquamarine
+103: bloodstone
+104: carnelian
+105: citrine
+106: coral
+107: diamond
+108: emerald
+109: garnet
+110: jacinth
+111: jasper
+112: stone
+113: moonstone
+114: obsidian
+115: onyx
+116: opal
+117: pearl
+118: ruby
+119: sapphire
+120: sardonyx
+121: topaz
+122: tourmaline
+123: turquoise
+124: anklet
+125: bracelet
+126: brooch
+127: earrings
+128: medallion
+129: necklace
+130: nosering
+131: ring
+132: bangle
+133: barrette
+134: comb
+135: earcuff
+136: hairpin
+137: pendant
+138: chalice
+139: crown
+140: ewer
+141: flagon
+142: idol
+143: mirror
+144: orb
+145: scepter
+146: statue
+147: tiara
+148: urn
+149: amulet
+150: idol
+151: medallion
+152: ring
+153: orb
+154: pendant
+155: rod
+156: wand
+157: talisman
+158: bottle
+159: flask
+160: potion
+161: coin
+162: coin
+163: coin
+164: script
+165: icon
+166: figurine
+167: vial
+168: scroll
+169: amulet
+170: idol
+171: medallion
+172: necklace
+173: orb
+174: pendant
+175: talisman
+176: amulet
+177: idol
+178: medallion
+179: necklace
+180: orb
+181: pendant
+182: talisman
+183: amulet
+184: idol
+185: medallion
+186: necklace
+187: orb
+188: ring
+189: talisman
+190: needle
+191: anti-item
+192: sheets
+193: pillow
+194: bearskin
+195: fireplace
+196: logs
+197: fountain
+198: water
+199: door
+200: door
+201: desk
+202: manuscript
+203: policy
+204: sign
+205: claws
+206: arm
+207: leg
+208: ear
+209: armor
+210: telepathor
+211: reflexor
+212: eye
+213: rubble
+214: skirt
+215: whip
+216: jacket
+217: boots
+218: trenchcoat
+219: gate
+220: collar
+221: hipboots
+222: brassiere
+223: bustiere
+224: corset
+225: stockings
+226: panties
+227: anti-item
+228: obelisk
+229: tree
+230: bodies
+231: grave
+232: corpse
+233: bones
+234: sarcophagus
+235: graffiti
+236: altar
+237: wine
+238: rune
+239: ale
+240: wine
+241: champagne
+242: mead
+243: grog
+244: needle
+245: vent
+246: key
+247: button
+248: model
+249: window
+250: tapestry
+251: codex
+252: cloak
+253: breeches
+254: cassock
+255: tunic
+256: surcoat
+257: doublet
+258: cape
+259: cap
+260: hood
+261: hat
+262: anti-item
+263: moccasins
+264: sandals
+265: shoes
+266: workbench
+267: catalog
+268: blouse
+269: gown
+270: dirndl
+271: shirt
+272: dress
+273: lilacs
+274: rose
+275: blossoms
+276: violets
+277: shelf
+278: leaf
+279: claws
+280: teeth
+281: manhole
+282: panel
+283: shells
+284: bow
+285: tunic
+286: pastry
+287: duster
+288: skull
+289: lizard
+290: cutlass
+291: brochure
+292: pedestal
+293: cake
+294: box
+295: suit
+296: sunglasses
+297: tie
+298: diadem
+299: lyre
+300: lyre
+301: bikini
+302: footprints
+303: quiver
+304: anti-item
+305: anti-item
+306: anti-item
+307: anti-item
+308: eleraan
+309: anti-item
+310: hat
+311: anti-item
+312: wand
+313: axe
+314: crown
+315: book
+316: box
+317: anti-item
+318: pin
+319: gauntlets
+320: cloak
+321: necklace
+322: ring
+323: creme
+324: pool
+325: dam
+326: crustaceans
+327: fungus
+328: lichen
+329: jaws
+330: fang
+331: chasm
+332: chain
+333: chest
+334: ring
+335: ladder
+336: hole
+337: weeds
+338: anti-item
+339: bench
+340: hedge
+341: shelves
+342: oven
+343: hearth
+344: pen
+345: painting
+346: statue
+347: flower
+348: stones
+349: contraption
+350: door
+351: key
+352: skull
+353: compact
+354: powder
+355: bed
+356: jar
+357: lotion
+358: decanter
+359: fluid
+360: mirror
+361: cage
+362: rug
+363: stalagmite
+364: hill
+365: platform
+366: vine
+367: boulder
+368: stalactite
+369: reflection
+370: blossoms
+371: fruit
+372: doll
+373: torch
+374: light
+375: passage
+376: mat
+377: fireplace
+378: box
+379: knob
+380: fish
+381: mantle
+382: pot
+383: bureau
+384: drawer
+385: tablecloth
+386: candelabra
+387: candles
+388: bunnies
+389: berries
+390: skeleton
+391: mouse
+392: squirrel
+393: mud
+394: dinghy
+395: log
+396: table
+397: device
+398: handle
+399: books
+400: plaque
+401: statue
+402: anchor
+403: raft
+404: faucet
+405: tower
+406: cliff
+407: stew
+408: fries
+409: obelisk
+410: trail
+411: rock
+412: gangplank
+413: sand
+414: tower
+415: lichen
+416: fruit
+417: shed
+418: house
+419: carcass
+420: wall
+421: ash
+422: switch
+423: book
+424: sink
+425: herring
+426: stream
+427: crevice
+428: message
+429: cotton
+430: fissure
+431: hole
+432: paintings
+433: pebbles
+434: pattern
+435: egg
+436: cot
+437: potato
+438: rat
+439: rat
+440: device
+441: mittens
+442: longjohns
+443: anti-item
+444: bow
+445: book
+446: clock
+447: anti-item
+448: bowl
+449: ladder
+450: ledge
+451: mist
+452: depression
+453: lemonade
+454: cord
+455: mutton
+456: sausage
+457: popcorn
+458: bucket
+459: gap
+460: tub
+461: toddy
+462: frappe
+463: fizz
+464: tonic
+465: building
+466: torch
+467: sheath
+468: nest
+469: comforter
+470: counter
+471: stone
+472: myrkberry
+473: fruit
+474: hopper
+475: window
+476: dune
+477: anti-item
+478: visor
+479: podium
+480: anti-item
+481: sculpture
+482: ceiling
+483: umbrella
+484: shovel
+485: can
+486: anklet
+487: pad
+488: jeans
+489: earmuffs
+490: socks
+491: backpack
+492: structure
+493: berry
+494: root
+495: inscription
+496: head
+497: bonnet
+498: foil
+499: epee
+500: door
+501: papenheimer
+502: claidhmore
+503: poniard
+504: beard
+505: claw
+506: scalp
+507: scale
+508: ear
+509: pelt
+510: tooth
+511: eggshell
+512: dust
+513: talon
+514: hide
+515: hair
+516: beak
+517: feather
+518: paw
+519: horn
+520: eye
+521: tongue
+522: tail
+523: skin
+524: tusk
+525: finger
+526: toe
+527: leg
+528: fangs
+529: stool
+530: leg
+531: fanny
+532: arm
+533: crystal
+534: shield
+535: kimono
+536: belt
+537: sash
+538: anti-item
+539: rack
+540: scroll
+541: shackles
+542: throne
+543: organza
+544: fist
+545: satin
+546: glass
+547: mosaic
+548: scaffold
+549: tusk
+550: trapdoor
+551: oil
+552: circlet
+553: naginata
+554: basin
+555: cloths
+556: conch
+557: cup
+558: anti-item
+559: gauntlets
+560: guards
+561: guards
+562: anti-item
+563: gun
+564: earring
+565: utilitator
+566: anti-item
+567: anti-item
+568: ch'chak
+569: tail
+570: eyepatch
+571: talisman
+572: handgun
+573: cupcake
+574: box
+575: anti-item
+576: halberd
+577: headress
+578: staff
+579: sword
+580: bracers
+581: flannel
+582: wand
+583: marks
+584: anti-item
+585: anti-item
+586: dice
+587: nightshade
+588: message
+589: handholds
+590: stem
+591: seeds
+592: pollen
+593: crossbow
+594: dagger
+595: robe
+596: gloves
+597: circlet
+598: battleaxe
+599: sword
+600: orb
+601: dagger
+602: chiffon
+603: meteor
+604: boulder
+605: face
+606: track
+607: branch
+608: bridge
+609: track
+610: pile
+611: slope
+612: bin
+613: taffetta
+614: null
+615: cliff
+616: staff
+617: lederhosen
+618: shotgun
+619: ramp
+620: sledgehammer
+621: blowgun
+622: lips
+623: bracelet
+624: magazine
+625: rifle
+626: mask
+627: swatch
+628: amulet
+629: cap
+630: cane
+631: anti-item
+632: cleaver
+633: block
+634: trunks
+635: chelmite
+636: tie
+637: corn
+638: anti-item
+639: figure
+640: candle
+641: lever
+642: boots
+643: main-gauche
+644: robe
+645: tome
+646: ball
+647: bracers
+648: jerkin
+649: arm
+650: corpse
+651: claws
+652: badge
+653: drawbridge
+654: sword
+655: armor
+656: crank
+657: chain
+658: plate
+659: oyster
+660: dagger
+661: ferns
+662: bromeliad
+663: frog
+664: vine
+665: fronds
+666: chisel
+667: orchids
+668: reptiles
+669: nuts
+670: berries
+671: leaves
+672: hose
+673: seedlings
+674: blast
+675: deadfall
+676: buttresses
+677: tortoise
+678: mounds
+679: head
+680: hooves
+681: battleaxe
+682: beanie
+683: foot
+684: fluid
+685: garment
+686: anti-item
+687: cane
+688: sand
+689: anti-item
+690: anti-item
+691: anti-item
+692: alley
+693: anti-item
+694: anti-item
+695: anti-item
+696: anti-item
+697: anti-item
+698: anti-item
+699: anti-item
+700: anti-item
+701: anti-item
+702: anti-item
+703: bottle
+704: pond
+705: millipedes
+706: stairway
+707: null
+708: anti-item
+709: anti-item
+710: anti-item
+711: anti-item
+712: anti-item
+713: anti-item
+714: anti-item
+715: anti-item
+716: opening
+717: briefcase
+718: console
+719: staff
+720: counter
+721: injector
+722: bodysuit
+723: torc
+724: ring
+725: sword
+726: clouds
+727: battleaxe
+728: tube
+729: greatsword
+730: basket
+731: hole
+732: medal
+733: spurs
+734: wings
+735: quarterstaff
+736: pool
+737: file
+738: box
+739: balloon
+740: obi
+741: trousers
+742: frock
+743: broadsword
+744: wall
+745: mirror
+746: footprints
+747: dice
+748: cloak
+749: key
+750: chest
+751: chains
+752: kneepads
+753: doll
+754: exit
+755: ring
+756: longsword
+757: sandwich
+758: ticket
+759: staff
+760: negligee
+761: mandible
+762: pickle
+763: gate
+764: pincers
+765: plane
+766: hammer
+767: saw
+768: claws
+769: gun
+770: blowpipe
+771: glass
+772: vat
+773: anti-item
+774: cola
+775: can
+776: wrapper
+777: bar
+778: anti-item
+779: anti-item
+780: boa
+781: vase
+782: ball
+783: bowl
+784: pitcher
+785: cape
+786: robe
+787: ring
+788: slippers
+789: furs
+790: cookie
+791: pouch
+792: brandy
+793: cloak
+794: cape
+795: bodice
+796: bracelet
+797: rod
+798: paper
+799: card
+800: pin
+801: branch
+802: slot
+803: anti-item
+804: anti-item
+805: anti-item
+806: anti-item
+807: laces
+808: anti-item
+809: anti-item
+810: anti-item
+811: anti-item
+812: pin
+813: anti-item
+814: anti-item
+815: anti-item
+816: scarab
+817: icon
+818: anti-item
+819: vest
+820: crest
+821: cabinet
+822: tambourine
+823: ribbon
+824: perfume
+825: basket
+826: pouch
+827: scimitar
+828: crate
+829: monitor
+830: leaf
+831: anti-item
+832: anti-item
+833: anti-item
+834: anti-item
+835: anti-item
+836: pot
+837: sword
+838: wand
+839: slugs
+840: circle
+841: katana
+842: papenheimer
+843: casings
+844: robot
+845: lines
+846: chamber
+847: tank
+848: shelf
+849: door
+850: horse
+851: container
+852: counter
+853: machine
+854: craft
+855: peephole
+856: phaser
+857: cylinder
+858: claws
+859: gate
+860: gate
+861: cord
+862: gate
+863: letter
+864: envelope
+865: debris
+866: anti-item
+867: dust
+868: key
+869: light
+870: g-string
+871: trunk
+872: helm
+873: jar
+874: tent
+875: pole
+876: bark
+877: crate
+878: hairpin
+879: anti-item
+880: intestine
+881: trees
+882: machine
+883: grate
+884: wire
+885: holster
+886: clay
+887: anti-item
+888: handgun
+889: incense
+890: marshmellow
+891: clip
+892: tube
+893: gun
+894: book
+895: case
+896: pistol
+897: pistol
+898: device
+899: clip
+900: pelt
+901: computer
+902: interface
+903: monitor
+904: lightsabre
+905: pants
+906: medallion
+907: battleaxe
+908: satchel
+909: cape
+910: cape
+911: vault
+912: sash
+913: cap
+914: shore
+915: trenchcoat
+916: mound
+917: well
+918: anti-item
+919: anti-item
+920: horthak
+921: pentagram
+922: contraption
+923: anti-item
+924: anti-item
+925: object
+926: anti-item
+927: anti-item
+928: anti-item
+929: anti-item
+930: anti-item
+931: anti-item
+932: anti-item
+933: stick
+934: anti-item
+935: anti-item
+936: plant
+937: anti-item
+938: anti-item
+939: anti-item
+940: anti-item
+941: amulet
+942: plant
+943: door
+944: door
+945: pick
+946: door
+947: wig
+948: blood
+949: broom
+950: guide
+951: runesword
+952: plate
+953: ring
+954: pipe
+955: anti-item
+956: anti-item
+957: anti-item
+958: rope
+959: anti-item
+960: pin
+961: g-string
+962: panties
+963: anti-item
+964: pick
+965: mouth
+966: mandibles
+967: flute
+968: harp
+969: chime
+970: harmonica
+971: trumpet
+972: kazoo
+973: bell
+974: violin
+975: flute
+976: anti-item
+977: dagger
+978: keg
+979: kaiekra
+980: anti-item
+981: shield
+982: anti-item
+983: anti-item
+984: greatbow
+985: painting
+986: head
+987: zulfikhar
+988: broadsword
+989: robe
+990: anti-item
+991: spider
+992: anti-item
+993: anti-item
+994: headstone
+995: candle
+996: bludjun
+997: pumpkin
+998: disk
+999: torc
+1000: hand
+1001: anti-item
+1002: scythe
+1003: anti-item
+1004: anti-item
+1005: stick
+1006: eye
+1007: parchment
+1008: tentacle
+1009: oil
+1010: cloak
+1011: boots
+1012: jacket
+1013: hat
+1014: doll
+1015: towel
+1016: kimono
+1017: submarine
+1018: scarf
+1019: bodysuit
+1020: briefs
+1021: hood
+1022: case
+1023: veil
+1024: wheel
+1025: toolbox
+1026: satchel
+1027: ash
+1028: bookcase
+1029: case
+1030: box
+1031: curtain
+1032: barrel
+1033: crates
+1034: cupboard
+1035: writing
+1036: ramp
+1037: inkwell
+1038: scratches
+1039: stalls
+1040: pile
+1041: pike
+1042: elevator
+1043: hopper
+1044: daisy
+1045: swing
+1046: alcove
+1047: bag
+1048: horthak
+1049: teddy
+1050: railing
+1051: button
+1052: sprig
+1053: orchid
+1054: stole
+1055: sandals
+1056: bracelet
+1057: shotgun
+1058: cloak
+1059: ring
+1060: shield
+1061: rifle
+1062: water
+1063: magnum
+1064: holster
+1065: bullets
+1066: colt
+1067: clip
+1068: browning
+1069: crystal
+1070: anti-item
+1071: helmet
+1072: anti-item
+1073: glaive
+1074: anti-item
+1075: duck
+1076: post
+1077: parrot
+1078: cat
+1079: cloak
+1080: kaiekra
+1081: telescope
+1082: anti-item
+1083: anti-item
+1084: anti-item
+1085: anti-item
+1086: contract
+1087: box
+1088: amulet
+1089: anti-item
+1090: anti-item
+1091: anti-item
+1092: anti-item
+1093: anti-item
+1094: anti-item
+1095: anti-item
+1096: anti-item
+1097: anti-item
+1098: anti-item
+1099: anti-item
+1100: ladder
+1101: drain
+1102: tablet
+1103: bag
+1104: sword
+1105: locket
+1106: arquebus
+1107: shot
+1108: ladder
+1109: cabin
+1110: blade
+1111: armor
+1112: sign
+1113: wristlet
+1114: ball
+1115: flagon
+1116: potion
+1117: stove
+1118: fragment
+1119: pouch
+1120: keg
+1121: hay
+1122: hook
+1123: pizza
+1124: bubblegum
+1125: deck
+1126: rules
+1127: board
+1128: sidewalk
+1129: basket
+1130: fence
+1131: slide
+1132: purse
+1133: umbrella
+1134: coral
+1135: tin
+1136: armor
+1137: turban
+1138: shell
+1139: anti-item
+1140: anti-item
+1141: pin
+1142: nose
+1143: blossom
+1144: coconut
+1145: bunny-ears
+1146: anti-item
+1147: rosebud
+1148: dust
+1149: mast
+1150: bunny-tail
+1151: anti-item
+1152: dust
+1153: feather
+1154: portrait
+1155: bell
+1156: fragment
+1157: ursine
+1158: truck
+1159: spigot
+1160: tweezers
+1161: clippers
+1162: scissors
+1163: manuscript
+1164: note
+1165: skull
+1166: sandals
+1167: warrior
+1168: pile
+1169: cauldron
+1170: stone
+1171: barrel
+1172: seashell
+1173: anti-item
+1174: token
+1175: mail
+1176: rod
+1177: stone
+1178: stone
+1179: stone
+1180: cigar
+1181: anti-item
+1182: dagger
+1183: wallet
+1184: smoke
+1185: bottle
+1186: anti-item
+1187: anti-item
+1188: anti-item
+1189: pipe
+1190: anti-item
+1191: anti-item
+1192: anti-item
+1193: bo-stick
+1194: pole
+1195: talisman
+1196: miniskirt
+1197: t-shirt
+1198: sphere
+1199: watch
+1200: box
+1201: wrench
+1202: wirecutters
+1203: pliers
+1204: opener
+1205: yo-yo
+1206: anti-item
+1207: box
+1208: fingersight
+1209: monitor
+1210: tube
+1211: castle
+1212: talisman
+1213: hourglass
+1214: brazier
+1215: sword
+1216: scabbard
+1217: pennant
+1218: pocket
+1219: boxers
+1220: nunchaku
+1221: rock
+1222: skates
+1223: coin
+1224: lipgloss
+1225: sign
+1226: stairway
+1227: anti-item
+1228: acorn
+1229: berry
+1230: mist
+1231: moat
+1232: bush
+1233: orb
+1234: light
+1235: sword
+1236: scarf
+1237: hair
+1238: rat
+1239: vest
+1240: beltpouch
+1241: sneakers
+1242: grapes
+1243: battlesuit
+1244: fatigues
+1245: halter
+1246: harness
+1247: waistpack
+1248: greatsword
+1249: chandelier
+1250: anti-item
+1251: anti-item
+1252: anti-item
+1253: anti-item
+1254: anti-item
+1255: anti-item
+1256: anti-item
+1257: anti-item
+1258: anti-item
+1259: anti-item
+1260: anti-item
+1261: anti-item
+1262: anti-item
+1263: anti-item
+1264: anti-item
+1265: anti-item
+1266: anti-item
+1267: anti-item
+1268: anti-item
+1269: anti-item
+1270: foot
+1271: formation
+1272: fragment
+1273: head
+1274: ridge
+1275: weight
+1276: choker
+1277: crystal
+1278: pillars
+1279: anti-item
+1280: anti-item
+1281: anti-item
+1282: anti-item
+1283: anti-item
+1284: anti-item
+1285: anti-item
+1286: anti-item
+1287: anti-item
+1288: anti-item
+1289: anti-item
+1290: anti-item
+1291: anti-item
+1292: anti-item
+1293: anti-item
+1294: anti-item
+1295: anti-item
+1306: map

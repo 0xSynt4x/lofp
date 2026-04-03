@@ -1,0 +1,23 @@
+Categories:
+ PEOPLE
+ PLACES
+ MONSTERS
+
+
+PEOPLE
+200  The babbling healer.
+400  She is known well by Mortif, Revenge, Vlad and Phelan.
+600  The mage with the tower.
+800  She is Liriama's mother.
+1000 He is an old aelfen, but a race of his own.
+
+PLACES
+200  
+
+PEOPLE
+200  Who is Brook?
+400  Who is Autumn?
+600  Who is Linnaeus?
+800  Who is Zorha?
+1000 Who is Phule?
+

@@ -1,0 +1,325 @@
+; Replace rooms 1296, 1297 and 1298 with local room numbers
+; Replace item 1123 with the number for a local stairway
+
+; The coordinate system is translated from an arbitrary latitude and
+; longitude to numbers from 0 to n.
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 1296
+NAME Village 1 Station
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+*DESCRIPTION_START
+You're at a station in a small village.
+*DESCRIPTION_END 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 1297
+NAME Village 2 Station
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+*DESCRIPTION_START
+You're at a station in a small village.
+*DESCRIPTION_END 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+NUMBER 1298
+NAME Vehicle
+REGION 0
+CHANNEL 1
+INDOOR_FLOOR
+FIXED_LIGHT
+
+; Some of the variables below can be replaced with constants once
+; the right ones have been determined
+
+; Current latitude and longitude
+VARIABLE DKG_LAT
+VARIABLE DKG_LONG
+; the lat/long of the lower left 'room' in the wastelands
+; these are subtracted from the current lat/long before scaling
+VARIABLE DKG_LATOFF
+VARIABLE DKG_LONGOFF
+; the lat/long of the upper right 'room'
+VARIABLE DKG_LATMAX
+VARIABLE DKG_LONGMAX
+; the number of degrees per room (coordinates are divided by this)
+VARIABLE DKG_SCALE
+; 0=no need to show 'room', 1=user looked, 2=user moved
+VARIABLE DKG_SHOW
+; selectors for the 1st and 2nd elements of the description
+VARIABLE DKG_X
+VARIABLE DKG_Y
+; used to select the third element of the description
+VARIABLE DKG_THIRD
+; used to uniquely identify each room
+VARIABLE DKG_HASH
+
+ITEM 0 1123
+
+*DESCRIPTION_START
+This wood and canvas horse-drawn wagon is one of several in the caravan. Cut
+into the canvas is a window through which you can see the world outside. 
+*DESCRIPTION_END 
+
+EQUAL DKG_SHOW 0
+
+;allow vehicle to be initialized for test purposes
+; these should be set in another script at load time
+IFPREVERB TAP 0
+  EQUAL DKG_SCALE 5
+  EQUAL DKG_LATOFF 100
+  EQUAL DKG_LONGOFF 150
+  ; max = scale * numberofspots + offset
+  EQUAL DKG_LATMAX 200
+  EQUAL DKG_LONGMAX 250
+
+  EQUAL DKG_LAT DKG_LATOFF
+  EQUAL DKG_LONG DKG_LONGOFF
+
+  ECHO PLAYER You tap the window, and the driver brings the vehicle to its home.
+  CLEARVERB
+ENDIF
+
+; a test to get the vehicle to go someplace by its own path
+; this should be triggered by a cevent if the vehicle is 'en route' somewhere
+IFSAY Move
+  ; let x,y = long/lat of destination
+  EQUAL DKG_X 175
+  EQUAL DKG_Y 120
+	
+  ; This should be rewritten using DDA for a smooth slope
+  IFVAR DKG_X < DKG_LONG
+    SUB DKG_LONG DKG_SCALE
+  ENDIF
+  IFVAR DKG_X > DKG_LONG
+    ADD DKG_LONG DKG_SCALE
+  ENDIF
+  IFVAR DKG_Y < DKG_LAT
+    SUB DKG_LAT DKG_SCALE
+  ENDIF
+  IFVAR DKG_Y > DKG_LAT
+    ADD DKG_LAT DKG_SCALE
+  ENDIF
+  EQUAL DKG_SHOW 2
+ENDIF
+
+IFSAY North
+  IFVAR DKG_LAT < DKG_LATMAX
+    ECHO ALL As the wagon heads north you see the landscape shift beyond the opening.
+    ADD DKG_LAT DKG_SCALE
+    EQUAL DKG_SHOW 2
+  ELSE
+    ECHO ALL The driver states that the wagon's as far north as it can go.
+  ENDIF
+ENDIF
+
+IFSAY South
+  IFVAR DKG_LAT > DKG_LATOFF
+    ECHO ALL The landscape seems to slide past the opening as the wagon heads south.
+    SUB DKG_LAT DKG_SCALE
+    EQUAL DKG_SHOW 2
+  ELSE
+    ECHO ALL The driver states that you're as far south as you can go.
+  ENDIF
+ENDIF
+
+IFSAY West
+  IFVAR DKG_LONG > DKG_LONGOFF
+    ECHO ALL As the driver guides the horses you see a new landscape outside the wagon.
+    SUB DKG_LONG DKG_SCALE
+    EQUAL DKG_SHOW 2
+  ELSE
+    ECHO ALL The driver states that he's as far west as he can go.
+  ENDIF
+ENDIF
+
+IFSAY East
+  IFVAR DKG_LONG < DKG_LONGMAX
+    ECHO ALL As the driver heads east you see the landscape shift beyond the window.
+    ADD DKG_LONG DKG_SCALE
+    EQUAL DKG_SHOW 2
+  ELSE
+    ECHO ALL The driver states that the wagon can't go any farther east.
+  ENDIF
+ENDIF
+
+IFPREVERB LOOK 0
+  CLEARVERB
+  ECHO OTHERS %N looks out the window.
+  EQUAL DKG_SHOW 1
+ENDIF
+
+IFVAR DKG_SHOW > 0
+  ; dkg_x = (dkg_long - dkg_longoff) / dkg_scale
+  EQUAL DKG_X DKG_LONG
+  SUB DKG_X DKG_LONGOFF
+  DIV DKG_X DKG_SCALE
+
+  ; dkg_x= (dkg_lat - dkg_lat) / dkg_scale
+  EQUAL DKG_Y DKG_LAT
+  SUB DKG_Y DKG_LATOFF
+  DIV DKG_Y DKG_SCALE
+
+  ; we've converted the latitude and longitude to small #'s (0-n)
+  ; now we combine them into a unique number to make comparisons easier
+  EQUAL DKG_HASH DKG_X
+  MULT DKG_HASH 100
+  ADD DKG_HASH DKG_Y
+
+STRCVT 9 DKG_LAT
+;ECHO PLAYER	DKG_LAT = %9
+STRCVT 9 DKG_LONG
+;ECHO PLAYER	DKG_LONG = %9
+
+  ; see if we moved
+  IFVAR DKG_SHOW = 2
+    ;remove old portal
+    REMOVEITEM 1
+
+    ;test for villages
+    IFVAR DKG_LONG = 175
+      IFVAR DKG_LAT = 120
+        NEWITEM 1 962 VAL2=1297
+        ECHO ALL A stairway leads to the station.
+      ENDIF
+    ENDIF
+    IFVAR DKG_LONG = 190
+      IFVAR DKG_LAT = 130
+        NEWITEM 1 962 VAL2=1296
+        ECHO ALL A stairway leads to the station.
+      ENDIF
+    ENDIF
+  ENDIF
+
+  RANDOM DKG_THIRD 1 9 0
+
+  ;set x,y,third from the location
+  EQUAL DKG_X DKG_HASH
+  MOD DKG_X 11
+  EQUAL DKG_Y DKG_HASH
+  MOD DKG_Y 9
+  EQUAL DKG_THIRD DKG_HASH
+  MOD DKG_THIRD 7
+
+;STRCVT 9 DKG_X
+;ECHO PLAYER	DKG_X = %9
+;STRCVT 9 DKG_Y
+;ECHO PLAYER	DKG_Y = %9
+;STRCVT 9 DKG_THIRD
+;ECHO PLAYER	DKG_THIRD = %9
+
+    ;Set terrain based on longitude
+  IFVAR DKG_X = 0
+    STRCPY 0 "a_flat,_barren_expanse
+  ENDIF
+  IFVAR DKG_X = 1
+    STRCPY 0 "a_bumpy_plain
+  ENDIF
+  IFVAR DKG_X = 2
+    STRCPY 0 "rolling_hills
+  ENDIF
+  IFVAR DKG_X = 3
+    STRCPY 0 "steep,_treacherous_cliffs_and_trails
+  ENDIF
+  IFVAR DKG_X = 4
+    STRCPY 0 "a_tilted_landscape
+  ENDIF
+  IFVAR DKG_X = 5
+    STRCPY 0 "an_inhospitable_wasteland
+  ENDIF
+  IFVAR DKG_X = 6
+    STRCPY 0 "a_cracked_surface
+  ENDIF
+  IFVAR DKG_X = 7
+    STRCPY 0 "plateaus_and_deep_chasms
+  ENDIF
+  IFVAR DKG_X = 8
+    STRCPY 0 "dry,_rubble_strewn_riverbeds
+  ENDIF
+  IFVAR DKG_X = 9
+    STRCPY 0 "an_uninhabited_valley
+  ENDIF
+  IFVAR DKG_X = 10
+    STRCPY 0 "a_twisted_terrain
+  ENDIF
+
+  ;Set greenery based on latitude
+  IFVAR DKG_Y = 0
+    STRCPY 1 "showing_only_dirt_and_scrub_brush.
+  ENDIF
+  IFVAR DKG_Y = 1
+    STRCPY 1 "with_scattered_bushes.
+  ENDIF
+  IFVAR DKG_Y = 2
+    STRCPY 1 "with_a_few_trees_and_scattered_vegetation.
+  ENDIF
+  IFVAR DKG_Y = 3
+    STRCPY 1 "populated_by_tall_trees_in_twisted_forms.
+  ENDIF
+  IFVAR DKG_Y = 4
+    STRCPY 1 "devoid_of_plant_life.
+  ENDIF
+  IFVAR DKG_Y = 5
+    STRCPY 1 "barren_of_life.
+  ENDIF
+  IFVAR DKG_Y = 6
+    STRCPY 1 "offering_no_shelter_from_the_elements.
+  ENDIF
+  IFVAR DKG_Y = 7
+    STRCPY 1 "with_unconcealed_hostility_to_life.
+  ENDIF
+  IFVAR DKG_Y = 8
+    STRCPY 1 ",_home_only_to_the_circling_scavengers.
+  ENDIF
+  IFVAR DKG_Y = 9
+    STRCPY 1 "with_deep_ruts_to_trap_the_errant_vehicle.
+  ENDIF
+  IFVAR DKG_Y = 10
+    STRCPY 1 "unmoving_except_for_the_slither_of_reptiles.
+  ENDIF
+
+  ;select the third element
+  IFVAR DKG_THIRD = 0
+    STRCPY 2 "Sulphurous_fumes_rise_from_the_ground_into_the_wagon.
+  ENDIF
+  IFVAR DKG_THIRD = 1
+    STRCPY 2 "Bleached_bones_lay_strewn_by_the_trail.
+  ENDIF
+  IFVAR DKG_THIRD = 2
+    STRCPY 2 "A_carrion_bird_circles_above.
+  ENDIF
+  IFVAR DKG_THIRD = 3
+    STRCPY 2 "A_buzzing_insect_flies_past_the_window.
+  ENDIF
+  IFVAR DKG_THIRD = 4
+    STRCPY 2 "Dust_from_the_vehicle_rises_in_a_cloud.
+  ENDIF
+  IFVAR DKG_THIRD = 5
+    STRCPY 2 "A_small_animal_scurries_away_from_the_vehicle_in_fear.
+  ENDIF
+  IFVAR DKG_THIRD = 6
+    STRCPY 2 "In_the_distance_the_cry_of_an_animal_is_cut_short_suddenly.
+  ENDIF
+  IFVAR DKG_THIRD = 7
+    STRCPY 2 "The_wagon_lurches_suddenly_as_it_negotiates_a_hazard.
+  ENDIF
+  IFVAR DKG_THIRD = 8
+    STRCPY 2 "A_smell_of_rotted_flesh_creeps_into_the_wagon_with_the_wind.
+  ENDIF
+  IFVAR DKG_THIRD = 9
+    STRCPY 2 "An_unexpected_cracking_sound_is_emitted_by_the_wagon's_frame_as_it_dips_into_a_rut.
+  ENDIF
+  IFVAR DKG_SHOW = 1
+    ECHO PLAYER The window shows %0 %1 %2
+  ELSE
+    ECHO ALL The window shows %0 %1 %2
+  ENDIF
+ENDIF

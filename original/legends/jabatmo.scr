@@ -1,0 +1,30 @@
+IFVAR JABSTR = 1
+  ECHO ALL The ground beneath your feet suddenly turns to quagmire.
+ENDIF
+IFVAR JABSTR = 2
+  ECHO ALL Your surroundings are bathed in iridescence as a flash of dark lightning arcs nearby.
+ENDIF
+IFVAR JABSTR = 3
+  ECHO ALL Dark shadows gather around, their hunger a palpable thing.
+ENDIF
+IFVAR JABSTR = 4
+  ECHO ALL Out of the corner of your eye, you catch a glimpse of something horribly misshapen.
+ENDIF
+IFVAR JABSTR = 5
+  ECHO ALL A flash of lightning illuminates strange transparent shapes floating in the air.
+ENDIF
+IFVAR JABSTR = 6
+  ECHO ALL The air around you shimmers and shifts briefly.
+ENDIF
+IFVAR JABSTR = 7
+  ECHO ALL The surrounding shadows take on more substance and a dark voice intones, "Beware!"
+ENDIF
+IFVAR JABSTR = 8
+  ECHO ALL A sudden drop in temperature chills you to the bone.
+ENDIF
+IFVAR JABSTR = 9
+  ECHO ALL A chorus of howls echoes and hangs eerily in the air.
+ENDIF
+IFVAR JABSTR = 10
+  ECHO ALL A disembodied claw rips through the air, leaving behind a tear that slowly knits back together. 
+ENDIF

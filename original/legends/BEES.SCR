@@ -1,0 +1,1603 @@
+ADJDEF 1981 bee
+MADJDEF 57 worker
+MADJDEF 58 drone
+MADJDEF 59 guard
+NOUNDEF 2050 honey
+MLIST 212 756 10 10
+MLIST 212 757 10 10
+MLIST 212 758 10 10
+;
+INUMBER 3002
+NAME 2050
+FOOD
+WEIGHT 1
+VOLUME 1
+ARTICLE SOME
+PARAMETER1 100
+IFPREVERB EAT -1
+  CLEARVERB
+  ECHO OTHERS %N sinks %h teeth into the sweet-smelling honey, and then recoils.
+  ECHO PLAYER As you begin to taste the honey, you suddenly feel sick to your stomach!
+  DAMAGEPLR POISON 15 The taste of the honey sours in your mouth.
+ENDIF
+IFPREVERB TOUCH -1
+  CLEARVERB
+  EQUAL ROUNDTIME 15
+  ECHO OTHERS %N touches the honey, and is suddenly stuck in place.
+  ECHO PLAYER Touching the honey, it grasps hold of your hand and you must pull it free.
+ENDIF
+IFPREVERB LICK -1
+  CLEARVERB
+  ECHO OTHERS %N licks the honey, but then %h face starts to pale.
+  ECHO PLAYER Licking the honey, you relish the sweet taste for only a moment, but the sourness overwhelms you.
+  DAMAGEPLR BODYONLY 15 The sweet taste rapidly sours in your mouth.
+ENDIF
+IFPREVERB GO -1
+  CLEARVERB
+  EQUAL ROUNDTIME 20
+  ECHO PLAYER Trying to enter the honey only gets you stuck in the acidic substance!
+  DAMAGEPLR BURN 25 The honey starts to burn your skin.
+  ECHO OTHERS %N presses up against the honey, you watch as it starts to burn %h skin.
+ENDIF
+IFPREVERB GET -1
+  EQUAL ROUNDTIME 15
+  ECHO PLAYER Picking up the sticky mass of honey, it coats your hands as you handle it.
+  DAMAGEPLR BODYONLY 25 The sticky honey starts to burn your fingers.
+ENDIF
+IFPREVERB NIBBLE -1
+  CLEARVERB
+  ECHO OTHERS As %N nibbles on the tasty honey, you notice %h lips start to burn.
+  DAMAGEPLR BURN 20 As you nibble on the tasty honey, your lips start to burn.
+ENDIF
+;
+MNUMBER 756
+NAME worker
+PART 00
+PART 01
+PART 02
+PART 04
+PART 07
+PART 08
+PART 09
+PART 10
+PART 11
+PART 12
+PART 15
+PART 16
+*DESCRIPTION_START
+The bee is about ten times larger than normal. It is slow and methodical. Its
+thorax is decorated in angry slashes of black and yellow. Your image is
+reflected hundreds of times in its complex eyes.
+*DESCRIPTION_END
+BODY 100
+EXTRABODY 80
+ATTACK1 120
+DEFENSE 120
+STRATEGY 501
+WEAPON 1636 1981 50
+IMMUNITY 0
+TREASURE 50
+POISON 50 10
+SPEED 8
+SPECUSE 50
+SPECUSES 2
+SPECBASE 35
+SPECDMG 25
+SPECDMGTYPE SLASH
+TEXX %s turns and aims its stinger at %s!
+TEXE a worker bee bzzzzs in.
+TEXD falls into a heap of yellow and black.
+TEXM a worker bee bzzzzs
+TEXA a worker bee flies right at
+TEX1 a worker bee whirls upwards gaining speed.
+TEX2 a worker bee drips honey.
+TEX3 a worker bee buzzes your head.
+TEXG a worker bee bzzzzs in.
+SKINADJ 1981
+SKINITEM 520 40
+SKINITEM 509 40
+GUARD 758
+;
+MNUMBER 757
+NAME drone
+PART 00
+PART 01
+PART 02
+PART 04
+PART 07
+PART 08
+PART 09
+PART 10
+PART 11
+PART 12
+PART 15
+PART 16
+*DESCRIPTION_START
+The drone is a sleek flying terror, with a long slender stinger dripping 
+with deadly poison. It darts about with an angry whirling sound.
+*DESCRIPTION_END
+BODY 200
+EXTRABODY 50
+ATTACK1 200
+DEFENSE 100
+IMMUNITY 2 1
+IMMUNITY 0
+WEAPON 1636 1981
+STRATEGY 501
+TREASURE 50
+POISON 75 15
+RESIST 50
+SPEED 8
+SPECUSE 20
+SPECUSES 2
+SPECBASE 30
+SPECDMG 10
+SPECDMGTYPE HEAT
+TEXX %s beats its wings rapidly against %s!
+TEXE a drone flies into the room.
+TEXG a drone flies into the room.
+TEXD lets out a final bzzz before falling to the ground.
+TEXM a drone flies
+TEXA a drone flies straight at
+TEX1 a drone bee rubs its wings together generating heat.
+TEX2 a drone bee whizzes right by your ear.
+SKINADJ 1981
+SKINITEM 504 40
+SKINITEM 515 40
+SKINITEM 520 40
+;
+MNUMBER 758
+NAME guard
+PART 00
+PART 01
+PART 02
+PART 04
+PART 07
+PART 08
+PART 09
+PART 10
+PART 11
+PART 12
+PART 15
+PART 16
+*DESCRIPTION_START
+The guard is by far the largest and ugliest of the bees. Mutated wings and
+muscled legs adorn its body. Large venonous fangs and a wicked stinger
+protrude from either end of its body.
+*DESCRIPTION_END
+BODY 300
+EXTRABODY 100
+ATTACK1 200
+DEFENSE 300
+IMMUNITY 6
+IMMUNITY 1 4
+IMMUNITY 0
+DISCORPORATE
+STRATEGY 501
+RESIST 100
+SPEED 7
+SPECUSE 10
+SPECUSES 1
+SPECBASE 70
+SPECDMG 30
+SPECDMGTYPE ELECTRIC
+MANA 300
+SPELLUSE 90
+SPELLSKILL 300
+CASTLEVEL 100
+NONDISRUPTABLE
+SILENCEIGNORE
+SPELL 201
+SPELL 315
+SPELL 127
+TEXX %s attempts to lock its forelegs to %s!
+TEXE a guard bee enters spitting acid honey.
+TEXG a guard bee enters.
+TEXM a guard bee
+TEXQ a guard bee whirls in anger.
+TEXZ %s digs its stinger into %s
+TEXD withers into nothingness.
+TEXS a guard bee bzzzs in an intricate circle.
+TEXL a guard bee points its stinger
+TEX1 a guard bee cuffs a drone on the stinger.
+TEX2 a guard bee drools bits of acid honey.
+TEX3 a guard bee whirrs around building up a current in its wings!
+;
+VARIABLE HIVETURN
+VARIABLE HIVEPLAY
+VARIABLE HIVEEND
+;The HIVE
+NUMBER 10100
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Central Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This chamber is roughly circular, the walls being formed of octagonal shaped
+pieces of honey-comb. The honey drips from almost all surfaces, coating
+anything it touches. In the farthest reaches of the dark lie deeper pools
+of utter black. Odd scratch marks marr the wet floor.
+*DESCRIPTION_END
+ITEM 0 77 ADJ1=311 VAL2=10101
+ITEM 1 77 ADJ1=311 VAL2=10102
+ITEM 2 77 ADJ1=311 VAL2=10103
+ITEM 3 77 ADJ1=311 VAL2=10104
+ITEM 4 3002
+IFVERB SEARCH -1
+  IFVAR HIVETURN ! 4
+    ECHO PLAYER You don't find anything.
+  ENDIF
+ENDIF
+IFVERB SEARCH -1
+  IFVAR HIVETURN = 4
+    EQUAL HIVETURN 5
+    ECHO ALL A chute opens up in the middle of the room.
+    NEWITEM 9 1508 ADJ1=387 ADJ2=407 VAL2=10117
+  ENDIF
+ENDIF
+IFPREVERB GO 9
+  CLEARVERB
+  ECHO PLAYER You enter the sticky chute and slide and stutter downwards.
+  ECHO OTHERS %N enters the sticky chute and slides and stutters downwards.
+  AFFECT 10117
+  ECHO ALL %N comes sliding haltingly from a chute.
+  AFFECT 10100
+  MOVE 10117
+ENDIF
+;
+NUMBER 10101
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Outer Chambers
+INDOOR_FLOOR
+PARTIAL_DARKNESS
+*DESCRIPTION_START
+Glimmers of light enter this chamber from the seams of the hive. The
+loud buzz of the worker bees causes the floor to vibrate in a steady rhythm.
+Multiple openings are in the numerous walls, leading back into darkness.
+*DESCRIPTION_END
+EXIT E 10108
+EXIT S 10109
+ITEM 0 73 ADJ1=311 ADJ2=387 VAL2=10102
+ITEM 1 73 ADJ1=311 ADJ2=387 VAL2=10104
+ITEM 2 77 ADJ1=311 VAL2=10100
+;
+NUMBER 10102
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Outer Chambers
+INDOOR_FLOOR
+PARTIAL_DARKNESS
+*DESCRIPTION_START
+This room, is full of openings to other darker rooms. Upwards, the light
+filters in through tiny holes in the outer rim of the hive. Vibrations from
+bees below causes the walls to quiver.
+*DESCRIPTION_END
+EXIT S 10110
+EXIT W 10111
+ITEM 0 73 ADJ1=311 ADJ2=387 VAL2=10101
+ITEM 1 73 ADJ1=311 ADJ2=387 VAL2=10103
+ITEM 2 77 ADJ1=311 VAL2=10100
+;
+NUMBER 10103
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Outer Chambers
+INDOOR_FLOOR
+PARTIAL_DARKNESS
+*DESCRIPTION_START
+This chamber is rather quiet, and rather empty. The darkness is broken by
+occasional streaks of light. Lines of dim openings pierce each wall.
+*DESCRIPTION_END
+EXIT W 10112
+EXIT N 10105
+ITEM 0 73 ADJ1=311 ADJ2=387 VAL2=10102
+ITEM 1 73 ADJ1=311 ADJ2=387 VAL2=10104
+ITEM 2 77 ADJ1=311 VAL2=10100
+;
+NUMBER 10104
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Outer Chambers
+INDOOR_FLOOR
+PARTIAL_DARKNESS
+*DESCRIPTION_START
+Honey drips from the ceiling and puddles on the floor, and then seeps
+into the cracks and passes out of sight. More dark holes line the walls
+and offer little line of sight.
+*DESCRIPTION_END
+EXIT N 10106
+EXIT E 10107
+ITEM 0 73 ADJ1=311 ADJ2=387 VAL2=10103
+ITEM 1 73 ADJ1=311 ADJ2=387 VAL2=10101
+ITEM 2 77 ADJ1=311 VAL2=10100
+;
+NUMBER 10105
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Tiny Cell
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This crowded little cell is hardly even a room. The walls are chewed up bits
+of paper and plants tamped into place by the feet of the worker bees.
+Each corner looks as if it could open into another large or small room, or
+go nowhere are all.
+*DESCRIPTION_END
+EXIT S 10103
+IFPREVERB SEARCH -1
+  IFNOITEM 9
+    ECHO ALL Searching deeper into one of the corners, %N seems to have discovered a hole.
+    NEWITEM 9 79 ADJ1=87 VAL2=10113
+  ELSE
+    ECHO PLAYER There is nothing else to be found.
+  ENDIF
+ENDIF
+;
+NUMBER 10106
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Tiny Cell
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+A low ceiling makes this tiny place almost unenterable. Dark lines of bee
+saliva stain the walls and floor. A dark circle draws your gaze to the
+wall beside the opening.
+*DESCRIPTION_END
+EXIT S 10104
+ITEM 0 79 ADJ1=87 VAL2=10114
+;
+NUMBER 10107
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Tiny Cell
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+The flooring in this chamber appears rather unstable and chunks of the
+material used to make the walls and ceiling have fallen into piles of rubble.
+The floor slants sharply upwards near the back of the room.
+*DESCRIPTION_END
+EXIT W 10104
+IFPREVERB SEARCH -1
+  ECHO PLAYER Searching into the corners of the room, the floor suddenly begins to give out, and forces you back into the other room.
+  ECHO OTHERS %N tries to move into the corners of the room, but the floor suddenly gives way, and %s is forced out.
+  AFFECT 10104
+  ECHO ALL %N comes sliding out of a nearby chamber.
+  AFFECT 10107
+  MOVE 10104
+ENDIF
+;
+NUMBER 10108
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Tiny Cell
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+The flooring here is almost nonexistant as it slants sideways and peaks into
+sharp points along the edges. Strings of honey dangle from above and almost
+touch the floor. Each string is coated in the delicious sticky-sweet nectar
+of the gods.
+*DESCRIPTION_END
+EXIT W 10101
+ITEM 0 1668 ADJ1=387 ADJ2=407
+EXTEND 0 dangling from the ceiling
+IFPREVERB CLIMB 0
+  CLEARVERB
+  EQUAL ROUNDTIME 15
+  ECHO PLAYER As you reach up and grasp the strings with your hands, gooey globs of honey drip into your face.
+  PLREVENT 1
+  CONTPLREVENT
+  ECHO PLAYER After much work for no progress, you soon give up trying to climb the sticky mess.
+ENDIF
+IFPREVERB LICK 0
+  CLEARVERB
+  ECHO PLAYER Sticking your tongue out to lick the honey, it becomes so stuck in the gooey mess that it takes you a few minutes to disentangle yourself.
+  EQUAL ROUNDTIME 10
+  ECHO OTHERS %N stuck %h tongue into the honey and got rather stuck.
+ENDIF
+IFPREVERB EAT 0
+  CLEARVERB
+  ECHO PLAYER You nibble on the end of the string, pulling some of the delicious honey off.
+  EQUAL ROUNDTIME 10
+  ECHO OTHERS %N nibbles on the end of a string, savoring the sweet honey.
+ENDIF
+IFPREVERB PULL 0
+  CLEARVERB
+  EQUAL ROUNDTIME 10
+  ECHO PLAYER As you try to pull down the strings, many of them fall and entangle you!
+  ECHO OTHERS As %N tries to pull on the strings, many of them fall and entangle %i.
+  SPELL 127 100
+ENDIF
+;
+NUMBER 10109
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Tiny Cell
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+The vibrations of the working bees are excessive in this small chamber,
+causing the walls to hum. The smell of honey is overwhelming from a tiny hole
+near the far wall.
+*DESCRIPTION_END
+EXIT N 10101
+ITEM 0 79 ADJ1=327 ADJ2=387 ADJ3=315 VAL2=10115
+;
+NUMBER 10110
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Tiny Cell
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This room is small and box-like. Thousands of holes disfigure the walls and
+lead to dark alcoves.
+*DESCRIPTION_END
+EXIT N 10102
+ITEM 0 79 ADJ1=311 VAL2=10110
+ITEM 1 79 ADJ1=311 VAL2=10110
+ITEM 2 79 ADJ1=311 VAL2=10110
+ITEM 3 79 ADJ1=311 VAL2=10110
+ITEM 4 79 ADJ1=311 VAL2=10116
+;
+NUMBER 10111
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Tiny Cell
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+A small cubby hole is a generous term for this bit of the hive. The loud hum
+in the walls throbs through your mind as you examine the walls around you.
+A tiny hole sits about two feet above the ground.
+*DESCRIPTION_END
+EXIT E 10102
+ITEM 0 79 ADJ1=327
+IFENTRY -1
+  POSITION KNEEL
+ENDIF
+IFPREVERB GO 0
+  CLEARVERB
+  ECHO PLAYER The hole is much to small to go through.
+  ECHO OTHERS %N just stuck %h finger in the hole.
+ENDIF
+IFPREVERB LOOK 0
+  CLEARVERB
+  ECHO PLAYER You look into the hole and see a glimmer of movement.
+  SHOWROOM 10116
+ENDIF
+;
+NUMBER 10112
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Tiny Cell
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This chamber is long and narrow, tapering down to each corner. The walls are
+more of the bees work, plastering pieces of paper and plant together with
+spit to form the framework of the hive. The buzzing sounds are much fainter
+here, but more warmth emanates from below.
+*DESCRIPTION_END
+EXIT E 10103
+;
+NUMBER 10113
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Honey Storage
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+Large octagonally shaped formations rise up from the floor. Each one contains
+massive wells of honey. The golden fluid drips from a few cracks and crevises.
+Long trenches guide the sweet substance down into other layers of the hive.
+*DESCRIPTION_END
+ITEM 0 79 ADJ1=311 VAL2=10105
+ITEM 1 1271
+ITEM 2 134 ADJ1=387
+ITEM 3 917 ADJ1=178
+EXTEND 3 of sticky sweet honey
+*DESCRIPTION_START ITEM EXAM 2
+The pieces of the honeycomb appear to move, and several grooves are worn
+under a specific piece.
+*DESCRIPTION_END
+IFPREVERB GET 2
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 2
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB TURN 2
+  CLEARVERB
+  IFVAR ITEMVAL6 = 0
+    ADD HIVETURN 1
+    EQUAL ITEMVAL6 1
+    ECHO ALL The honey comb turns and you hear a distant thump.
+  ELSE
+    ECHO ALL The honey comb appears stuck in place now.
+  ENDIF
+ENDIF
+;
+NUMBER 10114
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Honey Storage
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+A large formation dominates this crowded room. Bits of honey comb lie strewn
+about on the floor as waste product. Lines of worker bees march in and out
+of the room tending to the process of making honey.
+*DESCRIPTION_END
+ITEM 0 79 ADJ1=311 VAL2=10106
+ITEM 1 134 ADJ1=387
+ITEM 2 134 ADJ1=387
+ITEM 3 134 ADJ1=387
+ITEM 4 134 ADJ1=387
+*DESCRIPTION_START ITEM EXAM 1
+This small piece of honey comb is no different from any other piece.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 2
+This small piece of honey comb is no different from any other piece.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 3
+This small piece of honey comb is no different from any other piece.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 4
+This small piece of honey comb has several grooves below it.
+*DESCRIPTION_END
+IFPREVERB GET 1
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 1
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB GET 2
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 2
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB GET 3
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 3
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB GET 4
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 4
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB TURN 1
+  CLEARVERB
+  ECHO ALL As %N turns the honey comb, a horde of bees fly in!
+  GENMON 756
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+  GENMON 758
+ENDIF
+IFPREVERB TURN 2
+  CLEARVERB
+  ECHO ALL As %N turns the honey comb, a horde of bees fly in!
+  GENMON 756
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+  GENMON 758
+ENDIF
+IFPREVERB TURN 3
+  CLEARVERB
+  ECHO ALL As %N turns the honey comb, a horde of bees fly in!
+  GENMON 756
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+  GENMON 758
+ENDIF
+IFPREVERB TURN 4
+  CLEARVERB
+  IFVAR ITEMVAL6 = 0
+    ADD HIVETURN 1
+    EQUAL ITEMVAL6 1
+    ECHO ALL As %N turns the honey comb, you hear a distant thump.
+  ELSE
+    ECHO ALL %N tries to turn the honey comb, but it appears stuck in place now.
+  ENDIF
+ENDIF
+;
+NUMBER 10115
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Honey Room
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+Many tiny vaults of honey are stored in neat, tidy rows. One large chunk of
+the comb appears to have been broken off and moved to the other side of the
+room.
+*DESCRIPTION_END
+ITEM 0 79 ADJ1=311 VAL2=10109
+ITEM 1 134 ADJ1=178 ADJ2=387
+*DESCRIPTION_START ITEM EXAM 1
+This broken piece of honey comb has three large levers inside.
+*DESCRIPTION_END
+ITEM 2 641;lever
+ITEM 3 641;lever
+ITEM 4 641;lever
+IFPREVERB GET 1
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 1
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB PULL 2
+  CLEARVERB
+  ECHO ALL When %N yanks down the lever, a loud humming starts to head towards this room.
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+ENDIF
+IFPREVERB PULL 3
+  CLEARVERB
+  ECHO ALL When %N yanks down the lever, a loud humming starts to head towards this room.
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+ENDIF
+IFPREVERB PULL 4
+  CLEARVERB
+  ECHO ALL When %N yanks down the lever, a loud humming starts to head towards this room.
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+ENDIF
+IFPREVERB PUSH 4
+  CLEARVERB
+  IFVAR ITEMVAL6 ! 1
+    ADD HIVETURN 1
+    EQUAL ITEMVAL6 1
+    ECHO ALL %N pushes mightly on the sticky lever, and it finally gives way.
+    PLREVENT 1
+    CONTPLREVENT
+    ECHO ALL A loud click is heard from near the center of the hive.
+  ELSE
+    ECHO ALL %N pushes on the lever, but it seems to be stuck now.
+  ENDIF
+ENDIF
+;
+NUMBER 10116
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Honey Storage
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This room is a bustle of activity. Bees everywhere crowd in masses trying to
+fill vacant wells with the sweet substance. Strewn everywhere are pieces
+of broken honeycomb.
+*DESCRIPTION_END
+ITEM 0 79 ADJ1=311 VAL2=10110
+ITEM 1 134 ADJ1=387
+ITEM 2 134 ADJ1=387
+ITEM 3 134 ADJ1=387
+ITEM 4 134 ADJ1=387
+*DESCRIPTION_START ITEM EXAM 1
+This small piece of honey comb is no different from any other piece.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 2
+This small piece of honey comb is no different from any other piece.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 3
+This small piece of honey comb is no different from any other piece.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 4
+This small piece of honey comb has several grooves below it.
+*DESCRIPTION_END
+IFPREVERB GET 1
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 1
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB GET 2
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 2
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB GET 3
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 3
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB GET 4
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 4
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB TURN 1
+  CLEARVERB
+  ECHO ALL As %N turns the honey comb, a horde of bees fly in!
+  GENMON 756
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+  GENMON 758
+ENDIF
+IFPREVERB TURN 2
+  CLEARVERB
+  ECHO ALL As %N turns the honey comb, a horde of bees fly in!
+  GENMON 756
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+  GENMON 758
+ENDIF
+IFPREVERB TURN 3
+  CLEARVERB
+  ECHO ALL As %N turns the honey comb, a horde of bees fly in!
+  GENMON 756
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+  GENMON 758
+ENDIF
+IFPREVERB TURN 4
+  CLEARVERB
+  IFVAR ITEMVAL6 = 0
+    ADD HIVETURN 1
+    EQUAL ITEMVAL6 1
+    ECHO ALL As %N turns the honey comb you hear a distant thump.
+  ELSE
+    ECHO ALL %N tries to turn the honey comb, but it appears stuck in place now.
+  ENDIF
+ENDIF
+;SECOND LEVEL
+;
+NUMBER 10117
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Central Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This chamber is utterly different than the one above it. Two long narrow
+walls and two short wide walls push in from all sides. A long gouge in the
+floor is coupled with the fierce buzzing of guard bees below. Two dark
+openings face eachother across the room.
+*DESCRIPTION_END
+EXIT N 10118
+EXIT S 10128
+IFPREVERB SEARCH -1
+  IFVAR HIVETURN = 9
+    ECHO OTHERS Searching into the groove on the floor, %N finds a hidden panel, and sets into motion another chute leading down.
+    ECHO PLAYER Searching into the groove on the floor, you find a hidden panel, and set into motion another chute leading down.
+    NEWITEM 9 1508 ADJ1=178 ADJ2=311
+  ELSE
+    ECHO PLAYER You don't find anything.
+  ENDIF
+ENDIF
+IFPREVERB GO 9
+  CLEARVERB
+  ECHO PLAYER You enter the sticky chute and slide stutteringly downwards.
+  ECHO OTHERS %N enters the sticky chute and slides stutteringly downwards.
+  AFFECT 10141
+  ECHO ALL %N comes sliding halting down from the chute.
+  AFFECT 10117
+  MOVE 10141
+ENDIF
+;
+NUMBER 10118
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This long passage cuts from east to west across the breadth of the hive.
+Numerous dark openings loom from the sides.
+*DESCRIPTION_END
+EXIT N 10138
+EXIT E 10122
+EXIT S 10117
+EXIT W 10121
+;
+NUMBER 10119
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This section of the passage is darker than the rest, and much quieter. Only
+faint buzzing sounds emanate from the nearby openings. The floor tilts sharply
+up to the west here.
+*DESCRIPTION_END
+EXIT N 10137
+EXIT U 10120
+;
+NUMBER 10120
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+The sharp angles of the passage cause feelings of claustrophobia. The low
+ceiling seems almost to reach out and touch the angled floor. The walls here
+ooze a sweet smelling honey that burns the fingertips.
+*DESCRIPTION_END
+EXIT D 10119
+EXIT U 10121
+ITEM 0 3002
+;
+NUMBER 10121
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Passageway 
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This portion of the passage is wide, but the walls are coated with honey.
+It seeps in from above and threatens to drop on whatever is below.
+*DESCRIPTION_END
+EXIT D 10120
+EXIT N 10138
+EXIT E 10118
+ITEM 0 3002
+;
+NUMBER 10122
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+The darkness is almost tangible here and a low hum is audible from the
+southern ends of the hive. North is quiet, except for the faint scratch
+of wings on wings.
+*DESCRIPTION_END
+EXIT W 10118
+EXIT N 10139
+EXIT U 10123
+ITEM 0 3002
+;
+NUMBER 10123
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+Tilted floors threaten to topple anything that tries to surmount the
+sticky-sweet protusions on the floor. A dull green glow is visiable to the
+north.
+*DESCRIPTION_END
+EXIT N 10140
+EXIT D 10122
+EXIT U 10124
+ITEM 0 3002
+ITEM 1 1271 ADJ1=387 ADJ2=407
+IFPREVERB GO 1
+  CLEARVERB
+  ECHO PLAYER You can't go there!
+ENDIF
+IFPREVERB CLIMB 1
+  CLEARVERB
+  ECHO PLAYER As you begin to climb the sticky formation, you start to slide down and lose your balance.
+  ECHO OTHERS As %N begins to climb the sticky formation, %s starts to slide down as %s loses %h balance.
+  AFFECT 10124
+  ECHO ALL %N comes sliding in covered with honey.
+  AFFECT 10123
+  MOVE 10124
+ENDIF
+;
+NUMBER 10124
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This room is set at an extreme tilt, and the exits are reachable only by
+climbing up the treacherous walls.
+*DESCRIPTION_END
+ITEM 0 3002
+ITEM 1 83 ADJ1=311 VAL2=10123
+ITEM 2 83 ADJ1=311 VAL2=10140
+;
+NUMBER 10125
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+Lines of worker bees march along dragging their pollen coated legs. The
+humming sound is more vibrant, and sometimes it pitches into wild octaves
+that numb the mind.
+*DESCRIPTION_END
+EXIT U 10126
+EXIT S 10132
+ITEM 0 3002
+;
+NUMBER 10126
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+Splintered pieces of the bee's hive are cast about here and there. Some stray
+bees are clinging to the walls and eye you warily as you enter.
+*DESCRIPTION_END
+EXIT D 10125
+EXIT S 10133
+EXIT U 10127
+ITEM 0 3002
+;
+NUMBER 10127
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This section of the passage is dark, dim and carries an odd odor in the air.
+The floor angles oddly in some places, and creates unique joints against the
+walls.
+*DESCRIPTION_END
+EXIT S 10133
+EXIT D 10126
+EXIT E 10128
+ITEM 0 3002
+IFPREVERB SNIFF -1
+  CLEARVERB
+  ECHO PLAYER Inhaling the scent, you sputter as it burns your lungs.
+  ECHO OTHERS %N inhales and coughs loudly.
+ENDIF
+IFPREVERB SEARCH -1
+  ECHO PLAYER You find bits and pieces of dead bees in various stages of decay.
+  ECHO OTHERS %N seems to be examining something near a wall.
+ENDIF
+;
+NUMBER 10128
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This cross-section of space leads away in four directions. Various sounds
+issue from down each of the corridors and pitch blackness does nothing to
+illuminate the way.
+*DESCRIPTION_END
+EXIT N 10117
+EXIT E 10129
+EXIT S 10134
+EXIT W 10127
+ITEM 0 3002
+;
+NUMBER 10129
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+The floor begins to tilt downwards until it meets the far wall, where it
+rises back up and moves on down the corridor. The sounds of the hive
+movements are dimmer, but still very audible.
+*DESCRIPTION_END
+EXIT U 10130
+EXIT S 10135
+EXIT W 10128
+ITEM 0 3002
+;
+NUMBER 10130
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+The sloping floor here is lined with odd little scratches and grooves in
+the fabric of the hive. Long tears of honey stream down from above and
+continue to soak their way into the floor.
+*DESCRIPTION_END
+EXIT D 10129
+EXIT U 10131
+EXIT S 10135
+ITEM 0 3002
+;
+NUMBER 10131
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Passageway
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+The floor is angled oddly here, creating an almost funnel-like shape. Rings
+of honey flow down, making it almost impossible to climb the walls.
+*DESCRIPTION_END
+ITEM 0 83 ADJ1=387 ADJ2=407 VAL2=10130
+ITEM 1 83 ADJ1=387 ADJ2=407 VAL2=10136
+;
+NUMBER 10132
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This dim section of the hive thrums with the activity all around it, but is
+relatively quiet inside. Dark splotches on the walls look to be holes,
+but their depths are rather dim.
+*DESCRIPTION_END
+EXIT N 10125
+ITEM 0 3002
+ITEM 1 79 ADJ1=311 ADJ2=87
+IFPREVERB GO 1
+  CLEARVERB
+  RANDOM HIVEPLAY 1 3 0
+  IFVAR HIVEPLAY = 1
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10137
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10132
+    MOVE 10137
+  ENDIF
+  IFVAR HIVEPLAY = 2
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10140
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10132
+    MOVE 10140
+  ENDIF
+  IFVAR HIVEPLAY = 3
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10136
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10132
+    MOVE 10136
+  ENDIF
+ENDIF
+;
+NUMBER 10133
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+The light here is non-existant; the walls are covered with sticky bits of
+honey. Several dead bees lay amidst the honey-combs. A dark hole lies at
+the rear of the room.
+*DESCRIPTION_END
+EXIT N 10126
+ITEM 0 79 ADJ1=87 VAL2=10133
+*DESCRIPTION_START ITEM EXAM 0
+This dark hole is full of honey, that conceals a tiny switch.
+*DESCRIPTION_END
+ITEM 1 422 ADJ1=327
+IFPREVERB GO 0
+  CLEARVERB
+  ECHO PLAYER You try to slip into the honey-filled hole, but you don't fit.
+  ECHO OTHERS %N tries to slip into the honey-filled hole, but doesn't fit.
+ENDIF
+IFPREVERB FLIP 1
+  CLEARVERB
+  IFVAR ITEMVAL6 ! 1
+    ECHO PLAYER You flip the switch in the honey, and hear a clunk from deep inside the hive.
+    ECHO OTHERS As %N flips the switch inside the honey, you hear a clunk from deep inside the hive.
+    ADD HIVETURN 1
+    EQUAL ITEMVAL6 1
+  ELSE
+    ECHO ALL The switch appears to be stuck in the honey.
+  ENDIF
+ENDIF
+;
+NUMBER 10134
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This large chamber has many sleeping bees laying about, if you could be sure
+they were sleeping that is. Hundreds of the tiny bodies lay across the floor
+preventing much of anything in this room.
+*DESCRIPTION_END
+EXIT N 10128
+;
+NUMBER 10135
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This dark room has a small hole at about eye level on the far wall. Flakes of
+the honey-comb seem to be pulling off the walls around it as if it is well
+used.
+*DESCRIPTION_END
+EXIT N 10129
+ITEM 0 3002
+ITEM 1 79 ADJ1=327 ADJ2=87
+ITEM 2 422
+*DESCRIPTION_START ITEM EXAM 1
+Deep inside the tiny hole you see a switch.
+*DESCRIPTION_END
+IFPREVERB GO 1
+  CLEARVERB
+  ECHO PLAYER The hole is much to small to enter.
+ENDIF
+IFPREVERB FLIP 2
+  CLEARVERB
+  IFVAR ITEMVAL6 ! 1
+    ECHO PLAYER You flip the switch and hear a clunk from deep inside the hive.
+    ECHO OTHERS As %N flips the switch you hear a clunk from deep inside the hive.
+    ADD HIVETURN 1
+    EQUAL ITEMVAL6 1
+  ELSE
+    ECHO ALL %N tries to turn the switch, but it seems to be stuck in the honey.
+  ENDIF
+ENDIF
+;
+NUMBER 10136
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Southern Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This tiny chamber has one significant feature, a gaping hole near the back
+of the room. Otherwise, the only exit is the one to the north.
+*DESCRIPTION_END
+EXIT N 10131
+ITEM 0 79 ADJ1=87
+IFPREVERB GO 0
+  CLEARVERB
+  RANDOM HIVEPLAY 1 3 0
+  IFVAR HIVEPLAY = 1
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10137
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10136
+    MOVE 10137
+  ENDIF
+  IFVAR HIVEPLAY = 2
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10140
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10136
+    MOVE 10140
+  ENDIF
+  IFVAR HIVEPLAY = 3
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10132
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10136
+    MOVE 10132
+  ENDIF
+ENDIF
+;
+NUMBER 10137
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This room is dank and very quiet. Only the muted sounds of bees wings
+vibrating against eachother can be heard through the walls here. Another
+gaping hole rests against the back wall.
+*DESCRIPTION_END
+EXIT S 10119
+ITEM 0 79 ADJ1=87
+IFPREVERB GO 0
+  CLEARVERB
+  RANDOM HIVEPLAY 1 3 0
+  IFVAR HIVEPLAY = 1
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10136
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10137
+    MOVE 10136
+  ENDIF
+  IFVAR HIVEPLAY = 2
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10140
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10137
+    MOVE 10140
+  ENDIF
+  IFVAR HIVEPLAY = 3
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10132
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10137
+    MOVE 10132
+  ENDIF
+ENDIF
+;
+NUMBER 10138
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+A large, dark well of honey erupts from the flooring here. Several bees march
+around tending to the bubbling mass, its sweet smell filling the air. Somewhat
+behind the well, a dark hole gapes.
+*DESCRIPTION_END
+EXIT S 10118
+ITEM 0 3002
+ITEM 1 917 ADJ1=387 ADJ2=407
+ITEM 2 79 ADJ1= 87
+ITEM 3 641 ADJ1=327
+IFPREVERB GO 1
+  CLEARVERB
+  DAMAGEPLR BURN 25 You try to enter the well, but the honey begins to burn your skin.
+  ECHO OTHERS %N jumps back from the well.
+ENDIF
+IFPREVERB GO 2
+  CLEARVERB
+  ECHO PLAYER The hole is much to small for you to enter.
+ENDIF
+*DESCRIPTION_START ITEM EXAM 2
+Looking deep into the hole, you notice a glimmer of metal.
+*DESCRIPTION_END
+IFPREVERB FLIP 3
+  CLEARVERB
+  IFVAR ITEMVAL6 ! 1
+    ECHO PLAYER You flip the switch and hear a clunk from deep inside the hive.
+    ECHO OTHERS As %N flips the switch you hear a clunk from deep inside the hive.
+    ADD HIVETURN 1
+    EQUAL ITEMVAL6 1
+  ELSE
+    ECHO ALL %N tries to flip the switch, but it appears to be stuck fast.
+  ENDIF
+ENDIF
+;
+NUMBER 10139
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+Stray bits of honey-comb litter the flooring here as if they have been cast
+off. The markings on the floor suggest that several pieces have been moved.
+*DESCRIPTION_END
+EXIT S 10122
+ITEM 0 3002
+ITEM 1 134 ADJ1=387
+ITEM 2 134 ADJ1=387
+ITEM 3 134 ADJ1=387
+ITEM 4 134 ADJ1=387
+*DESCRIPTION_START ITEM EXAM 1
+This small piece of honey comb is no different from any other piece.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 2
+This small piece of honey comb is no different from any other piece.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 3
+This small piece of honey comb is no different from any other piece.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 4
+This small piece of honey comb has several grooves below it.
+*DESCRIPTION_END
+IFPREVERB GET 1
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 1
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB GET 2
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 2
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB GET 3
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 3
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB GET 4
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB STEAL 4
+  CLEARVERB
+  ECHO PLAYER The honey comb is much to large for you to take.
+ENDIF
+IFPREVERB TURN 1
+  CLEARVERB
+  ECHO ALL As %N turns the honey comb, a horde of bees fly in!
+  GENMON 756
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+  GENMON 758
+ENDIF
+IFPREVERB TURN 2
+  CLEARVERB
+  ECHO ALL As %N turns the honey comb, a horde of bees fly in!
+  GENMON 756
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+  GENMON 758
+ENDIF
+IFPREVERB TURN 3
+  CLEARVERB
+  ECHO ALL As %N turns the honey comb, a horde of bees fly in!
+  GENMON 756
+  GENMON 756
+  GENMON 757
+  GENMON 757
+  GENMON 758
+  GENMON 758
+ENDIF
+IFPREVERB TURN 4
+  CLEARVERB
+  IFVAR ITEMVAL6 = 0
+    ADD HIVETURN 1
+    EQUAL ITEMVAL6 1
+    ECHO ALL The honey comb turns and you hear a distant thump.
+  ELSE
+    ECHO ALL The honey comb appears stuck in place now.
+  ENDIF
+ENDIF
+;
+NUMBER 10140
+MONSTER_GROUP 212
+REGION 0
+NAME Hive, Northern Chamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This dark chamber contains a single hole in the middle of the floor. Long
+groove marks in the flooring seem to be claw marks ripping at the ground
+around the edges of the hole.
+*DESCRIPTION_END
+EXIT S 10124
+ITEM 0 3002
+ITEM 1 79 ADJ1=87
+IFPREVERB GO 1
+  CLEARVERB
+  RANDOM HIVEPLAY 1 3 0
+  IFVAR HIVEPLAY = 1
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10136
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10140
+    MOVE 10136
+  ENDIF
+  IFVAR HIVEPLAY = 2
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10137
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10140
+    MOVE 10137
+  ENDIF
+  IFVAR HIVEPLAY = 3
+    ECHO PLAYER You approach the hole, and slide your way into the stickiness.
+    ECHO OTHERS %N approaches the hole, and slides into the dark stickiness.
+    AFFECT 10132
+    ECHO ALL %N emerges from a dark, sticky hole.
+    AFFECT 10140
+    MOVE 10132
+  ENDIF
+ENDIF
+;
+NUMBER 10141
+REGION 0
+NAME Hive, Queen's Antechamber
+INDOOR_FLOOR
+DARKNESS
+*DESCRIPTION_START
+This room is bare and clean of the foul honey. Long narrow walls surround you
+where you stand. Each wall seems to have gouges in it, in an unreadable
+display.
+*DESCRIPTION_END
+ITEM 0 83
+ITEM 1 83
+ITEM 2 83
+ITEM 3 83
+*DESCRIPTION_START ITEM EXAM 0
+The wall looks rather flimsy.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 1
+The wall looks rather flimsy.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 2
+The wall looks rather flimsy.
+*DESCRIPTION_END
+*DESCRIPTION_START ITEM EXAM 3
+The wall looks rather flimsy.
+*DESCRIPTION_END
+IFPREVERB GO 0
+  CLEARVERB
+  ECHO PLAYER You can't go there!
+ENDIF
+IFPREVERB CLIMB 0
+  CLEARVERB
+  ECHO PLAYER You can't climb that.
+ENDIF
+IFPREVERB PUSH 0
+  CLEARVERB
+  IFVAR ITEMVAL6 ! 1
+    IFVAR HIVEEND = 3
+      ECHO ALL As %N pushes down the final wall, a passage appears.
+      NEWITEM 9 73 VAL2=10142
+      EQUAL HIVEEND 5
+    ELSE
+      ADD HIVEEND 1
+      ECHO PLAYER The flimsy wall starts to break in, bringing the others with it.
+      ECHO OTHERS As %N pushes on the flimsy wall, it starts to break in, bringing the others with it.
+      EQUAL ITEMVAL6 1
+    ENDIF
+  ELSE
+    ECHO PLAYER The wall won't move anymore.
+  ENDIF
+ENDIF
+IFPREVERB GO 1
+  CLEARVERB
+  ECHO PLAYER You can't go there!
+ENDIF
+IFPREVERB CLIMB 1
+  CLEARVERB
+  ECHO PLAYER You can't climb that.
+ENDIF
+IFPREVERB PUSH 1
+  CLEARVERB
+  IFVAR ITEMVAL6 ! 1
+    IFVAR HIVEEND = 3
+      ECHO ALL As %N pushes down the final wall, a passage appears.
+      NEWITEM 9 73 VAL2=10142
+      EQUAL HIVEEND 5
+    ELSE
+      ADD HIVEEND 1
+      ECHO PLAYER The flimsy wall starts to break in, bringing the others with it.
+      ECHO OTHERS As %N pushes on the flimsy wall, it starts to break in, bringing the others with it.
+      EQUAL ITEMVAL6 1
+    ENDIF
+  ELSE
+    ECHO PLAYER The wall won't move anymore.
+  ENDIF
+ENDIF
+IFPREVERB GO 2
+  CLEARVERB
+  ECHO PLAYER You can't go there!
+ENDIF
+IFPREVERB CLIMB 2
+  CLEARVERB
+  ECHO PLAYER You can't climb that.
+ENDIF
+IFPREVERB PUSH 2
+  CLEARVERB
+  IFVAR ITEMVAL6 ! 1
+    IFVAR HIVEEND = 3
+      ECHO ALL As %N pushes down the final wall, a passage appears.
+      NEWITEM 9 73 VAL2=10142
+      EQUAL HIVEEND 5
+    ELSE
+      ADD HIVEEND 1
+      ECHO PLAYER The flimsy wall starts to break in, bringing the others with it.
+      ECHO OTHERS As %N pushes on the flimsy wall, it starts to break in, bringing the others with it.
+      EQUAL ITEMVAL6 1
+    ENDIF
+  ELSE
+    ECHO PLAYER The wall won't move anymore.
+  ENDIF
+ENDIF
+IFPREVERB GO 3
+  CLEARVERB
+  ECHO PLAYER You can't go there!
+ENDIF
+IFPREVERB CLIMB 3
+  CLEARVERB
+  ECHO PLAYER You can't climb that.
+ENDIF
+IFPREVERB PUSH 3
+  CLEARVERB
+  IFVAR ITEMVAL6 ! 1
+    IFVAR HIVEEND = 3
+      ECHO ALL As %N pushes down the final wall, a passage appears.
+      NEWITEM 9 73 VAL2=10142
+      EQUAL HIVEEND 5
+    ELSE
+      ADD HIVEEND 1
+      ECHO PLAYER The flimsy wall starts to break in, bringing the others with it.
+      ECHO OTHERS As %N pushes on the flimsy wall, it starts to break in, bringing the others with it.
+      EQUAL ITEMVAL6 1
+    ENDIF
+  ELSE
+    ECHO PLAYER The wall won't move anymore.
+  ENDIF
+ENDIF
+;
+NUMBER 10142
+REGION 0
+NAME Hive, Queen's Chamber
+DARKNESS
+INDOOR_FLOOR
+*DESCRIPTION_START
+The queen bee's lair isn't much different than the rest of the hive. Except
+for the nests of tiny larva being tended by drones. Bits of honey in tiny
+pieces of honey comb litter the floor, for the appetites of the working bees.
+*DESCRIPTION_END
+EXIT O 10141
+
+
+
+
+
+
+
+
+
+
+

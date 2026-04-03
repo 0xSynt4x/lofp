@@ -1,0 +1,193 @@
+dim Thought as string
+dim Done as boolean
+dim Scanning as boolean
+dim key as string
+dim Inbuff as string
+
+sub Think(Msg as string)
+    send "think Telepathor Unit T5450. "; Msg
+end sub
+
+
+sub CyberSay(Msg as string)
+    send "recite Telepathor Unit T5450. "; Msg
+end sub
+
+
+sub Parse(Thought as string)
+    Dim Cmd as string
+    Dim SDate as string
+    Dim Location as string
+    Dim Count as integer
+    Dim Msg as string
+    Dim iPos as integer
+
+    Cmd = left(Thought, len(Thought)-1)    
+    Cmd = mid(Cmd, 8)
+    Cmd = lcase(Cmd)
+
+    if Cmd = "quit" Then
+        Think("End of Diagnostics.")
+        send "blink"
+        send "moan" 
+        Done = TRUE
+
+    elseif Cmd = "reset" Then
+        Think("System reset. End of Diagnostics.")
+        send "blink"
+        send "moan" 
+        Done = TRUE
+
+    elseif Cmd = "recall" Then
+        Think("Recalling unit and host to factory.")
+        send "psi 14"
+        send "project 4"
+
+    elseif Cmd = "scan" Then
+        Scanning = not Scanning
+        if Scanning Then Think("Send command again to terminate. Scanning...") Else Think("Scanning terminated.")
+    
+    elseif Cmd = "status" Then
+        send "time"
+        waitfor "It is "
+        receive SDate
+        iPos = instr(SDate, " (")
+        SDate = left(SDate, iPos - 1)
+        send "look"
+        waitfor "["
+        waitfor "["
+        receive Location
+        Location = "[" + Location
+        Think(SDate + ", " + Location + ". System fault. Host decommissioned. Neural interface failure.")
+
+    elseif Cmd = "destruct" Then
+        for Count=5 to 2 step -1
+            Msg = "Emergency Self-Destruct in " + str(Count) + " seconds."
+            Think(Msg)
+            Delay 3
+        next Count
+        Think("54 Megaton Self-Destruct in 1 second. Thank you for choosing CyberTech.")
+        CyberSay("54 Megaton Self-Destruct in 1 second. Thank you for choosing CyberTech.")
+        Delay 4
+        Think("Authorization code not received. Self-destruct canceled. Have a nice day.")
+        CyberSay("Authorization code not received. Self-destruct canceled. Have a nice day.")
+        
+    elseif Cmd = "test" Then
+        Think("Begin Test")
+        Send "shudder"
+        Send "close object"
+        send "think By The Power Vested In Him By Shemri, Amilor, Rorin And Kaliban, The King Is The Law. Whatsoever He Surveys Is His Realm."
+        delay 2
+        Send "blink"
+        delay 2
+        Send "blink"
+        delay 2
+        send "open object"
+        delay 2
+        send "sell object"
+        delay 2
+        Think("End Test. Please enter a command: ")
+
+    elseif Cmd = "help" Then
+        Think("Valid commands: destruct help quit recall reset scan status test")
+
+    else
+        Think("Diagnostic Utility: Invalid command. Please enter a command: ")
+
+    end if
+end sub
+
+sub DoThought
+    receive Thought // get the thought
+    if Scanning then Think("Signal detected on channel alpha.")
+    if lcase(mid(Thought, 2, 6)) = "t5450 " Then Parse(Thought)
+end sub
+
+
+sub DoContact(Msg as string)
+    dim cpos as integer
+    cpos = instr(Msg, "to you, ")
+    if (cpos) then
+        Msg = mid(Msg, cpos+8)
+        if Scanning then Think("Signal detected on Contact channel.")
+        if lcase(mid(Msg, 2, 6)) = "c5450 " Then Parse(Msg)
+    end if    
+end sub
+
+
+Function GetString as String
+    Dim Ch as String
+    Dim Msg as String
+    Dim Test as string
+    Dim CMsg as String
+    
+    Do
+        Ch = Inkey(comm)
+        If Ch <> "" Then
+            Do
+                If Ch = Chr(13) Then
+                    If Left(CMsg, 17) = "You feel a tingle" Then 
+                        DoContact(CMsg)
+                    ElseIf Left(CMsg, 18) = "You feel the touch" Then 
+                        DoThought
+                    End If
+                    CMsg = ""
+                ElseIf (Ch <> "") and (Ch <> Chr(10)) Then
+                    CMsg = CMsg + Ch
+                End If
+                Ch = Inkey(comm)
+            Loop While Ch <> ""
+        End If
+            
+        Ch = Inkey
+        If Ch<>"" Then
+            If Ch = Chr(8) Then
+                If Len(Msg) > 1 Then 
+                    Msg = Left(Msg, Len(Msg)-1)
+                    Print Ch;" ";Ch;
+                End If
+            ElseIf Ch = Chr(13) Then
+                Print
+                Exit Do
+            Else
+                Msg = Msg + Ch
+                Print Ch;
+            End If
+        End If
+    Loop While TRUE
+    GetString = Msg        
+End Function
+
+
+    Done = FALSE
+    Scanning = FALSE
+    timeout 360
+
+//    print "Init? ";
+//    do 
+//        key = inkey$
+//    loop while key=""
+//    print key
+
+//    if (key = "y") or (key = "Y") Then
+        send "blink"
+        send "sell object"
+        send "spit object"
+        Think("Diagnostic Utility launched by system fault. Please enter a command (Example: T5450 help): ")
+//    end if    
+
+    do
+        Inbuff = GetString()
+        if Inbuff = "end" Then 
+            print "End of script."
+            print ">";
+            end
+        elseif mid(Inbuff, 1, 6) = "cyber " Then
+            Think(Mid(Inbuff, 7))
+        else
+            send (Inbuff)
+        end if
+    loop while not Done
+
+    end
+

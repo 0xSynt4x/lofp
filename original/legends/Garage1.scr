@@ -1,0 +1,567 @@
+; Daedalus' garage - April 7, 1997
+
+NUMBER 35
+ NAME Daedalus' Garage
+ REGION 0
+ INDOOR_FLOOR
+ CHANNEL 1
+ EXIT O 10
+
+ VARIABLE DKG_SEL
+
+ ITEM 0 1007 ADJ1=1101
+ ITEM 1 982 ADJ1=1101
+ ITEM 2 562
+
+*DESCRIPTION_START
+Daedalus' tools and inventions lay scattered all about you, although some of
+the tools are miraculously in their proper places on the pegboard over the
+work table. Sawdust covers the wooden floor and scents the air. An overhead
+loft seems like it would be in reach if you jumped.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 0
+Clamped to one end of the table is Daedalus' only vice, right alongside his
+only fan.
+*DESCRIPTION_END
+
+*DESCRIPTION_START ITEM EXAM 1
+The stool looks homemade, even rickety, but perhaps strong enough to support
+your weight.
+*DESCRIPTION_END
+
+ IFPREVERB JUMP -1
+  CLEARVERB
+  IFVAR POSITION ! 0
+   ECHO PLAYER You can't possibly jump if you're not standing.
+  ENDIF
+  IFVAR POSITION = 0
+   ECHO PLAYER You jump up and down, trying to reach the loft.
+   ECHO OTHERS %N jumps up and down, trying to reach the loft.
+   ECHO ALL An ominous creak of the floorboards is followed by a crack.
+   ECHO ALL A floor panel sags under the weight, and %N falls below!
+   ECHO OTHERS Relieved of the weight, the floor panel snaps back into place.
+   MOVEGROUP 36
+  ENDIF
+ ENDIF
+
+ IFPREVERB RECALL -1
+  ECHO PLAYER You seem to remember that in Greek mythology Daedalus was an inventor and
+  ECHO PLAYER craftsman known for designing the minotaur's labyrinth and flying with his
+  ECHO PLAYER son Icarus using wings of wax and feathers.
+  CLEARVERB
+ ENDIF
+
+ IFVERB KICK 2
+  ECHO ALL The jukebox starts up with a whir, selecting a record and placing the needle.
+  ; Note: PLREVENT clears the item selected, can't use ITEMVALs
+  PLREVENT 5
+  CONTPLREVENT
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 0 "on_the_highway
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 0 "near_Altoona
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 0 "outside_Fresno
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 0 "in_Sheboygan
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 0 "on_probation
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 0 "at_a_truck_stop
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 0 "in_a_nightmare
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 0 "in_a_jail_cell
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 0 "in_the_Stone_Age
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 0 "in_a_treehouse
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 0 "in_a_gay_bar
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 0 "incognito
+  ENDIF
+
+  RANDOM DKG_SEL 1 13 0
+  IFVAR DKG_SEL = 1
+   STRCPY 1 "in_September
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 1 "at_McDonald's
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 1 "ridin'_shotgun
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 1 "wrestlin'_gators
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 1 "all_hunched_over
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 1 "poppin'_uppers
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 1 "sort_of_pregnant
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 1 "with_a_jogger
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 1 "stoned_on_oatmeal
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 1 "with_Merv_Griffin
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 1 "dead_all_over
+  ENDIF
+  IFVAR DKG_SEL = 13
+   STRCPY 1 "hustlin'_Martians
+  ENDIF
+  ECHO ALL The jukebox plays, "I met her %0 %1,"
+  PLREVENT 5
+  CONTPLREVENT
+
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 0 "that_purple_dress
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 0 "that_little_hat
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 0 "that_burlap_bra
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 0 "those_training_pants
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 0 "the_stolen_goods
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 0 "that_plastic_nose
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 0 "the_Stassin_pin
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 0 "the_neon_sign
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 0 "that_creepy_smile
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 0 "the_hearing_aid
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 0 "the_orange_wig
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 0 "the_boxer_shorts
+  ENDIF
+  ECHO ALL The jukebox plays, "I can still recall %0 she wore."
+  PLREVENT 5
+  CONTPLREVENT
+
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 0 "sobbin'_at_the_toll_booth
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 0 "drinkin'_Dr._Pepper
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 0 "weighted_down_with_Twinkies
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 0 "breakin'_out_with_acne
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 0 "crawlin'_through_the_prairie
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 0 "smellin'_kind_o'_funny
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 0 "crashin'_through_the_guardrail
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 0 "chewin'_on_a_hangnail
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 0 "talkin'_in_Swahili
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 0 "drownin'_in_the_quicksand
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 0 "quotin'_Al_Pacino
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 0 "slurpin'_up_linguini
+  ENDIF
+
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 1 "in_the_twilight
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 1 "but_I_loved_her
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 1 "by_the_off-ramp
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 1 "near_Poughkeepsie
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 1 "with_her_cobra
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 1 "when_she_shot_me
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 1 "on_her_elbows
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 1 "with_Led_Zeppelin
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 1 "with_Miss_Piggy
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 1 "with_a_wetback
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 1 "screamin'_Mayday!
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 1 "in_her_muu-muu
+  ENDIF
+  ECHO ALL The jukebox plays, "She was %0 %1,"
+  PLREVENT 5
+  CONTPLREVENT
+
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 0 "no_guy_would_ever_love_her_more
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 0 "that_she_would_be_an_easy_score
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 0 "she'd_bought_her_dentures_in_a_store
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 0 "that_she_would_be_a_crashing_bore
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 0 "I'd_never_rate_her_more_than_'4'
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 0 "they'd_hate_her_guts_in_Baltimore
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 0 "it_was_a_raven,_nothing_more
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 0 "we_really_lost_the_last_World_War
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 0 "I'd_have_to_scrape_her_off_the_floor
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 0 "what_strong_deodorants_were_for
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 0 "that_she_was_rotten_to_the_core
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 0 "that_I_would_upchuck_on_the_floor
+  ENDIF
+  ECHO ALL The jukebox plays, "And I knew %0."
+  PLREVENT 5
+  CONTPLREVENT
+
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 0 "I_promised_her
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 0 "I_knew_deep_down
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 0 "She_asked_me_if
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 0 "I_told_her_shrink
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 0 "The_judge_declared
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 0 "My_Pooh_bear_said
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 0 "I_shrieked_in_pain
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 0 "The_painters_knew
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 0 "A_Klingon_said
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 0 "My_hamster_thought
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 0 "The_blood_test_showed
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 0 "Her_rabbi_said
+  ENDIF
+
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 1 "stay_with_her
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 1 "warp_her_mind
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 1 "swear_off_booze
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 1 "change_my_sex
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 1 "punch_her_out
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 1 "live_off_her
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 1 "have_my_rash
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 1 "stay_a_dwarf
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 1 "hate_her_dog
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 1 "pick_my_nose
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 1 "play_'Go_Fish'
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 1 "salivate
+  ENDIF
+  ECHO ALL The jukebox plays, "%0 I'd %1 forever;"
+  PLREVENT 5
+  CONTPLREVENT
+
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 0 "our_love_would_never_die
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 0 "there_was_no_other_guy
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 0 "man_wasn't_meant_to_fly
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 0 "that_Nixon_didn't_lie
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 0 "her_basset_hound_was_shy
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 0 "that_Rolaids_made_her_high
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 0 "she'd_have_a_swiss_on_rye
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 0 "she_loved_my_one_blue_eye
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 0 "her_brother's_name_was_Hy
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 0 "she_liked_'Spy_vs._Spy'
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 0 "that_birthdays_made_her_cry
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 0 "she_couldn't_stand_my_tie
+  ENDIF
+  ECHO ALL The jukebox plays, "She said to me %0."
+  PLREVENT 5
+  CONTPLREVENT
+
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 0 "run_off
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 0 "wind_up
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 0 "boogie
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 0 "yodel
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 0 "sky_dive
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 0 "turn_green
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 0 "freak_out
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 0 "blast_off
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 0 "make_it
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 0 "black_out
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 0 "bobsled
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 0 "grovel
+  ENDIF
+
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 1 "with_my_best_friend
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 1 "in_my_Edsel
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 1 "on_a_surfboard
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 1 "on_'The_Gong_Show'
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 1 "with_her_dentist
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 1 "on_her_'Workmate'
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 1 "with_a_robot
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 1 "with_no_clothes_on
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 1 "at_her_health_club
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 1 "in_her_Maytag
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 1 "with_her_guru
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 1 "while_in_labor
+  ENDIF
+  ECHO ALL The jukebox plays, "But who'd have thought she'd %0 %1,"
+  PLREVENT 5
+  CONTPLREVENT
+
+  RANDOM DKG_SEL 1 12 0
+  IFVAR DKG_SEL = 1
+   STRCPY 0 "You'd_think_at_least_that_she'd_have_said
+  ENDIF
+  IFVAR DKG_SEL = 2
+   STRCPY 0 "I_never_had_the_chance_to_say
+  ENDIF
+  IFVAR DKG_SEL = 3
+   STRCPY 0 "She_told_her_dumb_friend_Grace_to_say
+  ENDIF
+  IFVAR DKG_SEL = 4
+   STRCPY 0 "I_now_can_kiss_my_credit_cards
+  ENDIF
+  IFVAR DKG_SEL = 5
+   STRCPY 0 "I_guess_I_was_too_smashed_to_say
+  ENDIF
+  IFVAR DKG_SEL = 6
+   STRCPY 0 "I_watched_her_melt_away_and_sobbed
+  ENDIF
+  IFVAR DKG_SEL = 7
+   STRCPY 0 "She_fell_beneath_the_wheels_and_cried
+  ENDIF
+  IFVAR DKG_SEL = 8
+   STRCPY 0 "She_sent_a_hired_thug_to_say
+  ENDIF
+  IFVAR DKG_SEL = 9
+   STRCPY 0 "She_freaked_out_on_the_lawn_and_screamed
+  ENDIF
+  IFVAR DKG_SEL = 10
+   STRCPY 0 "I_pushed_her_off_the_bridge_and_waved
+  ENDIF
+  IFVAR DKG_SEL = 11
+   STRCPY 0 "But_that's_the_way_that_pygmies_say
+  ENDIF
+  IFVAR DKG_SEL = 12
+   STRCPY 0 "She_sealed_me_in_the_vault_and_smirked
+  ENDIF
+  ECHO ALL The jukebox plays, "%0 goodbye."
+  PLREVENT 5
+  CONTPLREVENT
+  ECHO ALL The jukebox retracts the needle and returns the record to its slot.
+ ENDIF
+
+
+NUMBER 36
+ NAME Daedalus' Basement
+ REGION 0
+ INDOOR_FLOOR
+ CHANNEL 1
+ EXIT O 10
+
+*DESCRIPTION_START
+This dusty basement is littered with old furniture and dust bunnies.
+*DESCRIPTION_END
+
+VARIABLE DKG_CEVENTS
+
+IFSAY cevents
+	IFVAR DKG_CEVENTS = 0
+		ECHO ALL CEVENTs are now off.
+		EQUAL DKG_CEVENTS 1
+	ELSE
+		ECHO ALL CEVENTs are now on.
+		EQUAL DKG_CEVENTS 0
+	ENDIF
+ENDIF
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

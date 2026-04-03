@@ -1,0 +1,23 @@
+app = "lofp"
+primary_region = "ord"
+
+[build]
+  [build.args]
+    VITE_GOOGLE_CLIENT_ID = "718491948867-nnflr485u9kg9l6k3kqcfjauohtndk7r.apps.googleusercontent.com"
+
+[env]
+  LOFP_CONFIG = "config/prod.yaml"
+  LOFP_STATIC_DIR = "/app/static"
+  MONGODB_DATABASE = "lofp"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
