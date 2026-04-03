@@ -1,5 +1,66 @@
 # Changelog
 
+## v0.94 — 2026-04-03
+
+### Script Engine
+- **226 named global variables** (DANWATER, TECHSWITCH, etc.) loaded from VARIABLE definitions, synchronized across machines
+- **MUL/DIV/MOD** arithmetic operations in scripts
+- **GENMON/ZAPMON** — spawn and remove monsters from scripts
+- **GFLAG** — set flags for all players in a room
+- **RELOGIN/IFLOGIN** — force player room on login
+- **IFFULLDESC/IFIN** — new conditional blocks
+- **NEWPUT** — place items inside containers from scripts
+- **DUMMY1-5** volatile scratch variables
+- **PVAL 0-19** persistent system-wide variables (MongoDB-backed)
+- **CEVENT system** — cyclic timed events parsed and executing on 3-second ticks
+- **Implicit ENDIF** — parser handles missing ENDIF when new verb block starts (matches original engine)
+- **Room-level IFVERB blocks** now fire from doItemInteraction and position commands
+- **Direction verb resolution** — "O" resolves to "OUT" for IFPREVERB matching, all abbreviations expanded
+
+### Parsing
+- **REGIONDEF** expanded: DepartRoom, Weather, Treasure, Teleport, Summoning, spell modifiers, MineAdj
+- **MONEYDEF** — multi-currency per region definitions
+- **FORAGEDEF/MINDEF** — full forage and mining definitions parsed
+- **Room REGION field** parsed and accessible in scripts
+- **Monster psionics** — PSI, PSIUSE, PSISKILL, PSIRESIST, PSILEVEL, DISCIPLINE
+- **Monster combat** — IMMUNITY (10 types), WEAPON, WEAPONPLUS, MAGICWEAPON, SPECUSE/SPECDMG, EXTRABODY, FATIGUE
+
+### Food & Drink
+- **Bite/sip tracking** — PARAMETER1 defines bites for food, sips for liquid. VAL2 tracks remaining. Items removed only when empty.
+- **Spell on consume** — ITEMVAL3 triggers spell effect on first bite (e.g., Mindlink from thesnia leaf)
+- **Item scripts run on eat** — root-level IFVAR blocks execute before checking spell effects
+
+### Items & Verbs
+- **Store adjective in ADJ3** — bought items place variety adjective in last slot, leaving ADJ1/ADJ2 for crafting
+- **Worn/wielded item visibility** — all verbs (touch, sniff, wave, emotes) now find inventory, worn, and wielded items
+- **SIT/LAY/KNEEL/STAND trigger IFVERB scripts** — position commands run room-level verb scripts
+- **CLIMB handles MOVE** — non-portal items with IFPREVERB CLIMB + MOVE now work
+- **SNIFF/SMELL/LISTEN** try item interaction first, fall back to emote
+- **@peek named variables** — `@peek DANWATER` works, plus PVAL and full getVar fallback
+- **@yank fix** — updates live session player, not just database
+
+### Telepathy & Spells
+- **Mindlink (#403)** — first working spell, grants 1hr telepathy via food consumption
+- **Telepathy system** — THINK broadcasts to telepathy-enabled players only
+- **Ephemeral innate telepathy** — race 8 starts with telepathy active
+- **TELEPATHY command** — toggle on/off
+
+### Original Fidelity
+- Global messages: "has just entered/left the Realms"
+- WHO: 4-column grid with "There are N adventurers in the Realms."
+- EAT: "You take a bite of X. (N bites remaining)"
+- Death: Eternity, Inc. message + DEPART stub
+- HP → BP (Body Points) throughout UI
+- Article fix: "an axe" not "a axe"
+
+### Admin & Infrastructure
+- Event Monitor: real-time admin WebSocket feed
+- Session Capture: record, view, download gameplay
+- Capture delete with confirmation
+- /healthz endpoint for vibectl
+- Backend connection indicator
+- Admin Players/Users sorted by recency with relative timestamps
+
 ## v0.93 — 2026-04-03
 
 ### New Commands

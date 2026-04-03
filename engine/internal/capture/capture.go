@@ -122,6 +122,19 @@ func (s *Store) Get(ctx context.Context, captureID string) (*Session, error) {
 	return &sess, nil
 }
 
+// Delete removes a capture session by ID.
+func (s *Store) Delete(ctx context.Context, captureID string) error {
+	if s.coll == nil || captureID == "" {
+		return nil
+	}
+	oid, err := bson.ObjectIDFromHex(captureID)
+	if err != nil {
+		return err
+	}
+	_, err = s.coll.DeleteOne(ctx, bson.M{"_id": oid})
+	return err
+}
+
 // ExportText returns a capture as plain text.
 func (s *Session) ExportText() string {
 	var b strings.Builder

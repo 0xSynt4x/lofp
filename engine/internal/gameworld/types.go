@@ -13,6 +13,7 @@ type Room struct {
 	MonsterGroup     int               `bson:"monsterGroup" json:"monsterGroup"`
 	StoreItems       []StoreItem       `bson:"storeItems,omitempty" json:"storeItems,omitempty"`
 	TrainingSkills   []TrainingDef     `bson:"trainingSkills,omitempty" json:"trainingSkills,omitempty"`
+	Region           int               `bson:"region,omitempty" json:"region,omitempty"`
 	Modifiers        []string          `bson:"modifiers" json:"modifiers"` // FORGE, LOOM, MINEA, etc.
 	Scripts          []ScriptBlock     `bson:"scripts" json:"scripts"`     // conditional blocks
 	SourceFile       string            `bson:"sourceFile" json:"sourceFile"`
@@ -104,9 +105,45 @@ type MonsterDef struct {
 	DiseaseLevel  int               `bson:"diseaseLevel,omitempty" json:"diseaseLevel,omitempty"`
 	SkinAdj       int               `bson:"skinAdj,omitempty" json:"skinAdj,omitempty"`
 	SkinItem      int               `bson:"skinItem,omitempty" json:"skinItem,omitempty"`
-	TextOverrides map[string]string `bson:"textOverrides,omitempty" json:"textOverrides,omitempty"`
-	Scripts       []ScriptBlock     `bson:"scripts,omitempty" json:"scripts,omitempty"`
-	SourceFile    string            `bson:"sourceFile" json:"sourceFile"`
+	TextOverrides  map[string]string `bson:"textOverrides,omitempty" json:"textOverrides,omitempty"`
+	Immunities     map[int]int       `bson:"immunities,omitempty" json:"immunities,omitempty"`
+	Weapons        []MonsterWeapon   `bson:"weapons,omitempty" json:"weapons,omitempty"`
+	WeaponPlus     int               `bson:"weaponPlus,omitempty" json:"weaponPlus,omitempty"`
+	MagicWeapon    int               `bson:"magicWeapon,omitempty" json:"magicWeapon,omitempty"`
+	SpecUse        int               `bson:"specUse,omitempty" json:"specUse,omitempty"`
+	SpecUses       int               `bson:"specUses,omitempty" json:"specUses,omitempty"`
+	SpecBase       int               `bson:"specBase,omitempty" json:"specBase,omitempty"`
+	SpecDmg        int               `bson:"specDmg,omitempty" json:"specDmg,omitempty"`
+	SpecDmgType    string            `bson:"specDmgType,omitempty" json:"specDmgType,omitempty"`
+	ExtraBody      int               `bson:"extraBody,omitempty" json:"extraBody,omitempty"`
+	NonDisruptable bool              `bson:"nonDisruptable,omitempty" json:"nonDisruptable,omitempty"`
+	SilenceIgnore  bool              `bson:"silenceIgnore,omitempty" json:"silenceIgnore,omitempty"`
+	FatigueChance  int               `bson:"fatigueChance,omitempty" json:"fatigueChance,omitempty"`
+	FatigueLevel   int               `bson:"fatigueLevel,omitempty" json:"fatigueLevel,omitempty"`
+	Spells         []int             `bson:"spells,omitempty" json:"spells,omitempty"`
+	Psi            int               `bson:"psi,omitempty" json:"psi,omitempty"`
+	PsiUse         int               `bson:"psiUse,omitempty" json:"psiUse,omitempty"`
+	PsiSkill       int               `bson:"psiSkill,omitempty" json:"psiSkill,omitempty"`
+	PsiResist      int               `bson:"psiResist,omitempty" json:"psiResist,omitempty"`
+	PsiLevel       int               `bson:"psiLevel,omitempty" json:"psiLevel,omitempty"`
+	Disciplines    []int             `bson:"disciplines,omitempty" json:"disciplines,omitempty"`
+	Scripts        []ScriptBlock     `bson:"scripts,omitempty" json:"scripts,omitempty"`
+	SourceFile     string            `bson:"sourceFile" json:"sourceFile"`
+}
+
+// MonsterWeapon represents a weapon a monster can use.
+type MonsterWeapon struct {
+	Archetype   int `bson:"archetype" json:"archetype"`
+	Adj         int `bson:"adj" json:"adj"`
+	Probability int `bson:"probability" json:"probability"`
+}
+
+// CEvent represents a cyclic event that fires periodically.
+type CEvent struct {
+	ID      int           `bson:"id" json:"id"`
+	Cycles  int           `bson:"cycles" json:"cycles"` // every N cycles (3sec each)
+	Room    int           `bson:"room" json:"room"`
+	Scripts []ScriptBlock `bson:"scripts" json:"scripts"`
 }
 
 // ScriptBlock represents a conditional block (IFVERB...ENDIF, etc.)
@@ -149,8 +186,44 @@ type Variable struct {
 
 // Region defines a game region with environmental properties.
 type Region struct {
-	ID         int               `bson:"id" json:"id"`
-	Properties map[string]string `bson:"properties" json:"properties"`
+	ID               int               `bson:"id" json:"id"`
+	Properties       map[string]string `bson:"properties" json:"properties"`
+	DepartRoom       int               `bson:"departRoom,omitempty" json:"departRoom,omitempty"`
+	HasWeather       bool              `bson:"hasWeather,omitempty" json:"hasWeather,omitempty"`
+	Treasure         int               `bson:"treasure,omitempty" json:"treasure,omitempty"`
+	TeleportAllowed  bool              `bson:"teleportAllowed,omitempty" json:"teleportAllowed,omitempty"`
+	SummoningAllowed bool              `bson:"summoningAllowed,omitempty" json:"summoningAllowed,omitempty"`
+	FireMod          int               `bson:"fireMod,omitempty" json:"fireMod,omitempty"`
+	ColdMod          int               `bson:"coldMod,omitempty" json:"coldMod,omitempty"`
+	ElectricMod      int               `bson:"electricMod,omitempty" json:"electricMod,omitempty"`
+	MineAdj          int               `bson:"mineAdj,omitempty" json:"mineAdj,omitempty"`
+}
+
+// MoneyDef defines a currency type.
+type MoneyDef struct {
+	ID           int    `bson:"id" json:"id"`
+	Name         string `bson:"name" json:"name"`
+	ExchangeRate int    `bson:"exchangeRate" json:"exchangeRate"`
+	ItemNum      int    `bson:"itemNum" json:"itemNum"`
+}
+
+// ForageDef defines a forageable item for a terrain type.
+type ForageDef struct {
+	Terrain string `bson:"terrain" json:"terrain"`
+	ItemNum int    `bson:"itemNum" json:"itemNum"`
+	AdjNum  int    `bson:"adjNum" json:"adjNum"`
+	Ratio   int    `bson:"ratio" json:"ratio"`
+	Val2    int    `bson:"val2" json:"val2"`
+	Val5    int    `bson:"val5" json:"val5"`
+}
+
+// MineDef defines a mineable item.
+type MineDef struct {
+	ItemNum int    `bson:"itemNum" json:"itemNum"`
+	AdjNum  int    `bson:"adjNum" json:"adjNum"`
+	Grade   string `bson:"grade" json:"grade"` // A, B, or C
+	Value   int    `bson:"value" json:"value"` // copper value
+	Val2    int    `bson:"val2" json:"val2"`
 }
 
 // MonsterList maps rooms to monster spawn data.

@@ -26,6 +26,8 @@ type ScriptContext struct {
 	// Item interaction context (set when running IFPREVERB/IFVERB on a room item)
 	ItemRef *gameworld.RoomItem // the room item being interacted with
 	ItemDef *gameworld.ItemDef  // its archetype definition
+
+	DummyVars map[int]int // DUMMY1-5 temporary variables
 }
 
 // RunEntryScripts executes all IFENTRY script blocks for a room.
@@ -101,6 +103,25 @@ func (e *GameEngine) RunPreverbScripts(player *Player, room *gameworld.Room, ver
 }
 
 // RunVerbScripts executes IFVERB blocks for a specific verb and item.
+// RunItemScripts runs all root-level conditional blocks on an item definition
+// (IFVAR blocks that aren't wrapped in IFVERB/IFPREVERB). Used for items that
+// set values based on adjective checks, e.g., thesnia leaf sets ITEMVAL3=403.
+func (e *GameEngine) RunItemScripts(player *Player, room *gameworld.Room, ri *gameworld.RoomItem, def *gameworld.ItemDef) *ScriptContext {
+	sc := &ScriptContext{
+		Player:  player,
+		Room:    room,
+		Engine:  e,
+		ItemRef: ri,
+		ItemDef: def,
+	}
+	for _, block := range def.Scripts {
+		if block.Type == "IFVAR" {
+			sc.execBlock(block)
+		}
+	}
+	return sc
+}
+
 func (e *GameEngine) RunVerbScripts(player *Player, room *gameworld.Room, verb string, ri *gameworld.RoomItem, def *gameworld.ItemDef) *ScriptContext {
 	sc := &ScriptContext{
 		Player:  player,
@@ -109,9 +130,21 @@ func (e *GameEngine) RunVerbScripts(player *Player, room *gameworld.Room, verb s
 		ItemRef: ri,
 		ItemDef: def,
 	}
+	refStr := fmt.Sprintf("%d", ri.Ref)
 	verb = strings.ToUpper(verb)
 
-	// Check item-level scripts
+	// Check room-level IFVERB scripts (e.g., IFVERB PUSH 0 in room definition)
+	if room != nil {
+		for _, block := range room.Scripts {
+			if block.Type == "IFVERB" && len(block.Args) >= 2 {
+				if strings.ToUpper(block.Args[0]) == verb && block.Args[1] == refStr {
+					sc.execBlock(block)
+				}
+			}
+		}
+	}
+
+	// Check item-level scripts (on the archetype definition)
 	for _, block := range def.Scripts {
 		if block.Type == "IFVERB" && len(block.Args) >= 1 {
 			if strings.ToUpper(block.Args[0]) == verb {
@@ -160,6 +193,19 @@ func (sc *ScriptContext) execBlock(block gameworld.ScriptBlock) {
 
 	case "IFCARRY":
 		if sc.evalIfCarry(block.Args) {
+			sc.execChildren(block)
+		}
+
+	case "IFLOGIN":
+		sc.execChildren(block)
+
+	case "IFFULLDESC":
+		if !sc.Player.BriefMode {
+			sc.execChildren(block)
+		}
+
+	case "IFIN":
+		if sc.evalIfIn(block.Args) {
 			sc.execChildren(block)
 		}
 	}
@@ -220,6 +266,46 @@ func (sc *ScriptContext) execAction(action gameworld.ScriptAction) {
 		sc.doItemState(action.Args, "OPEN")
 	case "CLOSE":
 		sc.doItemState(action.Args, "CLOSED")
+	case "GFLAG":
+		sc.doGFlag(action.Args)
+	case "RELOGIN":
+		if len(action.Args) >= 1 {
+			dest := sc.resolveNumericArg(action.Args[0])
+			if dest > 0 {
+				sc.Player.RoomNumber = dest
+			}
+		}
+	case "MUL":
+		sc.doMul(action.Args)
+	case "DIV":
+		sc.doDiv(action.Args)
+	case "MOD":
+		sc.doMod(action.Args)
+	case "GENMON":
+		sc.doGenMon(action.Args)
+	case "ZAPMON":
+		// Remove all monsters from current room
+		if sc.Engine.monsterMgr != nil {
+			sc.Engine.monsterMgr.ClearRoom(sc.Room.Number)
+			sc.Engine.Events.Publish("monster", fmt.Sprintf("ZAPMON: monsters cleared from room %d", sc.Room.Number))
+		}
+	case "NEWPUT":
+		sc.doNewPut(action.Args)
+	case "RECALC":
+		// TODO: recalculate player offense/defense after stat changes
+	case "DAMAGE":
+		// TODO: deal damage to current target (monster or item)
+		if len(action.Args) >= 1 {
+			amount, _ := strconv.Atoi(action.Args[0])
+			sc.Player.BodyPoints -= amount
+			if sc.Player.BodyPoints < 0 {
+				sc.Player.BodyPoints = 0
+			}
+		}
+	case "DROPLOC":
+		// TODO: set room where defeated players are moved
+	case "CHANNEL":
+		// TODO: set communication channel for room
 	}
 }
 
@@ -486,6 +572,16 @@ func (sc *ScriptContext) evalIfItem(args []string) bool {
 
 // getVar retrieves a variable value for the player or current item.
 func (sc *ScriptContext) getVar(name string) int {
+	if strings.HasPrefix(name, "DUMMY") {
+		idx, err := strconv.Atoi(name[5:])
+		if err != nil {
+			return 0
+		}
+		if sc.DummyVars != nil {
+			return sc.DummyVars[idx]
+		}
+		return 0
+	}
 	if strings.HasPrefix(name, "INTNUM") {
 		idx, err := strconv.Atoi(name[6:])
 		if err != nil {
@@ -572,6 +668,17 @@ func (sc *ScriptContext) getVar(name string) int {
 		case 2: return sc.Player.Flag2
 		case 3: return sc.Player.Flag3
 		case 4: return sc.Player.Flag4
+		}
+		return 0
+	}
+
+	if strings.HasPrefix(name, "PVAL") {
+		idx, err := strconv.Atoi(name[4:])
+		if err != nil {
+			return 0
+		}
+		if sc.Engine.PVals != nil {
+			return sc.Engine.PVals[idx]
 		}
 		return 0
 	}
@@ -768,18 +875,44 @@ func (sc *ScriptContext) getVar(name string) int {
 		}
 		return 0
 	case "REGION":
-		return 0 // TODO: implement room regions
+		if sc.Room != nil {
+			return sc.Room.Region
+		}
+		return 0
+	case "MOVEABLE":
+		if sc.Player.Position == 0 && !sc.Player.Immobilized && !sc.Player.Stunned {
+			return 1
+		}
+		return 0
+	case "DEPARTROOM":
+		return 0 // TODO: track last departure room
+	case "WEALTH1":
+		return sc.Player.Gold*100 + sc.Player.Silver*10 + sc.Player.Copper
+	case "WEALTH2", "WEALTH3", "WEALTH4", "WEALTH5", "WEALTH6", "WEALTH7", "WEALTH8", "WEALTH9":
+		return 0 // TODO: multi-currency per region
 	case "OBJWEIGHT":
 		if sc.ItemDef != nil { return sc.ItemDef.Weight }
 		return 0
 	case "PLAYERNUM":
 		return 0 // TODO: unique player number
 	}
+	// Check named global variables (DANWATER, TECHSWITCH, etc.)
+	if sc.Engine.namedVarNames[name] {
+		return sc.Engine.NamedVars[name]
+	}
 	return 0
 }
 
 // setVar sets a variable value on the player or current item.
 func (sc *ScriptContext) setVar(name string, val int) {
+	if strings.HasPrefix(name, "DUMMY") {
+		idx, _ := strconv.Atoi(name[5:])
+		if sc.DummyVars == nil {
+			sc.DummyVars = make(map[int]int)
+		}
+		sc.DummyVars[idx] = val
+		return
+	}
 	if strings.HasPrefix(name, "INTNUM") {
 		idx, err := strconv.Atoi(name[6:])
 		if err != nil {
@@ -825,6 +958,15 @@ func (sc *ScriptContext) setVar(name string, val int) {
 		}
 		return
 	}
+	if strings.HasPrefix(name, "PVAL") {
+		idx, _ := strconv.Atoi(name[4:])
+		if sc.Engine.PVals == nil {
+			sc.Engine.PVals = make(map[int]int)
+		}
+		sc.Engine.PVals[idx] = val
+		sc.Engine.savePVals()
+		return
+	}
 	switch name {
 	case "ORG":
 		sc.Player.Organization = val
@@ -840,6 +982,18 @@ func (sc *ScriptContext) setVar(name string, val int) {
 		sc.Player.Psi = val
 	case "FATPOINTS":
 		sc.Player.Fatigue = val
+	default:
+		// Check named global variables (DANWATER, TECHSWITCH, etc.)
+		if sc.Engine.namedVarNames[name] {
+			sc.Engine.NamedVars[name] = val
+			// Publish to event monitor and hub for cross-machine sync
+			sc.Engine.Events.Publish("world", fmt.Sprintf("Variable %s = %d", name, val))
+			if sc.Engine.onRoomChange != nil {
+				sc.Engine.onRoomChange(RoomChange{
+					Type: "named_var", NewState: fmt.Sprintf("%s=%d", name, val),
+				})
+			}
+		}
 	}
 }
 
@@ -971,6 +1125,156 @@ func (sc *ScriptContext) doPosition(args []string) {
 	case "KNEEL":
 		sc.Player.Position = 3
 	}
+}
+
+// doGFlag sets FLAG for all players in the room.
+func (sc *ScriptContext) doGFlag(args []string) {
+	if len(args) < 2 {
+		return
+	}
+	idx, _ := strconv.Atoi(args[0])
+	val, _ := strconv.Atoi(args[1])
+	if sc.Engine.sessions != nil {
+		for _, p := range sc.Engine.sessions.OnlinePlayers() {
+			if p.RoomNumber == sc.Room.Number {
+				switch idx {
+				case 1:
+					p.Flag1 = val
+				case 2:
+					p.Flag2 = val
+				case 3:
+					p.Flag3 = val
+				case 4:
+					p.Flag4 = val
+				}
+			}
+		}
+	}
+}
+
+// doMul handles MUL varName value — multiplies a variable.
+func (sc *ScriptContext) doMul(args []string) {
+	if len(args) < 2 {
+		return
+	}
+	varName := strings.ToUpper(args[0])
+	val, err := strconv.Atoi(args[1])
+	if err != nil {
+		return
+	}
+	sc.setVar(varName, sc.getVar(varName)*val)
+}
+
+// doDiv handles DIV varName value — divides a variable.
+func (sc *ScriptContext) doDiv(args []string) {
+	if len(args) < 2 {
+		return
+	}
+	varName := strings.ToUpper(args[0])
+	val, err := strconv.Atoi(args[1])
+	if err != nil || val == 0 {
+		return
+	}
+	sc.setVar(varName, sc.getVar(varName)/val)
+}
+
+// doMod handles MOD varName value — modulo a variable.
+func (sc *ScriptContext) doMod(args []string) {
+	if len(args) < 2 {
+		return
+	}
+	varName := strings.ToUpper(args[0])
+	val, err := strconv.Atoi(args[1])
+	if err != nil || val == 0 {
+		return
+	}
+	sc.setVar(varName, sc.getVar(varName)%val)
+}
+
+// doGenMon spawns a monster in the current room.
+func (sc *ScriptContext) doGenMon(args []string) {
+	if len(args) == 0 {
+		return
+	}
+	monNum, err := strconv.Atoi(args[0])
+	if err != nil {
+		return
+	}
+	def := sc.Engine.monsters[monNum]
+	if def == nil {
+		return
+	}
+	if sc.Engine.monsterMgr != nil {
+		sc.Engine.monsterMgr.SpawnOne(monNum, sc.Room.Number, def.Body)
+		name := FormatMonsterName(def, sc.Engine.monAdjs)
+		sc.RoomMsgs = append(sc.RoomMsgs, fmt.Sprintf("A %s appears!", name))
+		sc.Engine.Events.Publish("monster", fmt.Sprintf("GENMON: %s spawned in room %d", name, sc.Room.Number))
+	}
+}
+
+// doNewPut handles NEWPUT ref archetype [key=value...] — places item inside a container in the room.
+func (sc *ScriptContext) doNewPut(args []string) {
+	if len(args) < 2 {
+		return
+	}
+	ref, _ := strconv.Atoi(args[0])
+	archetype, _ := strconv.Atoi(args[1])
+	item := gameworld.RoomItem{Ref: ref, Archetype: archetype, IsPut: true}
+	for _, arg := range args[2:] {
+		parts := strings.SplitN(arg, "=", 2)
+		if len(parts) != 2 {
+			continue
+		}
+		key := strings.ToUpper(parts[0])
+		val, _ := strconv.Atoi(parts[1])
+		switch key {
+		case "ADJ1":
+			item.Adj1 = val
+		case "ADJ2":
+			item.Adj2 = val
+		case "ADJ3":
+			item.Adj3 = val
+		case "VAL1":
+			item.Val1 = val
+		case "VAL2":
+			item.Val2 = val
+		case "VAL3":
+			item.Val3 = val
+		case "VAL4":
+			item.Val4 = val
+		case "VAL5":
+			item.Val5 = val
+		}
+	}
+	// Find the PutIn target ref
+	if ref >= 0 {
+		for i := range sc.Room.Items {
+			if sc.Room.Items[i].Ref == ref && !sc.Room.Items[i].IsPut {
+				item.PutIn = ref
+				break
+			}
+		}
+	}
+	sc.Room.Items = append(sc.Room.Items, item)
+}
+
+// evalIfIn checks if a container in the room holds an item of the given archetype.
+func (sc *ScriptContext) evalIfIn(args []string) bool {
+	if len(args) < 2 || sc.Room == nil {
+		return false
+	}
+	containerRef, _ := strconv.Atoi(args[0])
+	archName := strings.ToUpper(args[1])
+	archNum := sc.getVar(archName)
+	if archNum == 0 {
+		archNum, _ = strconv.Atoi(args[1])
+	}
+	for _, ri := range sc.Room.Items {
+		if ri.IsPut && ri.PutIn == containerRef && ri.Archetype == archNum {
+			return true
+		}
+	}
+	return false
 }
 
 func (sc *ScriptContext) expandScriptText(text string) string {

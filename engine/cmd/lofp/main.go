@@ -57,6 +57,10 @@ func main() {
 		Variables:    result.Variables,
 		Regions:      result.Regions,
 		MonsterLists: result.MonsterLists,
+		CEvents:      result.CEvents,
+		MoneyDefs:    result.MoneyDefs,
+		ForageDefs:   result.ForageDefs,
+		MineDefs:     result.MineDefs,
 		StartRoom:    result.StartRoom,
 		BumpRoom:     result.BumpRoom,
 	}
@@ -109,6 +113,7 @@ func main() {
 	srv := api.NewServer(ge, parsed, authSvc, gl, h, cs, cfg.Server.FrontendURL)
 	h.Start()
 	ge.StartTimeCycle()
+	ge.StartCEventLoop()
 
 	addr := fmt.Sprintf(":%d", cfg.Server.Port)
 	log.Printf("Legends of Future Past server starting on %s", addr)

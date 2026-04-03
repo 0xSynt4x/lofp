@@ -64,6 +64,29 @@ func (mm *monsterManager) SpawnInitialMonsters(monsterLists []gameworld.MonsterL
 	return total
 }
 
+// SpawnOne creates a single monster instance in a room.
+func (mm *monsterManager) SpawnOne(defNum, roomNum, hp int) {
+	mm.mu.Lock()
+	defer mm.mu.Unlock()
+	inst := MonsterInstance{ID: mm.nextID, DefNumber: defNum, RoomNumber: roomNum, Alive: true, CurrentHP: hp}
+	idx := len(mm.instances)
+	mm.instances = append(mm.instances, inst)
+	mm.monstersByRoom[roomNum] = append(mm.monstersByRoom[roomNum], idx)
+	mm.nextID++
+}
+
+// ClearRoom removes all monsters from a room.
+func (mm *monsterManager) ClearRoom(roomNum int) {
+	mm.mu.Lock()
+	defer mm.mu.Unlock()
+	for _, idx := range mm.monstersByRoom[roomNum] {
+		if idx < len(mm.instances) {
+			mm.instances[idx].Alive = false
+		}
+	}
+	delete(mm.monstersByRoom, roomNum)
+}
+
 // MonstersInRoom returns alive monster instances in a given room.
 func (mm *monsterManager) MonstersInRoom(roomNum int) []MonsterInstance {
 	mm.mu.RLock()

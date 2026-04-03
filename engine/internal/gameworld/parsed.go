@@ -11,6 +11,10 @@ type ParsedData struct {
 	Variables    []Variable
 	Regions      []Region
 	MonsterLists []MonsterList
+	CEvents      []CEvent
+	MoneyDefs    []MoneyDef
+	ForageDefs   []ForageDef
+	MineDefs     []MineDef
 	StartRoom    int
 	BumpRoom     int
 }

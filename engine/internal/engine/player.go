@@ -102,7 +102,9 @@ type Player struct {
 	Disguised   bool `bson:"disguised,omitempty" json:"disguised,omitempty"`
 	RoundTime   int  `bson:"roundTime" json:"roundTime"`
 	CanFly      bool `bson:"canFly" json:"canFly"`
-	PreparedSpell int `bson:"preparedSpell,omitempty" json:"preparedSpell,omitempty"`
+	PreparedSpell   int       `bson:"preparedSpell,omitempty" json:"preparedSpell,omitempty"`
+	TelepathyActive bool      `bson:"telepathyActive,omitempty" json:"telepathyActive,omitempty"`
+	TelepathyExpiry time.Time `bson:"telepathyExpiry,omitempty" json:"telepathyExpiry,omitempty"`
 
 	// Teleport marks (1-10) → room number
 	Marks map[int]int `bson:"marks,omitempty" json:"marks,omitempty"`

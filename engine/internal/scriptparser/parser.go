@@ -22,6 +22,10 @@ type ParseResult struct {
 	Variables   []gameworld.Variable
 	Regions     []gameworld.Region
 	MonsterLists []gameworld.MonsterList
+	CEvents     []gameworld.CEvent
+	MoneyDefs   []gameworld.MoneyDef
+	ForageDefs  []gameworld.ForageDef
+	MineDefs    []gameworld.MineDef
 	StartRoom   int
 	BumpRoom    int
 }
@@ -223,6 +227,40 @@ func (p *fileParser) parse() {
 				})
 			}
 			p.pos++
+		case "MONEYDEF":
+			if len(fields) >= 5 {
+				id, _ := strconv.Atoi(fields[1])
+				name := fields[2]
+				rate, _ := strconv.Atoi(fields[3])
+				item, _ := strconv.Atoi(fields[4])
+				p.result.MoneyDefs = append(p.result.MoneyDefs, gameworld.MoneyDef{ID: id, Name: name, ExchangeRate: rate, ItemNum: item})
+			}
+			p.pos++
+		case "FORAGEDEF":
+			if len(fields) >= 7 {
+				terrain := strings.ToUpper(fields[1])
+				itemNum, _ := strconv.Atoi(fields[2])
+				adjNum, _ := strconv.Atoi(fields[3])
+				ratio, _ := strconv.Atoi(fields[4])
+				v2, _ := strconv.Atoi(fields[5])
+				v5, _ := strconv.Atoi(fields[6])
+				p.result.ForageDefs = append(p.result.ForageDefs, gameworld.ForageDef{
+					Terrain: terrain, ItemNum: itemNum, AdjNum: adjNum, Ratio: ratio, Val2: v2, Val5: v5,
+				})
+			}
+			p.pos++
+		case "MINDEF":
+			if len(fields) >= 6 {
+				itemNum, _ := strconv.Atoi(fields[1])
+				adjNum, _ := strconv.Atoi(fields[2])
+				grade := strings.ToUpper(fields[3])
+				value, _ := strconv.Atoi(fields[4])
+				v2, _ := strconv.Atoi(fields[5])
+				p.result.MineDefs = append(p.result.MineDefs, gameworld.MineDef{
+					ItemNum: itemNum, AdjNum: adjNum, Grade: grade, Value: value, Val2: v2,
+				})
+			}
+			p.pos++
 		default:
 			p.pos++
 		}
@@ -325,6 +363,10 @@ func (p *fileParser) parseRoom(fields []string) {
 		case "FIXED_LIGHT", "DARKNESS", "PARTIAL_DARKNESS",
 			"DAY_LIGHT", "OBSCURED_DAY_LIGHT", "LIMITED_VISION":
 			room.Lighting = cmd
+		case "REGION":
+			if len(fields) >= 2 {
+				room.Region, _ = strconv.Atoi(fields[1])
+			}
 		case "FORGE", "LOOM", "MINEA", "MINEB", "MINEC",
 			"BUY_ARMOR", "BUY_SKINS", "BUY_JEWELRY", "SUBMERGED",
 			"MOVEMENT_ASTRAL":
@@ -342,11 +384,44 @@ func (p *fileParser) parseRoom(fields []string) {
 				p.result.Variables = append(p.result.Variables, gameworld.Variable{Name: fields[1]})
 			}
 		case "CALL":
-			// CALL macro - store as action for later
+			// CALL macro — requires loading MACRO definitions from ROOMX.SCR/ROOMY.SCR.
+			// Not yet implemented; left as-is for now.
 		case "CEVENT":
-			// Skip cevents for now, advance past their block
+			// CEVENT <id> <cycles> <room#>
+			if len(fields) >= 4 {
+				id, _ := strconv.Atoi(fields[1])
+				cycles, _ := strconv.Atoi(fields[2])
+				roomNum, _ := strconv.Atoi(fields[3])
+				ce := gameworld.CEvent{ID: id, Cycles: cycles, Room: roomNum}
+				p.pos++
+				// Parse script blocks inside the CEVENT
+				for p.pos < len(p.lines) {
+					cline := strings.TrimSpace(p.lines[p.pos])
+					if cline == "" || strings.HasPrefix(cline, ";") {
+						p.pos++
+						continue
+					}
+					cf := strings.Fields(cline)
+					cc := strings.ToUpper(cf[0])
+					if cc == "NUMBER" || cc == "INUMBER" || cc == "MNUMBER" || cc == "CEVENT" {
+						break
+					}
+					if strings.HasPrefix(cc, "IF") {
+						block := p.parseScriptBlock(cf)
+						ce.Scripts = append(ce.Scripts, block)
+						continue
+					}
+					if cc == "CALL" || cc == "ECHO" || cc == "AFFECT" || cc == "RANDOM" || cc == "EQUAL" || cc == "ADD" || cc == "SUB" {
+						ce.Scripts = append(ce.Scripts, gameworld.ScriptBlock{
+							Type: "ACTION", Actions: []gameworld.ScriptAction{{Command: cc, Args: cf[1:]}},
+						})
+					}
+					p.pos++
+				}
+				p.result.CEvents = append(p.result.CEvents, ce)
+				continue
+			}
 			p.pos++
-			p.skipCeventBlock()
 			continue
 		}
 		p.pos++
@@ -580,6 +655,83 @@ func (p *fileParser) parseMonster(fields []string) {
 			if len(fields) >= 2 { mon.SkinAdj, _ = strconv.Atoi(fields[1]) }
 		case "SKINITEM":
 			if len(fields) >= 2 { mon.SkinItem, _ = strconv.Atoi(fields[1]) }
+		case "IMMUNITY":
+			if len(fields) >= 3 {
+				if mon.Immunities == nil {
+					mon.Immunities = make(map[int]int)
+				}
+				itype, _ := strconv.Atoi(fields[1])
+				ilevel, _ := strconv.Atoi(fields[2])
+				mon.Immunities[itype] = ilevel
+			}
+		case "WEAPON":
+			if len(fields) >= 4 {
+				arch, _ := strconv.Atoi(fields[1])
+				adj, _ := strconv.Atoi(fields[2])
+				prob, _ := strconv.Atoi(fields[3])
+				mon.Weapons = append(mon.Weapons, gameworld.MonsterWeapon{Archetype: arch, Adj: adj, Probability: prob})
+			}
+		case "WEAPONPLUS":
+			if len(fields) >= 2 {
+				mon.WeaponPlus, _ = strconv.Atoi(fields[1])
+			}
+		case "MAGICWEAPON":
+			if len(fields) >= 2 {
+				mon.MagicWeapon, _ = strconv.Atoi(fields[1])
+			}
+		case "SPECUSE":
+			if len(fields) >= 2 {
+				mon.SpecUse, _ = strconv.Atoi(fields[1])
+			}
+		case "SPECUSES":
+			if len(fields) >= 2 {
+				mon.SpecUses, _ = strconv.Atoi(fields[1])
+			}
+		case "SPECBASE":
+			if len(fields) >= 2 {
+				mon.SpecBase, _ = strconv.Atoi(fields[1])
+			}
+		case "SPECDMG":
+			if len(fields) >= 2 {
+				mon.SpecDmg, _ = strconv.Atoi(fields[1])
+			}
+		case "SPECDMGTYPE":
+			if len(fields) >= 2 {
+				mon.SpecDmgType = strings.ToUpper(fields[1])
+			}
+		case "EXTRABODY":
+			if len(fields) >= 2 {
+				mon.ExtraBody, _ = strconv.Atoi(fields[1])
+			}
+		case "NONDISRUPTABLE":
+			mon.NonDisruptable = true
+		case "SILENCEIGNORE":
+			mon.SilenceIgnore = true
+		case "FATIGUE":
+			if len(fields) >= 3 {
+				mon.FatigueChance, _ = strconv.Atoi(fields[1])
+				mon.FatigueLevel, _ = strconv.Atoi(fields[2])
+			}
+		case "SPELL":
+			if len(fields) >= 2 {
+				spellID, _ := strconv.Atoi(fields[1])
+				mon.Spells = append(mon.Spells, spellID)
+			}
+		case "PSI":
+			if len(fields) >= 2 { mon.Psi, _ = strconv.Atoi(fields[1]) }
+		case "PSIUSE":
+			if len(fields) >= 2 { mon.PsiUse, _ = strconv.Atoi(fields[1]) }
+		case "PSISKILL":
+			if len(fields) >= 2 { mon.PsiSkill, _ = strconv.Atoi(fields[1]) }
+		case "PSIRESIST":
+			if len(fields) >= 2 { mon.PsiResist, _ = strconv.Atoi(fields[1]) }
+		case "PSILEVEL":
+			if len(fields) >= 2 { mon.PsiLevel, _ = strconv.Atoi(fields[1]) }
+		case "DISCIPLINE":
+			if len(fields) >= 2 {
+				disc, _ := strconv.Atoi(fields[1])
+				mon.Disciplines = append(mon.Disciplines, disc)
+			}
 		case "TEXA", "TEXB", "TEXC", "TEXD", "TEXE", "TEXF", "TEXG", "TEXH",
 			"TEXI", "TEXL", "TEXM", "TEXQ", "TEXR", "TEXTS", "TEXS", "TEXV", "TEXZ",
 			"TEX1", "TEX2", "TEX3", "TEX4":
@@ -750,6 +902,18 @@ func (p *fileParser) parseScriptBlock(fields []string) gameworld.ScriptBlock {
 
 		// Nested conditional
 		if strings.HasPrefix(cmd, "IF") {
+			// If we're in a verb/preverb block and we see another verb/preverb block,
+			// it's a sibling, not a child — implicitly close this block.
+			// The original engine treated encountering a new IFPREVERB/IFVERB/IFSAY/IFENTRY
+			// as an implicit ENDIF for the current verb block.
+			isVerbBlock := cmd == "IFVERB" || cmd == "IFVERB2" || cmd == "IFPREVERB" || cmd == "IFPREVERB2" ||
+				cmd == "IFSAY" || cmd == "IFENTRY" || cmd == "IFTOUCH" || cmd == "IFLOGIN"
+			parentIsVerbBlock := block.Type == "IFVERB" || block.Type == "IFVERB2" || block.Type == "IFPREVERB" || block.Type == "IFPREVERB2" ||
+				block.Type == "IFSAY" || block.Type == "IFENTRY" || block.Type == "IFTOUCH" || block.Type == "IFLOGIN"
+			if isVerbBlock && parentIsVerbBlock {
+				// Implicit ENDIF — return current block, let parent re-parse this line
+				return block
+			}
 			child := p.parseScriptBlock(fields)
 			block.Children = append(block.Children, child)
 			continue
@@ -792,33 +956,27 @@ func (p *fileParser) parseRegion(fields []string) {
 		val = strings.Join(fields[3:], " ")
 	}
 	region.Properties[key] = val
-}
 
-func (p *fileParser) skipCeventBlock() {
-	depth := 0
-	for p.pos < len(p.lines) {
-		line := strings.TrimSpace(p.lines[p.pos])
-		if line == "" || strings.HasPrefix(line, ";") {
-			p.pos++
-			continue
-		}
-		fields := strings.Fields(line)
-		cmd := strings.ToUpper(fields[0])
-
-		if strings.HasPrefix(cmd, "IF") {
-			depth++
-		}
-		if cmd == "ENDIF" {
-			if depth == 0 {
-				p.pos++
-				return
-			}
-			depth--
-		}
-		// Stop if we hit a new block definition
-		if cmd == "NUMBER" || cmd == "INUMBER" || cmd == "MNUMBER" || cmd == "CEVENT" {
-			return
-		}
-		p.pos++
+	// Set typed fields from known properties
+	switch key {
+	case "DEPART":
+		region.DepartRoom, _ = strconv.Atoi(val)
+	case "WEATHER":
+		region.HasWeather = true
+	case "TREASURE":
+		region.Treasure, _ = strconv.Atoi(val)
+	case "TELEPORT":
+		region.TeleportAllowed = (strings.ToUpper(val) == "ALLOWED")
+	case "SUMMONING":
+		region.SummoningAllowed = (strings.ToUpper(val) == "ALLOWED")
+	case "FIRE":
+		region.FireMod, _ = strconv.Atoi(val)
+	case "COLD":
+		region.ColdMod, _ = strconv.Atoi(val)
+	case "ELECTRIC":
+		region.ElectricMod, _ = strconv.Atoi(val)
+	case "MINE_ADJ":
+		region.MineAdj, _ = strconv.Atoi(val)
 	}
 }
+

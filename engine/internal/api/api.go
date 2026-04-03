@@ -155,6 +155,7 @@ func (s *Server) setupRoutes() {
 	api.HandleFunc("/captures", s.handleListCaptures).Methods("GET")
 	api.HandleFunc("/captures/{id}", s.handleGetCapture).Methods("GET")
 	api.HandleFunc("/captures/{id}/text", s.handleGetCaptureText).Methods("GET")
+	api.HandleFunc("/captures/{id}", s.handleDeleteCapture).Methods("DELETE")
 
 	// Game world data (admin only)
 	api.HandleFunc("/stats", s.handleStats).Methods("GET")
@@ -417,7 +418,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			s.gamelog.Log(gamelog.EventGameEnter, player.FullName(), accountID,
 				fmt.Sprintf("%s (%s)", authName, authEmail), player.RoomNumber, "")
 			s.broadcastGlobal(player.FirstName,
-				[]string{fmt.Sprintf("** %s has entered the Shattered Realms.", player.FirstName)})
+				[]string{fmt.Sprintf("** %s has just entered the Realms.", player.FirstName)})
 
 			result := s.engine.EnterRoom(ctx, player)
 			s.sendWSResult(session, result)
@@ -515,6 +516,23 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			if len(result.GMBroadcast) > 0 {
 				s.broadcastToGMs(result.GMBroadcast)
 			}
+			// Telepathy broadcast — send to all players with TelepathyActive
+			if result.TelepathyMsg != "" {
+				telepathyLines := []string{
+					fmt.Sprintf("You feel the touch of %s's mind:", result.TelepathySender),
+					fmt.Sprintf("\"%s\"", result.TelepathyMsg),
+				}
+				s.mu.RLock()
+				for _, sess := range s.sessions {
+					if sess.Player == nil || sess.Player.FirstName == result.TelepathySender {
+						continue
+					}
+					if sess.Player.TelepathyActive {
+						s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": telepathyLines})
+					}
+				}
+				s.mu.RUnlock()
+			}
 			_ = playerRoom
 		}
 	}
@@ -524,7 +542,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 		s.gamelog.Log(gamelog.EventGameExit, session.Player.FullName(), session.Player.AccountID,
 			fmt.Sprintf("%s (%s)", authName, authEmail), session.Player.RoomNumber, "")
 		s.broadcastGlobal(session.Player.FirstName,
-			[]string{fmt.Sprintf("** %s has disconnected.", session.Player.FirstName)})
+			[]string{fmt.Sprintf("** %s has just left the Realms.", session.Player.FirstName)})
 		if session.CaptureID != "" {
 			s.captures.Stop(context.Background(), session.CaptureID)
 			session.CaptureID = ""
@@ -1364,6 +1382,29 @@ func (s *Server) handleGetCaptureText(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"capture-%s.txt\"", vars["id"]))
 	w.Write([]byte(sess.ExportText()))
+}
+
+func (s *Server) handleDeleteCapture(w http.ResponseWriter, r *http.Request) {
+	accountID := s.getAccountID(r)
+	if accountID == "" {
+		http.Error(w, "unauthorized", 401)
+		return
+	}
+	vars := mux.Vars(r)
+	sess, err := s.captures.Get(r.Context(), vars["id"])
+	if err != nil || sess == nil {
+		http.Error(w, "capture not found", 404)
+		return
+	}
+	if sess.AccountID != accountID {
+		http.Error(w, "forbidden", 403)
+		return
+	}
+	if err := s.captures.Delete(r.Context(), vars["id"]); err != nil {
+		http.Error(w, "failed to delete capture", 500)
+		return
+	}
+	w.WriteHeader(204)
 }
 
 func (s *Server) handleAdminLogs(w http.ResponseWriter, r *http.Request) {

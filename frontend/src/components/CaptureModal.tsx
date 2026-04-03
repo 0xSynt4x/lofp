@@ -50,6 +50,18 @@ export default function CaptureModal({ wsRef, recording, onClose, onViewCapture 
     return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
 
+  const deleteCapture = async (id: string) => {
+    if (!confirm('Delete this capture permanently?')) return
+    try {
+      const res = await fetch(`/api/captures/${id}`, { method: 'DELETE', headers: authHeaders() })
+      if (res.ok) {
+        setCaptures(prev => prev.filter(c => c.id !== id))
+      }
+    } catch (err) {
+      console.error('Failed to delete capture:', err)
+    }
+  }
+
   const formatDuration = (start: string, end?: string) => {
     const s = new Date(start).getTime()
     const e = end ? new Date(end).getTime() : Date.now()
@@ -98,17 +110,25 @@ export default function CaptureModal({ wsRef, recording, onClose, onViewCapture 
           ) : (
             <div className="space-y-1">
               {captures.map(c => (
-                <button
-                  key={c.id}
-                  onClick={() => onViewCapture(c.id)}
-                  className="w-full text-left px-3 py-2 bg-[#0a0a0a] border border-[#222] rounded hover:border-amber-500 text-xs font-mono"
-                >
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">{c.player}</span>
-                    <span className="text-gray-600">{formatDuration(c.startedAt, c.endedAt)}</span>
-                  </div>
-                  <div className="text-gray-600 mt-0.5">{formatDate(c.startedAt)}</div>
-                </button>
+                <div key={c.id} className="flex items-center gap-1">
+                  <button
+                    onClick={() => onViewCapture(c.id)}
+                    className="flex-1 text-left px-3 py-2 bg-[#0a0a0a] border border-[#222] rounded hover:border-amber-500 text-xs font-mono"
+                  >
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300">{c.player}</span>
+                      <span className="text-gray-600">{formatDuration(c.startedAt, c.endedAt)}</span>
+                    </div>
+                    <div className="text-gray-600 mt-0.5">{formatDate(c.startedAt)}</div>
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); deleteCapture(c.id) }}
+                    className="px-2 py-2 text-gray-600 hover:text-red-400 text-xs"
+                    title="Delete capture"
+                  >
+                    &times;
+                  </button>
+                </div>
               ))}
             </div>
           )}

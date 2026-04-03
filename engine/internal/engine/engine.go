@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -67,6 +68,10 @@ type GameEngine struct {
 	monsterMgr      *monsterManager
 	RegionWeather   map[int]int // region -> weather state
 	monsterLists    []gameworld.MonsterList
+	cevents         []gameworld.CEvent
+	PVals           map[int]int // persistent global values
+	NamedVars       map[string]int // VARIABLE-defined global named variables (DANWATER, etc.)
+	namedVarNames   map[string]bool // set of valid named variable names
 	Events          *EventBus
 }
 
@@ -125,6 +130,18 @@ func (e *GameEngine) ApplyRoomChange(change RoomChange) {
 				break
 			}
 		}
+	case "named_var":
+		// Sync a named variable from another machine: "VARNAME=VALUE"
+		if change.NewState != "" {
+			parts := strings.SplitN(change.NewState, "=", 2)
+			if len(parts) == 2 {
+				name := parts[0]
+				val, _ := strconv.Atoi(parts[1])
+				if e.namedVarNames[name] {
+					e.NamedVars[name] = val
+				}
+			}
+		}
 	}
 }
 
@@ -171,7 +188,91 @@ func NewGameEngine(db *mongo.Database, parsed *gameworld.ParsedData) *GameEngine
 	// Initialize weather (all regions sunny)
 	e.RegionWeather = make(map[int]int)
 
+	// Initialize named variables from VARIABLE definitions (all default to 0)
+	e.NamedVars = make(map[string]int)
+	e.namedVarNames = make(map[string]bool)
+	for _, v := range parsed.Variables {
+		name := strings.ToUpper(v.Name)
+		e.namedVarNames[name] = true
+		e.NamedVars[name] = 0
+	}
+
+	// Store CEvents
+	e.cevents = parsed.CEvents
+
+	// Initialize PVals
+	e.PVals = make(map[int]int)
+	e.loadPVals()
+
 	return e
+}
+
+// loadPVals loads persistent global values from MongoDB.
+func (e *GameEngine) loadPVals() {
+	if e.db == nil {
+		return
+	}
+	ctx := context.Background()
+	var doc struct {
+		Vals map[string]int `bson:"vals"`
+	}
+	err := e.db.Collection("pvals").FindOne(ctx, bson.M{"_id": "pvals"}).Decode(&doc)
+	if err != nil {
+		return // no saved pvals yet
+	}
+	for k, v := range doc.Vals {
+		idx, err := strconv.Atoi(k)
+		if err == nil {
+			e.PVals[idx] = v
+		}
+	}
+}
+
+// savePVals saves persistent global values to MongoDB.
+func (e *GameEngine) savePVals() {
+	if e.db == nil {
+		return
+	}
+	ctx := context.Background()
+	vals := make(map[string]int)
+	for k, v := range e.PVals {
+		vals[strconv.Itoa(k)] = v
+	}
+	_, _ = e.db.Collection("pvals").ReplaceOne(ctx, bson.M{"_id": "pvals"}, bson.M{"_id": "pvals", "vals": vals}, options.Replace().SetUpsert(true))
+}
+
+// StartCEventLoop starts the background goroutine that fires cyclic events.
+func (e *GameEngine) StartCEventLoop() {
+	if len(e.cevents) == 0 {
+		return
+	}
+	go func() {
+		tick := 0
+		ticker := time.NewTicker(3 * time.Second)
+		defer ticker.Stop()
+		for range ticker.C {
+			tick++
+			for _, ce := range e.cevents {
+				if ce.Cycles > 0 && tick%ce.Cycles == 0 {
+					room := e.rooms[ce.Room]
+					if room == nil {
+						continue
+					}
+					sc := &ScriptContext{Room: room, Engine: e, Player: &Player{}}
+					for _, block := range ce.Scripts {
+						if block.Type == "ACTION" {
+							for _, action := range block.Actions {
+								sc.execAction(action)
+							}
+						} else {
+							sc.execBlock(block)
+						}
+					}
+					e.Events.Publish("cevent", fmt.Sprintf("CEVENT %d fired in room %d (%s)", ce.ID, ce.Room, room.Name))
+				}
+			}
+		}
+	}()
 }
 
 // CommandResult is what gets sent back to the client.
@@ -202,6 +303,9 @@ type CommandResult struct {
 	GlobalBroadcast []string `json:"-"`
 	// GMBroadcast: sent to all online GMs.
 	GMBroadcast []string `json:"-"`
+	// TelepathyMsg: telepathy message to send to telepathy-enabled players.
+	TelepathyMsg    string `json:"-"`
+	TelepathySender string `json:"-"`
 }
 
 // extractOriginalArgs returns the original-case text after the first word of input.
@@ -280,7 +384,14 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		return e.processGMCommand(ctx, player, verb, args, input)
 	}
 
-	// Direction shortcuts — exact match only (single/double letter shortcuts)
+	// Resolve verb abbreviations to canonical full form for ALL verbs.
+	// This ensures IFPREVERB matching works regardless of abbreviation used.
+	// Direction shortcuts map to both full name (for scripts) and short form (for movement).
+	dirFullNames := map[string]string{
+		"N": "NORTH", "S": "SOUTH", "E": "EAST", "W": "WEST",
+		"NE": "NORTHEAST", "NW": "NORTHWEST", "SE": "SOUTHEAST", "SW": "SOUTHWEST",
+		"U": "UP", "D": "DOWN", "O": "OUT",
+	}
 	dirMap := map[string]string{
 		"N": "N", "NORTH": "N", "S": "S", "SOUTH": "S",
 		"E": "E", "EAST": "E", "W": "W", "WEST": "W",
@@ -289,8 +400,77 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		"U": "U", "UP": "U", "D": "D", "DOWN": "D",
 		"O": "O", "OUT": "O",
 	}
+	// Resolve the verb to its full canonical name for script matching
+	canonicalVerb := verb
+	if full, ok := dirFullNames[verb]; ok {
+		canonicalVerb = full
+	}
 
 	if dir, ok := dirMap[verb]; ok {
+		// Check for IFPREVERB scripts on the direction using canonical verb name
+		room := e.rooms[player.RoomNumber]
+		if room != nil {
+			sc := &ScriptContext{Player: player, Room: room, Engine: e}
+			for _, block := range room.Scripts {
+				if block.Type == "IFPREVERB" && len(block.Args) >= 2 {
+					if strings.ToUpper(block.Args[0]) == canonicalVerb && block.Args[1] == "-1" {
+						sc.execBlock(block)
+					}
+				}
+			}
+			if sc.Blocked || sc.MoveTo > 0 {
+				result := &CommandResult{}
+				result.Messages = append(result.Messages, sc.Messages...)
+				result.RoomBroadcast = append(result.RoomBroadcast, sc.RoomMsgs...)
+				if sc.MoveTo > 0 && !sc.Blocked {
+					// Script provided a MOVE destination
+					dest := e.rooms[sc.MoveTo]
+					if dest != nil {
+						oldRoom := player.RoomNumber
+						player.RoomNumber = sc.MoveTo
+						e.SavePlayer(ctx, player)
+						lookResult := e.doLook(player)
+						result.Messages = append(result.Messages, lookResult.Messages...)
+						result.RoomName = lookResult.RoomName
+						result.RoomDesc = lookResult.RoomDesc
+						result.Exits = lookResult.Exits
+						result.Items = lookResult.Items
+						result.OldRoom = oldRoom
+						result.OldRoomMsg = []string{fmt.Sprintf("%s leaves.", player.FirstName)}
+						result.RoomBroadcast = append(result.RoomBroadcast, fmt.Sprintf("%s arrives.", player.FirstName))
+						e.applyEntryScripts(ctx, player, dest, result)
+					}
+				} else if sc.MoveTo > 0 {
+					// CLEARVERB + MOVE = script-controlled movement
+					dest := e.rooms[sc.MoveTo]
+					if dest != nil {
+						oldRoom := player.RoomNumber
+						player.RoomNumber = sc.MoveTo
+						e.SavePlayer(ctx, player)
+						lookResult := e.doLook(player)
+						result.Messages = append(result.Messages, lookResult.Messages...)
+						result.RoomName = lookResult.RoomName
+						result.RoomDesc = lookResult.RoomDesc
+						result.Exits = lookResult.Exits
+						result.Items = lookResult.Items
+						result.OldRoom = oldRoom
+						result.OldRoomMsg = []string{fmt.Sprintf("%s leaves.", player.FirstName)}
+						result.RoomBroadcast = append(result.RoomBroadcast, fmt.Sprintf("%s arrives.", player.FirstName))
+						e.applyEntryScripts(ctx, player, dest, result)
+					}
+				}
+				if len(result.Messages) == 0 {
+					result.Messages = []string{"You can't go that way."}
+				}
+				return result
+			}
+			// Scripts ran but didn't block — proceed with normal movement
+			if len(sc.Messages) > 0 {
+				moveResult := e.doMove(ctx, player, dir)
+				moveResult.Messages = append(sc.Messages, moveResult.Messages...)
+				return moveResult
+			}
+		}
 		return e.doMove(ctx, player, dir)
 	}
 
@@ -351,20 +531,16 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		return e.doClose(player, args)
 	case "SIT":
 		player.Position = 1
-		return &CommandResult{Messages: []string{"You sit down."}, PlayerState: player,
-			RoomBroadcast: []string{fmt.Sprintf("%s sits down.", player.FirstName)}}
+		return e.doPositionWithScripts(ctx, player, verb, "You sit down.", fmt.Sprintf("%s sits down.", player.FirstName))
 	case "STAND":
 		player.Position = 0
-		return &CommandResult{Messages: []string{"You stand up."}, PlayerState: player,
-			RoomBroadcast: []string{fmt.Sprintf("%s stands up.", player.FirstName)}}
+		return e.doPositionWithScripts(ctx, player, verb, "You stand up.", fmt.Sprintf("%s stands up.", player.FirstName))
 	case "KNEEL":
 		player.Position = 3
-		return &CommandResult{Messages: []string{"You kneel down."}, PlayerState: player,
-			RoomBroadcast: []string{fmt.Sprintf("%s kneels down.", player.FirstName)}}
+		return e.doPositionWithScripts(ctx, player, verb, "You kneel down.", fmt.Sprintf("%s kneels down.", player.FirstName))
 	case "LAY":
 		player.Position = 2
-		return &CommandResult{Messages: []string{"You lie down."}, PlayerState: player,
-			RoomBroadcast: []string{fmt.Sprintf("%s lies down.", player.FirstName)}}
+		return e.doPositionWithScripts(ctx, player, verb, "You lie down.", fmt.Sprintf("%s lies down.", player.FirstName))
 	case "BRIEF":
 		player.BriefMode = true
 		return &CommandResult{Messages: []string{"Brief mode on."}}
@@ -547,6 +723,26 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	// === COMMUNICATION ===
 	case "THINK":
 		return e.doThink(player, args)
+	case "TELEPATHY":
+		if player.Race == RaceEphemeral { // Ephemeral - innate
+			player.TelepathyActive = !player.TelepathyActive
+			e.SavePlayer(ctx, player)
+			if player.TelepathyActive {
+				return &CommandResult{Messages: []string{"You open your mind to telepathic communication."}, PlayerState: player}
+			}
+			return &CommandResult{Messages: []string{"You close your mind to telepathic communication."}, PlayerState: player}
+		}
+		if !player.TelepathyActive {
+			return &CommandResult{Messages: []string{"You don't have telepathic ability right now."}}
+		}
+		player.TelepathyActive = false
+		e.SavePlayer(ctx, player)
+		return &CommandResult{Messages: []string{"You close your mind to telepathic communication."}, PlayerState: player}
+	case "DEPART":
+		if !player.Dead {
+			return &CommandResult{Messages: []string{"You aren't dead."}}
+		}
+		return &CommandResult{Messages: []string{"Eternity, Inc. has retrieved your body. [Death system coming soon.]"}}
 	case "CANT":
 		return e.doCant(player, args)
 	// === COMBAT (TODO: full implementation) ===
@@ -639,8 +835,14 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 			GMBroadcast: []string{fmt.Sprintf("[GM] %s is requesting assistance at %s (room %d).", player.FirstName, roomName, player.RoomNumber)},
 		}
 	case "SNIFF", "SMELL":
+		if len(args) > 0 {
+			return e.doItemInteraction(ctx, player, "SNIFF", args)
+		}
 		return e.processEmote(player, "SNIFF", args)
 	case "LISTEN":
+		if len(args) > 0 {
+			return e.doItemInteraction(ctx, player, "LISTEN", args)
+		}
 		return e.processEmote(player, "LISTEN", args)
 	default:
 		return &CommandResult{Messages: []string{fmt.Sprintf("I don't understand \"%s\". Type HELP for commands.", strings.ToLower(input))}}
@@ -689,9 +891,9 @@ var allVerbs = []string{
 	"TEND", "BREAK",
 	"SNIFF", "SMELL", "LISTEN",
 	// Communication
-	"WHISPER", "YELL", "SPEECH", "THINK", "CONTACT",
+	"WHISPER", "YELL", "SPEECH", "THINK", "TELEPATHY", "CONTACT",
 	// Interaction
-	"GIVE", "EAT", "COUNT",
+	"GIVE", "EAT", "COUNT", "DEPART",
 	// Info
 	"TIME", "EXPERIENCE", "INFO",
 	// Roleplay verbs
@@ -849,6 +1051,14 @@ func (e *GameEngine) doLook(player *Player) *CommandResult {
 
 	result := &CommandResult{
 		RoomName: fmt.Sprintf("[%s]", room.Name),
+	}
+
+	if player.Dead {
+		result.Messages = []string{
+			result.RoomName,
+			"You are dead and can't do much of anything beside wait for someone to attempt to raise you or for Eternity, Inc. to retrieve you. Hope you paid your premium! [You may type DEPART at any time to allow Eternity, Inc. to retrieve you.]",
+		}
+		return result
 	}
 
 	if !player.BriefMode {
@@ -1037,14 +1247,18 @@ func (e *GameEngine) doLookAt(player *Player, args []string) *CommandResult {
 		}
 	}
 
-	// Search inventory
-	for _, ii := range player.Inventory {
+	// Search all player items (inventory + worn + wielded)
+	allItems := make([]InventoryItem, 0, len(player.Inventory)+len(player.Worn)+1)
+	allItems = append(allItems, player.Inventory...)
+	allItems = append(allItems, player.Worn...)
+	if player.Wielded != nil { allItems = append(allItems, *player.Wielded) }
+	for _, ii := range allItems {
 		itemDef := e.items[ii.Archetype]
 		if itemDef == nil {
 			continue
 		}
 		name := e.getItemNounName(itemDef)
-		if matchesTarget(name, remaining, e.getAdjName(ii.Adj1)) {
+		if matchesTarget(name, remaining, e.getAdjName(ii.Adj1)) || matchesTarget(name, remaining, e.getAdjName(ii.Adj3)) {
 			return &CommandResult{Messages: []string{fmt.Sprintf("You look at your %s.", name)}}
 		}
 	}
@@ -1325,11 +1539,26 @@ func (e *GameEngine) doClimb(ctx context.Context, player *Player, args []string)
 			// Run IFPREVERB CLIMB scripts on non-portal items
 			sc := e.RunPreverbScripts(player, room, "CLIMB", &room.Items[i], itemDef)
 			result := &CommandResult{}
-			if len(sc.Messages) > 0 {
-				result.Messages = sc.Messages
-			}
-			if len(sc.RoomMsgs) > 0 {
-				result.RoomBroadcast = sc.RoomMsgs
+			result.Messages = append(result.Messages, sc.Messages...)
+			result.RoomBroadcast = append(result.RoomBroadcast, sc.RoomMsgs...)
+			result.GMBroadcast = append(result.GMBroadcast, sc.GMMsgs...)
+			if sc.MoveTo > 0 {
+				dest := e.rooms[sc.MoveTo]
+				if dest != nil {
+					oldRoom := player.RoomNumber
+					player.RoomNumber = sc.MoveTo
+					e.SavePlayer(ctx, player)
+					lookResult := e.doLook(player)
+					result.Messages = append(result.Messages, lookResult.Messages...)
+					result.RoomName = lookResult.RoomName
+					result.RoomDesc = lookResult.RoomDesc
+					result.Exits = lookResult.Exits
+					result.Items = lookResult.Items
+					result.OldRoom = oldRoom
+					result.OldRoomMsg = []string{fmt.Sprintf("%s leaves.", player.FirstName)}
+					result.RoomBroadcast = append(result.RoomBroadcast, fmt.Sprintf("%s arrives.", player.FirstName))
+					e.applyEntryScripts(ctx, player, dest, result)
+				}
 			}
 			if len(result.Messages) == 0 {
 				result.Messages = []string{"You can't climb that."}
@@ -1408,14 +1637,20 @@ func (e *GameEngine) doItemInteraction(ctx context.Context, player *Player, verb
 		}
 	}
 
-	// Check inventory items (for verbs like RECALL that work on carried items)
-	for _, ii := range player.Inventory {
+	// Check all player items: inventory, worn, and wielded
+	allPlayerItems := make([]InventoryItem, 0, len(player.Inventory)+len(player.Worn)+1)
+	allPlayerItems = append(allPlayerItems, player.Inventory...)
+	allPlayerItems = append(allPlayerItems, player.Worn...)
+	if player.Wielded != nil {
+		allPlayerItems = append(allPlayerItems, *player.Wielded)
+	}
+	for _, ii := range allPlayerItems {
 		itemDef := e.items[ii.Archetype]
 		if itemDef == nil {
 			continue
 		}
 		name := e.getItemNounName(itemDef)
-		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) || matchesTarget(name, target, e.getAdjName(ii.Adj3)) {
 			// Create a temporary RoomItem for script context
 			tempRI := gameworld.RoomItem{Ref: -1, Archetype: ii.Archetype,
 				Adj1: ii.Adj1, Adj2: ii.Adj2, Adj3: ii.Adj3,
@@ -1856,15 +2091,63 @@ func (e *GameEngine) doEat(ctx context.Context, player *Player, args []string) *
 		if itemDef == nil {
 			continue
 		}
+		if itemDef.Type != "FOOD" {
+			continue
+		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
 			fullName := e.formatItemName(itemDef, ii.Adj1, ii.Adj2, ii.Adj3)
-			// Remove from inventory (consumed)
-			player.Inventory = append(player.Inventory[:i], player.Inventory[i+1:]...)
+
+			// Run item scripts FIRST — they may set ITEMVAL3 based on adjective checks
+			// (e.g., thesnia leaf: IFVAR ITEMADJ3=397 → EQUAL ITEMVAL3 403)
+			room := e.rooms[player.RoomNumber]
+			tempRI := gameworld.RoomItem{Ref: -1, Archetype: ii.Archetype,
+				Adj1: ii.Adj1, Adj2: ii.Adj2, Adj3: ii.Adj3,
+				Val1: ii.Val1, Val2: ii.Val2, Val3: ii.Val3, Val4: ii.Val4, Val5: ii.Val5}
+			// Run all item-level scripts (IFVAR at root level + IFVERB EAT)
+			sc := e.RunItemScripts(player, room, &tempRI, itemDef)
+			sc2 := e.RunVerbScripts(player, room, "EAT", &tempRI, itemDef)
+			sc.Messages = append(sc.Messages, sc2.Messages...)
+			// Scripts may have modified tempRI.Val3
+			spellNum := tempRI.Val3
+
+			// Bite tracking: initialize Val2 from Parameter1 on first bite
+			currentBites := ii.Val2
+			if currentBites == 0 && itemDef.Parameter1 > 0 {
+				currentBites = itemDef.Parameter1
+			}
+			isFirstBite := (currentBites == 0 && itemDef.Parameter1 == 0) || (ii.Val2 == 0 && itemDef.Parameter1 > 0)
+
+			var msgs []string
+			if currentBites <= 1 {
+				// Last bite (or single-bite food) — remove from inventory
+				player.Inventory = append(player.Inventory[:i], player.Inventory[i+1:]...)
+				msgs = []string{fmt.Sprintf("You finish eating %s.", fullName)}
+			} else {
+				// Decrement bites remaining
+				newVal := currentBites - 1
+				player.Inventory[i].Val2 = newVal
+				msgs = []string{fmt.Sprintf("You take a bite of %s. (%d bites remaining)", fullName, newVal)}
+			}
+
+			// Add any script ECHO messages
+			msgs = append(msgs, sc.Messages...)
+
+			// Spell effect fires on FIRST bite only
+			if isFirstBite {
+				if spellNum == 403 { // Mindlink
+					player.TelepathyActive = true
+					player.TelepathyExpiry = time.Now().Add(1 * time.Hour)
+					msgs = append(msgs, "You feel your mind open to the thoughts of others.")
+				} else if spellNum != 0 {
+					msgs = append(msgs, fmt.Sprintf("[Spell #%d effect coming soon.]", spellNum))
+				}
+			}
 			e.SavePlayer(ctx, player)
 			return &CommandResult{
-				Messages:      []string{fmt.Sprintf("You take a bite of %s.", fullName)},
+				Messages:      msgs,
 				RoomBroadcast: []string{fmt.Sprintf("%s eats %s.", player.FirstName, fullName)},
+				PlayerState:   player,
 			}
 		}
 	}
@@ -1964,12 +2247,14 @@ func (e *GameEngine) doBuy(ctx context.Context, player *Player, args []string) *
 		// Give item to player
 		item := InventoryItem{Archetype: si.Archetype}
 		if si.Adj > 0 {
-			item.Adj1 = si.Adj
+			// Store adjective goes in ADJ3 (last slot) — ADJ1/ADJ2 left open for
+			// crafting/enchanting. Item scripts check ITEMADJ3 for the variety.
+			item.Adj3 = si.Adj
 		}
 		player.Inventory = append(player.Inventory, item)
 		e.SavePlayer(ctx, player)
 
-		displayName := e.formatItemName(itemDef, item.Adj1, 0, 0)
+		displayName := e.formatItemName(itemDef, item.Adj1, item.Adj2, item.Adj3)
 		priceStr := formatPrice(si.Price)
 		return &CommandResult{Messages: []string{fmt.Sprintf("You buy %s for %s.", displayName, priceStr)}}
 	}
@@ -2046,19 +2331,66 @@ func (e *GameEngine) doDrink(ctx context.Context, player *Player, args []string)
 	target := strings.ToLower(strings.Join(args, " "))
 	for i, ii := range player.Inventory {
 		itemDef := e.items[ii.Archetype]
-		if itemDef == nil { continue }
-		if itemDef.Type != "LIQUID" && itemDef.Type != "LIQCONTAINER" && itemDef.Type != "FOOD" { continue }
+		if itemDef == nil {
+			continue
+		}
+		if itemDef.Type != "LIQUID" && itemDef.Type != "LIQCONTAINER" && itemDef.Type != "FOOD" {
+			continue
+		}
 		name := e.getItemNounName(itemDef)
-		if !matchesTarget(name, target, e.getAdjName(ii.Adj1)) { continue }
+		if !matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+			continue
+		}
 		displayName := e.formatItemName(itemDef, ii.Adj1, ii.Adj2, ii.Adj3)
 		if itemDef.Type == "FOOD" {
-			// EAT logic
-			player.Inventory = append(player.Inventory[:i], player.Inventory[i+1:]...)
-			e.SavePlayer(ctx, player)
-			return &CommandResult{Messages: []string{fmt.Sprintf("You eat %s.", displayName)}}
+			// EAT logic — redirect to doEat
+			return e.doEat(ctx, player, args)
 		}
-		// Drink/sip
-		return &CommandResult{Messages: []string{fmt.Sprintf("You take a drink from %s.", displayName)}}
+
+		// Sip tracking: initialize Val2 from Parameter1 on first sip
+		currentSips := ii.Val2
+		if currentSips == 0 && itemDef.Parameter1 > 0 {
+			currentSips = itemDef.Parameter1
+		}
+		isFirstSip := (currentSips == 0 && itemDef.Parameter1 == 0) || (ii.Val2 == 0 && itemDef.Parameter1 > 0)
+
+		// Run item scripts for spell effects
+		room := e.rooms[player.RoomNumber]
+		tempRI := gameworld.RoomItem{Ref: -1, Archetype: ii.Archetype,
+			Adj1: ii.Adj1, Adj2: ii.Adj2, Adj3: ii.Adj3,
+			Val1: ii.Val1, Val2: ii.Val2, Val3: ii.Val3, Val4: ii.Val4, Val5: ii.Val5}
+		sc := e.RunItemScripts(player, room, &tempRI, itemDef)
+		spellNum := tempRI.Val3
+
+		var msgs []string
+		if currentSips <= 1 {
+			// Last sip (or single-sip drink) — remove from inventory
+			player.Inventory = append(player.Inventory[:i], player.Inventory[i+1:]...)
+			msgs = []string{fmt.Sprintf("You finish drinking %s.", displayName)}
+		} else {
+			newVal := currentSips - 1
+			player.Inventory[i].Val2 = newVal
+			msgs = []string{fmt.Sprintf("You take a sip from %s. (%d sips remaining)", displayName, newVal)}
+		}
+
+		msgs = append(msgs, sc.Messages...)
+
+		// Spell effect fires on FIRST sip only
+		if isFirstSip && spellNum != 0 {
+			if spellNum == 403 {
+				player.TelepathyActive = true
+				player.TelepathyExpiry = time.Now().Add(1 * time.Hour)
+				msgs = append(msgs, "You feel your mind open to the thoughts of others.")
+			} else {
+				msgs = append(msgs, fmt.Sprintf("[Spell #%d effect coming soon.]", spellNum))
+			}
+		}
+		e.SavePlayer(ctx, player)
+		return &CommandResult{
+			Messages:      msgs,
+			RoomBroadcast: []string{fmt.Sprintf("%s drinks from %s.", player.FirstName, displayName)},
+			PlayerState:   player,
+		}
 	}
 	return &CommandResult{Messages: []string{"You don't have that."}}
 }
@@ -2271,6 +2603,31 @@ func (e *GameEngine) doForage(player *Player) *CommandResult {
 	return &CommandResult{Messages: []string{"There is nothing to forage here."}}
 }
 
+func (e *GameEngine) doPositionWithScripts(ctx context.Context, player *Player, verb, selfMsg, roomMsg string) *CommandResult {
+	result := &CommandResult{
+		Messages:      []string{selfMsg},
+		RoomBroadcast: []string{roomMsg},
+		PlayerState:   player,
+	}
+	// Run room-level IFVERB scripts for the position verb (e.g., IFVERB SIT -1)
+	room := e.rooms[player.RoomNumber]
+	if room != nil {
+		verbUpper := strings.ToUpper(verb)
+		for _, block := range room.Scripts {
+			if block.Type == "IFVERB" && len(block.Args) >= 2 {
+				if strings.ToUpper(block.Args[0]) == verbUpper && block.Args[1] == "-1" {
+					sc := &ScriptContext{Player: player, Room: room, Engine: e}
+					sc.execBlock(block)
+					result.Messages = append(result.Messages, sc.Messages...)
+					result.RoomBroadcast = append(result.RoomBroadcast, sc.RoomMsgs...)
+				}
+			}
+		}
+	}
+	e.SavePlayer(ctx, player)
+	return result
+}
+
 func (e *GameEngine) doHide(ctx context.Context, player *Player) *CommandResult {
 	if player.Hidden {
 		return &CommandResult{Messages: []string{"You are already hidden."}}
@@ -2415,14 +2772,17 @@ func (e *GameEngine) doThink(player *Player, args []string) *CommandResult {
 	if len(args) == 0 {
 		return &CommandResult{Messages: []string{"Think what?"}}
 	}
+	if !player.TelepathyActive {
+		return &CommandResult{Messages: []string{"You don't have telepathic ability right now."}}
+	}
 	text := extractOriginalArgs(strings.Join(args, " "))
 	if text == "" {
 		text = strings.Join(args, " ")
 	}
-	// TODO: check if player has telepathy ability (race, spell, item)
 	return &CommandResult{
-		Messages:        []string{fmt.Sprintf("You think, \"%s\"", text)},
-		GlobalBroadcast: []string{fmt.Sprintf("[Telepathy] %s thinks, \"%s\"", player.FirstName, text)},
+		Messages:        []string{"You project your thoughts."},
+		TelepathyMsg:    text,
+		TelepathySender: player.FirstName,
 	}
 }
 
@@ -2461,14 +2821,18 @@ func (e *GameEngine) doRead(player *Player, args []string) *CommandResult {
 		}
 	}
 
-	// Search inventory
-	for _, ii := range player.Inventory {
+	// Search all player items (inventory + worn + wielded)
+	allReadItems := make([]InventoryItem, 0, len(player.Inventory)+len(player.Worn)+1)
+	allReadItems = append(allReadItems, player.Inventory...)
+	allReadItems = append(allReadItems, player.Worn...)
+	if player.Wielded != nil { allReadItems = append(allReadItems, *player.Wielded) }
+	for _, ii := range allReadItems {
 		itemDef := e.items[ii.Archetype]
 		if itemDef == nil {
 			continue
 		}
 		name := e.getItemNounName(itemDef)
-		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) || matchesTarget(name, target, e.getAdjName(ii.Adj3)) {
 			return &CommandResult{Messages: []string{"There is nothing written on it."}}
 		}
 	}
@@ -2477,21 +2841,37 @@ func (e *GameEngine) doRead(player *Player, args []string) *CommandResult {
 }
 
 func (e *GameEngine) doWho(player *Player) *CommandResult {
-	msgs := []string{"Players online:"}
+	var names []string
 	if e.sessions != nil {
 		for _, p := range e.sessions.OnlinePlayers() {
 			if p.GMHidden {
-				continue // hidden GMs don't show on WHO
+				continue
 			}
-			suffix := ""
+			name := p.FirstName
 			if p.IsGM && p.GMHat {
-				suffix = " [Host]"
+				name += " [Host]"
 			}
-			msgs = append(msgs, fmt.Sprintf("  %s the %s%s", p.FullName(), p.RaceName(), suffix))
+			names = append(names, name)
 		}
 	}
-	if len(msgs) == 1 {
-		msgs = append(msgs, "  No other players online.")
+	if len(names) == 0 {
+		return &CommandResult{Messages: []string{"No adventurers are in the Realms."}}
+	}
+	// Build 4-column grid, 19-char columns
+	var msgs []string
+	for i := 0; i < len(names); i += 4 {
+		line := ""
+		for j := 0; j < 4 && i+j < len(names); j++ {
+			line += fmt.Sprintf("%-19s", names[i+j])
+		}
+		msgs = append(msgs, line)
+	}
+	msgs = append(msgs, "")
+	count := len(names)
+	if count == 1 {
+		msgs = append(msgs, "There is 1 adventurer in the Realms.")
+	} else {
+		msgs = append(msgs, fmt.Sprintf("There are %d adventurers in the Realms.", count))
 	}
 	return &CommandResult{Messages: msgs}
 }
@@ -2567,6 +2947,9 @@ func (e *GameEngine) CreateNewPlayer(ctx context.Context, firstName, lastName st
 		CreatedAt:     now,
 		UpdatedAt:     now,
 	}
+	if race == RaceEphemeral {
+		player.TelepathyActive = true
+	}
 	if len(accountID) > 0 && accountID[0] != "" {
 		player.AccountID = accountID[0]
 	}
@@ -2598,13 +2981,14 @@ func (e *GameEngine) LoadPlayer(ctx context.Context, firstName, lastName string)
 	return &player, nil
 }
 
-// ListPlayers returns all saved characters.
+// ListPlayers returns all saved characters, sorted by updatedAt descending.
 func (e *GameEngine) ListPlayers(ctx context.Context) ([]Player, error) {
 	if e.db == nil {
 		return nil, fmt.Errorf("no database connection")
 	}
 	coll := e.db.Collection("players")
-	cursor, err := coll.Find(ctx, bson.M{})
+	opts := options.Find().SetSort(bson.D{{Key: "updatedAt", Value: -1}})
+	cursor, err := coll.Find(ctx, bson.M{}, opts)
 	if err != nil {
 		return nil, err
 	}

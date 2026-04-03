@@ -9,6 +9,37 @@ export default function VersionNotes({ onBack }: { onBack: () => void }) {
 
         <div className="space-y-6 text-sm">
           <section>
+            <h2 className="text-amber-400 text-lg font-bold mb-1">v0.94 &mdash; April 3, 2026</h2>
+            <p className="text-gray-400 mb-3">Deep script engine, named variables, CEVENT system, food mechanics, and original fidelity.</p>
+
+            <div className="space-y-4 mb-8">
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Script Engine</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>226 named global variables synchronized across servers</li>
+                  <li>CEVENT cyclic event system &mdash; timed world events every 3 seconds</li>
+                  <li>Arithmetic (MUL/DIV/MOD), monster spawning (GENMON/ZAPMON), persistent PVALs</li>
+                  <li>Implicit ENDIF handling matches original engine behavior</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Food, Drink &amp; Spells</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Food tracks bites, drinks track sips &mdash; items consumed over multiple uses</li>
+                  <li>Mindlink spell (#403) &mdash; eat a thesnia leaf to gain telepathy for one hour</li>
+                  <li>THINK command broadcasts to telepathy-enabled players</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Original Fidelity</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Messages match the original: &ldquo;has just entered the Realms&rdquo;, WHO grid format</li>
+                  <li>Body Points (not HP), proper articles (&ldquo;an axe&rdquo;)</li>
+                  <li>SIT/LAY/KNEEL trigger room scripts, direction abbreviations resolve for IFPREVERB</li>
+                </ul>
+              </div>
+            </div>
+
             <h2 className="text-amber-400 text-lg font-bold mb-1">v0.93 &mdash; April 3, 2026</h2>
             <p className="text-gray-400 mb-3">Stealth, flight, combat stubs, session capture, and 70+ new verbs.</p>
 

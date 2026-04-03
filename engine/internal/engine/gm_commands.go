@@ -657,7 +657,20 @@ func (e *GameEngine) gmPeek(player *Player, args []string) *CommandResult {
 			return &CommandResult{Messages: []string{"Invalid INTNUM index."}}
 		}
 		return &CommandResult{Messages: []string{fmt.Sprintf("%s = %d", varName, player.IntNums[idx])}}
+	case strings.HasPrefix(varName, "PVAL"):
+		idx, _ := strconv.Atoi(varName[4:])
+		return &CommandResult{Messages: []string{fmt.Sprintf("%s = %d", varName, e.PVals[idx])}}
 	default:
+		// Check named global variables (DANWATER, etc.)
+		if e.namedVarNames[varName] {
+			return &CommandResult{Messages: []string{fmt.Sprintf("%s = %d", varName, e.NamedVars[varName])}}
+		}
+		// Try using script getVar as a fallback
+		sc := &ScriptContext{Player: player, Room: e.rooms[player.RoomNumber], Engine: e}
+		val := sc.getVar(varName)
+		if val != 0 {
+			return &CommandResult{Messages: []string{fmt.Sprintf("%s = %d", varName, val)}}
+		}
 		return &CommandResult{Messages: []string{fmt.Sprintf("Unknown variable: %s", varName)}}
 	}
 }
@@ -784,13 +797,28 @@ func (e *GameEngine) gmGoPlr(ctx context.Context, player *Player, args []string)
 }
 
 func (e *GameEngine) gmYank(ctx context.Context, player *Player, args []string) *CommandResult {
+	if len(args) < 1 {
+		return &CommandResult{Messages: []string{"Usage: @yank <player name>"}}
+	}
+	targetName := args[0]
+	// Check online players first so we update the live session pointer
+	if e.sessions != nil {
+		for _, p := range e.sessions.OnlinePlayers() {
+			if strings.EqualFold(p.FirstName, targetName) {
+				p.RoomNumber = player.RoomNumber
+				e.SavePlayer(ctx, p)
+				return &CommandResult{Messages: []string{fmt.Sprintf("Yanked %s to room %d.", p.FullName(), player.RoomNumber)}}
+			}
+		}
+	}
+	// Fall back to DB lookup for offline players
 	target, err := e.resolvePlayerArg(ctx, args)
 	if err != nil {
 		return &CommandResult{Messages: []string{err.Error()}}
 	}
 	target.RoomNumber = player.RoomNumber
 	e.SavePlayer(ctx, target)
-	return &CommandResult{Messages: []string{fmt.Sprintf("Yanked %s to room %d.", target.FullName(), player.RoomNumber)}}
+	return &CommandResult{Messages: []string{fmt.Sprintf("Yanked %s to room %d (offline).", target.FullName(), player.RoomNumber)}}
 }
 
 func (e *GameEngine) gmWhisper(args []string, rawInput string) *CommandResult {

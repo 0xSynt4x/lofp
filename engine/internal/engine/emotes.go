@@ -186,6 +186,27 @@ func (e *GameEngine) processEmote(player *Player, verb string, args []string) *C
 				}
 			}
 
+			// Also check player's items (inventory + worn + wielded)
+			allItems := make([]InventoryItem, 0)
+			allItems = append(allItems, player.Inventory...)
+			allItems = append(allItems, player.Worn...)
+			if player.Wielded != nil {
+				allItems = append(allItems, *player.Wielded)
+			}
+			for _, ii := range allItems {
+				itemDef := e.items[ii.Archetype]
+				if itemDef == nil {
+					continue
+				}
+				name := e.getItemNounName(itemDef)
+				if matchesTarget(name, targetName, e.getAdjName(ii.Adj1)) || matchesTarget(name, targetName, e.getAdjName(ii.Adj3)) {
+					displayTarget := e.formatItemName(itemDef, ii.Adj1, ii.Adj2, ii.Adj3)
+					selfMsg := expandEmote(entry.SelfTarget, player, displayTarget)
+					roomMsg := expandEmote(entry.RoomTarget, player, displayTarget)
+					return &CommandResult{Messages: []string{selfMsg}, RoomBroadcast: []string{roomMsg}}
+				}
+			}
+
 			// Nothing matched
 			return &CommandResult{Messages: []string{fmt.Sprintf("You don't see '%s' here.", targetName)}}
 		}

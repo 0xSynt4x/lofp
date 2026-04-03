@@ -44,13 +44,14 @@ func (s *Service) HasAnyAdmin(ctx context.Context) (bool, error) {
 	return count > 0, nil
 }
 
-// ListAccounts returns all accounts.
+// ListAccounts returns all accounts, sorted by updatedAt descending.
 func (s *Service) ListAccounts(ctx context.Context) ([]Account, error) {
 	if s.db == nil {
 		return nil, fmt.Errorf("no database connection")
 	}
 	coll := s.db.Collection("accounts")
-	cursor, err := coll.Find(ctx, bson.M{})
+	opts := options.Find().SetSort(bson.D{{Key: "updatedAt", Value: -1}})
+	cursor, err := coll.Find(ctx, bson.M{}, opts)
 	if err != nil {
 		return nil, err
 	}
