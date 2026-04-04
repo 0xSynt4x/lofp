@@ -552,9 +552,25 @@ func (e *GameEngine) gmSetLine(ctx context.Context, player *Player, args []strin
 	target := player
 	text := extractRawArgs(rawInput, 1)
 
-	// Check if first arg is a player name
+	// Check if first arg is a player name (search all online players, then DB)
 	if len(args) >= 2 {
-		found := e.findPlayerInRoom(player, args[0])
+		targetName := strings.ToLower(args[0])
+		var found *Player
+		// Search all online players (not just current room)
+		if e.sessions != nil {
+			for _, p := range e.sessions.OnlinePlayers() {
+				if strings.HasPrefix(strings.ToLower(p.FirstName), targetName) {
+					found = p
+					break
+				}
+			}
+		}
+		// Fall back to DB lookup
+		if found == nil {
+			if dbPlayer, err := e.resolvePlayerByName(ctx, args[0]); err == nil {
+				found = dbPlayer
+			}
+		}
 		if found != nil {
 			target = found
 			text = extractRawArgs(rawInput, 2)
