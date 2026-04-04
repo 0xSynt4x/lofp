@@ -2711,12 +2711,22 @@ func (e *GameEngine) doSell(ctx context.Context, player *Player, args []string) 
 		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
 			if skip > 0 { skip--; continue }
 			displayName := e.formatItemName(itemDef, ii.Adj1, ii.Adj2, ii.Adj3)
+			// Sell value: VAL1 on item is copper value, fallback to weight-based estimate
+			sellValue := ii.Val1
+			if sellValue <= 0 {
+				sellValue = itemDef.Weight + 1 // minimal fallback
+			}
+			// Merchants pay ~50% of value
+			sellValue = sellValue / 2
+			if sellValue < 1 { sellValue = 1 }
 			player.Inventory = append(player.Inventory[:i], player.Inventory[i+1:]...)
-			player.Copper += 1
+			// Add coins
+			player.Gold += sellValue / 100
+			player.Silver += (sellValue % 100) / 10
+			player.Copper += sellValue % 10
 			e.SavePlayer(ctx, player)
 			return &CommandResult{Messages: []string{
-				fmt.Sprintf("You sell %s for 1 copper.", displayName),
-				"[SELLING VALUE TO BE IMPLEMENTED. COMING SOON]",
+				fmt.Sprintf("You sell %s for %s.", displayName, formatPrice(sellValue)),
 			}}
 		}
 	}
