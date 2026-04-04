@@ -540,10 +540,11 @@ func weaponImmunityType(weaponDef *gameworld.ItemDef) int {
 
 func (e *GameEngine) weaponDisplayName(player *Player, weaponDef *gameworld.ItemDef) string {
 	if weaponDef == nil {
-		return "fist"
+		return "fists"
 	}
+	// Return name WITHOUT article — caller adds "your" prefix
 	if player.Wielded != nil {
-		return e.formatItemName(weaponDef, player.Wielded.Adj1, player.Wielded.Adj2, player.Wielded.Adj3)
+		return e.formatItemNameNoArticle(weaponDef, player.Wielded.Adj1, player.Wielded.Adj2, player.Wielded.Adj3)
 	}
 	return strings.ToLower(e.nouns[weaponDef.NameID])
 }
@@ -1104,29 +1105,27 @@ func (e *GameEngine) handleMonsterDeath(killer *Player, inst *MonsterInstance, d
 	e.Events.Publish("combat", fmt.Sprintf("%s killed %s (monster %d) for %d XP in room %d",
 		killer.FirstName, def.Name, def.Number, xp, killer.RoomNumber))
 
-	// Drop monster's weapon into the room as loot
+	// Drop monster's weapon into the room as loot (skip natural weapons like claws/teeth/fists)
 	if len(def.Weapons) > 0 && !def.Discorporate {
 		room := e.rooms[killer.RoomNumber]
 		if room != nil {
-			// Pick a random weapon from the monster's weapon list
 			wep := def.Weapons[rand.Intn(len(def.Weapons))]
 			wepDef := e.items[wep.Archetype]
-			if wepDef != nil {
-				// Add weapon to room items
-				ref := len(room.Items) // next available ref
+			if wepDef != nil && !isNaturalWeapon(wepDef.Type) {
+				ref := len(room.Items)
 				ri := gameworld.RoomItem{
 					Ref:       ref,
 					Archetype: wep.Archetype,
 					Adj1:      wep.Adj,
 				}
-				// Apply weapon plus as Val2 (magic bonus)
 				if def.WeaponPlus > 0 {
 					ri.Val2 = def.WeaponPlus
 				}
 				room.Items = append(room.Items, ri)
 				wepName := e.formatItemName(wepDef, wep.Adj, 0, 0)
 				if e.localRoomBroadcast != nil {
-					e.localRoomBroadcast(killer.RoomNumber, []string{fmt.Sprintf("A %s clatters to the ground.", wepName)})
+					article := articleFor(wepName, false)
+					e.localRoomBroadcast(killer.RoomNumber, []string{fmt.Sprintf("%s%s clatters to the ground.", capArticle(article), wepName)})
 				}
 			}
 		}
@@ -1547,6 +1546,15 @@ func capArticle(article string) string {
 		return ""
 	}
 	return strings.ToUpper(article[:1]) + article[1:]
+}
+
+// isNaturalWeapon returns true for body-part weapons that shouldn't drop as loot.
+func isNaturalWeapon(itemType string) bool {
+	switch itemType {
+	case "CLAW_WEAPON", "BITE_WEAPON":
+		return true
+	}
+	return false
 }
 
 func (mm *monsterManager) indexOfID(id int) int {

@@ -3789,6 +3789,22 @@ func (e *GameEngine) SavePlayer(ctx context.Context, player *Player) {
 }
 
 // Helper: format item name with adjectives
+// formatItemNameNoArticle returns item name with adjectives but no article prefix.
+func (e *GameEngine) formatItemNameNoArticle(def *gameworld.ItemDef, adj1, adj2, adj3 int) string {
+	var parts []string
+	if adj1 > 0 {
+		if name, ok := e.adjectives[adj1]; ok { parts = append(parts, name) }
+	}
+	if adj2 > 0 {
+		if name, ok := e.adjectives[adj2]; ok { parts = append(parts, name) }
+	}
+	if adj3 > 0 {
+		if name, ok := e.adjectives[adj3]; ok { parts = append(parts, name) }
+	}
+	parts = append(parts, e.getItemNounName(def))
+	return strings.Join(parts, " ")
+}
+
 func (e *GameEngine) formatItemName(def *gameworld.ItemDef, adj1, adj2, adj3 int) string {
 	var parts []string
 	if adj1 > 0 {
