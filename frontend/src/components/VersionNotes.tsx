@@ -9,6 +9,69 @@ export default function VersionNotes({ onBack }: { onBack: () => void }) {
 
         <div className="space-y-6 text-sm">
           <section>
+            <h2 className="text-amber-400 text-lg font-bold mb-1">v10.0.0 &mdash; April 4, 2026</h2>
+            <p className="text-gray-400 mb-3">Major milestone: complete combat, magic, psionics, crafting, alchemy, and full skill system.</p>
+
+            <div className="space-y-4 mb-8">
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Crafting System</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>MINE ore from MINEA/B/C rooms (grade determines purity)</li>
+                  <li>SMELT ore into refined metal at FORGE rooms</li>
+                  <li>CRAFT weapons/armor at FORGE, clothing at LOOM, wood items at FLETCHER</li>
+                  <li>FORAGE terrain-based materials (wood, plants, reagents, dyes)</li>
+                  <li>DYE materials at LOOM rooms with natural and crafted dyes</li>
+                  <li>ANALYZE ore purity and reagent properties</li>
+                  <li>BREW potions via alchemy &mdash; 32 recipes from original game data</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Skill System</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>36 skills with build point costs from original documentation</li>
+                  <li>Skill prerequisites enforced (magic needs Spellcraft, etc.)</li>
+                  <li>Weapon skills: +5 attack per rank &middot; Dodge: +5 defense per rank</li>
+                  <li>Martial Arts: +5 attack/+2 defense unarmed, 10+ hits magic monsters</li>
+                  <li>Combat Maneuvering: -1s roundtime, 2%/rank dodge special attacks</li>
+                  <li>Endurance: +4 BP per rank, 1%/rank elemental damage reduction</li>
+                  <li>ANOINT weapons with poison (Trap &amp; Poison Lore)</li>
+                  <li>TEND wounds with Healing skill (+50% same-race bonus)</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Treasure &amp; Loot</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Treasure table system based on monster TREASURE level</li>
+                  <li>Coin drops, weapon/armor drops, spell scrolls, locked chests</li>
+                  <li>Magic weapon bonuses and premium materials (elkyri, adamantine)</li>
+                  <li>Trapped chests with 13 trap types and spell glyphs</li>
+                  <li>Monster weapon drops on death &middot; SEARCH corpses for loot</li>
+                  <li>MONEY items auto-convert to currency on pickup</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Combat Fidelity</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Fatigue drain on melee attacks, fatigue ToHit penalties</li>
+                  <li>Weapon clash on roll &lt; 3 &mdash; weapons can be damaged or broken</li>
+                  <li>Backstab requires puncture weapon (daggers, rapiers)</li>
+                  <li>Death = 90% XP penalty toward current build point</li>
+                  <li>Spellcraft formula: 25% + EMP/10 + skill*5, fumble on 98+</li>
+                  <li>Mana cost = spell level &middot; NOCK/LOAD ranged weapons with ammo</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Monster System</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Demand-based spawning: monsters appear when players enter rooms</li>
+                  <li>Monsters unload after 3 minutes with no players (ETERNAL exempt)</li>
+                  <li>Psi defense auto-activation on spawn (Wall of Force, Psychic Shield, etc.)</li>
+                  <li>Hidden/Invisible distinction &mdash; Invisibility spell not broken by movement</li>
+                  <li>Corpse decay after 60 seconds &middot; Dead monsters show as &ldquo;(dead)&rdquo;</li>
+                </ul>
+              </div>
+            </div>
+
             <h2 className="text-amber-400 text-lg font-bold mb-1">v0.97 &mdash; April 4, 2026</h2>
             <p className="text-gray-400 mb-3">Combat, spells, psionics, and GM Manual fidelity &mdash; fight monsters, cast spells, project disciplines.</p>
 

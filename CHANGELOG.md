@@ -1,5 +1,74 @@
 # Changelog
 
+## v10.0.0 — 2026-04-04
+
+### Crafting System
+- **MINE** ore from MINEA/B/C rooms — ore purity based on grade (A=50-100%, B=30-70%, C=10-40%)
+- **SMELT** ore into refined material at FORGE rooms — purity + skill determines success
+- **CRAFT/FORGE** weapons and armor at FORGE rooms (Weaponsmithing skill ≥ weapon PARAMETER1)
+- **WEAVE** clothing at LOOM rooms (Dyeing/Weaving skill ≥ PARAMETER2)
+- **CRAFT** wood items at FLETCHER rooms (Wood Lore skill ≥ PARAMETER1)
+- **FORAGE** terrain-based gathering using ForageDef tables (forest/mountain/plain/swamp/jungle)
+- **DYE** materials at LOOM rooms — apply color adjectives from DYE items to DYEABLE materials
+- **ANALYZE** ore purity (Mining 3+) and reagent properties (Alchemy)
+- **BREW** potions via alchemy — 32 recipes from original alchemy.bin (3 reagents = catalyst + 2 types)
+- Recipes: Body Restoration, Strength I-III, Agility I-III, Mystic Armor, Haste, Invisibility, Globe of Protection, Cure Poison/Disease, and more
+- Potions yield 2-5 sips, skill level gates recipe access
+
+### Full Skill System (36 skills)
+- **Build point costs** from skills.txt (first rank + per-rank costs, e.g., Edged 12/5, Healing 20/2)
+- **Skill prerequisites** enforced (magic schools need Spellcraft, Mind over Mind/Matter needs Psionics, Dodge needs weapon skill, Disguise needs Stealth)
+- **Weapon skills**: +5 attack per rank (Edged, Crushing, Polearms, Missile, Drakin, Natural, Thrown)
+- **Dodge & Parry**: +5 defense per rank (requires any weapon skill)
+- **Martial Arts**: +5 attack unarmed, +2 defense unarmed per rank; 10+ ranks = hit magic-required monsters
+- **Combat Maneuvering**: -1 sec roundtime per rank; 2% per rank chance to dodge monster special attacks (max 95%)
+- **Endurance**: +4 max body points per rank; 1% elemental damage reduction per rank (max 50%)
+- **ANOINT**: apply poison to wielded weapon (Trap & Poison Lore skill, level = rank)
+- **TEND**: heal wounds with Healing skill (2 + skill×2 + random, +50% same-race bonus, stops bleeding)
+- **UNLEARN**: remove one skill rank, get back build points minus one
+- 30 starting build points for new characters
+
+### Treasure & Loot System
+- **Treasure tables** based on monster TREASURE level (0-127)
+- **Coin drops** always (copper amount scales with level)
+- **Weapon drops**: level-appropriate from item database, chance for magic bonus and premium materials
+- **Armor drops**: level-appropriate with magic bonus chance
+- **Spell scrolls**: random learnable spell on scroll (spell level = treasure/3)
+- **Locked chests**: with lock difficulty and traps (13 types + spell glyphs)
+- **Monster weapon drops** on death (with WeaponPlus bonus)
+- **SEARCH** dead monsters for treasure (one-time loot, corpses decay after 60s)
+- **MONEY items** auto-convert to currency on GET; visible as "some coins" in LOOK
+- **SELL** uses VAL1 as copper value (merchants pay 50%)
+
+### Combat Fidelity (from LEGENDS.DOC / shirla.cap)
+- **Fatigue drain** on melee attacks based on weapon weight (ranged exempt)
+- **Fatigue ToHit penalties**: -10 at half fatigue, -25 at quarter fatigue
+- **Weapon clash** on roll < 3 vs weapon-wielding monsters (2d100 vs weapon strength)
+- **Damaged weapons**: -10 ToHit penalty; break on second clash
+- **Backstab** requires puncture weapon only (daggers, rapiers)
+- **Death**: 90% XP penalty toward current build point
+- **Spellcraft**: base 25% + EMP/10 + spellcraft×5 (max 95%), fumble on 98+
+- **Mana cost** = spell level (from LEGENDS.DOC)
+- **NOCK/LOAD** ranged weapons with ammunition; must reload between shots
+- **Invisible vs Hidden** distinction: Invisibility spell not broken by movement
+
+### Monster System Improvements
+- **Demand-based spawning**: monsters only spawn when players enter rooms
+- **Correct MLIST format**: probability/maxCount (not min/max)
+- **Monster unloading**: despawn after 3 minutes with no players (ETERNAL exempt)
+- **Psi defense auto-activation** on spawn (Wall of Force, Psychic Shield, etc.)
+- **Local-only monster broadcasts** (no cross-machine ghost monsters)
+- **Corpse decay** after 60 seconds; dead monsters show as "(dead)" in LOOK
+
+### Other
+- **@mlist** GM command: show all spawned monsters worldwide
+- **@lsk** GM command: list all skills with IDs
+- **@edpl** alias for @edplayer, **@edsk** alias for @eds
+- **@help** sorted alphabetically with all commands listed
+- **CREDITS** updated with full original team and 2026 re-release info
+- **REVEAL/UNHIDE** commands; auto-reveal on movement, emotes, attacks
+- Item value fields (VAL1-5) fully implemented for all documented uses
+
 ## v0.97 — 2026-04-04
 
 ### Combat System
