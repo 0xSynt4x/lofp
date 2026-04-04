@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"math/rand"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -124,7 +125,7 @@ func (e *GameEngine) processGMCommand(ctx context.Context, player *Player, verb 
 	case "@EXCLUDE":
 		return e.gmExclude(args, rawInput)
 	case "@SPEECH":
-		return &CommandResult{Messages: []string{"Speech pattern updated."}}
+		return e.gmSpeech(ctx, player, args, rawInput)
 	case "@LINE1":
 		return e.gmSetLine(ctx, player, args, rawInput, 1)
 	case "@LINE2":
@@ -222,11 +223,16 @@ func (e *GameEngine) gmHelp() *CommandResult {
 		"@set <variable> <val>  - Set a variable value",
 		"@snd <text>            - Echo text in current room",
 		"@spawn <monster#>      - Generate monster (active)",
+		"@speech <name> <verb>  - Set speech pattern (e.g. says grimly)",
 		"@unlock <item>         - Unlock item silently",
 		"@whisper <name> <text> - Whisper to player anywhere",
 		"@who                   - List all players with details",
 		"@yank <name>           - Yank a player to your room",
 		"@zap <monster>         - Destroy a monster",
+		"",
+		"@line1/2/3 [name] <text> - Set description lines (-none- to clear, x to reset all)",
+		"@entry <text>          - Set custom room entry message",
+		"@exit <text>           - Set custom room exit message",
 	}}
 }
 
@@ -540,6 +546,43 @@ func (e *GameEngine) gmSpawn(player *Player, args []string) *CommandResult {
 		Messages:      []string{fmt.Sprintf("Spawned %s (active) in room %d.", name, player.RoomNumber)},
 		RoomBroadcast: []string{genText},
 	}
+}
+
+func (e *GameEngine) gmSpeech(ctx context.Context, player *Player, args []string, rawInput string) *CommandResult {
+	if len(args) < 2 {
+		return &CommandResult{Messages: []string{"Usage: @speech <player> <verb phrase>  (e.g., @speech Taliesin says grimly, @speech Scratch squawks)"}}
+	}
+	targetName := args[0]
+	speechVerb := extractRawArgs(rawInput, 2) // everything after @speech <player>
+
+	// Find target player
+	var target *Player
+	if e.sessions != nil {
+		for _, p := range e.sessions.OnlinePlayers() {
+			if strings.HasPrefix(strings.ToLower(p.FirstName), strings.ToLower(targetName)) {
+				target = p
+				break
+			}
+		}
+	}
+	if target == nil {
+		if dbPlayer, err := e.resolvePlayerByName(ctx, targetName); err == nil {
+			target = dbPlayer
+		}
+	}
+	if target == nil {
+		return &CommandResult{Messages: []string{fmt.Sprintf("Player '%s' not found.", targetName)}}
+	}
+
+	if strings.ToLower(speechVerb) == "clear" || speechVerb == "" {
+		target.SpeechAdverb = ""
+		e.SavePlayer(ctx, target)
+		return &CommandResult{Messages: []string{fmt.Sprintf("Speech pattern cleared for %s.", target.FirstName)}}
+	}
+
+	target.SpeechAdverb = speechVerb
+	e.SavePlayer(ctx, target)
+	return &CommandResult{Messages: []string{fmt.Sprintf("Speech pattern for %s set to: %s %ss", target.FirstName, target.FirstName, speechVerb)}}
 }
 
 func (e *GameEngine) gmSetLine(ctx context.Context, player *Player, args []string, rawInput string, lineNum int) *CommandResult {
@@ -1168,7 +1211,9 @@ func (e *GameEngine) resolvePlayerByName(ctx context.Context, name string) (*Pla
 	}
 	coll := e.db.Collection("players")
 	var player Player
-	err := coll.FindOne(ctx, bson.M{"firstName": bson.M{"$regex": "^" + name + "$", "$options": "i"}}).Decode(&player)
+	// Use case-insensitive regex with escaped input to prevent regex injection
+	safeName := regexp.QuoteMeta(name)
+	err := coll.FindOne(ctx, bson.M{"firstName": bson.M{"$regex": "^" + safeName + "$", "$options": "i"}}).Decode(&player)
 	if err != nil {
 		return nil, fmt.Errorf("player '%s' not found", name)
 	}

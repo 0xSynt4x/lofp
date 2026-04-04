@@ -314,7 +314,7 @@ func (s *Service) IssueJWT(account *Account) (string, error) {
 		"picture": account.Picture,
 		"isAdmin": account.IsAdmin,
 		"iat":     time.Now().Unix(),
-		"exp":     time.Now().Add(30 * 24 * time.Hour).Unix(),
+		"exp":     time.Now().Add(7 * 24 * time.Hour).Unix(), // 7-day token lifetime
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(s.jwtSecret)

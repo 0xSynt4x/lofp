@@ -410,6 +410,17 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		input = input[:maxInputLength]
 	}
 
+	// Dead players can only DEPART, LOOK, WHO, QUIT, EXP, STATUS, HEALTH
+	if player.Dead {
+		verb := strings.ToUpper(strings.Fields(input)[0])
+		switch verb {
+		case "DEPART", "LOOK", "WHO", "QUIT", "EXP", "EXPERIENCE", "STATUS", "HEALTH", "HELP":
+			// allowed — fall through to normal processing
+		default:
+			return &CommandResult{Messages: []string{"You are dead and can't do much of anything. Type DEPART to allow Eternity, Inc. to retrieve you."}}
+		}
+	}
+
 	// Handle speech
 	if strings.HasPrefix(input, "'") || strings.HasPrefix(input, "\"") {
 		msg := input[1:]
@@ -422,13 +433,28 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 			verb = "exclaim"
 			thirdVerb = "exclaims"
 		}
-		adverb := ""
+		// Custom speech pattern overrides the verb (e.g., "says grimly", "squawks")
 		if player.SpeechAdverb != "" {
-			adverb = player.SpeechAdverb + " "
+			result := &CommandResult{
+				Messages:      []string{fmt.Sprintf("You %s, \"%s\"", player.SpeechAdverb, msg)},
+				RoomBroadcast: []string{fmt.Sprintf("%s %ss, \"%s\"", player.FirstName, player.SpeechAdverb, msg)},
+			}
+			// Run IFSAY scripts
+			room := e.rooms[player.RoomNumber]
+			if room != nil {
+				sc := e.RunSayScripts(player, room, msg)
+				if len(sc.Messages) > 0 {
+					result.Messages = append(result.Messages, sc.Messages...)
+				}
+				if len(sc.RoomMsgs) > 0 {
+					result.RoomBroadcast = append(result.RoomBroadcast, sc.RoomMsgs...)
+				}
+			}
+			return result
 		}
 		result := &CommandResult{
-			Messages:      []string{fmt.Sprintf("You %s%s, \"%s\"", adverb, verb, msg)},
-			RoomBroadcast: []string{fmt.Sprintf("%s %s%s, \"%s\"", player.FirstName, adverb, thirdVerb, msg)},
+			Messages:      []string{fmt.Sprintf("You %s, \"%s\"", verb, msg)},
+			RoomBroadcast: []string{fmt.Sprintf("%s %s, \"%s\"", player.FirstName, thirdVerb, msg)},
 		}
 		// Run IFSAY scripts
 		room := e.rooms[player.RoomNumber]
@@ -694,7 +720,7 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	case "EAT":
 		return e.doEat(ctx, player, args)
 	case "SPEECH":
-		return e.doSpeech(ctx, player, args, input)
+		return &CommandResult{Messages: []string{"Speech patterns are set by gamemasters. Ask a GM if you'd like a custom speech style."}}
 	case "QUIT":
 		return &CommandResult{Messages: []string{"You fade from the Shattered Realms..."}, Quit: true,
 			GlobalBroadcast: []string{fmt.Sprintf("** %s has just left the Realms.", player.FirstName)}}

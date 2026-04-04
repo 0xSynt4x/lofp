@@ -34,13 +34,18 @@ type Server struct {
 	sessions    map[string]*Session
 	mu          sync.RWMutex
 	frontendURL string
+	connsByIP   map[string]int // per-IP WebSocket connection count
+	connMu      sync.Mutex
 }
 
 type Session struct {
-	Player    *engine.Player
-	Conn      *websocket.Conn
-	mu        sync.Mutex
-	CaptureID string // active capture session ID, empty if not recording
+	Player       *engine.Player
+	Conn         *websocket.Conn
+	mu           sync.Mutex
+	CaptureID    string    // active capture session ID, empty if not recording
+	lastCmdTime  time.Time // rate limiting: last command timestamp
+	cmdCount     int       // rate limiting: commands in current window
+	chatTimes    []time.Time // chat flood: timestamps of recent broadcasts
 }
 
 
@@ -54,6 +59,7 @@ func NewServer(ge *engine.GameEngine, parsed *gameworld.ParsedData, authSvc *aut
 		captures:    cs,
 		sessions:    make(map[string]*Session),
 		frontendURL: frontendURL,
+		connsByIP:   make(map[string]int),
 	}
 	s.upgrader = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
@@ -334,13 +340,42 @@ func (s *Server) handleEventsWS(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
+	// Per-IP connection limiting
+	ip := r.RemoteAddr
+	if fwd := r.Header.Get("X-Forwarded-For"); fwd != "" {
+		ip = strings.Split(fwd, ",")[0]
+	}
+	s.connMu.Lock()
+	if s.connsByIP[ip] >= 5 { // max 5 connections per IP
+		s.connMu.Unlock()
+		http.Error(w, "too many connections", 429)
+		return
+	}
+	s.connsByIP[ip]++
+	s.connMu.Unlock()
+	defer func() {
+		s.connMu.Lock()
+		s.connsByIP[ip]--
+		if s.connsByIP[ip] <= 0 { delete(s.connsByIP, ip) }
+		s.connMu.Unlock()
+	}()
+
+	// Total connection cap
+	s.mu.RLock()
+	totalConns := len(s.sessions)
+	s.mu.RUnlock()
+	if totalConns >= 500 {
+		http.Error(w, "server full", 503)
+		return
+	}
+
 	conn, err := s.upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Printf("WS upgrade error: %v", err)
 		return
 	}
 	defer conn.Close()
-	conn.SetReadLimit(65536) // 64KB max message size
+	conn.SetReadLimit(65536)
 
 	session := &Session{Conn: conn}
 	var accountID, authName, authEmail string
@@ -488,6 +523,19 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 				})
 				continue
 			}
+			// Command rate limiting: max 10 commands per second
+			now := time.Now()
+			if now.Sub(session.lastCmdTime) > time.Second {
+				session.cmdCount = 0
+				session.lastCmdTime = now
+			}
+			session.cmdCount++
+			if session.cmdCount > 10 {
+				s.sendWSResult(session, &engine.CommandResult{
+					Messages: []string{"[Slow down! Too many commands.]"},
+				})
+				continue
+			}
 			var cmd CommandMsg
 			json.Unmarshal(msg.Data, &cmd)
 			ctx := context.Background()
@@ -511,6 +559,32 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 					}
 				}()
 			}
+
+			// Chat flood protection: 5 broadcast messages per 10 seconds
+			if len(result.RoomBroadcast) > 0 {
+				now := time.Now()
+				cutoff := now.Add(-10 * time.Second)
+				var recent []time.Time
+				for _, t := range session.chatTimes {
+					if t.After(cutoff) { recent = append(recent, t) }
+				}
+				session.chatTimes = recent
+				if len(session.chatTimes) >= 5 {
+					s.sendWSResult(session, &engine.CommandResult{
+						Messages: []string{"[You are sending messages too quickly. Please wait.]"},
+					})
+					continue
+				}
+				session.chatTimes = append(session.chatTimes, now)
+			}
+
+			// Sanitize all outgoing messages (strip HTML tags for defense in depth)
+			sanitizeMessages(result.Messages)
+			sanitizeMessages(result.RoomBroadcast)
+			sanitizeMessages(result.OldRoomMsg)
+			sanitizeMessages(result.TargetMsg)
+			sanitizeMessages(result.GlobalBroadcast)
+			sanitizeMessages(result.GMBroadcast)
 
 			// Broadcast to others in the room (excluding emote target if they get a special message)
 			if len(result.RoomBroadcast) > 0 {
@@ -757,6 +831,14 @@ func (s *Server) deliverRemoteEvent(event *hub.Event) {
 			}
 			s.engine.ApplyRoomChange(change)
 		}
+	}
+}
+
+// sanitizeMessages strips HTML tags from messages (defense in depth against XSS).
+func sanitizeMessages(msgs []string) {
+	for i, msg := range msgs {
+		msgs[i] = strings.ReplaceAll(msg, "<", "&lt;")
+		msgs[i] = strings.ReplaceAll(msgs[i], ">", "&gt;")
 	}
 }
 
@@ -1093,13 +1175,11 @@ func (s *Server) handleListAdjectives(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleListCharacters(w http.ResponseWriter, r *http.Request) {
 	accountID := s.getAccountID(r)
-	var players interface{}
-	var err error
-	if accountID != "" {
-		players, err = s.engine.ListPlayersByAccount(r.Context(), accountID)
-	} else {
-		players, err = s.engine.ListPlayers(r.Context())
+	if accountID == "" {
+		http.Error(w, "unauthorized", 401)
+		return
 	}
+	players, err := s.engine.ListPlayersByAccount(r.Context(), accountID)
 	if err != nil {
 		json.NewEncoder(w).Encode([]interface{}{})
 		return
@@ -1112,6 +1192,11 @@ func (s *Server) handleCreateCharacter(w http.ResponseWriter, r *http.Request) {
 	var req CreateCharMsg
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "invalid request", 400)
+		return
+	}
+	accountID := s.getAccountID(r)
+	if accountID == "" {
+		http.Error(w, "unauthorized", 401)
 		return
 	}
 	// Trim whitespace from names
@@ -1132,7 +1217,6 @@ func (s *Server) handleCreateCharacter(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(map[string]string{"error": "That first name is already taken. Please choose another."})
 		return
 	}
-	accountID := s.getAccountID(r)
 	player := s.engine.CreateNewPlayer(r.Context(), req.FirstName, req.LastName, req.Race, req.Gender, accountID)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(player)
