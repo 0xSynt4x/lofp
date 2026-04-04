@@ -1,6 +1,7 @@
 package engine
 
 import (
+	"context"
 	"fmt"
 	"math/rand"
 	"strings"
@@ -275,6 +276,11 @@ func playerDamage(player *Player, weaponDef *gameworld.ItemDef) int {
 	if player.Stance == StanceBerserk {
 		dmg = dmg * 12 / 10
 	}
+	// Backstab multiplier: 2x damage + backstab skill bonus
+	if player.BackstabNext {
+		backstabSkill := player.Skills[2] // Backstab skill
+		dmg = dmg*2 + backstabSkill
+	}
 	return dmg
 }
 
@@ -502,7 +508,7 @@ func (e *GameEngine) isArenaRoom(roomNum int) bool {
 
 // ---- Player attacks Monster ----
 
-func (e *GameEngine) doAttackMonster(player *Player, target string) *CommandResult {
+func (e *GameEngine) doAttackMonster(ctx context.Context, player *Player, target string) *CommandResult {
 	if player.Dead {
 		return &CommandResult{Messages: []string{"You can't do that. You are dead."}}
 	}
@@ -678,6 +684,27 @@ func (e *GameEngine) doAttackMonster(player *Player, target string) *CommandResu
 	player.RoundTimeExpiry = time.Now().Add(time.Duration(rtSeconds) * time.Second)
 	result.Messages = append(result.Messages, fmt.Sprintf("[Round: %d sec]", rtSeconds))
 
+	// Attacking always reveals you
+	if player.Hidden {
+		player.Hidden = false
+		result.Messages = append([]string{"You reveal yourself!"}, result.Messages...)
+	}
+
+	e.SavePlayer(ctx, player)
+	result.PlayerState = player
+
+	return result
+}
+
+// doBackstab handles a backstab attack from hiding — bonus damage.
+func (e *GameEngine) doBackstab(ctx context.Context, player *Player, target string) *CommandResult {
+	// Backstab: attack from hidden with damage multiplier
+	player.BackstabNext = true
+	player.Hidden = false
+	result := e.doAttackMonster(ctx, player, target)
+	player.BackstabNext = false
+	result.Messages = append([]string{"You leap from the shadows!"}, result.Messages...)
+	result.RoomBroadcast = append([]string{fmt.Sprintf("%s leaps from the shadows!", player.FirstName)}, result.RoomBroadcast...)
 	return result
 }
 
@@ -866,12 +893,24 @@ func (e *GameEngine) damageMonster(monsterID int, dmg int) bool {
 // ---- Monster Death ----
 
 func (e *GameEngine) handleMonsterDeath(killer *Player, inst *MonsterInstance, def *gameworld.MonsterDef) {
-	// XP based on base Body only (not EXTRABODY)
-	xp := def.Body + def.Attack1/5 + def.Defense/5
-	if xp < 5 {
-		xp = 5
+	// XP formula: Body (not ExtraBody) + Attack/5 + Defense/5 + Armor/2 + level scaling
+	xp := def.Body + def.Attack1/5 + def.Defense/5 + def.Armor/2
+	if def.MagicResist > 0 {
+		xp += def.MagicResist / 5
+	}
+	if xp < 10 {
+		xp = 10
+	}
+	// Scale XP slightly by player level (diminishing returns for grinding weak mobs)
+	if killer.Level > 1 && xp < killer.Level*5 {
+		xp = max(5, xp*50/(killer.Level*5))
 	}
 	killer.Experience += xp
+
+	// Tell the player their XP gain
+	if e.sendToPlayer != nil {
+		e.sendToPlayer(killer.FirstName, []string{fmt.Sprintf("[+%d experience]", xp)})
+	}
 
 	// Alignment shift: killing evil monsters makes you more good, and vice versa
 	if def.Alignment < 0 {
@@ -907,7 +946,7 @@ func (e *GameEngine) handleMonsterDeath(killer *Player, inst *MonsterInstance, d
 
 // ---- Flee ----
 
-func (e *GameEngine) doFlee(player *Player) *CommandResult {
+func (e *GameEngine) doFlee(ctx context.Context, player *Player) *CommandResult {
 	if player.CombatTarget == nil && !player.Joined {
 		return &CommandResult{Messages: []string{"You are not in combat."}}
 	}
@@ -998,6 +1037,75 @@ func (e *GameEngine) doStance(player *Player, stance int) *CommandResult {
 		Messages:      []string{fmt.Sprintf("You adopt a %s combat stance.", stanceNames[stance])},
 		RoomBroadcast: []string{fmt.Sprintf("%s adopts a %s combat stance.", player.FirstName, stanceNames[stance])},
 	}
+}
+
+// ---- Search Dead Monster for Loot ----
+
+func (e *GameEngine) doSearchMonster(ctx context.Context, player *Player, args []string) *CommandResult {
+	target := strings.ToLower(strings.Join(args, " "))
+
+	if e.monsterMgr == nil {
+		return nil
+	}
+
+	monsters := e.monsterMgr.AllMonstersInRoom(player.RoomNumber)
+	for _, inst := range monsters {
+		if inst.Alive {
+			continue // can only search dead monsters
+		}
+		def := e.monsters[inst.DefNumber]
+		if def == nil {
+			continue
+		}
+		name := strings.ToLower(FormatMonsterName(def, e.monAdjs))
+		noun := strings.ToLower(def.Name)
+		if !strings.HasPrefix(name, target) && !strings.HasPrefix(noun, target) {
+			continue
+		}
+
+		displayName := FormatMonsterName(def, e.monAdjs)
+		var msgs []string
+		msgs = append(msgs, fmt.Sprintf("You search %s %s...", articleFor(displayName, def.Unique), displayName))
+
+		// Treasure based on monster's Treasure level
+		if def.Treasure > 0 {
+			// Generate coins based on treasure level
+			copperAmount := rand.Intn(def.Treasure*20) + def.Treasure*5
+			gold := copperAmount / 100
+			silver := (copperAmount % 100) / 10
+			copper := copperAmount % 10
+
+			var found []string
+			if gold > 0 {
+				player.Gold += gold
+				found = append(found, fmt.Sprintf("%d gold", gold))
+			}
+			if silver > 0 {
+				player.Silver += silver
+				found = append(found, fmt.Sprintf("%d silver", silver))
+			}
+			if copper > 0 {
+				player.Copper += copper
+				found = append(found, fmt.Sprintf("%d copper", copper))
+			}
+			if len(found) > 0 {
+				msgs = append(msgs, fmt.Sprintf("You find %s!", strings.Join(found, ", ")))
+			} else {
+				msgs = append(msgs, "You find nothing of value.")
+			}
+		} else {
+			msgs = append(msgs, "You find nothing of value.")
+		}
+
+		e.SavePlayer(ctx, player)
+		return &CommandResult{
+			Messages:      msgs,
+			RoomBroadcast: []string{fmt.Sprintf("%s searches %s %s.", player.FirstName, articleFor(displayName, def.Unique), displayName)},
+			PlayerState:   player,
+		}
+	}
+
+	return nil // not a dead monster — fall through to normal SEARCH
 }
 
 // ---- Monster Guard Behavior ----

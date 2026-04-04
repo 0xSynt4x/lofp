@@ -106,10 +106,11 @@ type Player struct {
 	PreparedSpell   int       `bson:"preparedSpell,omitempty" json:"preparedSpell,omitempty"`
 
 	// Combat
-	Stance       int           `bson:"-" json:"-"`          // StanceNormal..StanceBerserk
-	CombatTarget *CombatTarget `bson:"-" json:"-"`          // current combat target
-	DefenseBonus int           `bson:"-" json:"-"`          // from spells/psi
-	PreparedPsi  int           `bson:"-" json:"-"`          // prepared psi discipline ID
+	Stance        int           `bson:"-" json:"-"`          // StanceNormal..StanceBerserk
+	CombatTarget  *CombatTarget `bson:"-" json:"-"`          // current combat target
+	DefenseBonus  int           `bson:"-" json:"-"`          // from spells/psi
+	PreparedPsi   int           `bson:"-" json:"-"`          // prepared psi discipline ID
+	BackstabNext  bool          `bson:"-" json:"-"`          // next attack is a backstab
 	TelepathyActive bool      `bson:"telepathyActive,omitempty" json:"telepathyActive,omitempty"`
 	TelepathyExpiry time.Time `bson:"telepathyExpiry,omitempty" json:"telepathyExpiry,omitempty"`
 	Emotional       bool      `bson:"emotional,omitempty" json:"emotional,omitempty"`

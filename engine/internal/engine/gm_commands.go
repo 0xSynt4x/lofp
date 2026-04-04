@@ -79,6 +79,8 @@ func (e *GameEngine) processGMCommand(ctx context.Context, player *Player, verb 
 		return &CommandResult{Messages: []string{"Monster sedated."}}
 	case "@ZAP":
 		return &CommandResult{Messages: []string{"Monster destroyed."}}
+	case "@MLIST":
+		return e.gmMList()
 	case "@FIND":
 		return e.gmFind(args)
 	case "@LIST":
@@ -529,6 +531,78 @@ func (e *GameEngine) gmSpawn(player *Player, args []string) *CommandResult {
 		Messages:      []string{fmt.Sprintf("Spawned %s (active) in room %d.", name, player.RoomNumber)},
 		RoomBroadcast: []string{genText},
 	}
+}
+
+func (e *GameEngine) gmMList() *CommandResult {
+	if e.monsterMgr == nil {
+		return &CommandResult{Messages: []string{"Monster manager not initialized."}}
+	}
+	e.monsterMgr.mu.RLock()
+	defer e.monsterMgr.mu.RUnlock()
+
+	var msgs []string
+	msgs = append(msgs, fmt.Sprintf("=== Monster List (%d total, %d monster lists) ===", len(e.monsterMgr.instances), len(e.monsterLists)))
+
+	// Count by status
+	alive, dead, sedated := 0, 0, 0
+	roomCounts := make(map[int]int)
+	for _, inst := range e.monsterMgr.instances {
+		if inst.Alive {
+			if inst.Sedated {
+				sedated++
+			} else {
+				alive++
+			}
+			roomCounts[inst.RoomNumber]++
+		} else {
+			dead++
+		}
+	}
+	msgs = append(msgs, fmt.Sprintf("Alive: %d  Dead: %d  Sedated: %d  Rooms with monsters: %d", alive, dead, sedated, len(roomCounts)))
+
+	// Show first 30 alive monsters
+	count := 0
+	for _, inst := range e.monsterMgr.instances {
+		if !inst.Alive {
+			continue
+		}
+		def := e.monsters[inst.DefNumber]
+		if def == nil {
+			continue
+		}
+		name := FormatMonsterName(def, e.monAdjs)
+		status := "active"
+		if inst.Sedated {
+			status = "sedated"
+		}
+		target := ""
+		if inst.Target != "" {
+			target = fmt.Sprintf(" → attacking %s", inst.Target)
+		}
+		msgs = append(msgs, fmt.Sprintf("  #%d %s (def %d) room %d HP %d/%d [%s]%s",
+			inst.ID, name, inst.DefNumber, inst.RoomNumber, inst.CurrentHP, def.Body+def.ExtraBody, status, target))
+		count++
+		if count >= 30 {
+			msgs = append(msgs, fmt.Sprintf("  ... and %d more", alive-30))
+			break
+		}
+	}
+
+	if alive == 0 {
+		msgs = append(msgs, "  No alive monsters in the world.")
+		msgs = append(msgs, fmt.Sprintf("  Monster lists loaded: %d entries", len(e.monsterLists)))
+		if len(e.monsterLists) > 0 {
+			for i, ml := range e.monsterLists {
+				if i >= 10 { break }
+				def := e.monsters[ml.MonsterID]
+				defName := "???"
+				if def != nil { defName = def.Name }
+				msgs = append(msgs, fmt.Sprintf("  MLIST: room %d, monster %d (%s), min %d, max %d", ml.Room, ml.MonsterID, defName, ml.Min, ml.Max))
+			}
+		}
+	}
+
+	return &CommandResult{Messages: msgs}
 }
 
 func (e *GameEngine) gmFind(args []string) *CommandResult {

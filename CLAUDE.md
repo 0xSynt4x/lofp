@@ -17,6 +17,21 @@ cd engine && go build ./...
 cd frontend && npx tsc --noEmit
 ```
 
+## Reference Documentation
+
+These original documents are the primary sources for game mechanics and world data:
+
+| Document | Path | Description |
+|----------|------|-------------|
+| GM Manual | `original/GM Pages/MANUAL.DOC` | Comprehensive GM reference: combat, stats, items, monsters, skills, XP tables, all GM commands |
+| GM Script Guide | `original/GMSCRIPT.DOC` | Script language reference: room/item/monster definitions, IFVERB/IFENTRY/IFSAY blocks, variables |
+| Player Manual | `original/legends/LEGENDS.DOC` | Player-facing docs: commands, spells, psionics, skills, races, crafting |
+| Session Capture | `original/legends/shirla.cap` | 1996 gameplay session capture — invaluable for combat output format, spell interactions, original message text |
+| Script Config | `original/scripts/LEGENDS.CFG` | Master config listing all .SCR files to load in order |
+| GM Pages | `original/GM Pages/` | Additional GM reference materials (various .DOC files) |
+
+When implementing new features, always cross-reference these documents and the session capture to match original behavior.
+
 ## Multi-Machine Coordination
 
 Production runs multiple Fly.io machines. ALL mutable world state must be coordinated via the MongoDB-backed hub (`engine/internal/hub/`):
@@ -36,7 +51,7 @@ Load .env first if needed: `source .env`
 
 ## Script Language
 
-The game world is defined in a custom scripting language (documented in `original/gmscript.doc`):
+The game world is defined in a custom scripting language (documented in `original/GMSCRIPT.DOC`):
 - **Rooms**: `NUMBER`, `NAME`, `*DESCRIPTION_START/END`, `EXIT`, `ITEM`, terrain, lighting
 - **Items**: `INUMBER`, `NAME` (noun ref), type, weight, volume, substance, worn slots
 - **Monsters**: `MNUMBER`, body parts, stats, AI strategy, weapons, spells
@@ -44,13 +59,17 @@ The game world is defined in a custom scripting language (documented in `origina
 - **Variables**: Named variables + internal vars (stats, time, flags, item vals)
 - Config file: `original/scripts/LEGENDS.CFG` lists all scripts to load in order
 
-## Current State (Phase 1)
+## Current State (v0.97)
 
-- Script parser loads 2843 rooms, 2898 items, 319 monsters, 1221 nouns, 1352 adjectives
-- Game engine supports: movement, look, get/drop, inventory, wield/wear, open/close, status, emotes
-- Players start at Room 201 (City Gate) — tutorial room 3950 needs script execution engine
-- WebSocket-based real-time gameplay
-- Admin panel for inspecting rooms/items/scripts
+- Script parser loads 2273 rooms, 1990 items, 297 monsters, 1221 nouns, 1350 adjectives
+- Full combat system with to-hit/damage/armor/immunities/crits/slayers
+- 60+ spells across 5 schools, psionic system with 30 disciplines
+- Monster AI: hostile aggro, flee behavior, special attacks, guard behavior
+- Monster spawning, wandering, ambient text (TEX1-4)
+- 150+ emotes including race-specific, self-targeting, submit-gated
+- WebSocket-based real-time multiplayer
+- Admin panel for inspecting rooms/items/scripts/players
+- Production: Fly.io (2 machines, ord region) at lofp.metavert.io
 
 ## Units
 
@@ -59,13 +78,3 @@ The game world is defined in a custom scripting language (documented in `origina
 | Engine | ENG | `engine` | Go backend: script parser, game engine, command interpreter, MongoDB persistence |
 | Frontend | FRONT | `frontend` | React + Tailwind: player UI (text client) and admin interface |
 | Scripts | SCR | `original` | Original game script files and documentation (read-only reference) |
-
-## Future Phases
-
-- Script execution engine (IFVERB, IFSAY, IFENTRY, ECHO, MOVE, SPELL, etc.)
-- Combat system
-- NPC/monster AI and spawning
-- Spells and psionics
-- Crafting, mining, foraging
-- Tutorial room (3950) sequence
-- Multiplayer support

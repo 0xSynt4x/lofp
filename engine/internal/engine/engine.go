@@ -628,10 +628,20 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		}
 		return &CommandResult{Messages: []string{"Count what?"}}
 	case "EXPERIENCE", "EXP":
+		nextXP := xpForLevel(player.Level + 1)
+		currentXP := player.Experience
+		prevXP := xpForLevel(player.Level)
+		progress := 0
+		if nextXP > prevXP {
+			progress = (currentXP - prevXP) * 100 / (nextXP - prevXP)
+		}
+		if progress < 0 { progress = 0 }
+		if progress > 100 { progress = 100 }
 		return &CommandResult{Messages: []string{
 			fmt.Sprintf("Level: %d", player.Level),
-			fmt.Sprintf("Build Points: %d", player.Experience/100),
-			fmt.Sprintf("Experience Points: %d", player.Experience),
+			fmt.Sprintf("Experience: %d", currentXP),
+			fmt.Sprintf("Next level: %d XP (%d%% progress)", nextXP, progress),
+			fmt.Sprintf("Build Points: %d", player.BuildPoints),
 		}}
 	case "INFO":
 		return e.doInfo(player)
@@ -728,7 +738,15 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		return &CommandResult{Messages: []string{selfMsg}, RoomBroadcast: []string{roomMsg}}
 	case "READ":
 		return e.doRead(player, args)
-	case "PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "SEARCH", "DIG":
+	case "SEARCH":
+		if len(args) > 0 {
+			// Try to search a dead monster first
+			if result := e.doSearchMonster(ctx, player, args); result != nil {
+				return result
+			}
+		}
+		return e.doItemInteraction(ctx, player, verb, args)
+	case "PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "DIG":
 		return e.doItemInteraction(ctx, player, verb, args)
 	case "RECALL":
 		if len(args) == 0 {
@@ -768,6 +786,16 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	// === MOVEMENT/STEALTH ===
 	case "HIDE":
 		return e.doHide(ctx, player)
+	case "REVEAL", "UNHIDE":
+		if !player.Hidden {
+			return &CommandResult{Messages: []string{"You are not hidden."}}
+		}
+		player.Hidden = false
+		e.SavePlayer(ctx, player)
+		return &CommandResult{
+			Messages:      []string{"You reveal yourself."},
+			RoomBroadcast: []string{fmt.Sprintf("%s reveals themselves.", player.FirstName)},
+		}
 	case "SNEAK":
 		return e.doSneak(ctx, player, args)
 	case "FLY":
@@ -833,13 +861,13 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		if len(args) == 0 {
 			return &CommandResult{Messages: []string{"Attack what?"}}
 		}
-		return e.doAttackMonster(player, strings.Join(args, " "))
+		return e.doAttackMonster(ctx, player, strings.Join(args, " "))
 	case "FLEE":
-		return e.doFlee(player)
+		return e.doFlee(ctx, player)
 	case "ADVANCE":
 		return &CommandResult{Messages: []string{"You advance."}, RoomBroadcast: []string{fmt.Sprintf("%s advances.", player.FirstName)}}
 	case "RETREAT":
-		return e.doFlee(player) // retreat is same as flee for now
+		return e.doFlee(ctx, player) // retreat is same as flee for now
 	case "GUARD":
 		return &CommandResult{Messages: []string{"[Guard coming soon.]"}}
 	case "BACKSTAB":
@@ -849,9 +877,7 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		if len(args) == 0 {
 			return &CommandResult{Messages: []string{"Backstab what?"}}
 		}
-		// Backstab is just an attack with bonus when hidden
-		player.Hidden = false
-		return e.doAttackMonster(player, strings.Join(args, " "))
+		return e.doBackstab(ctx, player, strings.Join(args, " "))
 	case "BITE":
 		if player.Race != RaceDrakin && player.Race != RaceWolfling && player.Race != RaceMurg {
 			return &CommandResult{Messages: []string{"Your race cannot bite effectively in combat."}}
@@ -859,7 +885,7 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		if len(args) == 0 {
 			return &CommandResult{Messages: []string{"Bite what?"}}
 		}
-		return e.doAttackMonster(player, strings.Join(args, " "))
+		return e.doAttackMonster(ctx, player, strings.Join(args, " "))
 	case "AVOID":
 		return &CommandResult{Messages: []string{"[Avoid coming soon.]"}}
 	case "BERSERK", "FRENZY":
@@ -1072,7 +1098,7 @@ var allVerbs = []string{
 	// Additional verbs
 	"ORDER", "UNLIGHT", "IGNITE", "QUAFF", "SHOUT",
 	"LOCK", "UNLOCK", "POUR", "UNEMOTE", "ACTBRIEF", "RPBRIEF",
-	"FLEE", "MODERATE", "HIT", "PSI", "PROJECT", "DEPART",
+	"FLEE", "MODERATE", "HIT", "PSI", "PROJECT", "DEPART", "REVEAL", "UNHIDE",
 	// Self-emotes
 	"FUME", "SQUINT", "HUM", "SNIFFLE", "SLOUCH", "SNORE", "SNEEZE",
 	"STARE", "PUCKER", "CRACK", "BOUNCE", "STRIKE", "CLUTCH",
@@ -3134,11 +3160,23 @@ func (e *GameEngine) doHide(ctx context.Context, player *Player) *CommandResult 
 	if player.Hidden {
 		return &CommandResult{Messages: []string{"You are already hidden."}}
 	}
-	// TODO: skill check against Stealth (skill 33) and room perception
+	if player.Joined {
+		return &CommandResult{Messages: []string{"You can't hide while in combat!"}}
+	}
+	// Stealth skill check: base 25% + stealth*5 + AGI/10
+	stealthSkill := player.Skills[33]
+	hideChance := 25 + stealthSkill*5 + player.Agility/10
+	if hideChance > 95 { hideChance = 95 }
+	if rand.Intn(100) >= hideChance {
+		return &CommandResult{
+			Messages:      []string{"You fail to find a suitable hiding place."},
+			RoomBroadcast: []string{fmt.Sprintf("%s looks around nervously.", player.FirstName)},
+		}
+	}
 	player.Hidden = true
 	e.SavePlayer(ctx, player)
 	return &CommandResult{
-		Messages:      []string{"You attempt to hide in the shadows."},
+		Messages:      []string{"You slip into hiding."},
 		RoomBroadcast: []string{fmt.Sprintf("%s fades into the shadows.", player.FirstName)},
 	}
 }
@@ -3161,9 +3199,15 @@ func (e *GameEngine) doSneak(ctx context.Context, player *Player, args []string)
 	if mapped, ok := dirMap[dir]; ok {
 		dir = mapped
 	}
-	// TODO: stealth skill check to stay hidden while moving
+	// Stealth check to stay hidden while moving
+	stealthSkill := player.Skills[33]
+	sneakChance := 30 + stealthSkill*5 + player.Agility/10
+	if sneakChance > 90 { sneakChance = 90 }
 	result := e.doMove(ctx, player, dir)
-	// Player stays hidden after sneak (skill check could fail and reveal)
+	if rand.Intn(100) >= sneakChance {
+		player.Hidden = false
+		result.Messages = append(result.Messages, "You have been noticed!")
+	}
 	return result
 }
 
