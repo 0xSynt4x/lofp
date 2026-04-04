@@ -830,9 +830,38 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		player.PromptMode = false; e.SavePlayer(ctx, player)
 		return &CommandResult{Messages: []string{"Prompt indicators off."}}
 	case "VERSION", "NEWS", "NOTES":
-		return &CommandResult{Messages: []string{"Legends of Future Past v0.93"}}
+		return &CommandResult{Messages: []string{"Legends of Future Past v0.97"}}
 	case "CREDITS":
-		return &CommandResult{Messages: []string{"Legends of Future Past", "Originally created by Inner Circle Technologies, 1994", "Resurrected from original script files, 2026"}}
+		return &CommandResult{Messages: []string{
+			"",
+			"  LEGENDS OF FUTURE PAST",
+			"  ======================",
+			"",
+			"  Original Game (1992-1999)",
+			"  Copyright (c) 1992-1999 Inner Circle Software",
+			"",
+			"  Created & Programmed by .... Jon Radoff",
+			"  Additional Programming ..... Ichiro Lambe",
+			"  Legends Manager ............ Gary Whitten",
+			"  World Building ............. Gary Whitten, David Goodman,",
+			"                               Tony Spataro, Stacy Jannis,",
+			"                               Kevin Jepson",
+			"  Documentation .............. Gary Whitten",
+			"  Quality Assurance .......... David Goodman, Stacy Jannis",
+			"  Published by ............... NovaLink USA / Eprise Corporation",
+			"",
+			"  2026 Re-Release",
+			"  ---------------",
+			"  Reimplemented from original script files and documentation",
+			"  by Jon Radoff (metavert.io) using Claude Code.",
+			"",
+			"  Special thanks to David Goodman for supplying much of the",
+			"  original materials used to reconstruct the game.",
+			"",
+			"  Available under the MIT License.",
+			"  https://github.com/jonradoff/lofp",
+			"",
+		}}
 	// === COMMUNICATION ===
 	case "THINK":
 		return e.doThink(player, args)
