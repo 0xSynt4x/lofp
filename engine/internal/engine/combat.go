@@ -643,11 +643,38 @@ func (e *GameEngine) doAttackMonster(ctx context.Context, player *Player, target
 		e.cryForLaw(player, inst, def)
 	}
 
+	// Fatigue drain for melee attacks (not ranged)
+	isRanged := weaponDef != nil && (weaponDef.Type == "BOW_WEAPON" || weaponDef.Type == "THROWN_WEAPON")
+	if !isRanged {
+		fatCost := 1
+		if weaponDef != nil && weaponDef.Weight > 5 {
+			fatCost = weaponDef.Weight / 5
+		}
+		player.Fatigue -= fatCost
+		if player.Fatigue < 0 {
+			player.Fatigue = 0
+		}
+		if player.Fatigue <= 0 {
+			return &CommandResult{Messages: []string{"You are too fatigued to attack!"}}
+		}
+	}
+
 	// Apply weather modifier
 	wMod := e.weatherMod(player.RoomNumber)
 
+	// Fatigue penalty to ToHit
+	fatPenalty := 0
+	if player.MaxFatigue > 0 {
+		fatRatio := player.Fatigue * 100 / player.MaxFatigue
+		if fatRatio < 25 {
+			fatPenalty = 25 // under 1/4 fatigue: -25
+		} else if fatRatio < 50 {
+			fatPenalty = 10 // under 1/2 fatigue: -10
+		}
+	}
+
 	// Resolve to-hit
-	attackRating := playerAttackRating(player, weaponDef) + wMod
+	attackRating := playerAttackRating(player, weaponDef) + wMod - fatPenalty
 	toHit := calcToHit(attackRating, def.Defense)
 	roll := rand.Intn(100) + 1
 
@@ -659,6 +686,35 @@ func (e *GameEngine) doAttackMonster(ctx context.Context, player *Player, target
 	var msgs []string
 
 	msgs = append(msgs, fmt.Sprintf("You %s at %s%s with your %s.", selfVerb, article, name, weaponName))
+
+	// Weapon clash on roll < 3 (only vs weapon-wielding monsters)
+	if roll < 3 && weaponDef != nil && len(def.Weapons) > 0 {
+		weaponStr := weaponDef.Weight*3 + weaponDef.Parameter1*2
+		clashRoll := rand.Intn(100) + rand.Intn(100) + 2
+		msgs = append(msgs, fmt.Sprintf(" [ToHit: %d, Roll: %d] Weapon Clash! [Strength: %d, 2d100 Roll: %d]", toHit, roll, weaponStr, clashRoll))
+		if clashRoll > weaponStr {
+			if player.Wielded != nil && player.Wielded.State == "DAMAGED" {
+				msgs = append(msgs, fmt.Sprintf(" Your %s breaks!", strings.ToLower(e.nouns[weaponDef.NameID])))
+				player.Wielded = nil
+			} else if player.Wielded != nil {
+				player.Wielded.State = "DAMAGED"
+				msgs = append(msgs, fmt.Sprintf(" %s damaged!", strings.Title(strings.ToLower(e.nouns[weaponDef.NameID]))))
+			}
+		}
+		result.Messages = msgs
+		rtSec := 5
+		player.RoundTimeExpiry = time.Now().Add(time.Duration(rtSec) * time.Second)
+		result.Messages = append(result.Messages, fmt.Sprintf("[Round: %d sec]", rtSec))
+		if player.Hidden { player.Hidden = false; result.Messages = append([]string{"You reveal yourself!"}, result.Messages...) }
+		e.SavePlayer(ctx, player)
+		result.PlayerState = player
+		return result
+	}
+
+	// Damaged weapon penalty (-10 ToHit)
+	if player.Wielded != nil && player.Wielded.State == "DAMAGED" {
+		toHit += 10 // harder to hit with damaged weapon
+	}
 
 	if roll >= toHit {
 		excellent := roll >= 96
@@ -759,7 +815,17 @@ func (e *GameEngine) doAttackMonster(ctx context.Context, player *Player, target
 }
 
 // doBackstab handles a backstab attack from hiding — bonus damage.
+// Requires puncture weapon (daggers, rapiers).
 func (e *GameEngine) doBackstab(ctx context.Context, player *Player, target string) *CommandResult {
+	// Check weapon type — backstab requires puncture weapons
+	var weaponDef *gameworld.ItemDef
+	if player.Wielded != nil {
+		weaponDef = e.items[player.Wielded.Archetype]
+	}
+	if weaponDef == nil || (weaponDef.Type != "PUNCTURE_WEAPON" && weaponDef.Type != "STABTHROWN") {
+		return &CommandResult{Messages: []string{"You can only backstab with a puncture weapon such as a dagger or rapier."}}
+	}
+
 	// Backstab: attack from hidden with damage multiplier
 	player.BackstabNext = true
 	player.Hidden = false
@@ -895,11 +961,25 @@ func (e *GameEngine) handlePlayerDeath(player *Player, killerName string) []stri
 	player.Dead = true
 	player.CombatTarget = nil
 	player.Joined = false
-	player.Position = 2
+	player.Position = 2 // laying down
+
+	// XP penalty: lose up to 90% of XP towards current build point
+	rate := getXPPerBP(player.Level)
+	if rate > 0 {
+		xpInCurrentBP := player.Experience % rate
+		penalty := xpInCurrentBP * 90 / 100
+		player.Experience -= penalty
+		if player.Experience < 0 {
+			player.Experience = 0
+		}
+		recalcBuildPoints(player)
+	}
 
 	e.Events.Publish("combat", fmt.Sprintf("%s was killed by %s in room %d", player.FirstName, killerName, player.RoomNumber))
 
 	return []string{
+		fmt.Sprintf(" %s collapses, unconscious.", player.FirstName),
+		fmt.Sprintf(" %s slays %s.", killerName, player.FirstName),
 		"",
 		"You are dead and can't do much of anything beside wait for someone to attempt to raise you or for Eternity, Inc. to retrieve you. Hope you paid your premium! [You may type DEPART at any time to allow Eternity, Inc. to retrieve you.]",
 	}

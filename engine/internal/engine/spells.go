@@ -250,10 +250,14 @@ func (e *GameEngine) doCastSpell(ctx context.Context, player *Player, args []str
 		return &CommandResult{Messages: []string{"Your spell fizzles."}}
 	}
 
-	// Check mana
-	if player.Mana < spell.ManaCost {
+	// Mana cost = spell level (from LEGENDS.DOC)
+	manaCost := spell.Level
+	if manaCost < 1 {
+		manaCost = 1
+	}
+	if player.Mana < manaCost {
 		player.PreparedSpell = 0
-		return &CommandResult{Messages: []string{fmt.Sprintf("Not enough mana! (%s requires %d, you have %d)", spell.Name, spell.ManaCost, player.Mana)}}
+		return &CommandResult{Messages: []string{fmt.Sprintf("Not enough mana! (%s requires %d, you have %d)", spell.Name, manaCost, player.Mana)}}
 	}
 
 	// Check roundtime
@@ -262,33 +266,43 @@ func (e *GameEngine) doCastSpell(ctx context.Context, player *Player, args []str
 		return &CommandResult{Messages: []string{fmt.Sprintf("You are still preparing... %.0f seconds remaining.", remaining+0.5)}}
 	}
 
-	// Deduct mana
-	player.Mana -= spell.ManaCost
+	// Deduct mana (cost = spell level)
+	player.Mana -= manaCost
 	player.PreparedSpell = 0
 
-	// Skill check (spellcraft + school skill)
-	schoolSkill := player.Skills[spellSchoolSkill(spell.School)]
+	// Spellcraft skill check (from LEGENDS.DOC):
+	// Base 25% + EMP/10 + spellcraft*5%, max 95%.
+	// Roll > 98 = fumble. Roll <= 2 = spectacular success (double effect).
 	spellcraftSkill := player.Skills[23]
-	castChance := 50 + (schoolSkill+spellcraftSkill)*3 + player.Willpower/5 - spell.Level*2
-	if castChance < 15 {
-		castChance = 15
-	}
+	castChance := 25 + player.Empathy/10 + spellcraftSkill*5
 	if castChance > 95 {
 		castChance = 95
 	}
-
-	// GMs always succeed
 	if player.IsGM {
 		castChance = 100
 	}
 
-	if rand.Intn(100) >= castChance {
+	castRoll := rand.Intn(100) + 1
+	if castRoll > 98 && !player.IsGM {
+		// Fumble!
+		player.RoundTimeExpiry = time.Now().Add(3 * time.Second)
+		return &CommandResult{
+			Messages:      []string{fmt.Sprintf("You gesture to release %s... FUMBLE! The spell backfires!", spell.Name)},
+			RoomBroadcast: []string{fmt.Sprintf("Magic begins to form around %s but then fizzles.", player.FirstName)},
+		}
+	}
+
+	spectacularSuccess := castRoll <= 2
+
+	if castRoll > castChance && !player.IsGM {
 		player.RoundTimeExpiry = time.Now().Add(2 * time.Second)
 		return &CommandResult{
 			Messages:      []string{fmt.Sprintf("You gesture and release %s, but the spell fizzles!", spell.Name)},
-			RoomBroadcast: []string{fmt.Sprintf("%s gestures but the spell fizzles.", player.FirstName)},
+			RoomBroadcast: []string{fmt.Sprintf("Magic begins to form around %s but then fizzles.", player.FirstName)},
 		}
 	}
+
+	_ = spectacularSuccess // TODO: double effect on spectacular success
 
 	result := &CommandResult{}
 
