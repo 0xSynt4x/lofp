@@ -680,7 +680,15 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		"HOLD", "HULA", "JIG", "MOAN", "MASSAGE", "PINCH", "PLAY",
 		"PURR", "ROAR", "SNARL", "SNUGGLE", "WAG", "WAIT", "WRITE",
 		"YOWL", "THUMP", "APPLAUD", "PEER", "GRUNT", "DIP",
-		"HANDRAISE", "HANDSHAKE", "HEADSHAKE", "PICK", "GESTURE":
+		"HANDRAISE", "HANDSHAKE", "HEADSHAKE", "PICK", "GESTURE",
+		// Additional self-emotes
+		"FUME", "SQUINT", "HUM", "SNIFFLE", "SLOUCH", "SNORE", "SNEEZE",
+		"STARE", "PUCKER", "CRACK", "BOUNCE", "STRIKE", "CLUTCH",
+		"WIPE", "GRIT", "TOSS", "ATTENTION", "TONGUE", "WRINKLE", "PUFF",
+		"DIZZY", "BAT",
+		// Race-specific emotes (handled by race check in processEmote)
+		"FLICK", "BARE", "SPREAD", "FOLD", "SWISH",
+		"RUBEARS", "PULLBEARD", "SCENT", "WHINE", "DROOP", "CHASE":
 		return e.processEmote(player, verb, args)
 	case "ACT":
 		if len(args) == 0 {
@@ -785,7 +793,7 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	case "UNDRESS":
 		return e.doUndress(ctx, player)
 	case "SKIN":
-		return &CommandResult{Messages: []string{"[Skinning coming soon.]"}} // TODO: implement with sagecraft/woodlore
+		return e.doSkin(ctx, player, args)
 	// === INFO ===
 	case "BALANCE":
 		return e.doBalance(player)
@@ -905,7 +913,18 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		return &CommandResult{Messages: []string{"[Coin splitting coming soon.]"}} // TODO: divide coins among group
 	// === RACIAL/SPECIAL (TODO: implement) ===
 	case "BLEND":
-		return &CommandResult{Messages: []string{"[Highlander blend coming soon.]"}} // TODO: highlander cave/mountain camouflage
+		if player.Race != RaceHighlander {
+			return &CommandResult{Messages: []string{"Only Highlanders can blend with their surroundings."}}
+		}
+		room := e.rooms[player.RoomNumber]
+		if room == nil || (room.Terrain != "MOUNTAIN" && room.Terrain != "CAVE" && room.Terrain != "DEEPCAVE") {
+			return &CommandResult{Messages: []string{"You can only blend in mountainous or cavernous terrain."}}
+		}
+		player.Hidden = true
+		return &CommandResult{
+			Messages:      []string{"You blend into the rocky surroundings, becoming nearly invisible."},
+			RoomBroadcast: []string{fmt.Sprintf("%s seems to meld into the rock.", player.FirstName)},
+		}
 	case "CALL":
 		return &CommandResult{Messages: []string{"[Aelfen familiar coming soon.]"}} // TODO: call woodland creature
 	case "TRANSFORM":
@@ -1054,6 +1073,14 @@ var allVerbs = []string{
 	"ORDER", "UNLIGHT", "IGNITE", "QUAFF", "SHOUT",
 	"LOCK", "UNLOCK", "POUR", "UNEMOTE", "ACTBRIEF", "RPBRIEF",
 	"FLEE", "MODERATE", "HIT", "PSI", "PROJECT", "DEPART",
+	// Self-emotes
+	"FUME", "SQUINT", "HUM", "SNIFFLE", "SLOUCH", "SNORE", "SNEEZE",
+	"STARE", "PUCKER", "CRACK", "BOUNCE", "STRIKE", "CLUTCH",
+	"WIPE", "GRIT", "TOSS", "ATTENTION", "TONGUE", "WRINKLE", "PUFF",
+	"DIZZY", "BAT",
+	// Race-specific
+	"FLICK", "BARE", "SPREAD", "FOLD", "SWISH",
+	"RUBEARS", "PULLBEARD", "SCENT", "WHINE", "DROOP",
 }
 
 // verbAliases maps short exact aliases that should bypass prefix matching.
@@ -2182,13 +2209,93 @@ func (e *GameEngine) doOpen(player *Player, args []string) *CommandResult {
 			if ri.State == "LATCHED" {
 				return &CommandResult{Messages: []string{"It's latched shut."}}
 			}
+			// Check for traps (VAL4 on item)
+			trapMsgs := e.checkTrap(player, &room.Items[i])
+
 			room.Items[i].State = "OPEN"
 			e.notifyRoomChange(RoomChange{RoomNumber: player.RoomNumber, Type: "item_state", ItemRef: ri.Ref, NewState: "OPEN"})
 			fullName := e.formatItemName(itemDef, ri.Adj1, ri.Adj2, ri.Adj3)
-			return &CommandResult{Messages: []string{fmt.Sprintf("You open %s.", fullName)}}
+			msgs := []string{fmt.Sprintf("You open %s.", fullName)}
+			if len(trapMsgs) > 0 {
+				msgs = append(msgs, trapMsgs...)
+			}
+			return &CommandResult{Messages: msgs}
 		}
 	}
 	return &CommandResult{Messages: []string{"You don't see that here."}}
+}
+
+// checkTrap checks if an item has a trap (VAL4) and triggers it. Returns messages.
+func (e *GameEngine) checkTrap(player *Player, ri *gameworld.RoomItem) []string {
+	if ri.Val4 == 0 {
+		return nil
+	}
+	trapType := ri.Val4
+	ri.Val4 = 0 // trap is consumed
+
+	var msgs []string
+	switch {
+	case trapType == 1: // Needle, minor poison
+		msgs = append(msgs, "A needle springs out and pricks your finger!")
+		player.Poisoned = true
+	case trapType == 2: // Gas, minor poison
+		msgs = append(msgs, "A cloud of noxious gas billows out!")
+		player.Poisoned = true
+	case trapType == 3: // Acid
+		dmg := 10 + rand.Intn(15)
+		player.BodyPoints -= dmg
+		if player.BodyPoints < 0 { player.BodyPoints = 0 }
+		msgs = append(msgs, fmt.Sprintf("Acid sprays out! [%d Damage]", dmg))
+	case trapType == 4: // Blades
+		dmg := 15 + rand.Intn(20)
+		player.BodyPoints -= dmg
+		if player.BodyPoints < 0 { player.BodyPoints = 0 }
+		msgs = append(msgs, fmt.Sprintf("Hidden blades slash at you! [%d Damage]", dmg))
+	case trapType == 5: // Needle, moderate poison
+		msgs = append(msgs, "A poison-coated needle jabs into your hand!")
+		player.Poisoned = true
+	case trapType == 7: // Needle, major poison
+		msgs = append(msgs, "A large needle drives deep into your finger, delivering a potent venom!")
+		player.Poisoned = true
+	case trapType == 8: // Explosive
+		dmg := 30 + rand.Intn(30)
+		player.BodyPoints -= dmg
+		if player.BodyPoints < 0 { player.BodyPoints = 0 }
+		msgs = append(msgs, fmt.Sprintf("The container explodes! [%d Damage]", dmg))
+	case trapType == 9: // Acid, moderate
+		dmg := 20 + rand.Intn(25)
+		player.BodyPoints -= dmg
+		if player.BodyPoints < 0 { player.BodyPoints = 0 }
+		msgs = append(msgs, fmt.Sprintf("A gout of acid sprays out! [%d Damage]", dmg))
+	case trapType == 12: // Gas, moderate poison
+		msgs = append(msgs, "A thick cloud of poisonous gas engulfs you!")
+		player.Poisoned = true
+	case trapType == 13: // Black needle, lethal
+		dmg := 40 + rand.Intn(30)
+		player.BodyPoints -= dmg
+		if player.BodyPoints < 0 { player.BodyPoints = 0 }
+		msgs = append(msgs, fmt.Sprintf("A black needle strikes you, delivering a lethal toxin! [%d Damage]", dmg))
+		player.Poisoned = true
+	case trapType >= 1000: // Glyph traps (spell-based)
+		spellDmg := 20 + rand.Intn(40)
+		player.BodyPoints -= spellDmg
+		if player.BodyPoints < 0 { player.BodyPoints = 0 }
+		glyphType := (trapType / 1000) % 10
+		switch {
+		case glyphType <= 2:
+			msgs = append(msgs, fmt.Sprintf("An Inferno Glyph erupts in a blast of flame! [%d Damage]", spellDmg))
+		case glyphType <= 4:
+			msgs = append(msgs, fmt.Sprintf("An Ice Glyph detonates in a burst of freezing cold! [%d Damage]", spellDmg))
+		case glyphType <= 6:
+			msgs = append(msgs, fmt.Sprintf("A Thunder Glyph explodes with crackling energy! [%d Damage]", spellDmg))
+		case glyphType <= 8:
+			msgs = append(msgs, fmt.Sprintf("An Imprisonment Rune flares! You feel rooted to the spot!"))
+			player.Immobilized = true
+		default:
+			msgs = append(msgs, fmt.Sprintf("A Symbol of Death erupts! [%d Damage]", spellDmg))
+		}
+	}
+	return msgs
 }
 
 func (e *GameEngine) doClose(player *Player, args []string) *CommandResult {
@@ -3680,4 +3787,87 @@ func genderName(g int) string {
 	default:
 		return "Unknown"
 	}
+}
+
+// doSkin handles the SKIN command — skin a dead monster for components.
+func (e *GameEngine) doSkin(ctx context.Context, player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		return &CommandResult{Messages: []string{"Skin what?"}}
+	}
+	target := strings.ToLower(strings.Join(args, " "))
+
+	// Find a dead monster in the room
+	if e.monsterMgr == nil {
+		return &CommandResult{Messages: []string{"You don't see that here."}}
+	}
+
+	monsters := e.monsterMgr.AllMonstersInRoom(player.RoomNumber)
+	for _, inst := range monsters {
+		if inst.Alive {
+			continue // can only skin dead monsters
+		}
+		def := e.monsters[inst.DefNumber]
+		if def == nil {
+			continue
+		}
+		name := strings.ToLower(FormatMonsterName(def, e.monAdjs))
+		noun := strings.ToLower(def.Name)
+		if !strings.HasPrefix(name, target) && !strings.HasPrefix(noun, target) {
+			continue
+		}
+
+		if def.Discorporate {
+			return &CommandResult{Messages: []string{"There is nothing left to skin."}}
+		}
+
+		// Check for skin items
+		if len(def.SkinItems) == 0 && def.SkinAdj == 0 {
+			return &CommandResult{Messages: []string{fmt.Sprintf("You can't skin a %s.", def.Name)}}
+		}
+
+		// Weighted random skin selection
+		displayName := FormatMonsterName(def, e.monAdjs)
+		var skinMsgs []string
+
+		if len(def.SkinItems) > 0 {
+			// Sum probabilities for weighted selection
+			totalProb := 0
+			for _, si := range def.SkinItems {
+				totalProb += si.Probability
+			}
+			if totalProb > 0 {
+				roll := rand.Intn(totalProb)
+				cumProb := 0
+				for _, si := range def.SkinItems {
+					cumProb += si.Probability
+					if roll < cumProb {
+						skinDef := e.items[si.Archetype]
+						if skinDef != nil {
+							adj := def.SkinAdj
+							skinName := e.formatItemName(skinDef, adj, 0, 0)
+							item := InventoryItem{
+								Archetype: si.Archetype,
+								Adj1:      adj,
+							}
+							player.Inventory = append(player.Inventory, item)
+							skinMsgs = append(skinMsgs, fmt.Sprintf("You carefully skin %s %s and obtain %s.", articleFor(displayName, def.Unique), displayName, skinName))
+						}
+						break
+					}
+				}
+			}
+		}
+
+		if len(skinMsgs) == 0 {
+			skinMsgs = append(skinMsgs, fmt.Sprintf("You skin %s %s but find nothing useful.", articleFor(displayName, def.Unique), displayName))
+		}
+
+		e.SavePlayer(ctx, player)
+		return &CommandResult{
+			Messages:      skinMsgs,
+			RoomBroadcast: []string{fmt.Sprintf("%s skins %s %s.", player.FirstName, articleFor(displayName, def.Unique), displayName)},
+		}
+	}
+
+	return &CommandResult{Messages: []string{"You don't see a dead creature to skin here."}}
 }

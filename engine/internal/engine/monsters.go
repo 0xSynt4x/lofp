@@ -51,12 +51,16 @@ func (mm *monsterManager) SpawnInitialMonsters(monsterLists []gameworld.MonsterL
 			count = ml.Min + rand.Intn(ml.Max-ml.Min+1)
 		}
 		for i := 0; i < count; i++ {
+			hp := def.Body
+			if def.ExtraBody > 0 {
+				hp += rand.Intn(def.ExtraBody/2+1) + def.ExtraBody/2 // 50-100% of ExtraBody
+			}
 			inst := MonsterInstance{
 				ID:         mm.nextID,
 				DefNumber:  ml.MonsterID,
 				RoomNumber: ml.Room,
 				Alive:      true,
-				CurrentHP:  def.Body,
+				CurrentHP:  hp,
 			}
 			idx := len(mm.instances)
 			mm.instances = append(mm.instances, inst)
@@ -68,7 +72,7 @@ func (mm *monsterManager) SpawnInitialMonsters(monsterLists []gameworld.MonsterL
 	return total
 }
 
-// SpawnOne creates a single monster instance in a room.
+// SpawnOne creates a single monster instance in a room. hp should include ExtraBody.
 func (mm *monsterManager) SpawnOne(defNum, roomNum, hp int) {
 	mm.mu.Lock()
 	defer mm.mu.Unlock()

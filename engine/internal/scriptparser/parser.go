@@ -654,7 +654,15 @@ func (p *fileParser) parseMonster(fields []string) {
 		case "SKINADJ":
 			if len(fields) >= 2 { mon.SkinAdj, _ = strconv.Atoi(fields[1]) }
 		case "SKINITEM":
-			if len(fields) >= 2 { mon.SkinItem, _ = strconv.Atoi(fields[1]) }
+			if len(fields) >= 2 {
+				mon.SkinItem, _ = strconv.Atoi(fields[1])
+				sd := gameworld.SkinDrop{Archetype: mon.SkinItem}
+				if len(fields) >= 3 { sd.Probability, _ = strconv.Atoi(fields[2]) }
+				if len(fields) >= 4 { sd.Value, _ = strconv.Atoi(fields[3]) }
+				if len(fields) >= 5 { sd.Magic, _ = strconv.Atoi(fields[4]) }
+				if sd.Probability <= 0 { sd.Probability = 10 }
+				mon.SkinItems = append(mon.SkinItems, sd)
+			}
 		case "IMMUNITY":
 			if len(fields) >= 3 {
 				if mon.Immunities == nil {

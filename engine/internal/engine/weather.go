@@ -1,11 +1,22 @@
 package engine
 
-// WeatherNames maps weather state IDs to display names.
+// WeatherNames maps weather state IDs to display names (from GM Manual).
 var WeatherNames = map[int]string{
-	0: "Sunny", 1: "Partly Cloudy", 2: "Overcast", 3: "Light Rain",
-	4: "Rain", 5: "Heavy Rain", 6: "Thunderstorm", 7: "Fog",
-	8: "Light Snow", 9: "Snow", 10: "Heavy Snow", 11: "Sleet",
-	12: "Hail", 13: "Blizzard", 14: "Hurricane",
+	0:  "Sunny",
+	1:  "Partly Cloudy",
+	2:  "Overcast",
+	3:  "Light Rain",
+	4:  "Moderate Rain",
+	5:  "Heavy Rain",
+	6:  "Thunderstorm",
+	7:  "Gale",
+	8:  "Hurricane",
+	9:  "Hail",
+	10: "Sleet",
+	11: "Snow Flurries",
+	12: "Moderate Snow",
+	13: "Heavy Snow",
+	14: "Blizzard",
 }
 
 // GetWeatherDesc returns a weather description for a given region.
@@ -32,8 +43,7 @@ func (e *GameEngine) GetRoomWeather(roomNum int) string {
 	if !isOutdoorTerrain(room.Terrain) {
 		return ""
 	}
-	// Find region for the room (stored in room modifiers or default 0)
-	region := 0 // default region
+	region := room.Region
 	desc := e.GetWeatherDesc(region)
 	if desc == "" || desc == "Sunny" || desc == "Clear" {
 		return ""

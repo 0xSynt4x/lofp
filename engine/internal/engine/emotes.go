@@ -145,6 +145,55 @@ var selfOverrides = map[string][2]string{
 	"THUMP:me":  {"You thump yourself on the head.", "%N thumps themselves on the head."},
 }
 
+// raceEmotes are emotes only available to specific races. Key = "RACE:VERB".
+var raceEmotes = map[string]emoteEntry{
+	// Drakin
+	"6:FLICK":   {Self: "You flick your forked tongue.", Room: "%N flicks %P forked tongue."},
+	"6:BARE":    {Self: "You bare your teeth menacingly.", Room: "%N bares %P teeth menacingly."},
+	"6:SPREAD":  {Self: "You spread your wings wide.", Room: "%N spreads %P wings wide."},
+	"6:FOLD":    {Self: "You fold your wings against your body.", Room: "%N folds %P wings."},
+	"6:SWISH":   {Self: "You swish your tail.", Room: "%N swishes %P tail."},
+	// Aelfen
+	"2:RUBEARS": {Self: "You rub the points of your ears.", Room: "%N rubs the points of %P ears."},
+	// Highlander
+	"3:PULLBEARD": {Self: "You pull on your beard.", Room: "%N pulls on %P beard."},
+	// Wolf form emotes (wolfling)
+	"4:SCRATCH": {Self: "You scratch behind your ear.", Room: "%N scratches behind %P ear."},
+	"4:BARE":    {Self: "You bare your fangs.", Room: "%N bares %P fangs."},
+	"4:CHASE":   {Self: "You chase your tail.", Room: "%N chases %P tail."},
+	"4:SCENT":   {Self: "You lift your nose and scent the air.", Room: "%N lifts %P nose and scents the air."},
+	"4:WHINE":   {Self: "You whine softly.", Room: "%N whines softly."},
+	"4:DROOP":   {Self: "You droop your tail.", Room: "%N droops %P tail."},
+}
+
+// additionalSelfEmotes — emotes with no target that aren't in the main table.
+// These are triggered by specific verbs with no arguments.
+var additionalSelfEmotes = map[string][2]string{
+	"FUME":     {"You fume.", "%N fumes."},
+	"SQUINT":   {"You squint your eyes.", "%N squints %P eyes."},
+	"HUM":      {"You hum softly to yourself.", "%N hums softly."},
+	"SNIFFLE":  {"You sniffle.", "%N sniffles."},
+	"SLOUCH":   {"You slouch.", "%N slouches."},
+	"SNORE":    {"You snore loudly.", "%N snores loudly."},
+	"SNEEZE":   {"You sneeze.", "%N sneezes."},
+	"STARE":    {"You stare off into space.", "%N stares off into space."},
+	"PUCKER":   {"You pucker your lips.", "%N puckers %P lips."},
+	"CRACK":    {"You crack your knuckles.", "%N cracks %P knuckles."},
+	"BITE":     {"You bite your lower lip.", "%N bites %P lower lip."},
+	"BOUNCE":   {"You bounce up and down.", "%N bounces up and down."},
+	"STRIKE":   {"You strike a heroic pose.", "%N strikes a heroic pose."},
+	"CLUTCH":   {"You clutch your head.", "%N clutches %P head."},
+	"WIPE":     {"You wipe your brow.", "%N wipes %P brow."},
+	"GRIT":     {"You grit your teeth.", "%N grits %P teeth."},
+	"TOSS":     {"You toss your hands up in the air.", "%N tosses %P hands up in the air."},
+	"ATTENTION": {"You stand at attention.", "%N stands at attention."},
+	"TONGUE":   {"You stick your tongue out.", "%N sticks %P tongue out."},
+	"WRINKLE":  {"You wrinkle your nose.", "%N wrinkles %P nose."},
+	"PUFF":     {"You puff out your cheeks.", "%N puffs out %P cheeks."},
+	"DIZZY":    {"You feel dizzy.", "%N looks dizzy."},
+	"BAT":      {"You bat your eyelashes.", "%N bats %P eyelashes."},
+}
+
 // kissBodyParts defines the body parts that can be kissed and whether they require submit.
 var kissBodyParts = map[string]struct {
 	requiresSubmit bool
@@ -194,6 +243,23 @@ func expandEmote(template string, actor *Player, targetName string) string {
 
 // processEmote handles emote commands using the emote table.
 func (e *GameEngine) processEmote(player *Player, verb string, args []string) *CommandResult {
+	// Check race-specific emotes first
+	raceKey := fmt.Sprintf("%d:%s", player.Race, verb)
+	if raceEntry, ok := raceEmotes[raceKey]; ok {
+		selfMsg := expandEmote(raceEntry.Self, player, "")
+		roomMsg := expandEmote(raceEntry.Room, player, "")
+		return &CommandResult{Messages: []string{selfMsg}, RoomBroadcast: []string{roomMsg}}
+	}
+
+	// Check additional self-emotes (no-arg only)
+	if len(args) == 0 {
+		if selfEmote, ok := additionalSelfEmotes[verb]; ok {
+			selfMsg := expandEmote(selfEmote[0], player, "")
+			roomMsg := expandEmote(selfEmote[1], player, "")
+			return &CommandResult{Messages: []string{selfMsg}, RoomBroadcast: []string{roomMsg}}
+		}
+	}
+
 	entry, ok := emoteTable[verb]
 	if !ok {
 		// Fallback generic

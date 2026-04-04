@@ -105,6 +105,7 @@ type MonsterDef struct {
 	DiseaseLevel  int               `bson:"diseaseLevel,omitempty" json:"diseaseLevel,omitempty"`
 	SkinAdj       int               `bson:"skinAdj,omitempty" json:"skinAdj,omitempty"`
 	SkinItem      int               `bson:"skinItem,omitempty" json:"skinItem,omitempty"`
+	SkinItems     []SkinDrop        `bson:"skinItems,omitempty" json:"skinItems,omitempty"`
 	TextOverrides  map[string]string `bson:"textOverrides,omitempty" json:"textOverrides,omitempty"`
 	Immunities     map[int]int       `bson:"immunities,omitempty" json:"immunities,omitempty"`
 	Weapons        []MonsterWeapon   `bson:"weapons,omitempty" json:"weapons,omitempty"`
@@ -129,6 +130,14 @@ type MonsterDef struct {
 	Disciplines    []int             `bson:"disciplines,omitempty" json:"disciplines,omitempty"`
 	Scripts        []ScriptBlock     `bson:"scripts,omitempty" json:"scripts,omitempty"`
 	SourceFile     string            `bson:"sourceFile" json:"sourceFile"`
+}
+
+// SkinDrop represents a possible skin/loot drop from a monster.
+type SkinDrop struct {
+	Archetype   int `bson:"archetype" json:"archetype"`
+	Probability int `bson:"probability" json:"probability"` // weighted probability
+	Value       int `bson:"value" json:"value"`             // copper value
+	Magic       int `bson:"magic" json:"magic"`             // 0 = non-magical
 }
 
 // MonsterWeapon represents a weapon a monster can use.
