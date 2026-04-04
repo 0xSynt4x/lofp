@@ -236,9 +236,11 @@ type MineDef struct {
 }
 
 // MonsterList maps rooms to monster spawn data.
+// Format: MLIST <room> <monsterID> <probability> <maxCount>
+// probability = % chance per slot (0-100), maxCount = max monsters in room.
 type MonsterList struct {
-	Room      int `bson:"room" json:"room"`
-	MonsterID int `bson:"monsterId" json:"monsterId"`
-	Min       int `bson:"min" json:"min"`
-	Max       int `bson:"max" json:"max"`
+	Room        int `bson:"room" json:"room"`
+	MonsterID   int `bson:"monsterId" json:"monsterId"`
+	Probability int `bson:"probability" json:"probability"` // % chance per spawn slot
+	MaxCount    int `bson:"maxCount" json:"maxCount"`       // max number in room
 }

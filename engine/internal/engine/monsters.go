@@ -37,41 +37,76 @@ func newMonsterManager() *monsterManager {
 	}
 }
 
-// SpawnInitialMonsters populates the world from MonsterList entries. Returns total spawned.
+// SpawnInitialMonsters is now a no-op. Monsters spawn on demand when players are nearby.
 func (mm *monsterManager) SpawnInitialMonsters(monsterLists []gameworld.MonsterList, monsters map[int]*gameworld.MonsterDef) int {
-	mm.mu.Lock()
-	defer mm.mu.Unlock()
+	return 0 // demand-based spawning handles this now
+}
 
-	total := 0
-	for _, ml := range monsterLists {
-		def := monsters[ml.MonsterID]
+// spawnForRoom checks MLIST entries for a room and spawns monsters if needed.
+// Called when a player enters a room or during periodic spawn checks.
+func (e *GameEngine) spawnForRoom(roomNum int) {
+	if e.monsterMgr == nil {
+		return
+	}
+
+	// Build index of MLIST entries by room (cached on engine)
+	for _, ml := range e.monsterLists {
+		if ml.Room != roomNum {
+			continue
+		}
+		def := e.monsters[ml.MonsterID]
 		if def == nil {
 			continue
 		}
-		count := ml.Min
-		if ml.Max > ml.Min {
-			count = ml.Min + rand.Intn(ml.Max-ml.Min+1)
+
+		// Count alive monsters of this type already in the room
+		e.monsterMgr.mu.Lock()
+		existingCount := 0
+		for _, idx := range e.monsterMgr.monstersByRoom[roomNum] {
+			if idx < len(e.monsterMgr.instances) {
+				inst := &e.monsterMgr.instances[idx]
+				if inst.Alive && inst.DefNumber == ml.MonsterID {
+					existingCount++
+				}
+			}
 		}
-		for i := 0; i < count; i++ {
+
+		// Spawn up to MaxCount, each with Probability% chance
+		spawned := 0
+		for existingCount+spawned < ml.MaxCount {
+			if ml.Probability > 0 && rand.Intn(100) >= ml.Probability {
+				break // failed probability check — stop trying for this entry
+			}
 			hp := def.Body
 			if def.ExtraBody > 0 {
-				hp += rand.Intn(def.ExtraBody/2+1) + def.ExtraBody/2 // 50-100% of ExtraBody
+				hp += rand.Intn(def.ExtraBody/2+1) + def.ExtraBody/2
 			}
 			inst := MonsterInstance{
-				ID:         mm.nextID,
+				ID:         e.monsterMgr.nextID,
 				DefNumber:  ml.MonsterID,
-				RoomNumber: ml.Room,
+				RoomNumber: roomNum,
 				Alive:      true,
 				CurrentHP:  hp,
 			}
-			idx := len(mm.instances)
-			mm.instances = append(mm.instances, inst)
-			mm.monstersByRoom[ml.Room] = append(mm.monstersByRoom[ml.Room], idx)
-			mm.nextID++
-			total++
+			idx := len(e.monsterMgr.instances)
+			e.monsterMgr.instances = append(e.monsterMgr.instances, inst)
+			e.monsterMgr.monstersByRoom[roomNum] = append(e.monsterMgr.monstersByRoom[roomNum], idx)
+			e.monsterMgr.nextID++
+			spawned++
+		}
+		e.monsterMgr.mu.Unlock()
+
+		if spawned > 0 {
+			name := FormatMonsterName(def, e.monAdjs)
+			genText := def.TextOverrides["TEXG"]
+			if genText != "" && e.roomBroadcast != nil {
+				e.roomBroadcast(roomNum, []string{genText})
+			} else if spawned == 1 && e.roomBroadcast != nil {
+				article := articleFor(name, def.Unique)
+				e.roomBroadcast(roomNum, []string{fmt.Sprintf("%s%s appears.", capArticle(article), name)})
+			}
 		}
 	}
-	return total
 }
 
 // SpawnOne creates a single monster instance in a room. hp should include ExtraBody.
@@ -225,11 +260,33 @@ func (e *GameEngine) StartMonsterLoop() {
 			tick++
 			e.monsterTick(tick)
 			// Corpse decay: remove dead monsters after 60 seconds
-			if tick%20 == 0 { // every ~60 seconds
+			if tick%20 == 0 {
 				e.cleanupCorpses()
+			}
+			// Periodic respawn check near players every ~30 seconds
+			if tick%10 == 0 {
+				e.respawnNearPlayers()
 			}
 		}
 	}()
+}
+
+// respawnNearPlayers spawns monsters in rooms where players are present.
+func (e *GameEngine) respawnNearPlayers() {
+	if e.sessions == nil || e.monsterMgr == nil {
+		return
+	}
+	// Get all rooms with online players
+	roomSet := make(map[int]bool)
+	for _, p := range e.sessions.OnlinePlayers() {
+		if !p.Dead && !p.GMInvis {
+			roomSet[p.RoomNumber] = true
+		}
+	}
+	// Spawn for each occupied room
+	for roomNum := range roomSet {
+		e.spawnForRoom(roomNum)
+	}
 }
 
 // cleanupCorpses removes dead monster instances that have been dead for > 60 seconds.

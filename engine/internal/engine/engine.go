@@ -1275,6 +1275,9 @@ func (e *GameEngine) applyEntryScripts(ctx context.Context, player *Player, room
 	}
 	e.SavePlayer(ctx, player)
 
+	// Spawn monsters for this room if needed (demand-based)
+	e.spawnForRoom(room.Number)
+
 	// Check if hostile monsters should aggro on the player entering the room
 	go e.monsterCheckAggro(player, room.Number)
 }

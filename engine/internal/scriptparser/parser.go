@@ -220,10 +220,10 @@ func (p *fileParser) parse() {
 			if len(fields) >= 5 {
 				room, _ := strconv.Atoi(fields[1])
 				mid, _ := strconv.Atoi(fields[2])
-				min, _ := strconv.Atoi(fields[3])
-				max, _ := strconv.Atoi(fields[4])
+				prob, _ := strconv.Atoi(fields[3])
+				maxCount, _ := strconv.Atoi(fields[4])
 				p.result.MonsterLists = append(p.result.MonsterLists, gameworld.MonsterList{
-					Room: room, MonsterID: mid, Min: min, Max: max,
+					Room: room, MonsterID: mid, Probability: prob, MaxCount: maxCount,
 				})
 			}
 			p.pos++

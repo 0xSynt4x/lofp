@@ -613,7 +613,7 @@ func (e *GameEngine) gmMList() *CommandResult {
 				def := e.monsters[ml.MonsterID]
 				defName := "???"
 				if def != nil { defName = def.Name }
-				msgs = append(msgs, fmt.Sprintf("  MLIST: room %d, monster %d (%s), min %d, max %d", ml.Room, ml.MonsterID, defName, ml.Min, ml.Max))
+				msgs = append(msgs, fmt.Sprintf("  MLIST: room %d, monster %d (%s), prob %d%%, max %d", ml.Room, ml.MonsterID, defName, ml.Probability, ml.MaxCount))
 			}
 		}
 	}
