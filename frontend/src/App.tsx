@@ -9,6 +9,13 @@ import CaptureViewer from './components/CaptureViewer'
 
 type View = 'menu' | 'create' | 'play' | 'admin' | 'version' | 'capture_view'
 
+// Check if URL points to a specific view
+function initialViewFromURL(): View {
+  const path = window.location.pathname
+  if (path === '/version-notes' || path === '/version-notes/') return 'version'
+  return 'menu'
+}
+
 export interface Character {
   firstName: string
   lastName: string
@@ -44,7 +51,15 @@ export function useAuth() {
 }
 
 function App() {
-  const [view, setView] = useState<View>('menu')
+  const [view, setViewRaw] = useState<View>(initialViewFromURL())
+  const setView = (v: View) => {
+    setViewRaw(v)
+    if (v === 'version') {
+      window.history.pushState({}, '', '/version-notes')
+    } else if (window.location.pathname !== '/') {
+      window.history.pushState({}, '', '/')
+    }
+  }
   const [character, setCharacter] = useState<Character | null>(null)
   const [backendOnline, setBackendOnline] = useState(true)
   const [user, setUser] = useState<AuthUser | null>(null)
