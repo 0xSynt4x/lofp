@@ -171,6 +171,7 @@ func (s *Server) setupRoutes() {
 	// Characters (authenticated)
 	api.HandleFunc("/characters", s.handleListCharacters).Methods("GET")
 	api.HandleFunc("/characters", s.handleCreateCharacter).Methods("POST")
+	api.HandleFunc("/characters/{firstName}", s.handleDeleteCharacter).Methods("DELETE")
 	api.HandleFunc("/characters/{firstName}/gm", s.handleToggleGM).Methods("PUT")
 
 	// Session captures (authenticated)
@@ -201,6 +202,8 @@ func (s *Server) setupRoutes() {
 	api.HandleFunc("/admin/characters/{firstName}", s.handleAdminGetCharacter).Methods("GET")
 	api.HandleFunc("/admin/characters/{firstName}/reassign", s.handleAdminReassignCharacter).Methods("PUT")
 	api.HandleFunc("/admin/logs", s.handleAdminLogs).Methods("GET")
+	api.HandleFunc("/admin/characters/deleted", s.handleAdminListDeletedCharacters).Methods("GET")
+	api.HandleFunc("/admin/characters/{firstName}/recover", s.handleAdminRecoverCharacter).Methods("PUT")
 
 	// Serve static frontend files in production (if /app/static exists)
 	staticDir := os.Getenv("LOFP_STATIC_DIR")
@@ -1115,8 +1118,67 @@ func (s *Server) handleCreateCharacter(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 		return
 	}
+	// Check unique first name
+	taken, _ := s.engine.IsFirstNameTaken(r.Context(), req.FirstName)
+	if taken {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": "That first name is already taken. Please choose another."})
+		return
+	}
 	accountID := s.getAccountID(r)
 	player := s.engine.CreateNewPlayer(r.Context(), req.FirstName, req.LastName, req.Race, req.Gender, accountID)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(player)
+}
+
+func (s *Server) handleDeleteCharacter(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	accountID := s.getAccountID(r)
+	if accountID == "" {
+		http.Error(w, "unauthorized", 401)
+		return
+	}
+	err := s.engine.SoftDeletePlayer(r.Context(), vars["firstName"], accountID)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "deleted"})
+}
+
+func (s *Server) handleAdminListDeletedCharacters(w http.ResponseWriter, r *http.Request) {
+	if s.requireAdmin(w, r) == nil {
+		return
+	}
+	players, err := s.engine.ListDeletedPlayers(r.Context())
+	if err != nil {
+		json.NewEncoder(w).Encode([]interface{}{})
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(players)
+}
+
+func (s *Server) handleAdminRecoverCharacter(w http.ResponseWriter, r *http.Request) {
+	if s.requireAdmin(w, r) == nil {
+		return
+	}
+	vars := mux.Vars(r)
+	var req struct {
+		NewFirstName string `json:"newFirstName"`
+	}
+	json.NewDecoder(r.Body).Decode(&req)
+	player, err := s.engine.RecoverPlayer(r.Context(), vars["firstName"], req.NewFirstName)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(player)
 }

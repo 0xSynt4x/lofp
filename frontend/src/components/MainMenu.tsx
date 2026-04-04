@@ -35,6 +35,8 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
   const [loading, setLoading] = useState(true)
   const [backendUp, setBackendUp] = useState(true)
   const [loginError, setLoginError] = useState('')
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null) // firstName to delete
+  const [deleting, setDeleting] = useState(false)
 
   const isLoggedIn = !!user
 
@@ -65,6 +67,20 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
     if (!dateStr) return 'Unknown'
     const d = new Date(dateStr)
     return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  }
+
+  const handleDeleteCharacter = async (firstName: string) => {
+    setDeleting(true)
+    try {
+      const headers: Record<string, string> = {}
+      if (user?.token) headers['Authorization'] = `Bearer ${user.token}`
+      const r = await fetch(`/api/characters/${firstName}`, { method: 'DELETE', headers })
+      if (r.ok) {
+        setPlayers(players.filter(p => p.firstName !== firstName))
+      }
+    } catch (_) { /* ignore */ }
+    setDeleting(false)
+    setDeleteConfirm(null)
   }
 
   const handleGoogleSuccess = async (credentialResponse: { credential?: string }) => {
@@ -176,13 +192,22 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
                           Level {p.level} {RACE_NAMES[p.race] || 'Unknown'} &middot; BP {p.bodyPoints}/{p.maxBodyPoints} &middot; Room #{p.roomNumber}
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="text-gray-600 font-mono text-xs">
-                          Last played
+                      <div className="text-right flex items-center gap-3">
+                        <div>
+                          <div className="text-gray-600 font-mono text-xs">
+                            Last played
+                          </div>
+                          <div className="text-gray-500 font-mono text-xs">
+                            {formatDate(p.updatedAt)}
+                          </div>
                         </div>
-                        <div className="text-gray-500 font-mono text-xs">
-                          {formatDate(p.updatedAt)}
-                        </div>
+                        <button
+                          onClick={(ev) => { ev.stopPropagation(); setDeleteConfirm(p.firstName) }}
+                          className="text-gray-700 hover:text-red-500 text-xs font-mono transition-colors px-2 py-1"
+                          title="Delete character"
+                        >
+                          ✕
+                        </button>
                       </div>
                     </button>
                   ))}
@@ -212,6 +237,34 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
             Version 10.0.0 &mdash; Version Notes
           </button>
         </div>
+
+        {/* Delete confirmation modal */}
+        {deleteConfirm && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+            <div className="bg-[#1a1a1a] border border-red-900 rounded-lg p-6 max-w-md">
+              <h3 className="text-red-400 font-mono font-bold text-lg mb-3">Delete Character</h3>
+              <p className="text-gray-300 font-mono text-sm mb-4">
+                Are you sure you want to delete <span className="text-amber-400">{deleteConfirm}</span>?
+                This action cannot be undone.
+              </p>
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => setDeleteConfirm(null)}
+                  className="px-4 py-2 bg-[#333] hover:bg-[#444] text-gray-300 font-mono text-sm rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleDeleteCharacter(deleteConfirm)}
+                  disabled={deleting}
+                  className="px-4 py-2 bg-red-900 hover:bg-red-800 text-red-200 font-mono text-sm rounded disabled:opacity-50"
+                >
+                  {deleting ? 'Deleting...' : 'Delete Forever'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

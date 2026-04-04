@@ -3601,14 +3601,15 @@ func (e *GameEngine) CreateNewPlayer(ctx context.Context, firstName, lastName st
 	return player
 }
 
-// LoadPlayer loads a player from MongoDB by first+last name.
+// LoadPlayer loads a non-deleted player from MongoDB by first+last name.
 func (e *GameEngine) LoadPlayer(ctx context.Context, firstName, lastName string) (*Player, error) {
 	if e.db == nil {
 		return nil, fmt.Errorf("no database connection")
 	}
 	coll := e.db.Collection("players")
 	var player Player
-	err := coll.FindOne(ctx, bson.M{"firstName": firstName, "lastName": lastName}).Decode(&player)
+	filter := bson.M{"firstName": firstName, "lastName": lastName, "deletedAt": bson.M{"$exists": false}}
+	err := coll.FindOne(ctx, filter).Decode(&player)
 	if err != nil {
 		return nil, err
 	}
@@ -3633,13 +3634,14 @@ func (e *GameEngine) ListPlayers(ctx context.Context) ([]Player, error) {
 	return players, nil
 }
 
-// ListPlayersByAccount returns all characters belonging to an account.
+// ListPlayersByAccount returns all non-deleted characters belonging to an account.
 func (e *GameEngine) ListPlayersByAccount(ctx context.Context, accountID string) ([]Player, error) {
 	if e.db == nil {
 		return nil, fmt.Errorf("no database connection")
 	}
 	coll := e.db.Collection("players")
-	cursor, err := coll.Find(ctx, bson.M{"accountId": accountID})
+	filter := bson.M{"accountId": accountID, "deletedAt": bson.M{"$exists": false}}
+	cursor, err := coll.Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -3648,6 +3650,103 @@ func (e *GameEngine) ListPlayersByAccount(ctx context.Context, accountID string)
 		return nil, err
 	}
 	return players, nil
+}
+
+// SoftDeletePlayer soft-deletes a character by setting deletedAt.
+func (e *GameEngine) SoftDeletePlayer(ctx context.Context, firstName, accountID string) error {
+	if e.db == nil {
+		return fmt.Errorf("no database connection")
+	}
+	coll := e.db.Collection("players")
+	now := time.Now()
+	filter := bson.M{"firstName": firstName, "accountId": accountID, "deletedAt": bson.M{"$exists": false}}
+	update := bson.M{"$set": bson.M{"deletedAt": now}}
+	result, err := coll.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return err
+	}
+	if result.MatchedCount == 0 {
+		return fmt.Errorf("character not found or not owned by you")
+	}
+	return nil
+}
+
+// IsFirstNameTaken checks if a non-deleted character with this first name exists.
+func (e *GameEngine) IsFirstNameTaken(ctx context.Context, firstName string) (bool, error) {
+	if e.db == nil {
+		return false, nil
+	}
+	coll := e.db.Collection("players")
+	count, err := coll.CountDocuments(ctx, bson.M{
+		"firstName": firstName,
+		"deletedAt": bson.M{"$exists": false},
+	})
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
+// ListDeletedPlayers returns all soft-deleted characters.
+func (e *GameEngine) ListDeletedPlayers(ctx context.Context) ([]Player, error) {
+	if e.db == nil {
+		return nil, fmt.Errorf("no database connection")
+	}
+	coll := e.db.Collection("players")
+	opts := options.Find().SetSort(bson.D{{Key: "deletedAt", Value: -1}})
+	cursor, err := coll.Find(ctx, bson.M{"deletedAt": bson.M{"$exists": true}}, opts)
+	if err != nil {
+		return nil, err
+	}
+	var players []Player
+	if err := cursor.All(ctx, &players); err != nil {
+		return nil, err
+	}
+	return players, nil
+}
+
+// RecoverPlayer un-deletes a character, optionally renaming if name conflicts.
+func (e *GameEngine) RecoverPlayer(ctx context.Context, firstName string, newFirstName string) (*Player, error) {
+	if e.db == nil {
+		return nil, fmt.Errorf("no database connection")
+	}
+	coll := e.db.Collection("players")
+
+	// Find the deleted character
+	var player Player
+	err := coll.FindOne(ctx, bson.M{"firstName": firstName, "deletedAt": bson.M{"$exists": true}}).Decode(&player)
+	if err != nil {
+		return nil, fmt.Errorf("deleted character '%s' not found", firstName)
+	}
+
+	// Check if name conflicts with existing non-deleted character
+	targetName := firstName
+	if newFirstName != "" {
+		targetName = newFirstName
+	}
+	taken, _ := e.IsFirstNameTaken(ctx, targetName)
+	if taken {
+		return nil, fmt.Errorf("name '%s' is already taken by an active character", targetName)
+	}
+
+	// Recover
+	update := bson.M{"$unset": bson.M{"deletedAt": ""}}
+	if newFirstName != "" && newFirstName != firstName {
+		update = bson.M{
+			"$unset": bson.M{"deletedAt": ""},
+			"$set":   bson.M{"firstName": newFirstName},
+		}
+	}
+	_, err = coll.UpdateOne(ctx, bson.M{"_id": player.ID}, update)
+	if err != nil {
+		return nil, err
+	}
+
+	if newFirstName != "" {
+		player.FirstName = newFirstName
+	}
+	player.DeletedAt = nil
+	return &player, nil
 }
 
 // ReassignCharacter changes the accountId of a character to a new account.
