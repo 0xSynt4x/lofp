@@ -3,7 +3,9 @@ package engine
 import (
 	"fmt"
 	"math/rand"
+	"strings"
 	"sync"
+	"time"
 
 	"github.com/jonradoff/lofp/internal/gameworld"
 )
@@ -14,6 +16,7 @@ type MonsterInstance struct {
 	DefNumber  int  `json:"defNumber"`
 	RoomNumber int  `json:"roomNumber"`
 	Alive      bool `json:"alive"`
+	Sedated    bool `json:"sedated"` // sedated monsters don't act
 	CurrentHP  int  `json:"currentHP"`
 }
 
@@ -75,6 +78,28 @@ func (mm *monsterManager) SpawnOne(defNum, roomNum, hp int) {
 	mm.nextID++
 }
 
+// lastSpawnedID returns the ID of the most recently spawned monster.
+func (mm *monsterManager) lastSpawnedID() int {
+	mm.mu.RLock()
+	defer mm.mu.RUnlock()
+	if len(mm.instances) == 0 {
+		return -1
+	}
+	return mm.instances[len(mm.instances)-1].ID
+}
+
+// SetSedated sets the sedated state of a monster by ID.
+func (mm *monsterManager) SetSedated(id int, sedated bool) {
+	mm.mu.Lock()
+	defer mm.mu.Unlock()
+	for i := range mm.instances {
+		if mm.instances[i].ID == id {
+			mm.instances[i].Sedated = sedated
+			return
+		}
+	}
+}
+
 // ClearRoom removes all monsters from a room.
 func (mm *monsterManager) ClearRoom(roomNum int) {
 	mm.mu.Lock()
@@ -100,6 +125,27 @@ func (mm *monsterManager) MonstersInRoom(roomNum int) []MonsterInstance {
 		}
 	}
 	return result
+}
+
+// moveMonster moves a monster instance to a new room. Must be called under lock.
+func (mm *monsterManager) moveMonster(idx int, newRoom int) {
+	oldRoom := mm.instances[idx].RoomNumber
+	mm.instances[idx].RoomNumber = newRoom
+
+	// Remove from old room index
+	oldIndices := mm.monstersByRoom[oldRoom]
+	for i, oidx := range oldIndices {
+		if oidx == idx {
+			mm.monstersByRoom[oldRoom] = append(oldIndices[:i], oldIndices[i+1:]...)
+			break
+		}
+	}
+	if len(mm.monstersByRoom[oldRoom]) == 0 {
+		delete(mm.monstersByRoom, oldRoom)
+	}
+
+	// Add to new room index
+	mm.monstersByRoom[newRoom] = append(mm.monstersByRoom[newRoom], idx)
 }
 
 // FormatMonsterName builds a display name for a monster definition.
@@ -129,7 +175,153 @@ func (e *GameEngine) MonsterLookLines(roomNum int) []string {
 			continue
 		}
 		name := FormatMonsterName(def, e.monAdjs)
-		lines = append(lines, fmt.Sprintf("You also see a %s.", name))
+		article := "a"
+		if len(name) > 0 && strings.ContainsRune("aeiouAEIOU", rune(name[0])) {
+			article = "an"
+		}
+		if def.Unique {
+			lines = append(lines, fmt.Sprintf("You also see %s.", name))
+		} else {
+			lines = append(lines, fmt.Sprintf("You also see %s %s.", article, name))
+		}
 	}
 	return lines
+}
+
+// directionNames maps exit keys to direction words for monster movement text.
+var directionNames = map[string]string{
+	"N": "north", "S": "south", "E": "east", "W": "west",
+	"NE": "northeast", "NW": "northwest", "SE": "southeast", "SW": "southwest",
+	"U": "up", "D": "down", "O": "out",
+}
+
+// StartMonsterLoop starts the background goroutine for monster behavior.
+// Monsters emit random text (TEX1-4) and wander between rooms based on Speed.
+func (e *GameEngine) StartMonsterLoop() {
+	go func() {
+		tick := 0
+		ticker := time.NewTicker(3 * time.Second)
+		defer ticker.Stop()
+		for range ticker.C {
+			tick++
+			e.monsterTick(tick)
+		}
+	}()
+}
+
+func (e *GameEngine) monsterTick(tick int) {
+	if e.monsterMgr == nil || e.roomBroadcast == nil {
+		return
+	}
+
+	e.monsterMgr.mu.Lock()
+	defer e.monsterMgr.mu.Unlock()
+
+	for idx := range e.monsterMgr.instances {
+		inst := &e.monsterMgr.instances[idx]
+		if !inst.Alive || inst.Sedated {
+			continue
+		}
+
+		def := e.monsters[inst.DefNumber]
+		if def == nil {
+			continue
+		}
+
+		// Speed determines action frequency: speed 1 = every tick, speed 3 (default) = every 3 ticks
+		speed := def.Speed
+		if speed <= 0 {
+			speed = 3
+		}
+		if tick%speed != 0 {
+			continue
+		}
+
+		name := FormatMonsterName(def, e.monAdjs)
+
+		// Random text (TEX1-4): ~15% chance per action tick
+		if rand.Intn(100) < 15 {
+			var texts []string
+			for _, key := range []string{"TEX1", "TEX2", "TEX3", "TEX4"} {
+				if t, ok := def.TextOverrides[key]; ok && t != "" {
+					texts = append(texts, t)
+				}
+			}
+			if len(texts) > 0 {
+				msg := texts[rand.Intn(len(texts))]
+				e.roomBroadcast(inst.RoomNumber, []string{msg})
+			}
+		}
+
+		// Wandering: ~10% chance per action tick for non-hostile monsters (strategy < 301)
+		// Hostile monsters (strategy >= 301) don't wander unless in combat (not implemented yet)
+		if def.Strategy < 301 && rand.Intn(100) < 10 {
+			room := e.rooms[inst.RoomNumber]
+			if room == nil {
+				continue
+			}
+
+			// Collect valid exits
+			type exitInfo struct {
+				dir    string
+				destID int
+			}
+			var exits []exitInfo
+			for dir, destID := range room.Exits {
+				if destID > 0 {
+					exits = append(exits, exitInfo{dir, destID})
+				}
+			}
+			if len(exits) == 0 {
+				continue
+			}
+
+			// Pick a random exit
+			chosen := exits[rand.Intn(len(exits))]
+			destRoom := e.rooms[chosen.destID]
+			if destRoom == nil {
+				continue
+			}
+
+			dirName := directionNames[chosen.dir]
+			if dirName == "" {
+				dirName = strings.ToLower(chosen.dir)
+			}
+
+			// Departure message
+			moveText := def.TextOverrides["TEXM"]
+			if moveText != "" {
+				e.roomBroadcast(inst.RoomNumber, []string{moveText + " " + dirName + "."})
+			} else {
+				article := "A"
+				if len(name) > 0 && strings.ContainsRune("aeiouAEIOU", rune(name[0])) {
+					article = "An"
+				}
+				if def.Unique {
+					e.roomBroadcast(inst.RoomNumber, []string{fmt.Sprintf("%s wanders %s.", name, dirName)})
+				} else {
+					e.roomBroadcast(inst.RoomNumber, []string{fmt.Sprintf("%s %s wanders %s.", article, name, dirName)})
+				}
+			}
+
+			// Move the monster
+			e.monsterMgr.moveMonster(idx, chosen.destID)
+
+			// Arrival message
+			entryText := def.TextOverrides["TEXE"]
+			if entryText != "" {
+				e.roomBroadcast(chosen.destID, []string{entryText})
+			} else {
+				article := "A"
+				if len(name) > 0 && strings.ContainsRune("aeiouAEIOU", rune(name[0])) {
+					article = "An"
+				}
+				if def.Unique {
+					e.roomBroadcast(chosen.destID, []string{fmt.Sprintf("%s has arrived.", name)})
+				} else {
+					e.roomBroadcast(chosen.destID, []string{fmt.Sprintf("%s %s has arrived.", article, name)})
+				}
+			}
+		}
+	}
 }

@@ -1207,7 +1207,11 @@ func (sc *ScriptContext) doGenMon(args []string) {
 	if sc.Engine.monsterMgr != nil {
 		sc.Engine.monsterMgr.SpawnOne(monNum, sc.Room.Number, def.Body)
 		name := FormatMonsterName(def, sc.Engine.monAdjs)
-		sc.RoomMsgs = append(sc.RoomMsgs, fmt.Sprintf("A %s appears!", name))
+		genText := def.TextOverrides["TEXG"]
+		if genText == "" {
+			genText = fmt.Sprintf("A %s appears!", name)
+		}
+		sc.RoomMsgs = append(sc.RoomMsgs, genText)
 		sc.Engine.Events.Publish("monster", fmt.Sprintf("GENMON: %s spawned in room %d", name, sc.Room.Number))
 	}
 }

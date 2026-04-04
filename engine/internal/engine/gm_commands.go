@@ -498,10 +498,10 @@ func (e *GameEngine) gmGenMon(player *Player, args []string) *CommandResult {
 	if mon == nil {
 		return &CommandResult{Messages: []string{fmt.Sprintf("Monster %d does not exist.", num)}}
 	}
-	name := mon.Name
-	if name == "" {
-		name = fmt.Sprintf("monster#%d", num)
-	}
+	name := FormatMonsterName(mon, e.monAdjs)
+	e.monsterMgr.SpawnOne(num, player.RoomNumber, mon.Body)
+	e.monsterMgr.SetSedated(e.monsterMgr.lastSpawnedID(), true)
+	e.Events.Publish("monster", fmt.Sprintf("GM %s generated %s (sedated) in room %d", player.FirstName, name, player.RoomNumber))
 	return &CommandResult{Messages: []string{fmt.Sprintf("Generated %s (sedated) in room %d.", name, player.RoomNumber)}}
 }
 
@@ -517,11 +517,18 @@ func (e *GameEngine) gmSpawn(player *Player, args []string) *CommandResult {
 	if mon == nil {
 		return &CommandResult{Messages: []string{fmt.Sprintf("Monster %d does not exist.", num)}}
 	}
-	name := mon.Name
-	if name == "" {
-		name = fmt.Sprintf("monster#%d", num)
+	name := FormatMonsterName(mon, e.monAdjs)
+	e.monsterMgr.SpawnOne(num, player.RoomNumber, mon.Body)
+	e.Events.Publish("monster", fmt.Sprintf("GM %s spawned %s (active) in room %d", player.FirstName, name, player.RoomNumber))
+	// Broadcast the monster's arrival to the room
+	genText := mon.TextOverrides["TEXG"]
+	if genText == "" {
+		genText = fmt.Sprintf("A %s appears!", name)
 	}
-	return &CommandResult{Messages: []string{fmt.Sprintf("Spawned %s (active) in room %d.", name, player.RoomNumber)}}
+	return &CommandResult{
+		Messages:      []string{fmt.Sprintf("Spawned %s (active) in room %d.", name, player.RoomNumber)},
+		RoomBroadcast: []string{genText},
+	}
 }
 
 func (e *GameEngine) gmFind(args []string) *CommandResult {

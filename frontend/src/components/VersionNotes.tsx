@@ -9,6 +9,84 @@ export default function VersionNotes({ onBack }: { onBack: () => void }) {
 
         <div className="space-y-6 text-sm">
           <section>
+            <h2 className="text-amber-400 text-lg font-bold mb-1">v0.96 &mdash; April 4, 2026</h2>
+            <p className="text-gray-400 mb-3">Living world &mdash; monster spawning, ambient text, wandering, 30+ new emotes, and submit system.</p>
+
+            <div className="space-y-4 mb-8">
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Monster System</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Monsters spawn from original script data and appear in room descriptions</li>
+                  <li>TEX1-4 random ambient text &mdash; monsters emit flavor text on a timer</li>
+                  <li>Non-hostile monsters wander between rooms via exits</li>
+                  <li>TEXG/TEXE/TEXM text overrides for spawn, entry, and movement</li>
+                  <li>Examine monsters to see their descriptions</li>
+                  <li>Target monsters with emotes (point skeleton, kick rat, etc.)</li>
+                  <li>GM @spawn and @genmon commands actually create monsters</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">New Emotes (30+)</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>lick, nibble, bark, claw, curse, duck, hiss, hold, hula, jig, moan, massage, and more</li>
+                  <li>Self-targeting overrides: spit me, lick me, laugh me, kick me, thump me</li>
+                  <li>KISS with body part qualifiers (head, nose, lips, etc.)</li>
+                  <li>Submit-gated interactions (kiss lips/navel/feet require target to submit)</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Submit System</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>SUBMIT/UNSUBMIT &mdash; accept intimate emotes from other players</li>
+                  <li>LICK behavior changes based on submit state</li>
+                  <li>Moving to a new room automatically clears submit</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Fixes</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>CEVENT script ECHO messages now delivered to players in the room</li>
+                  <li>Monster article handling: &ldquo;an orc&rdquo; vs &ldquo;a skeleton&rdquo;</li>
+                </ul>
+              </div>
+            </div>
+
+            <h2 className="text-amber-400 text-lg font-bold mb-1">v0.95 &mdash; April 3, 2026</h2>
+            <p className="text-gray-400 mb-3">LEGENDS.DOC fidelity pass &mdash; lock/unlock, ordinal targeting, Mechanoid emote, and verb aliases.</p>
+
+            <div className="space-y-4 mb-8">
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Lock &amp; Unlock</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>LOCK/UNLOCK commands match KEY items via Val3</li>
+                  <li>Proper messages for missing keys, wrong keys, already locked/unlocked</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Ordinal Targeting</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>&ldquo;2 gate&rdquo;, &ldquo;other gate&rdquo;, &ldquo;second gate&rdquo; target the Nth matching item</li>
+                  <li>Works across all 19 item-matching functions (get, drop, look, open, close, etc.)</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Mechanoid Emote</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>EMOTE/UNEMOTE is now a Mechanoid racial ability (toggle emotional state)</li>
+                  <li>ACT remains the general-purpose roleplaying command</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Verb Aliases &amp; Commands</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>ORDER as BUY synonym, UNLIGHT/IGNITE/QUAFF/SHOUT/PLACE aliases</li>
+                  <li>RECALL with no args runs room-level IFVERB RECALL scripts</li>
+                  <li>ACTBRIEF/RPBRIEF toggle commands</li>
+                  <li>POUR verb stub</li>
+                </ul>
+              </div>
+            </div>
+
             <h2 className="text-amber-400 text-lg font-bold mb-1">v0.94 &mdash; April 3, 2026</h2>
             <p className="text-gray-400 mb-3">Deep script engine, named variables, CEVENT system, food mechanics, and original fidelity.</p>
 

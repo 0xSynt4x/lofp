@@ -1,5 +1,57 @@
 # Changelog
 
+## v0.96 — 2026-04-04
+
+### Monster System
+- **Monster spawning**: Monsters appear in room descriptions from original MonsterList data
+- **TEX1-4 ambient text**: Monsters emit random flavor text on a timer based on Speed
+- **Wandering**: Non-hostile monsters (strategy < 301) wander between rooms via exits
+- **TEXG/TEXE/TEXM**: Custom text for spawn, room entry, and movement (direction appended)
+- **Examine monsters**: `exam skeleton` shows monster description
+- **Emote targeting**: Monsters targetable by all emotes (`point skeleton`, etc.)
+- **@spawn/@genmon fixed**: GM commands now actually create monster instances
+- **@genmon creates sedated** (inactive), **@spawn creates active** (will act)
+- **Speed-based ticking**: Speed 1 = every 3s, Speed 3 (default) = every 9s
+
+### New Emotes (30+)
+- **lick, nibble, bark, claw, curse, duck, hiss, hold, hula, jig, moan, massage, pinch, play, purr, roar, snarl, snuggle, wag, wait, write, yowl, thump, applaud, peer, grunt, dip, handraise, handshake, headshake, pick, gesture**
+- **Self-targeting overrides**: `spit me` → drool, `lick me` → lick lips, `laugh me` → laugh at self, `kick me` → kick self, `thump me` → thump head
+- **KISS body parts**: head, nose, lips, ears, neck, chest, hand, navel, leg, knee, feet
+- **Submit-gated**: lips, navel, leg, knee, feet require target to be submitting
+
+### Submit System
+- **SUBMIT/UNSUBMIT** commands — accept intimate emotes from other players
+- **LICK** behavior changes: non-submitted → passionate kiss, submitted → full body lick
+- Moving to a new room automatically clears submit state
+
+### Infrastructure
+- **CEVENT ECHO delivery**: Script ECHO messages from cyclic events now broadcast to players in rooms
+- **RoomBroadcast callback**: Engine background tasks (monsters, CEVENTs) can push messages to rooms via WebSocket
+- Monster article handling: "an orc" vs "a skeleton", unique monsters without article
+
+## v0.95 — 2026-04-03
+
+### Lock & Unlock
+- **LOCK/UNLOCK commands** — match KEY items via Val3, proper feedback for missing/wrong keys
+- Latched items block open; locked items block passage
+
+### Ordinal Targeting
+- **"2 gate", "other gate", "second gate"** — target the Nth matching item in a room
+- Works across all 19 item-matching functions (get, drop, look, open, close, wield, wear, etc.)
+
+### Mechanoid Emote
+- **EMOTE/UNEMOTE** — Mechanoid racial ability to toggle emotional state (race 7 only)
+- **ACT** remains the general-purpose roleplaying command for all races
+
+### Verb Aliases & Commands
+- **ORDER** as BUY synonym
+- **UNLIGHT/IGNITE** as EXTINGUISH/LIGHT aliases
+- **QUAFF** as DRINK alias, **SHOUT** as YELL alias, **PLACE** as DROP alias
+- **RECALL** with no args runs room-level IFVERB RECALL -1 scripts
+- **ACTBRIEF/RPBRIEF** toggle commands
+- **POUR** verb stub
+- **A** as shorthand for ACT (freeform roleplay)
+
 ## v0.94 — 2026-04-03
 
 ### Script Engine

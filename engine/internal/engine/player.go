@@ -105,6 +105,7 @@ type Player struct {
 	PreparedSpell   int       `bson:"preparedSpell,omitempty" json:"preparedSpell,omitempty"`
 	TelepathyActive bool      `bson:"telepathyActive,omitempty" json:"telepathyActive,omitempty"`
 	TelepathyExpiry time.Time `bson:"telepathyExpiry,omitempty" json:"telepathyExpiry,omitempty"`
+	Emotional       bool      `bson:"emotional,omitempty" json:"emotional,omitempty"`
 
 	// Teleport marks (1-10) → room number
 	Marks map[int]int `bson:"marks,omitempty" json:"marks,omitempty"`

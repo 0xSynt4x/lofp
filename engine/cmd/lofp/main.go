@@ -114,6 +114,7 @@ func main() {
 	h.Start()
 	ge.StartTimeCycle()
 	ge.StartCEventLoop()
+	ge.StartMonsterLoop()
 
 	addr := fmt.Sprintf(":%d", cfg.Server.Port)
 	log.Printf("Legends of Future Past server starting on %s", addr)

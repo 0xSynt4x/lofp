@@ -83,6 +83,11 @@ func NewServer(ge *engine.GameEngine, parsed *gameworld.ParsedData, authSvc *aut
 		})
 	})
 
+	// Set up room broadcast for background tasks (monsters, CEVENTs)
+	ge.SetRoomBroadcast(func(roomNumber int, messages []string) {
+		s.broadcastToRoom(roomNumber, "", messages)
+	})
+
 	return s
 }
 

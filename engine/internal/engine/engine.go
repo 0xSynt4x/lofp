@@ -53,6 +53,9 @@ type RoomChange struct {
 // RoomChangeCallback is called whenever room state is mutated locally.
 type RoomChangeCallback func(change RoomChange)
 
+// RoomBroadcastFunc sends messages to all players in a room (used by background tasks).
+type RoomBroadcastFunc func(roomNumber int, messages []string)
+
 // GameEngine holds the loaded game world and processes commands.
 type GameEngine struct {
 	db              *mongo.Database
@@ -65,6 +68,7 @@ type GameEngine struct {
 	startRoom       int
 	sessions        SessionProvider
 	onRoomChange    RoomChangeCallback
+	roomBroadcast   RoomBroadcastFunc
 	monsterMgr      *monsterManager
 	RegionWeather   map[int]int // region -> weather state
 	monsterLists    []gameworld.MonsterList
@@ -83,6 +87,11 @@ func (e *GameEngine) SetSessionProvider(sp SessionProvider) {
 // SetRoomChangeCallback sets the callback for cross-machine room state sync.
 func (e *GameEngine) SetRoomChangeCallback(cb RoomChangeCallback) {
 	e.onRoomChange = cb
+}
+
+// SetRoomBroadcast sets the function used by background tasks to send messages to rooms.
+func (e *GameEngine) SetRoomBroadcast(fn RoomBroadcastFunc) {
+	e.roomBroadcast = fn
 }
 
 // notifyRoomChange fires the callback if set.
@@ -267,6 +276,10 @@ func (e *GameEngine) StartCEventLoop() {
 						} else {
 							sc.execBlock(block)
 						}
+					}
+					// Deliver ECHO messages from CEVENT scripts to players in the room
+					if e.roomBroadcast != nil && len(sc.RoomMsgs) > 0 {
+						e.roomBroadcast(ce.Room, sc.RoomMsgs)
 					}
 					e.Events.Publish("cevent", fmt.Sprintf("CEVENT %d fired in room %d (%s)", ce.ID, ce.Room, room.Name))
 				}
@@ -605,20 +618,25 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 			"- Type HELP for a full command list",
 		}}
 	// Roleplay verbs — dispatched via emote table
-	case "SMILE", "BOW", "CURTSEY", "WAVE", "NOD", "LAUGH", "CHUCKLE",
+	case "SMILE", "BOW", "CURTSEY", "CURTSY", "WAVE", "NOD", "LAUGH", "CHUCKLE",
 		"GRIN", "FROWN", "SIGH", "SHRUG", "WINK", "CRY", "DANCE",
 		"HUG", "KISS", "POKE", "TICKLE", "SLAP", "HOWL", "SING",
 		"PACE", "FIDGET", "SHIVER", "SNORT", "GROAN", "MUMBLE",
 		"BABBLE", "BEAM", "SWOON", "TOAST", "SHUDDER", "POINT",
 		"KICK", "KNOCK", "PET", "PUNCH", "SPIT",
 		"GAZE", "GLARE", "SCOWL", "COMFORT", "YAWN",
-		// New emotes from chat log
 		"BLINK", "BLUSH", "CRINGE", "CUDDLE", "COUGH", "FURROW",
 		"GASP", "GIGGLE", "GRIMACE", "GROWL", "GULP", "JUMP",
 		"LEAN", "NUZZLE", "PANT", "PONDER", "POUT", "ROLL",
 		"SCREAM", "SMIRK", "SNICKER", "SALUTE", "STRETCH",
 		"TWIRL", "WINCE", "WHISTLE", "MUTTER", "CARESS", "NUDGE",
-		"ARCH", "RAISE", "HEAD", "SCRATCH", "CLAP":
+		"ARCH", "RAISE", "HEAD", "SCRATCH", "CLAP",
+		// Additional emotes
+		"LICK", "NIBBLE", "BARK", "CLAW", "CURSE", "DUCK", "HISS",
+		"HOLD", "HULA", "JIG", "MOAN", "MASSAGE", "PINCH", "PLAY",
+		"PURR", "ROAR", "SNARL", "SNUGGLE", "WAG", "WAIT", "WRITE",
+		"YOWL", "THUMP", "APPLAUD", "PEER", "GRUNT", "DIP",
+		"HANDRAISE", "HANDSHAKE", "HEADSHAKE", "PICK", "GESTURE":
 		return e.processEmote(player, verb, args)
 	case "ACT":
 		if len(args) == 0 {
@@ -628,12 +646,25 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		actMsg := fmt.Sprintf("(%s %s)", player.FirstName, action)
 		return &CommandResult{Messages: []string{actMsg}, RoomBroadcast: []string{actMsg}}
 	case "EMOTE":
-		if len(args) == 0 {
-			return &CommandResult{Messages: []string{"Emote what?"}}
+		if player.Race != RaceMechanoid {
+			return &CommandResult{Messages: []string{"Only mechanoids can toggle their emotional state."}}
 		}
-		text := extractOriginalArgs(input)
-		msg := fmt.Sprintf("%s %s", player.FirstName, text)
-		return &CommandResult{Messages: []string{msg}, RoomBroadcast: []string{msg}}
+		if player.Emotional {
+			return &CommandResult{Messages: []string{"You are already in emotional mode."}}
+		}
+		player.Emotional = true
+		e.SavePlayer(ctx, player)
+		return &CommandResult{Messages: []string{"You engage your emotional subroutines."}}
+	case "UNEMOTE":
+		if player.Race != RaceMechanoid {
+			return &CommandResult{Messages: []string{"Only mechanoids can toggle their emotional state."}}
+		}
+		if !player.Emotional {
+			return &CommandResult{Messages: []string{"Your emotional subroutines are already disengaged."}}
+		}
+		player.Emotional = false
+		e.SavePlayer(ctx, player)
+		return &CommandResult{Messages: []string{"You disengage your emotional subroutines."}}
 	case "RECITE":
 		if len(args) == 0 {
 			return &CommandResult{Messages: []string{"Recite what?"}}
@@ -645,13 +676,18 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		return &CommandResult{Messages: []string{selfMsg}, RoomBroadcast: []string{roomMsg}}
 	case "READ":
 		return e.doRead(player, args)
-	case "PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "SEARCH", "DIG", "RECALL":
+	case "PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "SEARCH", "DIG":
+		return e.doItemInteraction(ctx, player, verb, args)
+	case "RECALL":
+		if len(args) == 0 {
+			return e.doRoomRecall(player)
+		}
 		return e.doItemInteraction(ctx, player, verb, args)
 	case "CAST":
 		return e.doCast(player, args)
 	case "CONCENTRATE":
 		return &CommandResult{Messages: []string{"You concentrate deeply... [Psionics coming soon.]"}}
-	case "BUY":
+	case "BUY", "ORDER":
 		return e.doBuy(ctx, player, args)
 	case "SELL":
 		return e.doSell(ctx, player, args)
@@ -809,7 +845,23 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	case "DISGUISE":
 		return &CommandResult{Messages: []string{"[Disguise coming soon.]"}} // TODO: requires Disguise skill
 	case "SUBMIT":
-		return &CommandResult{Messages: []string{"[Submission coming soon.]"}} // TODO: surrender for arrest
+		if player.Submitting {
+			return &CommandResult{Messages: []string{"You are already submitting."}}
+		}
+		player.Submitting = true
+		return &CommandResult{
+			Messages:      []string{"You submit, accepting whatever may come."},
+			RoomBroadcast: []string{fmt.Sprintf("%s submits.", player.FirstName)},
+		}
+	case "UNSUBMIT":
+		if !player.Submitting {
+			return &CommandResult{Messages: []string{"You are not submitting."}}
+		}
+		player.Submitting = false
+		return &CommandResult{
+			Messages:      []string{"You stop submitting."},
+			RoomBroadcast: []string{fmt.Sprintf("%s stops submitting.", player.FirstName)},
+		}
 	case "ARREST":
 		return &CommandResult{Messages: []string{"[Arrest coming soon.]"}} // TODO: lawkeeper arrest
 	case "ENROLL":
@@ -834,6 +886,16 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 			Messages:    []string{"Your request for assistance has been noted. A gamemaster will be with you as soon as possible."},
 			GMBroadcast: []string{fmt.Sprintf("[GM] %s is requesting assistance at %s (room %d).", player.FirstName, roomName, player.RoomNumber)},
 		}
+	case "LOCK":
+		return e.doLock(ctx, player, args)
+	case "UNLOCK":
+		return e.doUnlock(ctx, player, args)
+	case "POUR":
+		return &CommandResult{Messages: []string{"[Liquid transfer coming soon.]"}}
+	case "ACTBRIEF":
+		return &CommandResult{Messages: []string{"ACT brief mode toggled."}}
+	case "RPBRIEF":
+		return &CommandResult{Messages: []string{"RP brief mode toggled."}}
 	case "SNIFF", "SMELL":
 		if len(args) > 0 {
 			return e.doItemInteraction(ctx, player, "SNIFF", args)
@@ -886,7 +948,7 @@ var allVerbs = []string{
 	"SURVEY", "SPLIT",
 	// Racial (TODO: implement)
 	"BLEND", "CALL", "TRANSFORM", "MOLD",
-	"DISGUISE", "SUBMIT", "ARREST",
+	"DISGUISE", "SUBMIT", "UNSUBMIT", "ARREST",
 	"ENROLL", "INITIATE", "JOIN", "FOLLOW", "LEAVE", "DISBAND",
 	"TEND", "BREAK",
 	"SNIFF", "SMELL", "LISTEN",
@@ -911,6 +973,16 @@ var allVerbs = []string{
 	"SCREAM", "SMIRK", "SNICKER", "SALUTE", "STRETCH", "TAP",
 	"TWIRL", "WINCE", "WHISTLE", "MUTTER", "CARESS", "NUDGE",
 	"ARCH", "RAISE", "HEAD", "SCRATCH", "CLAP",
+	// Additional emotes
+	"LICK", "NIBBLE", "BARK", "CLAW", "CURSE", "DUCK", "HISS",
+	"HOLD", "HULA", "JIG", "MOAN", "MASSAGE", "PINCH", "PLAY",
+	"PURR", "ROAR", "SNARL", "SNUGGLE", "WAG", "WAIT", "WRITE",
+	"YOWL", "THUMP", "APPLAUD", "PEER", "GRUNT", "DIP",
+	"HANDRAISE", "HANDSHAKE", "HEADSHAKE", "PICK", "GESTURE",
+	"CURTSY",
+	// Additional verbs
+	"ORDER", "UNLIGHT", "IGNITE", "QUAFF", "SHOUT",
+	"LOCK", "UNLOCK", "POUR", "UNEMOTE", "ACTBRIEF", "RPBRIEF",
 }
 
 // verbAliases maps short exact aliases that should bypass prefix matching.
@@ -921,6 +993,9 @@ var verbAliases = map[string]string{
 	"DON": "WEAR", "EXIT": "QUIT", "SKILL": "SKILLS",
 	"WHI": "WHISPER", "THIN": "THINK", "CONTA": "CONTACT",
 	"DI": "DIAGNOSE", "TURN": "TWIRL",
+	"ORDER": "BUY", "UNLIGHT": "EXTINGUISH", "IGNITE": "LIGHT",
+	"QUAFF": "DRINK", "SHOUT": "YELL", "A": "ATTACK",
+	"PLACE": "PUT",
 }
 
 // resolveVerb resolves a typed verb to its canonical form.
@@ -1005,6 +1080,7 @@ func (e *GameEngine) doMove(ctx context.Context, player *Player, dir string) *Co
 	}
 
 	player.RoomNumber = destNum
+	player.Submitting = false // moving clears submit state
 	e.SavePlayer(ctx, player)
 	result := e.doLook(player)
 	result.OldRoom = oldRoom
@@ -1216,6 +1292,11 @@ func (e *GameEngine) doLookAt(player *Player, args []string) *CommandResult {
 		return e.examinePlayer(player, found)
 	}
 
+	// Check if target is a monster in the room
+	if _, monDef := e.findMonsterInRoom(player, target); monDef != nil {
+		return e.examineMonster(monDef)
+	}
+
 	// Check IN/ON/UNDER prefixes
 	prefix := ""
 	remaining := target
@@ -1226,6 +1307,8 @@ func (e *GameEngine) doLookAt(player *Player, args []string) *CommandResult {
 			break
 		}
 	}
+	remaining, ordSkip := parseOrdinal(remaining)
+	skip := ordSkip
 
 	room := e.rooms[player.RoomNumber]
 	if room == nil {
@@ -1240,6 +1323,7 @@ func (e *GameEngine) doLookAt(player *Player, args []string) *CommandResult {
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, remaining, e.getAdjName(ri.Adj1)) {
+			if skip > 0 { skip--; continue }
 			if prefix != "" {
 				return e.lookPrefixRoomItem(room, itemDef, &ri, prefix)
 			}
@@ -1259,6 +1343,7 @@ func (e *GameEngine) doLookAt(player *Player, args []string) *CommandResult {
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, remaining, e.getAdjName(ii.Adj1)) || matchesTarget(name, remaining, e.getAdjName(ii.Adj3)) {
+			if skip > 0 { skip--; continue }
 			return &CommandResult{Messages: []string{fmt.Sprintf("You look at your %s.", name)}}
 		}
 	}
@@ -1290,6 +1375,41 @@ func (e *GameEngine) findPlayerInRoom(self *Player, target string) *Player {
 		}
 	}
 	return nil
+}
+
+// findMonsterInRoom finds a monster in the player's room by name prefix.
+// Returns the MonsterInstance and its definition, or nil if not found.
+func (e *GameEngine) findMonsterInRoom(player *Player, target string) (*MonsterInstance, *gameworld.MonsterDef) {
+	if e.monsterMgr == nil {
+		return nil, nil
+	}
+	monsters := e.monsterMgr.MonstersInRoom(player.RoomNumber)
+	target = strings.ToLower(target)
+	for i := range monsters {
+		def := e.monsters[monsters[i].DefNumber]
+		if def == nil {
+			continue
+		}
+		name := strings.ToLower(FormatMonsterName(def, e.monAdjs))
+		// Match by full name, noun only, or prefix
+		noun := strings.ToLower(def.Name)
+		if strings.HasPrefix(name, target) || strings.HasPrefix(noun, target) {
+			return &monsters[i], def
+		}
+	}
+	return nil, nil
+}
+
+// examineMonster returns a description of a monster.
+func (e *GameEngine) examineMonster(def *gameworld.MonsterDef) *CommandResult {
+	name := FormatMonsterName(def, e.monAdjs)
+	var msgs []string
+	if def.Description != "" {
+		msgs = append(msgs, def.Description)
+	} else {
+		msgs = append(msgs, fmt.Sprintf("You see a %s.", name))
+	}
+	return &CommandResult{Messages: msgs}
 }
 
 // examinePlayer returns a description of a player as seen by the observer.
@@ -1400,6 +1520,9 @@ func (e *GameEngine) doGo(ctx context.Context, player *Player, args []string) *C
 		return e.doMove(ctx, player, dir)
 	}
 
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
+
 	// Try portals (doors, trails, arches, etc.)
 	for i, ri := range room.Items {
 		itemDef := e.items[ri.Archetype]
@@ -1410,6 +1533,7 @@ func (e *GameEngine) doGo(ctx context.Context, player *Player, args []string) *C
 		if !matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
 			continue
 		}
+		if skip > 0 { skip--; continue }
 		if isPortal(itemDef.Type) {
 			return e.doGoPortal(ctx, player, room, &room.Items[i], itemDef)
 		}
@@ -1521,6 +1645,8 @@ func (e *GameEngine) doClimb(ctx context.Context, player *Player, args []string)
 		return &CommandResult{Messages: []string{"Climb what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	room := e.rooms[player.RoomNumber]
 	if room == nil {
 		return &CommandResult{Messages: []string{"You can't do that here."}}
@@ -1533,6 +1659,7 @@ func (e *GameEngine) doClimb(ctx context.Context, player *Player, args []string)
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
+			if skip > 0 { skip--; continue }
 			if isPortal(itemDef.Type) {
 				return e.doGoPortal(ctx, player, room, &room.Items[i], itemDef)
 			}
@@ -1578,6 +1705,8 @@ func (e *GameEngine) doItemInteraction(ctx context.Context, player *Player, verb
 		return &CommandResult{Messages: []string{fmt.Sprintf("%s what?", strings.Title(verbLower))}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	room := e.rooms[player.RoomNumber]
 	if room == nil {
 		return &CommandResult{Messages: []string{"You can't do that here."}}
@@ -1590,6 +1719,7 @@ func (e *GameEngine) doItemInteraction(ctx context.Context, player *Player, verb
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
+			if skip > 0 { skip--; continue }
 			result := &CommandResult{}
 			// Run IFPREVERB scripts (room-level and item-level)
 			sc := e.RunPreverbScripts(player, room, verb, &room.Items[i], itemDef)
@@ -1651,6 +1781,7 @@ func (e *GameEngine) doItemInteraction(ctx context.Context, player *Player, verb
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) || matchesTarget(name, target, e.getAdjName(ii.Adj3)) {
+			if skip > 0 { skip--; continue }
 			// Create a temporary RoomItem for script context
 			tempRI := gameworld.RoomItem{Ref: -1, Archetype: ii.Archetype,
 				Adj1: ii.Adj1, Adj2: ii.Adj2, Adj3: ii.Adj3,
@@ -1680,6 +1811,8 @@ func (e *GameEngine) doGet(ctx context.Context, player *Player, args []string) *
 		return &CommandResult{Messages: []string{"Get what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	room := e.rooms[player.RoomNumber]
 	if room == nil {
 		return &CommandResult{Messages: []string{"You can't do that here."}}
@@ -1698,6 +1831,7 @@ func (e *GameEngine) doGet(ctx context.Context, player *Player, args []string) *
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
+			if skip > 0 { skip--; continue }
 			// Add to inventory
 			player.Inventory = append(player.Inventory, InventoryItem{
 				Archetype: ri.Archetype,
@@ -1724,6 +1858,8 @@ func (e *GameEngine) doDrop(ctx context.Context, player *Player, args []string) 
 		return &CommandResult{Messages: []string{"Drop what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	room := e.rooms[player.RoomNumber]
 	if room == nil {
 		return &CommandResult{Messages: []string{"You can't do that here."}}
@@ -1736,6 +1872,7 @@ func (e *GameEngine) doDrop(ctx context.Context, player *Player, args []string) 
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+			if skip > 0 { skip--; continue }
 			droppedItem := gameworld.RoomItem{
 				Ref: len(room.Items),
 				Archetype: ii.Archetype,
@@ -1831,6 +1968,8 @@ func (e *GameEngine) doWield(ctx context.Context, player *Player, args []string)
 		return &CommandResult{Messages: []string{"Wield what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	for i, ii := range player.Inventory {
 		itemDef := e.items[ii.Archetype]
 		if itemDef == nil {
@@ -1841,6 +1980,7 @@ func (e *GameEngine) doWield(ctx context.Context, player *Player, args []string)
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+			if skip > 0 { skip--; continue }
 			if player.Wielded != nil {
 				player.Inventory = append(player.Inventory, *player.Wielded)
 			}
@@ -1881,6 +2021,8 @@ func (e *GameEngine) doWear(ctx context.Context, player *Player, args []string) 
 		return &CommandResult{Messages: []string{"Wear what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	for i, ii := range player.Inventory {
 		itemDef := e.items[ii.Archetype]
 		if itemDef == nil {
@@ -1891,6 +2033,7 @@ func (e *GameEngine) doWear(ctx context.Context, player *Player, args []string) 
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+			if skip > 0 { skip--; continue }
 			worn := player.Inventory[i]
 			worn.WornSlot = itemDef.WornSlot
 			player.Inventory = append(player.Inventory[:i], player.Inventory[i+1:]...)
@@ -1911,6 +2054,8 @@ func (e *GameEngine) doRemove(ctx context.Context, player *Player, args []string
 		return &CommandResult{Messages: []string{"Remove what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	for i, ii := range player.Worn {
 		itemDef := e.items[ii.Archetype]
 		if itemDef == nil {
@@ -1918,6 +2063,7 @@ func (e *GameEngine) doRemove(ctx context.Context, player *Player, args []string
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+			if skip > 0 { skip--; continue }
 			removed := player.Worn[i]
 			removed.WornSlot = ""
 			player.Worn = append(player.Worn[:i], player.Worn[i+1:]...)
@@ -1938,6 +2084,8 @@ func (e *GameEngine) doOpen(player *Player, args []string) *CommandResult {
 		return &CommandResult{Messages: []string{"Open what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	room := e.rooms[player.RoomNumber]
 	if room == nil {
 		return &CommandResult{Messages: []string{"You can't do that here."}}
@@ -1949,6 +2097,7 @@ func (e *GameEngine) doOpen(player *Player, args []string) *CommandResult {
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
+			if skip > 0 { skip--; continue }
 			if !containsFlag(itemDef.Flags, "OPENABLE") && !isPortal(itemDef.Type) {
 				return &CommandResult{Messages: []string{"You can't open that."}}
 			}
@@ -1972,6 +2121,8 @@ func (e *GameEngine) doClose(player *Player, args []string) *CommandResult {
 		return &CommandResult{Messages: []string{"Close what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	room := e.rooms[player.RoomNumber]
 	if room == nil {
 		return &CommandResult{Messages: []string{"You can't do that here."}}
@@ -1983,6 +2134,7 @@ func (e *GameEngine) doClose(player *Player, args []string) *CommandResult {
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
+			if skip > 0 { skip--; continue }
 			room.Items[i].State = "CLOSED"
 			e.notifyRoomChange(RoomChange{RoomNumber: player.RoomNumber, Type: "item_state", ItemRef: ri.Ref, NewState: "CLOSED"})
 			fullName := e.formatItemName(itemDef, ri.Adj1, ri.Adj2, ri.Adj3)
@@ -2049,6 +2201,8 @@ func (e *GameEngine) doGive(ctx context.Context, player *Player, args []string) 
 	} else {
 		return &CommandResult{Messages: []string{"Give what to whom? (give <item> to <player>)"}}
 	}
+	itemName, ordSkip := parseOrdinal(itemName)
+	skip := ordSkip
 
 	// Find the item in inventory
 	for i, ii := range player.Inventory {
@@ -2060,6 +2214,7 @@ func (e *GameEngine) doGive(ctx context.Context, player *Player, args []string) 
 		if !matchesTarget(name, itemName, e.getAdjName(ii.Adj1)) {
 			continue
 		}
+		if skip > 0 { skip--; continue }
 		// Find the target player
 		target := e.findPlayerInRoom(player, targetName)
 		if target == nil {
@@ -2086,6 +2241,8 @@ func (e *GameEngine) doEat(ctx context.Context, player *Player, args []string) *
 		return &CommandResult{Messages: []string{"Eat what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	for i, ii := range player.Inventory {
 		itemDef := e.items[ii.Archetype]
 		if itemDef == nil {
@@ -2096,6 +2253,7 @@ func (e *GameEngine) doEat(ctx context.Context, player *Player, args []string) *
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+			if skip > 0 { skip--; continue }
 			fullName := e.formatItemName(itemDef, ii.Adj1, ii.Adj2, ii.Adj3)
 
 			// Run item scripts FIRST — they may set ITEMVAL3 based on adjective checks
@@ -2192,6 +2350,8 @@ func (e *GameEngine) doBuy(ctx context.Context, player *Player, args []string) *
 		return &CommandResult{Messages: []string{"Buy what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	room := e.rooms[player.RoomNumber]
 	if room == nil || len(room.StoreItems) == 0 {
 		return &CommandResult{Messages: []string{"There is nothing for sale here."}}
@@ -2210,6 +2370,7 @@ func (e *GameEngine) doBuy(ctx context.Context, player *Player, args []string) *
 		if !matchesTarget(name, target, adjName) {
 			continue
 		}
+		if skip > 0 { skip--; continue }
 
 		// Check affordability
 		totalCopper := player.Gold*100 + player.Silver*10 + player.Copper
@@ -2267,6 +2428,8 @@ func (e *GameEngine) doSell(ctx context.Context, player *Player, args []string) 
 		return &CommandResult{Messages: []string{"Sell what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	room := e.rooms[player.RoomNumber]
 	if room == nil {
 		return &CommandResult{Messages: []string{"You can't sell anything here."}}
@@ -2291,6 +2454,7 @@ func (e *GameEngine) doSell(ctx context.Context, player *Player, args []string) 
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+			if skip > 0 { skip--; continue }
 			displayName := e.formatItemName(itemDef, ii.Adj1, ii.Adj2, ii.Adj3)
 			player.Inventory = append(player.Inventory[:i], player.Inventory[i+1:]...)
 			player.Copper += 1
@@ -2329,6 +2493,8 @@ func (e *GameEngine) doDrink(ctx context.Context, player *Player, args []string)
 		return &CommandResult{Messages: []string{"Drink what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	for i, ii := range player.Inventory {
 		itemDef := e.items[ii.Archetype]
 		if itemDef == nil {
@@ -2341,6 +2507,7 @@ func (e *GameEngine) doDrink(ctx context.Context, player *Player, args []string)
 		if !matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
 			continue
 		}
+		if skip > 0 { skip--; continue }
 		displayName := e.formatItemName(itemDef, ii.Adj1, ii.Adj2, ii.Adj3)
 		if itemDef.Type == "FOOD" {
 			// EAT logic — redirect to doEat
@@ -2401,12 +2568,15 @@ func (e *GameEngine) doLight(ctx context.Context, player *Player, args []string,
 		return &CommandResult{Messages: []string{"Extinguish what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	for i, ii := range player.Inventory {
 		itemDef := e.items[ii.Archetype]
 		if itemDef == nil { continue }
 		if !containsFlag(itemDef.Flags, "LIGHTABLE") { continue }
 		name := e.getItemNounName(itemDef)
 		if !matchesTarget(name, target, e.getAdjName(ii.Adj1)) { continue }
+		if skip > 0 { skip--; continue }
 		displayName := e.formatItemName(itemDef, ii.Adj1, ii.Adj2, ii.Adj3)
 		if lightOn {
 			player.Inventory[i].State = "LIT"
@@ -2423,6 +2593,8 @@ func (e *GameEngine) doLight(ctx context.Context, player *Player, args []string,
 func (e *GameEngine) doFlip(ctx context.Context, player *Player, args []string) *CommandResult {
 	if len(args) == 0 { return &CommandResult{Messages: []string{"Flip what?"}} }
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	room := e.rooms[player.RoomNumber]
 	if room == nil { return &CommandResult{Messages: []string{"You can't do that here."}} }
 	for i, ri := range room.Items {
@@ -2431,6 +2603,7 @@ func (e *GameEngine) doFlip(ctx context.Context, player *Player, args []string) 
 		if !containsFlag(itemDef.Flags, "FLIPABLE") { continue }
 		name := e.getItemNounName(itemDef)
 		if !matchesTarget(name, target, e.getAdjName(ri.Adj1)) { continue }
+		if skip > 0 { skip--; continue }
 		displayName := e.formatItemName(itemDef, ri.Adj1, ri.Adj2, ri.Adj3)
 		if ri.State == "FLIPPED" {
 			room.Items[i].State = "UNFLIPPED"
@@ -2455,6 +2628,8 @@ func (e *GameEngine) doLatch(player *Player, args []string, latch bool) *Command
 		return &CommandResult{Messages: []string{"Unlatch what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 	room := e.rooms[player.RoomNumber]
 	if room == nil { return &CommandResult{Messages: []string{"You can't do that here."}} }
 	for i, ri := range room.Items {
@@ -2463,6 +2638,7 @@ func (e *GameEngine) doLatch(player *Player, args []string, latch bool) *Command
 		if !containsFlag(itemDef.Flags, "LATCHABLE") { continue }
 		name := e.getItemNounName(itemDef)
 		if !matchesTarget(name, target, e.getAdjName(ri.Adj1)) { continue }
+		if skip > 0 { skip--; continue }
 		displayName := e.formatItemName(itemDef, ri.Adj1, ri.Adj2, ri.Adj3)
 		if latch {
 			room.Items[i].State = "LATCHED"
@@ -2474,6 +2650,150 @@ func (e *GameEngine) doLatch(player *Player, args []string, latch bool) *Command
 		return &CommandResult{Messages: []string{fmt.Sprintf("You unlatch %s.", displayName)}}
 	}
 	return &CommandResult{Messages: []string{"You don't see anything to latch here."}}
+}
+
+func (e *GameEngine) doLock(ctx context.Context, player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		return &CommandResult{Messages: []string{"Lock what?"}}
+	}
+	raw := strings.ToLower(strings.Join(args, " "))
+	target, keyName := parseWithClause(raw)
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
+	room := e.rooms[player.RoomNumber]
+	if room == nil {
+		return &CommandResult{Messages: []string{"You can't do that here."}}
+	}
+	for i, ri := range room.Items {
+		itemDef := e.items[ri.Archetype]
+		if itemDef == nil {
+			continue
+		}
+		if !containsFlag(itemDef.Flags, "LOCKABLE") {
+			continue
+		}
+		name := e.getItemNounName(itemDef)
+		if !matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
+			continue
+		}
+		if skip > 0 {
+			skip--
+			continue
+		}
+		if ri.State == "LOCKED" {
+			return &CommandResult{Messages: []string{"It's already locked."}}
+		}
+		// Find matching key
+		keyItem := e.findKey(player, ri.Val3, keyName)
+		if keyItem == nil {
+			return &CommandResult{Messages: []string{"You don't have the right key."}}
+		}
+		room.Items[i].State = "LOCKED"
+		e.notifyRoomChange(RoomChange{RoomNumber: player.RoomNumber, Type: "item_state", ItemRef: ri.Ref, NewState: "LOCKED"})
+		displayName := e.formatItemName(itemDef, ri.Adj1, ri.Adj2, ri.Adj3)
+		return &CommandResult{Messages: []string{fmt.Sprintf("You lock %s.", displayName)}}
+	}
+	return &CommandResult{Messages: []string{"You don't see anything to lock here."}}
+}
+
+func (e *GameEngine) doUnlock(ctx context.Context, player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		return &CommandResult{Messages: []string{"Unlock what?"}}
+	}
+	raw := strings.ToLower(strings.Join(args, " "))
+	target, keyName := parseWithClause(raw)
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
+	room := e.rooms[player.RoomNumber]
+	if room == nil {
+		return &CommandResult{Messages: []string{"You can't do that here."}}
+	}
+	for i, ri := range room.Items {
+		itemDef := e.items[ri.Archetype]
+		if itemDef == nil {
+			continue
+		}
+		if !containsFlag(itemDef.Flags, "LOCKABLE") {
+			continue
+		}
+		name := e.getItemNounName(itemDef)
+		if !matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
+			continue
+		}
+		if skip > 0 {
+			skip--
+			continue
+		}
+		if ri.State != "LOCKED" {
+			return &CommandResult{Messages: []string{"It isn't locked."}}
+		}
+		// Find matching key
+		keyItem := e.findKey(player, ri.Val3, keyName)
+		if keyItem == nil {
+			return &CommandResult{Messages: []string{"You don't have the right key."}}
+		}
+		room.Items[i].State = "CLOSED"
+		e.notifyRoomChange(RoomChange{RoomNumber: player.RoomNumber, Type: "item_state", ItemRef: ri.Ref, NewState: "CLOSED"})
+		displayName := e.formatItemName(itemDef, ri.Adj1, ri.Adj2, ri.Adj3)
+		return &CommandResult{Messages: []string{fmt.Sprintf("You unlock %s.", displayName)}}
+	}
+	return &CommandResult{Messages: []string{"You don't see anything to unlock here."}}
+}
+
+// parseWithClause splits "target with key" into (target, key). If no "with", key is "".
+func parseWithClause(s string) (string, string) {
+	idx := strings.Index(s, " with ")
+	if idx < 0 {
+		return s, ""
+	}
+	return strings.TrimSpace(s[:idx]), strings.TrimSpace(s[idx+6:])
+}
+
+// findKey searches the player's inventory for a KEY-type item whose Val3 matches lockVal3.
+// If keyName is non-empty, the key must also match that name.
+func (e *GameEngine) findKey(player *Player, lockVal3 int, keyName string) *InventoryItem {
+	allItems := make([]InventoryItem, 0, len(player.Inventory))
+	allItems = append(allItems, player.Inventory...)
+	for i := range allItems {
+		ii := &allItems[i]
+		itemDef := e.items[ii.Archetype]
+		if itemDef == nil {
+			continue
+		}
+		if !strings.EqualFold(itemDef.Type, "KEY") {
+			continue
+		}
+		if ii.Val3 != lockVal3 {
+			continue
+		}
+		if keyName != "" {
+			name := e.getItemNounName(itemDef)
+			if !matchesTarget(name, keyName, e.getAdjName(ii.Adj1)) {
+				continue
+			}
+		}
+		return ii
+	}
+	return nil
+}
+
+func (e *GameEngine) doRoomRecall(player *Player) *CommandResult {
+	room := e.rooms[player.RoomNumber]
+	if room == nil {
+		return &CommandResult{Messages: []string{"Nothing comes to mind."}}
+	}
+	sc := &ScriptContext{Player: player, Room: room, Engine: e}
+	for _, block := range room.Scripts {
+		if block.Type == "IFVERB" && len(block.Args) >= 2 {
+			if strings.EqualFold(block.Args[0], "RECALL") && block.Args[1] == "-1" {
+				sc.execBlock(block)
+			}
+		}
+	}
+	if len(sc.Messages) > 0 {
+		return &CommandResult{Messages: sc.Messages}
+	}
+	return &CommandResult{Messages: []string{"Nothing comes to mind about this place."}}
 }
 
 func (e *GameEngine) doDeposit(ctx context.Context, player *Player, args []string) *CommandResult {
@@ -2803,6 +3123,8 @@ func (e *GameEngine) doRead(player *Player, args []string) *CommandResult {
 		return &CommandResult{Messages: []string{"Read what?"}}
 	}
 	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
 
 	room := e.rooms[player.RoomNumber]
 	if room == nil {
@@ -2817,6 +3139,7 @@ func (e *GameEngine) doRead(player *Player, args []string) *CommandResult {
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
+			if skip > 0 { skip--; continue }
 			return e.readRoomItem(room, itemDef, &ri)
 		}
 	}
@@ -2833,6 +3156,7 @@ func (e *GameEngine) doRead(player *Player, args []string) *CommandResult {
 		}
 		name := e.getItemNounName(itemDef)
 		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) || matchesTarget(name, target, e.getAdjName(ii.Adj3)) {
+			if skip > 0 { skip--; continue }
 			return &CommandResult{Messages: []string{"There is nothing written on it."}}
 		}
 	}
@@ -3184,6 +3508,45 @@ func (e *GameEngine) formatItemLook(def *gameworld.ItemDef, ri *gameworld.RoomIt
 		msgs = append(msgs, "It appears to lead somewhere.")
 	}
 	return msgs
+}
+
+// parseOrdinal extracts an ordinal prefix from a target string.
+// Returns (cleanTarget, ordinalNumber). ordinal 0 means "first/default".
+// "2 gate" → ("gate", 1), "other gate" → ("gate", 1), "second gate" → ("gate", 1),
+// "first gate" → ("gate", 0), "3 gate" → ("gate", 2), "gate" → ("gate", 0)
+func parseOrdinal(target string) (string, int) {
+	ordinalWords := map[string]int{
+		"first": 0, "second": 1, "third": 2, "fourth": 3, "fifth": 4,
+		"sixth": 5, "seventh": 6, "eighth": 7, "ninth": 8, "tenth": 9,
+		"other": 1,
+	}
+	parts := strings.SplitN(target, " ", 2)
+	if len(parts) < 2 {
+		return target, 0
+	}
+	first := strings.ToLower(parts[0])
+	// Check word ordinals
+	if ord, ok := ordinalWords[first]; ok {
+		return parts[1], ord
+	}
+	// Check numeric: "2 gate" means 2nd (index 1)
+	if num, err := strconv.Atoi(first); err == nil && num >= 1 {
+		return parts[1], num - 1
+	}
+	return target, 0
+}
+
+// matchesTargetOrdinal checks if a target matches, accounting for ordinal prefixes.
+// It returns true and decrements *skip if matching. When *skip reaches 0, it's the right one.
+func matchesTargetOrdinal(nounName, cleanTarget, adjName string, skip *int) bool {
+	if !matchesTarget(nounName, cleanTarget, adjName) {
+		return false
+	}
+	if *skip > 0 {
+		*skip--
+		return false
+	}
+	return true
 }
 
 func matchesTarget(nounName, target, adjName string) bool {
