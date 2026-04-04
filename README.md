@@ -5,7 +5,7 @@
 ---
 
 <p align="center">
-  <img src="frontend/src/assets/hero.png" alt="Legends of Future Past" width="300">
+  <img src="https://upload.wikimedia.org/wikipedia/en/a/a6/LegendsOfFuturePaste_flyer.jpg" alt="Legends of Future Past promotional flyer" width="400">
 </p>
 
 I'm [Jon Radoff](https://metavert.io), and I created *Legends of Future Past* in 1992. It was a text-based online multiplayer game — what we called a MUD — that ran for seven years on dial-up terminals, CompuServe, and packet-switching networks like Tymnet. The original engine was written in fully reentrant C, running on a heavily modified [The Major BBS](https://en.wikipedia.org/wiki/The_Major_BBS) platform — a single Pentium PC with 16MB of RAM serving dozens of simultaneous players.
