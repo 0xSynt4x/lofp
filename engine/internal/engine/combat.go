@@ -1551,7 +1551,7 @@ func capArticle(article string) string {
 // isNaturalWeapon returns true for body-part weapons that shouldn't drop as loot.
 func isNaturalWeapon(itemType string) bool {
 	switch itemType {
-	case "CLAW_WEAPON", "BITE_WEAPON":
+	case "CLAW_WEAPON", "BITE_WEAPON", "FIST_WEAPON", "CHARGE_WEAPON":
 		return true
 	}
 	return false
