@@ -117,6 +117,7 @@ type GameEngine struct {
 	RegionWeather   map[int]int // region -> weather state
 	monsterLists    []gameworld.MonsterList
 	cevents         []gameworld.CEvent
+	forageDefs      []gameworld.ForageDef
 	PVals           map[int]int // persistent global values
 	NamedVars       map[string]int // VARIABLE-defined global named variables (DANWATER, etc.)
 	namedVarNames   map[string]bool // set of valid named variable names
@@ -238,6 +239,9 @@ func NewGameEngine(db *mongo.Database, parsed *gameworld.ParsedData) *GameEngine
 	for i := range parsed.Monsters {
 		e.monsters[parsed.Monsters[i].Number] = &parsed.Monsters[i]
 	}
+
+	// Load forage definitions
+	e.forageDefs = parsed.ForageDefs
 
 	// Initialize event bus for admin monitoring
 	e.Events = NewEventBus()
@@ -787,10 +791,22 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	case "TRAIN":
 		return e.doTrain(ctx, player, args)
 	case "MINE":
-		return e.doMine(player)
+		return e.doMineReal(ctx, player)
 	case "FORAGE":
-		return e.doForage(player)
-	case "CRAFT", "FORGE", "SMELT", "WEAVE", "DYE", "BREW", "ANALYZE", "WORK", "REPAIR":
+		return e.doForageReal(ctx, player)
+	case "SMELT":
+		return e.doSmelt(ctx, player, args)
+	case "CRAFT", "FORGE":
+		return e.doCraft(ctx, player, args)
+	case "DYE":
+		return e.doDye(ctx, player, args)
+	case "BREW":
+		return e.doBrew(ctx, player, args)
+	case "ANALYZE":
+		return e.doAnalyze(ctx, player, args)
+	case "WEAVE":
+		return e.doCraft(ctx, player, args) // weave uses same craft logic at LOOM
+	case "WORK", "REPAIR":
 		return &CommandResult{Messages: []string{fmt.Sprintf("[%s system coming soon.]", strings.Title(strings.ToLower(verb)))}}
 	// === MOVEMENT/STEALTH ===
 	case "HIDE":
@@ -3238,23 +3254,7 @@ func (e *GameEngine) doUnlearn(ctx context.Context, player *Player, args []strin
 	return &CommandResult{Messages: []string{"You don't know that skill."}}
 }
 
-func (e *GameEngine) doMine(player *Player) *CommandResult {
-	room := e.rooms[player.RoomNumber]
-	if room == nil { return &CommandResult{Messages: []string{"You can't mine here."}} }
-	hasMine := containsModifier(room.Modifiers, "MINEA") || containsModifier(room.Modifiers, "MINEB") || containsModifier(room.Modifiers, "MINEC")
-	if !hasMine { return &CommandResult{Messages: []string{"There is nothing to mine here."}} }
-	return &CommandResult{Messages: []string{"You swing your pick at the rock face... [Mining system coming soon.]"}}
-}
-
-func (e *GameEngine) doForage(player *Player) *CommandResult {
-	room := e.rooms[player.RoomNumber]
-	if room == nil { return &CommandResult{Messages: []string{"You can't forage here."}} }
-	switch room.Terrain {
-	case "FOREST", "MOUNTAIN", "PLAIN", "SWAMP", "JUNGLE":
-		return &CommandResult{Messages: []string{"You search the area for useful materials... [Foraging system coming soon.]"}}
-	}
-	return &CommandResult{Messages: []string{"There is nothing to forage here."}}
-}
+// doMine and doForage moved to crafting.go
 
 func (e *GameEngine) doPositionWithScripts(ctx context.Context, player *Player, verb, selfMsg, roomMsg string) *CommandResult {
 	result := &CommandResult{
