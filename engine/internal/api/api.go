@@ -142,7 +142,7 @@ func (s *Server) setupRoutes() {
 	s.router.Use(s.corsMiddleware)
 
 	// Health check (vibectl compatible)
-	s.router.HandleFunc("/healthz", s.handleHealthz).Methods("GET")
+	s.router.HandleFunc("/healthz", s.handleHealthz).Methods("GET", "HEAD")
 
 	// Game WebSocket
 	s.router.HandleFunc("/ws/game", s.handleGameWS)
