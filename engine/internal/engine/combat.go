@@ -802,9 +802,10 @@ func (e *GameEngine) doAttackMonster(ctx context.Context, player *Player, target
 	player.RoundTimeExpiry = time.Now().Add(time.Duration(rtSeconds) * time.Second)
 	result.Messages = append(result.Messages, fmt.Sprintf("[Round: %d sec]", rtSeconds))
 
-	// Attacking always reveals you
-	if player.Hidden {
+	// Attacking always reveals you (both hidden and invisible)
+	if player.Hidden || player.Invisible {
 		player.Hidden = false
+		player.Invisible = false
 		result.Messages = append([]string{"You reveal yourself!"}, result.Messages...)
 	}
 
@@ -829,6 +830,7 @@ func (e *GameEngine) doBackstab(ctx context.Context, player *Player, target stri
 	// Backstab: attack from hidden with damage multiplier
 	player.BackstabNext = true
 	player.Hidden = false
+	player.Invisible = false
 	result := e.doAttackMonster(ctx, player, target)
 	player.BackstabNext = false
 	result.Messages = append([]string{"You leap from the shadows!"}, result.Messages...)
@@ -1452,7 +1454,7 @@ func (e *GameEngine) monsterFlee(inst *MonsterInstance, def *gameworld.MonsterDe
 }
 
 func (e *GameEngine) monsterCheckAggro(player *Player, roomNum int) {
-	if e.monsterMgr == nil || player.Dead || player.Hidden || player.GMInvis {
+	if e.monsterMgr == nil || player.Dead || player.Hidden || player.Invisible || player.GMInvis {
 		return
 	}
 

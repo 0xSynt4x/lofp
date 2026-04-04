@@ -1347,7 +1347,7 @@ func (e *GameEngine) doLook(player *Player) *CommandResult {
 			if p.FirstName == player.FirstName && p.LastName == player.LastName {
 				continue
 			}
-			if p.Hidden || p.GMInvis {
+			if p.Hidden || p.Invisible || p.GMInvis {
 				continue
 			}
 			posDesc := ""
@@ -1538,7 +1538,7 @@ func (e *GameEngine) findPlayerInRoom(self *Player, target string) *Player {
 		if p.FirstName == self.FirstName && p.LastName == self.LastName {
 			continue // skip self, handled separately
 		}
-		if p.Hidden || p.GMInvis {
+		if p.Hidden || p.Invisible || p.GMInvis {
 			continue
 		}
 		if strings.HasPrefix(strings.ToLower(p.FirstName), target) {

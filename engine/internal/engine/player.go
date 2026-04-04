@@ -75,7 +75,8 @@ type Player struct {
 	// Position
 	RoomNumber int  `bson:"roomNumber" json:"roomNumber"`
 	Position   int  `bson:"position" json:"position"` // 0=standing, 1=sitting, 2=laying, 3=kneeling, 4=flying
-	Hidden     bool `bson:"hidden" json:"hidden"`
+	Hidden     bool `bson:"hidden" json:"hidden"`         // stealth: revealed by movement, emotes, attacks
+	Invisible  bool `bson:"invisible" json:"invisible"`   // spell effect: not revealed by movement, only by attacks or dispel
 	Dead       bool `bson:"dead" json:"dead"`
 
 	// Physical attributes

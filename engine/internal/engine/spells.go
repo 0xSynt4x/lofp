@@ -462,7 +462,7 @@ func (e *GameEngine) castBuffSpell(player *Player, spell *SpellDef) *CommandResu
 		player.CanFly = true
 		msg = fmt.Sprintf("You gesture and cast %s. You rise into the air!", spell.Name)
 	case 225: // Invisibility
-		player.Hidden = true
+		player.Invisible = true
 		msg = fmt.Sprintf("You gesture and cast %s. You fade from sight.", spell.Name)
 	case 513: // Agility I
 		player.Agility += 10
