@@ -99,6 +99,10 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
       const data = await r.json()
       if (data.key) {
         setGeneratedKey(data.key)
+        // Update the player list so the icon changes immediately
+        setPlayers(prev => prev.map(p =>
+          p.firstName === firstName ? { ...p, apiKeyPrefix: data.key.substring(0, 13) } : p
+        ))
       } else {
         alert(data.error || 'Failed to generate key')
       }
@@ -109,6 +113,9 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
     const headers: Record<string, string> = {}
     if (user?.token) headers['Authorization'] = `Bearer ${user.token}`
     await fetch(`/api/characters/${firstName}/apikey`, { method: 'DELETE', headers })
+    setPlayers(prev => prev.map(p =>
+      p.firstName === firstName ? { ...p, apiKeyPrefix: undefined } : p
+    ))
     setApiKeyModal(null)
     setGeneratedKey(null)
   }
@@ -233,17 +240,17 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
                         </div>
                         <button
                           onClick={(ev) => { ev.stopPropagation(); setApiKeyModal(p.firstName); setGeneratedKey(null); setKeyAllowGM(false) }}
-                          className="text-gray-700 hover:text-amber-500 text-xs font-mono transition-colors px-2 py-1"
-                          title="Generate Bot API Key"
+                          className="text-gray-600 hover:text-amber-400 text-sm font-mono transition-colors px-2 py-2 rounded hover:bg-[#222]"
+                          title={p.apiKeyPrefix ? "Manage Bot API Key" : "Generate Bot API Key"}
                         >
-                          {p.apiKeyPrefix ? '🤖' : '⚙'}
+                          {p.apiKeyPrefix ? '🤖 Bot' : '⚙ Bot'}
                         </button>
                         <button
                           onClick={(ev) => { ev.stopPropagation(); setDeleteConfirm(p.firstName) }}
-                          className="text-gray-700 hover:text-red-500 text-xs font-mono transition-colors px-2 py-1"
+                          className="text-gray-600 hover:text-red-400 text-sm font-mono transition-colors px-2 py-2 rounded hover:bg-[#222]"
                           title="Delete character"
                         >
-                          ✕
+                          ✕ Delete
                         </button>
                       </div>
                     </button>
