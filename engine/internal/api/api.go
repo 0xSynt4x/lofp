@@ -46,6 +46,7 @@ type Session struct {
 	lastCmdTime  time.Time // rate limiting: last command timestamp
 	cmdCount     int       // rate limiting: commands in current window
 	chatTimes    []time.Time // chat flood: timestamps of recent broadcasts
+	cmdTimes     []time.Time // command rate: sliding window for 10/10s limit
 	authFailures int        // auth attempt failures (disconnect after 3)
 	lastActivity time.Time  // idle timeout tracking
 }
@@ -576,14 +577,28 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			}
 			// Track activity for idle timeout
 			session.lastActivity = time.Now()
-			// Command rate limiting: max 4 commands per second (human-equivalent)
 			now := time.Now()
+
+			// Rate limit 1: max 4 commands per second (burst)
 			if now.Sub(session.lastCmdTime) > time.Second {
 				session.cmdCount = 0
 				session.lastCmdTime = now
 			}
 			session.cmdCount++
 			if session.cmdCount > 4 {
+				s.sendWSResult(session, &engine.CommandResult{
+					Messages: []string{"[Slow down! Too many commands.]"},
+				})
+				continue
+			}
+			// Rate limit 2: max 10 commands per 10 seconds (sustained)
+			cutoff := now.Add(-10 * time.Second)
+			var recentCmds []time.Time
+			for _, t := range session.cmdTimes {
+				if t.After(cutoff) { recentCmds = append(recentCmds, t) }
+			}
+			session.cmdTimes = append(recentCmds, now)
+			if len(session.cmdTimes) > 10 {
 				s.sendWSResult(session, &engine.CommandResult{
 					Messages: []string{"[Slow down! Too many commands.]"},
 				})
