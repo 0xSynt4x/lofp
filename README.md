@@ -57,19 +57,68 @@ More broadly, I think AI-powered code generation gives us a real shot at preserv
 
 ## Running Your Own Server
 
-```bash
-# Prerequisites: Go 1.25+, Node.js 22+, MongoDB
+### Prerequisites
 
+- **Go** 1.25+
+- **Node.js** 22+
+- **MongoDB** (Atlas free tier works fine, or local)
+
+### 1. Clone and configure
+
+```bash
 git clone https://github.com/jonradoff/lofp.git
 cd lofp
-
-# Set up environment variables
 cp .env.example .env
-# Edit .env with your MONGODB_URI, JWT_SECRET, GOOGLE_CLIENT_ID
+```
 
+### 2. Set up environment variables
+
+Edit `.env` with your values:
+
+```bash
+# MongoDB connection string (Atlas or local)
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/
+
+# JWT secret for session tokens (use a long random string)
+JWT_SECRET=your-random-secret-at-least-32-characters
+
+# Google OAuth Client ID (for player login)
+GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
+
+# Frontend needs the same client ID at build time
+VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
+```
+
+**Getting a Google OAuth Client ID:**
+1. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+2. Create a project (or select an existing one)
+3. Go to **Credentials** → **Create Credentials** → **OAuth client ID**
+4. Application type: **Web application**
+5. Authorized JavaScript origins: `http://localhost:4992` (dev) and your production URL
+6. Authorized redirect URIs: same as origins
+7. Copy the **Client ID** (ends in `.apps.googleusercontent.com`)
+
+### 3. Run locally
+
+```bash
 ./start.sh
 # Frontend: http://localhost:4992
 # Backend: http://localhost:4993
+```
+
+### 4. Deploy to production (Fly.io)
+
+```bash
+# Install flyctl: https://fly.io/docs/getting-started/installing-flyctl/
+fly launch  # first time only
+
+# Set secrets
+fly secrets set MONGODB_URI="your-connection-string"
+fly secrets set JWT_SECRET="your-jwt-secret"
+fly secrets set GOOGLE_CLIENT_ID="your-client-id.apps.googleusercontent.com"
+
+# Deploy (pass the client ID as a build arg for the frontend)
+fly deploy --build-arg VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 ```
 
 ## Credits

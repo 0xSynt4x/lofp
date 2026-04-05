@@ -1,6 +1,7 @@
 # Stage 1: Build frontend
 FROM node:22-alpine AS frontend
 ARG VITE_GOOGLE_CLIENT_ID
+ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
 WORKDIR /build
 COPY frontend/package*.json ./
 RUN npm ci
