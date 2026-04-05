@@ -1201,6 +1201,16 @@ func (e *GameEngine) resolvePlayerArg(ctx context.Context, args []string) (*Play
 	if len(args) < 1 {
 		return nil, fmt.Errorf("usage: provide a player name")
 	}
+	name := strings.ToLower(args[0])
+	// Prefer the live online session player (so changes are immediately visible)
+	if e.sessions != nil {
+		for _, p := range e.sessions.OnlinePlayers() {
+			if strings.HasPrefix(strings.ToLower(p.FirstName), name) {
+				return p, nil
+			}
+		}
+	}
+	// Fall back to DB lookup for offline players
 	return e.resolvePlayerByName(ctx, args[0])
 }
 
