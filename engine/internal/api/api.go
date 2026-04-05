@@ -489,7 +489,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 				// Max 8 characters per account
 				existing, _ := s.engine.ListPlayersByAccount(ctx, accountID)
 				if len(existing) >= 8 {
-					s.sendWSMessage(session, "error", map[string]interface{}{"message": "You can have at most 8 characters (one per race)."})
+					s.sendWSMessage(session, "error", map[string]interface{}{"message": "You can have at most 8 characters per account."})
 					continue
 				}
 				player = s.engine.CreateNewPlayer(ctx, create.FirstName, create.LastName, create.Race, create.Gender, accountID)
@@ -1262,12 +1262,12 @@ func (s *Server) handleCreateCharacter(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 		return
 	}
-	// Max 8 characters per account (one per race)
+	// Max 8 characters per account
 	existing, _ := s.engine.ListPlayersByAccount(r.Context(), accountID)
 	if len(existing) >= 8 {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(400)
-		json.NewEncoder(w).Encode(map[string]string{"error": "You can have at most 8 characters (one per race)."})
+		json.NewEncoder(w).Encode(map[string]string{"error": "You can have at most 8 characters per account."})
 		return
 	}
 	// Check unique first name
