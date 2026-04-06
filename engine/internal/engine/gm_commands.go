@@ -168,6 +168,12 @@ func (e *GameEngine) processGMCommand(ctx context.Context, player *Player, verb 
 		return &CommandResult{Messages: []string{"Monster queue updated."}}
 	case "@UNQUEUE":
 		return &CommandResult{Messages: []string{"Item removed from monster queue."}}
+	case "@TRACE":
+		player.GMTrace = !player.GMTrace
+		if player.GMTrace {
+			return &CommandResult{Messages: []string{"Script tracing ON. You will see debug output for script execution."}}
+		}
+		return &CommandResult{Messages: []string{"Script tracing OFF."}}
 	case "@VERB", "@VERBS":
 		return e.gmVerbs()
 	default:
@@ -1498,7 +1504,7 @@ var allGMVerbs = []string{
 	"@FIND", "@LIST", "@EXAMINE", "@GLOSSARY", "@PEEK", "@SET", "@RND",
 	"@OPEN", "@CLOSE", "@LOCK", "@UNLOCK",
 	"@GOPLR", "@YANK", "@WHISPER", "@EDPLAYER", "@EDPL", "@EDS", "@EDSK", "@LSK", "@GRANTSP", "@PSI", "@MLIST",
-	"@ECHOPLR", "@EXCLUDE", "@SPEECH", "@LINE1", "@LINE2", "@LINE3", "@VERB", "@VERBS",
+	"@ECHOPLR", "@EXCLUDE", "@SPEECH", "@LINE1", "@LINE2", "@LINE3", "@VERB", "@VERBS", "@TRACE",
 	"@ENTRY", "@EXIT", "@SUGGEST", "@MSG", "@SAVE", "@RESTORE", "@REGISTER",
 	"@ASSIST?", "@OLDCOMP", "@EDITEM", "@EDN", "@GET", "@LOOK",
 	"@QUEUE", "@UNQUEUE",

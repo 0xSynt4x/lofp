@@ -834,7 +834,7 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 			}
 		}
 		return e.doItemInteraction(ctx, player, verb, args)
-	case "PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "DIG":
+	case "PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "DIG", "USE":
 		return e.doItemInteraction(ctx, player, verb, args)
 	case "RECALL":
 		if len(args) == 0 {
@@ -1219,7 +1219,7 @@ var allVerbs = []string{
 	"OPEN", "CLOSE", "SIT", "STAND", "KNEEL", "LAY",
 	"BRIEF", "FULL", "PROMPT", "WHO", "SKILLS", "WEALTH",
 	"QUIT", "HELP", "ADVICE", "ASSIST", "ACT", "EMOTE", "RECITE", "READ", "CLIMB",
-	"PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "SEARCH", "DIG", "RECALL",
+	"PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "SEARCH", "DIG", "RECALL", "USE",
 	"CAST", "CONCENTRATE", "BUY", "SELL",
 	"DRINK", "SIP", "LIGHT", "EXTINGUISH", "DOUSE",
 	"FLIP", "LATCH", "UNLATCH",
@@ -1297,7 +1297,7 @@ var allVerbs = []string{
 // These are kept for single-letter or legacy shortcuts.
 var verbAliases = map[string]string{
 	"L": "LOOK", "I": "INVENTORY", "Q": "QUIT", "X": "QUIT",
-	"INV": "INVENTORY", "STAT": "STATUS", "USE": "WIELD", "UNUSE": "UNWIELD",
+	"INV": "INVENTORY", "STAT": "STATUS", "UNUSE": "UNWIELD",
 	"DON": "WEAR", "EXIT": "QUIT", "SKILL": "SKILLS",
 	"WHI": "WHISPER", "THIN": "THINK", "CONTA": "CONTACT",
 	"DI": "DIAGNOSE", "TURN": "TWIRL",

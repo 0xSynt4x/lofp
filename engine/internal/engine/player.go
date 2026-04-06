@@ -172,6 +172,7 @@ type Player struct {
 	PromptMode   bool   `bson:"promptMode" json:"promptMode"`
 	SpeechAdverb string `bson:"speechAdverb,omitempty" json:"speechAdverb,omitempty"` // e.g. "gently"
 	IsGM         bool   `bson:"isGM" json:"isGM"`
+	GMTrace    bool `bson:"-" json:"-"`                                     // @trace: show script debug output
 	GMHat      bool `bson:"gmHat,omitempty" json:"gmHat,omitempty"`        // visible as GM on WHO list
 	GMHidden   bool `bson:"gmHidden,omitempty" json:"gmHidden,omitempty"`  // hidden from WHO list
 	GMInvis    bool `bson:"gmInvis,omitempty" json:"gmInvis,omitempty"`    // invisible to players

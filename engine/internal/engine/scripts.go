@@ -160,16 +160,25 @@ func (e *GameEngine) RunVerbScripts(player *Player, room *gameworld.Room, verb s
 
 // execBlock executes a script block if its condition is met.
 func (sc *ScriptContext) execBlock(block gameworld.ScriptBlock) {
+	// GM trace output
+	if sc.Player.GMTrace {
+		args := strings.Join(block.Args, " ")
+		sc.Messages = append(sc.Messages, fmt.Sprintf("[TRACE] %s %s", block.Type, args))
+	}
+
 	switch block.Type {
 	case "IFENTRY":
 		sc.execChildren(block)
 
 	case "IFPREVERB", "IFVERB":
-		// Condition already matched by caller; execute body
 		sc.execChildren(block)
 
 	case "IFVAR":
-		if sc.evalIfVar(block.Args) {
+		result := sc.evalIfVar(block.Args)
+		if sc.Player.GMTrace {
+			sc.Messages = append(sc.Messages, fmt.Sprintf("[TRACE]   IFVAR %s → %v", strings.Join(block.Args, " "), result))
+		}
+		if result {
 			sc.execChildren(block)
 		} else {
 			sc.execElse(block)
