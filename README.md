@@ -12,7 +12,7 @@ I'm [Jon Radoff](https://metavert.io), and I created *Legends of Future Past* in
 
 The game shut down on December 31, 1999. The source code is lost.
 
-In 2026, I brought it back.
+In 2026, I brought it back. A game that originally took me six months to code, with a team of Game Masters building the world over years, came back to life in a weekend of agentic engineering. I wrote about the full story in [Resurrecting a 1992 MUD with Agentic AI](https://meditations.metavert.io/p/resurrecting-a-1992-mud-with-agentic).
 
 ## What Was Legends of Future Past?
 
@@ -146,6 +146,7 @@ Released under the [MIT License](LICENSE) — Copyright (c) 2026 Metavert LLC.
 ## Links
 
 - **Play now**: [lofp.metavert.io](https://lofp.metavert.io)
+- **The full story**: [Resurrecting a 1992 MUD with Agentic AI](https://meditations.metavert.io/p/resurrecting-a-1992-mud-with-agentic)
 - **Version Notes**: [lofp.metavert.io/version-notes](https://lofp.metavert.io/version-notes)
 - **Wikipedia**: [Legends of Future Past](https://en.wikipedia.org/wiki/Legends_of_Future_Past)
 - **Online World Timeline**: [raphkoster.com](https://www.raphkoster.com/games/the-online-world-timeline/)
