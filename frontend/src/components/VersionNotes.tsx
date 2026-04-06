@@ -9,6 +9,44 @@ export default function VersionNotes({ onBack }: { onBack: () => void }) {
 
         <div className="space-y-6 text-sm">
           <section>
+            <h2 className="text-amber-400 text-lg font-bold mb-1">v10.0.5 &mdash; April 6, 2026</h2>
+            <p className="text-gray-400 mb-3">GM tools, combat polish, and multiplayer fixes.</p>
+
+            <div className="space-y-4 mb-8">
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">GM Tools</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>@zap actually destroys monsters now (was a stub)</li>
+                  <li>@trace toggles script execution debug output</li>
+                  <li>@verb lists every game command with parameters</li>
+                  <li>@go/@goplr broadcast entry/exit echoes (uses custom @entry/@exit text)</li>
+                  <li>@invis GMs now move completely silently (no echoes at all)</li>
+                  <li>GM flags (@invis, @hide, @gm) persist across reconnections</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Combat &amp; Movement</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>ADVANCE &lt;target&gt; engages a monster or player in combat</li>
+                  <li>RETREAT disengages without fleeing the room</li>
+                  <li>YELL is now heard in adjacent rooms through exits</li>
+                  <li>DEPART sends to City Gate (safe area) instead of tutorial room</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Fixes</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>USE is now an item interaction verb (not an alias for WIELD)</li>
+                  <li>ACT preserves original text case</li>
+                  <li>THINK preserves full text including punctuation</li>
+                  <li>GIVE no longer shows duplicate messages to recipient</li>
+                  <li>QUIT no longer broadcasts departure twice</li>
+                  <li>Directional LOOK shows players and monsters in adjacent rooms</li>
+                  <li>Fixed double-space in SEARCH output</li>
+                </ul>
+              </div>
+            </div>
+
             <h2 className="text-amber-400 text-lg font-bold mb-1">v10.0.4 &mdash; April 6, 2026</h2>
             <p className="text-gray-400 mb-3">Multiplayer polish, THINK fix, RECITE poetry, and room presence.</p>
 

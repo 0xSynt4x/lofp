@@ -1,5 +1,31 @@
 # Changelog
 
+## v10.0.5 — 2026-04-06
+
+### GM Tools
+- **@zap <monster>**: actually destroys monsters (was a stub)
+- **@trace**: toggle script execution debug output (shows IFVAR conditions, block types)
+- **@verb/@verbs**: comprehensive alphabetical listing of every game command with parameters
+- **@go/@goplr**: broadcast entry/exit echoes using custom @entry/@exit text
+- **@invis** GMs move completely silently (no echoes of any kind)
+- **GM flags persist**: @invis, @hide, @gm survive reconnections and server restarts
+
+### Combat & Movement
+- **ADVANCE <target>**: properly engages a monster or player in combat
+- **RETREAT**: disengages from combat without fleeing the room
+- **YELL heard in adjacent rooms**: "You hear someone yell..." through all exits
+- **DEPART**: sends to City Gate (201) instead of tutorial room (3950)
+
+### Fixes
+- **USE**: now an item interaction verb (triggers IFPREVERB/IFVERB scripts) instead of alias for WIELD
+- **ACT**: preserves original text case (was lowercasing)
+- **THINK**: preserves full text including first word and punctuation
+- **GIVE**: no longer shows duplicate messages to recipient (TargetMsg instead of Whisper)
+- **QUIT**: no longer broadcasts "left the Realms" twice
+- **Directional LOOK**: shows players and monsters in adjacent rooms
+- **SEARCH**: fixed double-space in "You search a skeleton"
+- **RECITE**: backslash line breaks for poetry/songs
+
 ## v10.0.4 — 2026-04-06
 
 ### Multiplayer
