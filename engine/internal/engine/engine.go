@@ -803,9 +803,25 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		}
 		text := extractOriginalArgs(input)
 		text = strings.Trim(text, "'\"")
-		selfMsg := fmt.Sprintf("You recite, '%s'", text)
-		roomMsg := fmt.Sprintf("%s recites, '%s'", player.FirstName, text)
-		return &CommandResult{Messages: []string{selfMsg}, RoomBroadcast: []string{roomMsg}}
+		// Support \ as line break for poetry/songs
+		lines := strings.Split(text, "\\")
+		var selfMsgs, roomMsgs []string
+		for i, line := range lines {
+			line = strings.TrimSpace(line)
+			if line == "" { continue }
+			if i == 0 {
+				selfMsgs = append(selfMsgs, fmt.Sprintf("You recite, '%s", line))
+				roomMsgs = append(roomMsgs, fmt.Sprintf("%s recites, '%s", player.FirstName, line))
+			} else {
+				selfMsgs = append(selfMsgs, fmt.Sprintf("  %s", line))
+				roomMsgs = append(roomMsgs, fmt.Sprintf("  %s", line))
+			}
+		}
+		if len(selfMsgs) > 0 {
+			selfMsgs[len(selfMsgs)-1] += "'"
+			roomMsgs[len(roomMsgs)-1] += "'"
+		}
+		return &CommandResult{Messages: selfMsgs, RoomBroadcast: roomMsgs}
 	case "READ":
 		return e.doRead(player, args)
 	case "SEARCH":
@@ -2644,8 +2660,8 @@ func (e *GameEngine) doGive(ctx context.Context, player *Player, args []string) 
 		return &CommandResult{
 			Messages:      []string{fmt.Sprintf("You give %s to %s.", fullName, target.FirstName)},
 			RoomBroadcast: []string{fmt.Sprintf("%s gives %s to %s.", player.FirstName, fullName, target.FirstName)},
-			WhisperTarget: target.FirstName,
-			WhisperMsg:    fmt.Sprintf("%s gives you %s.", player.FirstName, fullName),
+			TargetName:    target.FirstName,
+			TargetMsg:     []string{fmt.Sprintf("%s gives you %s.", player.FirstName, fullName)},
 		}
 	}
 	return &CommandResult{Messages: []string{"You don't have that."}}
@@ -2748,8 +2764,8 @@ func (e *GameEngine) doGiveMoney(ctx context.Context, giver, receiver *Player, a
 				return &CommandResult{
 					Messages:      []string{fmt.Sprintf("You give %s to %s.", currencyDisplay, receiver.FirstName)},
 					RoomBroadcast: []string{fmt.Sprintf("%s gives some coins to %s.", giver.FirstName, receiver.FirstName)},
-					WhisperTarget: receiver.FirstName,
-					WhisperMsg:    fmt.Sprintf("%s gives you %s.", giver.FirstName, currencyDisplay),
+					TargetName:    receiver.FirstName,
+					TargetMsg:     []string{fmt.Sprintf("%s gives you %s.", giver.FirstName, currencyDisplay)},
 				}
 			}
 		}
@@ -2761,8 +2777,8 @@ func (e *GameEngine) doGiveMoney(ctx context.Context, giver, receiver *Player, a
 	return &CommandResult{
 		Messages:      []string{fmt.Sprintf("You give %s to %s.", currencyDisplay, receiver.FirstName)},
 		RoomBroadcast: []string{fmt.Sprintf("%s gives some coins to %s.", giver.FirstName, receiver.FirstName)},
-		WhisperTarget: receiver.FirstName,
-		WhisperMsg:    fmt.Sprintf("%s gives you %s.", giver.FirstName, currencyDisplay),
+		TargetName:    receiver.FirstName,
+		TargetMsg:     []string{fmt.Sprintf("%s gives you %s.", giver.FirstName, currencyDisplay)},
 	}
 }
 
