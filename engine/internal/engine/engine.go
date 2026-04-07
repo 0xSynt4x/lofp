@@ -1766,16 +1766,13 @@ func (e *GameEngine) examineMonster(def *gameworld.MonsterDef) *CommandResult {
 func (e *GameEngine) examinePlayer(observer *Player, target *Player) *CommandResult {
 	isSelf := observer.FirstName == target.FirstName && observer.LastName == target.LastName
 
-	var pronoun, possessive string
+	var pronoun string
 	if isSelf {
 		pronoun = "You are"
-		possessive = "Your"
 	} else if target.Gender == 0 {
 		pronoun = "He is"
-		possessive = "His"
 	} else {
 		pronoun = "She is"
-		possessive = "Her"
 	}
 
 	msgs := []string{}
@@ -1800,19 +1797,38 @@ func (e *GameEngine) examinePlayer(observer *Player, target *Player) *CommandRes
 
 	// Health description
 	healthPct := float64(target.BodyPoints) / float64(target.MaxBodyPoints) * 100
-	switch {
-	case healthPct >= 100:
-		msgs = append(msgs, fmt.Sprintf("%s in perfect health.", pronoun))
-	case healthPct >= 75:
-		msgs = append(msgs, fmt.Sprintf("%s has minor injuries.", possessive[:len(possessive)-1]))
-	case healthPct >= 50:
-		msgs = append(msgs, fmt.Sprintf("%s moderately wounded.", pronoun))
-	case healthPct >= 25:
-		msgs = append(msgs, fmt.Sprintf("%s seriously wounded.", pronoun))
-	case healthPct > 0:
-		msgs = append(msgs, fmt.Sprintf("%s critically wounded!", pronoun))
-	default:
-		msgs = append(msgs, fmt.Sprintf("%s dead.", pronoun))
+	if isSelf {
+		switch {
+		case healthPct >= 100:
+			msgs = append(msgs, "You are in perfect health.")
+		case healthPct >= 75:
+			msgs = append(msgs, "You have minor injuries.")
+		case healthPct >= 50:
+			msgs = append(msgs, "You are moderately wounded.")
+		case healthPct >= 25:
+			msgs = append(msgs, "You are seriously wounded.")
+		case healthPct > 0:
+			msgs = append(msgs, "You are critically wounded!")
+		default:
+			msgs = append(msgs, "You are dead.")
+		}
+	} else {
+		heOrShe := "He"
+		if target.Gender == 1 { heOrShe = "She" }
+		switch {
+		case healthPct >= 100:
+			msgs = append(msgs, fmt.Sprintf("%s appears to be in perfect health.", heOrShe))
+		case healthPct >= 75:
+			msgs = append(msgs, fmt.Sprintf("%s has minor injuries.", heOrShe))
+		case healthPct >= 50:
+			msgs = append(msgs, fmt.Sprintf("%s is moderately wounded.", heOrShe))
+		case healthPct >= 25:
+			msgs = append(msgs, fmt.Sprintf("%s is seriously wounded.", heOrShe))
+		case healthPct > 0:
+			msgs = append(msgs, fmt.Sprintf("%s is critically wounded!", heOrShe))
+		default:
+			msgs = append(msgs, fmt.Sprintf("%s is dead.", heOrShe))
+		}
 	}
 
 	// Position

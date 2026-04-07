@@ -279,6 +279,10 @@ func (sc *ScriptContext) execAction(action gameworld.ScriptAction) {
 		sc.doDamagePlr(action.Args)
 	case "STRCVT":
 		sc.doStrCvt(action.Args)
+	case "STRCPY":
+		sc.doStrCpy(action.Args)
+	case "STRCAT":
+		sc.doStrCat(action.Args)
 	case "POSITION":
 		sc.doPosition(action.Args)
 	case "ADD":
@@ -1156,6 +1160,41 @@ func (sc *ScriptContext) doStrCvt(args []string) {
 		sc.StrVars = make(map[int]string)
 	}
 	sc.StrVars[digit] = strconv.Itoa(val)
+}
+
+// doStrCpy sets a string variable directly: STRCPY <digit> "<text>"
+func (sc *ScriptContext) doStrCpy(args []string) {
+	if len(args) < 2 {
+		return
+	}
+	digit, err := strconv.Atoi(args[0])
+	if err != nil || digit < 0 || digit > 9 {
+		return
+	}
+	// Join remaining args and strip quotes
+	text := strings.Join(args[1:], " ")
+	text = strings.Trim(text, "\"")
+	if sc.StrVars == nil {
+		sc.StrVars = make(map[int]string)
+	}
+	sc.StrVars[digit] = text
+}
+
+// doStrCat appends to a string variable: STRCAT <digit> "<text>"
+func (sc *ScriptContext) doStrCat(args []string) {
+	if len(args) < 2 {
+		return
+	}
+	digit, err := strconv.Atoi(args[0])
+	if err != nil || digit < 0 || digit > 9 {
+		return
+	}
+	text := strings.Join(args[1:], " ")
+	text = strings.Trim(text, "\"")
+	if sc.StrVars == nil {
+		sc.StrVars = make(map[int]string)
+	}
+	sc.StrVars[digit] += text
 }
 
 // doPosition forces the player into a position.
