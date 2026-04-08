@@ -1535,6 +1535,11 @@ func (e *GameEngine) monsterCombatTick(inst *MonsterInstance, def *gameworld.Mon
 		e.localRoomBroadcast(inst.RoomNumber, roomMsgs)
 	}
 
+	// Save player state after monster combat (persists HP loss, death, poison, etc.)
+	if e.db != nil {
+		go e.SavePlayer(context.Background(), target)
+	}
+
 	// Monster flee behavior (strategy 301-500 = flee when wounded, 501+ = fight to death)
 	if inst.Alive && inst.CurrentHP > 0 {
 		hpPct := inst.CurrentHP * 100 / max(1, def.Body+def.ExtraBody)

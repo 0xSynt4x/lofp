@@ -1894,14 +1894,20 @@ func (e *GameEngine) findMonsterInRoom(player *Player, target string) (*MonsterI
 		return nil, nil
 	}
 	monsters := e.monsterMgr.MonstersInRoom(player.RoomNumber)
-	target = strings.ToLower(target)
+	target = strings.ToLower(strings.TrimSpace(target))
+	// Strip leading articles so "a skeleton" matches "skeleton"
+	for _, article := range []string{"a ", "an ", "the ", "some "} {
+		if strings.HasPrefix(target, article) {
+			target = strings.TrimPrefix(target, article)
+			break
+		}
+	}
 	for i := range monsters {
 		def := e.monsters[monsters[i].DefNumber]
 		if def == nil {
 			continue
 		}
 		name := strings.ToLower(FormatMonsterName(def, e.monAdjs))
-		// Match by full name, noun only, or prefix
 		noun := strings.ToLower(def.Name)
 		if strings.HasPrefix(name, target) || strings.HasPrefix(noun, target) {
 			return &monsters[i], def
