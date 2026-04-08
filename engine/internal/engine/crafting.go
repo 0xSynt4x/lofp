@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"strings"
+	"time"
 
 	"github.com/jonradoff/lofp/internal/gameworld"
 )
@@ -209,6 +210,23 @@ func (e *GameEngine) doSmelt(ctx context.Context, player *Player, args []string)
 
 // ---- CRAFTING (FORGE/CRAFT) ----
 
+// metalDifficulty returns the quench success rate and XP award for a metal adjective name.
+func metalDifficulty(metal string) (int, int) {
+	switch strings.ToLower(metal) {
+	case "copper":
+		return 70, 100
+	case "iron", "brass", "bronze":
+		return 55, 200
+	case "steel":
+		return 45, 400
+	case "truesteel":
+		return 35, 800
+	default:
+		// exotic metals: randar, elkyri, etc.
+		return 25, 1500
+	}
+}
+
 func (e *GameEngine) doCraft(ctx context.Context, player *Player, args []string) *CommandResult {
 	if len(args) == 0 {
 		return &CommandResult{Messages: []string{"Craft what? Specify the item you want to make."}}
@@ -293,6 +311,21 @@ func (e *GameEngine) doCraft(ctx context.Context, player *Player, args []string)
 			}}
 		}
 
+		// For weapons at the forge, enter the CRAFT→WORK cycle instead of instant creation
+		if isForge && isWeapon(def.Type) {
+			player.CraftingItem = name
+			player.CraftingStep = 1
+			player.CraftingMetal = "" // will be set by WORK <metal>
+			return &CommandResult{
+				Messages: []string{
+					fmt.Sprintf("You begin to plan the crafting of your %s...", name),
+					"[Next, work your item from a substance, e.g., \"WORK IRON.\"]",
+				},
+				RoomBroadcast: []string{fmt.Sprintf("%s studies a forge, planning something.", player.FirstName)},
+			}
+		}
+
+		// Non-weapon crafting: immediate creation (original behavior)
 		// Check for material in inventory
 		materialFound := false
 		materialIdx := -1
@@ -339,6 +372,329 @@ func (e *GameEngine) doCraft(ctx context.Context, player *Player, args []string)
 	}
 
 	return &CommandResult{Messages: []string{fmt.Sprintf("You don't know how to craft '%s'.", target)}}
+}
+
+// ---- WORK (Forging Cycle) ----
+
+func (e *GameEngine) doWork(ctx context.Context, player *Player, args []string) *CommandResult {
+	if player.CraftingStep <= 0 {
+		return &CommandResult{Messages: []string{"You aren't crafting anything. Use CRAFT <item> first."}}
+	}
+
+	room := e.rooms[player.RoomNumber]
+	if room == nil || !containsModifier(room.Modifiers, "FORGE") {
+		return &CommandResult{Messages: []string{"You need to be at a forge to work metal."}}
+	}
+
+	// Check roundtime
+	if player.RoundTimeExpiry.After(time.Now()) {
+		remaining := player.RoundTimeExpiry.Sub(time.Now()).Seconds()
+		return &CommandResult{Messages: []string{fmt.Sprintf("You are still working... %.0f seconds remaining.", remaining+0.5)}}
+	}
+
+	switch player.CraftingStep {
+	case 1: // Planned → need WORK <metal> to heat
+		if len(args) == 0 {
+			return &CommandResult{Messages: []string{"Work with what metal? e.g., WORK IRON"}}
+		}
+		metal := strings.ToLower(strings.Join(args, " "))
+
+		// Find matching material in inventory
+		materialIdx := -1
+		materialAdj := 0
+		for j, ii := range player.Inventory {
+			mDef := e.items[ii.Archetype]
+			if mDef == nil {
+				continue
+			}
+			if mDef.Type == "MATERIAL" || mDef.Type == "MATERIAL2" {
+				if mDef.Parameter2 == 8 || mDef.Parameter2 == 0 { // weaponsmithing material
+					mName := strings.ToLower(e.getItemNounName(mDef))
+					adjName := ""
+					if mDef.Parameter1 > 0 {
+						adjName = strings.ToLower(e.getAdjName(mDef.Parameter1))
+					}
+					if strings.Contains(mName, metal) || strings.Contains(adjName, metal) || strings.HasPrefix(metal, adjName) {
+						materialIdx = j
+						if mDef.Parameter1 > 0 {
+							materialAdj = mDef.Parameter1
+						}
+						break
+					}
+				}
+			}
+		}
+
+		if materialIdx < 0 {
+			// Also accept the metal name directly as a known metal type
+			knownMetals := []string{"copper", "iron", "brass", "bronze", "steel", "truesteel", "randar", "elkyri"}
+			validMetal := false
+			for _, km := range knownMetals {
+				if metal == km {
+					validMetal = true
+					break
+				}
+			}
+			if !validMetal {
+				return &CommandResult{Messages: []string{fmt.Sprintf("You don't have any %s metal to work with.", metal)}}
+			}
+			// Look for any material in inventory
+			for j, ii := range player.Inventory {
+				mDef := e.items[ii.Archetype]
+				if mDef == nil {
+					continue
+				}
+				if mDef.Type == "MATERIAL" || mDef.Type == "MATERIAL2" {
+					if mDef.Parameter2 == 8 || mDef.Parameter2 == 0 {
+						materialIdx = j
+						if mDef.Parameter1 > 0 {
+							materialAdj = mDef.Parameter1
+						}
+						break
+					}
+				}
+			}
+			if materialIdx < 0 {
+				return &CommandResult{Messages: []string{fmt.Sprintf("You don't have any %s metal to work with.", metal)}}
+			}
+		}
+
+		// Consume material
+		player.Inventory = append(player.Inventory[:materialIdx], player.Inventory[materialIdx+1:]...)
+		_ = materialAdj
+
+		player.CraftingMetal = metal
+		player.CraftingStep = 2
+		player.RoundTimeExpiry = time.Now().Add(15 * time.Second)
+		player.RoundTime = 15
+		e.SavePlayer(ctx, player)
+
+		return &CommandResult{
+			Messages:      []string{fmt.Sprintf("You place some %s metal into a mold in the forge and heat it until it is roughly the shape you desire.", metal)},
+			RoomBroadcast: []string{fmt.Sprintf("%s works diligently at the forge.", player.FirstName)},
+			PlayerState:   player,
+		}
+
+	case 2: // Heated → Hammer
+		player.CraftingStep = 3
+		player.RoundTimeExpiry = time.Now().Add(15 * time.Second)
+		player.RoundTime = 15
+		e.SavePlayer(ctx, player)
+
+		return &CommandResult{
+			Messages:      []string{fmt.Sprintf("You remove the %s metal from the forge and begin to hammer it into shape on the anvil.", player.CraftingMetal)},
+			RoomBroadcast: []string{fmt.Sprintf("%s works diligently at the forge.", player.FirstName)},
+			PlayerState:   player,
+		}
+
+	case 3: // Hammered → Quench (skill check)
+		smithSkill := player.Skills[8]
+		baseChance, _ := metalDifficulty(player.CraftingMetal)
+		// Add skill bonus: +3% per skill level
+		chance := baseChance + smithSkill*3
+		if chance > 95 {
+			chance = 95
+		}
+
+		roll := rand.Intn(100) + 1
+		player.RoundTimeExpiry = time.Now().Add(15 * time.Second)
+		player.RoundTime = 15
+
+		if roll > chance {
+			// Fail: restart from heating step
+			player.CraftingStep = 2
+			e.SavePlayer(ctx, player)
+			return &CommandResult{
+				Messages:      []string{"You quench the hot metal in a pool of water. After some examination, you surmise that it will require more work."},
+				RoomBroadcast: []string{fmt.Sprintf("%s works diligently at the forge.", player.FirstName)},
+				PlayerState:   player,
+			}
+		}
+
+		// Progress or almost done
+		player.CraftingStep = 4
+		e.SavePlayer(ctx, player)
+
+		// High roll = almost done message
+		if roll <= chance/2 {
+			return &CommandResult{
+				Messages:      []string{"You quench the hot metal in a pool of water. It looks like it is almost finished!"},
+				RoomBroadcast: []string{fmt.Sprintf("%s works diligently at the forge.", player.FirstName)},
+				PlayerState:   player,
+			}
+		}
+		return &CommandResult{
+			Messages:      []string{"You quench the hot metal in a pool of water. Pleased with your progress, you surmise that it will only require a little more work."},
+			RoomBroadcast: []string{fmt.Sprintf("%s works diligently at the forge.", player.FirstName)},
+			PlayerState:   player,
+		}
+
+	case 4: // Quenched → Buff
+		player.CraftingStep = 5
+		player.RoundTimeExpiry = time.Now().Add(15 * time.Second)
+		player.RoundTime = 15
+		e.SavePlayer(ctx, player)
+
+		return &CommandResult{
+			Messages:      []string{"You buff the metal, smoothing and polishing the surface. Your weapon is nearly complete!"},
+			RoomBroadcast: []string{fmt.Sprintf("%s works diligently at the forge.", player.FirstName)},
+			PlayerState:   player,
+		}
+
+	case 5: // Buffed → Sharpen (complete!)
+		player.CraftingStep = 0
+		player.RoundTimeExpiry = time.Now().Add(15 * time.Second)
+		player.RoundTime = 15
+
+		// Find the CRAFTABLE item definition matching the crafting item
+		var weaponDef *gameworld.ItemDef
+		for _, def := range e.items {
+			if !containsFlag(def.Flags, "CRAFTABLE") {
+				continue
+			}
+			if !isWeapon(def.Type) {
+				continue
+			}
+			name := strings.ToLower(e.nouns[def.NameID])
+			if name == player.CraftingItem {
+				weaponDef = def
+				break
+			}
+		}
+
+		if weaponDef == nil {
+			player.CraftingMetal = ""
+			player.CraftingItem = ""
+			e.SavePlayer(ctx, player)
+			return &CommandResult{Messages: []string{"Something went wrong with your crafting."}}
+		}
+
+		// Find the adjective ID for the metal name
+		metalAdj := 0
+		metalLower := strings.ToLower(player.CraftingMetal)
+		for id, adjName := range e.adjectives {
+			if strings.ToLower(adjName) == metalLower {
+				metalAdj = id
+				break
+			}
+		}
+
+		// Create the weapon
+		item := InventoryItem{
+			Archetype: weaponDef.Number,
+			Adj1:      metalAdj,
+		}
+		player.Inventory = append(player.Inventory, item)
+
+		// Award XP
+		_, xpAward := metalDifficulty(player.CraftingMetal)
+		player.Experience += xpAward
+
+		itemName := e.formatItemName(weaponDef, item.Adj1, item.Adj2, item.Adj3)
+		craftingMetal := player.CraftingMetal
+		craftingItem := player.CraftingItem
+
+		player.CraftingMetal = ""
+		player.CraftingItem = ""
+		e.SavePlayer(ctx, player)
+
+		msgs := []string{
+			fmt.Sprintf("You carefully sharpen your weapon on a large whetstone until its cutting edge is honed to deadly precision. Your %s %s is complete!", craftingMetal, craftingItem),
+		}
+		if xpAward > 0 {
+			msgs = append(msgs, fmt.Sprintf("You have been awarded %d experience points.", xpAward))
+		}
+
+		return &CommandResult{
+			Messages:      msgs,
+			RoomBroadcast: []string{fmt.Sprintf("%s finishes crafting %s!", player.FirstName, itemName)},
+			PlayerState:   player,
+		}
+
+	default:
+		player.CraftingStep = 0
+		player.CraftingItem = ""
+		player.CraftingMetal = ""
+		return &CommandResult{Messages: []string{"Your crafting state was invalid. It has been reset."}}
+	}
+}
+
+// ---- REPAIR ----
+
+func (e *GameEngine) doRepair(ctx context.Context, player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		return &CommandResult{Messages: []string{"Repair what?"}}
+	}
+
+	room := e.rooms[player.RoomNumber]
+	if room == nil || !containsModifier(room.Modifiers, "FORGE") {
+		return &CommandResult{Messages: []string{"You need to be at a forge to repair weapons."}}
+	}
+
+	smithSkill := player.Skills[8]
+	if smithSkill < 1 {
+		return &CommandResult{Messages: []string{"You have no training in Weaponsmithing."}}
+	}
+
+	// Check roundtime
+	if player.RoundTimeExpiry.After(time.Now()) {
+		remaining := player.RoundTimeExpiry.Sub(time.Now()).Seconds()
+		return &CommandResult{Messages: []string{fmt.Sprintf("You are still working... %.0f seconds remaining.", remaining+0.5)}}
+	}
+
+	target := strings.ToLower(strings.Join(args, " "))
+
+	// Find the weapon in inventory with DAMAGED state
+	for i, ii := range player.Inventory {
+		def := e.items[ii.Archetype]
+		if def == nil {
+			continue
+		}
+		if !isWeapon(def.Type) {
+			continue
+		}
+		name := strings.ToLower(e.getItemNounName(def))
+		if !strings.HasPrefix(name, target) {
+			continue
+		}
+
+		if ii.State != "DAMAGED" {
+			return &CommandResult{Messages: []string{"That doesn't need repair."}}
+		}
+
+		// Skill check: base 40% + smithSkill*5
+		chance := 40 + smithSkill*5
+		if chance > 95 {
+			chance = 95
+		}
+		roll := rand.Intn(100) + 1
+
+		player.RoundTimeExpiry = time.Now().Add(10 * time.Second)
+		player.RoundTime = 10
+
+		itemName := e.formatItemName(def, ii.Adj1, ii.Adj2, ii.Adj3)
+
+		if roll > chance {
+			e.SavePlayer(ctx, player)
+			return &CommandResult{
+				Messages:      []string{fmt.Sprintf("[Success: %d%%, Roll %d] You are unable to repair the weapon.", chance, roll)},
+				RoomBroadcast: []string{fmt.Sprintf("%s works at the forge, trying to repair a weapon.", player.FirstName)},
+				PlayerState:   player,
+			}
+		}
+
+		// Success: remove DAMAGED state
+		player.Inventory[i].State = ""
+		e.SavePlayer(ctx, player)
+
+		return &CommandResult{
+			Messages:      []string{fmt.Sprintf("[Success: %d%%, Roll %d] You carefully repair your %s.", chance, roll, itemName)},
+			RoomBroadcast: []string{fmt.Sprintf("%s works at the forge, repairing a weapon.", player.FirstName)},
+			PlayerState:   player,
+		}
+	}
+
+	return &CommandResult{Messages: []string{"That doesn't need repair."}}
 }
 
 // ---- FORAGING ----

@@ -137,7 +137,7 @@ fly deploy --build-arg VITE_GOOGLE_CLIENT_ID=your-client-id.apps.googleuserconte
 
 **2026 Resurrection** — Reimplemented from original script files and documentation by [Jon Radoff](https://metavert.io) using [Claude Code](https://claude.ai/claude-code).
 
-Special thanks to **David Goodman** for preserving the original game materials that made this reconstruction possible.
+Special thanks to **David Goodman** for preserving the original game materials that made this reconstruction possible, and to **Chris Sanburn** for providing over 7MB of original session logs from the 1990s that helped refine the gameplay and restore authentic output.
 
 ## License
 

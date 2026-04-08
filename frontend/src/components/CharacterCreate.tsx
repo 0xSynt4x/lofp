@@ -69,8 +69,8 @@ export default function CharacterCreate({ onCreated }: Props) {
   }
 
   return (
-    <div className="flex items-center justify-center h-full p-8 overflow-y-auto">
-      <div className="max-w-3xl w-full bg-[#111] border border-[#333] rounded-lg p-8">
+    <div className="flex items-start sm:items-center justify-center h-full pt-4 px-4 pb-4 sm:p-8 overflow-y-auto">
+      <div className="max-w-3xl w-full bg-[#111] border border-[#333] rounded-lg p-4 sm:p-8">
         <h2 className="text-amber-400 text-2xl font-mono mb-1 text-center">
           Create Your Character
         </h2>
@@ -80,7 +80,7 @@ export default function CharacterCreate({ onCreated }: Props) {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-gray-400 text-sm font-mono mb-1">First Name</label>
               <input
@@ -127,7 +127,7 @@ export default function CharacterCreate({ onCreated }: Props) {
           {/* Race selection */}
           <div>
             <label className="block text-gray-400 text-sm font-mono mb-2">Race</label>
-            <div className="grid grid-cols-4 gap-2 mb-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
               {RACES.map(r => (
                 <button
                   key={r.id}

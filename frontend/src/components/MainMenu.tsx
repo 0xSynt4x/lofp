@@ -32,16 +32,23 @@ interface Props {
 }
 
 export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionNotes }: Props) {
-  const { user, login } = useAuth()
+  const { user, login, loginWithPassword, register } = useAuth()
   const [players, setPlayers] = useState<SavedPlayer[]>([])
   const [loading, setLoading] = useState(true)
   const [backendUp, setBackendUp] = useState(true)
   const [loginError, setLoginError] = useState('')
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
-  const [apiKeyModal, setApiKeyModal] = useState<string | null>(null) // firstName for API key
+  const [apiKeyModal, setApiKeyModal] = useState<string | null>(null)
   const [generatedKey, setGeneratedKey] = useState<string | null>(null)
   const [keyAllowGM, setKeyAllowGM] = useState(false)
+  const [authMode, setAuthMode] = useState<'choose' | 'login' | 'register' | 'forgot'>('choose')
+  const [emailInput, setEmailInput] = useState('')
+  const [passwordInput, setPasswordInput] = useState('')
+  const [nameInput, setNameInput] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [forgotSent, setForgotSent] = useState(false)
+  const [showMudInfo, setShowMudInfo] = useState(false)
 
   const isLoggedIn = !!user
 
@@ -120,6 +127,47 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
     setGeneratedKey(null)
   }
 
+  const handleEmailLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setLoginError('')
+    try {
+      await loginWithPassword(emailInput, passwordInput)
+    } catch (err) {
+      setLoginError(err instanceof Error ? err.message : 'Login failed')
+    }
+    setSubmitting(false)
+  }
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setLoginError('')
+    try {
+      await register(emailInput, passwordInput, nameInput)
+    } catch (err) {
+      setLoginError(err instanceof Error ? err.message : 'Registration failed')
+    }
+    setSubmitting(false)
+  }
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setLoginError('')
+    try {
+      await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailInput }),
+      })
+      setForgotSent(true)
+    } catch {
+      setLoginError('Failed to send reset email')
+    }
+    setSubmitting(false)
+  }
+
   const handleGoogleSuccess = async (credentialResponse: { credential?: string }) => {
     if (!credentialResponse.credential) return
     try {
@@ -163,32 +211,127 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
 
         {/* Login prompt */}
         {!isLoggedIn && (
-          <div className="text-center mb-8">
-            {GOOGLE_ENABLED ? (
-              <>
+          <div className="mb-8">
+            {authMode === 'choose' && (
+              <div className="text-center">
                 <p className="text-gray-400 font-mono text-sm mb-4">Sign in to enter the Shattered Realms</p>
-                <div className="flex justify-center">
-                  <GoogleLogin
-                    onSuccess={handleGoogleSuccess}
-                    onError={() => setLoginError('Login failed.')}
-                    theme="filled_black"
-                    size="large"
-                    shape="rectangular"
-                    text="signin_with"
-                  />
+                <div className="flex flex-col items-center gap-3 max-w-xs mx-auto">
+                  <button
+                    onClick={() => setAuthMode('login')}
+                    className="w-full py-3 bg-amber-700 hover:bg-amber-600 text-white font-mono text-sm rounded transition-colors"
+                  >
+                    Sign in with Email
+                  </button>
+                  <button
+                    onClick={() => setAuthMode('register')}
+                    className="w-full py-3 bg-[#222] hover:bg-[#333] text-gray-300 font-mono text-sm rounded border border-[#444] transition-colors"
+                  >
+                    Create Account
+                  </button>
+                  {GOOGLE_ENABLED && (
+                    <>
+                      <div className="flex items-center gap-3 w-full my-1">
+                        <div className="flex-1 border-t border-[#333]" />
+                        <span className="text-gray-600 font-mono text-xs">or</span>
+                        <div className="flex-1 border-t border-[#333]" />
+                      </div>
+                      <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={() => setLoginError('Login failed.')}
+                        theme="filled_black"
+                        size="large"
+                        shape="rectangular"
+                        text="signin_with"
+                      />
+                    </>
+                  )}
                 </div>
                 {loginError && (
                   <p className="text-red-400 font-mono text-xs mt-3">{loginError}</p>
                 )}
-              </>
-            ) : (
-              <div className="bg-[#1a1a1a] border border-red-900 rounded-lg p-6">
-                <p className="text-red-400 font-mono text-sm font-bold mb-2">Authentication Not Configured</p>
-                <p className="text-gray-400 font-mono text-xs leading-relaxed">
-                  Google login is required but VITE_GOOGLE_CLIENT_ID is not set.
-                  <br />
-                  Set the environment variable and restart the frontend server.
-                </p>
+              </div>
+            )}
+            {authMode === 'login' && (
+              <div className="max-w-xs mx-auto">
+                <h2 className="text-amber-400 font-mono font-bold text-lg mb-4 text-center">Sign In</h2>
+                <form onSubmit={handleEmailLogin} className="space-y-3">
+                  <input
+                    type="email" placeholder="Email" value={emailInput}
+                    onChange={e => setEmailInput(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#111] border border-[#444] rounded font-mono text-sm text-gray-200 focus:border-amber-600 focus:outline-none"
+                    autoFocus
+                  />
+                  <input
+                    type="password" placeholder="Password" value={passwordInput}
+                    onChange={e => setPasswordInput(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#111] border border-[#444] rounded font-mono text-sm text-gray-200 focus:border-amber-600 focus:outline-none"
+                  />
+                  {loginError && <p className="text-red-400 font-mono text-xs">{loginError}</p>}
+                  <button type="submit" disabled={submitting}
+                    className="w-full py-2 bg-amber-700 hover:bg-amber-600 text-white font-mono text-sm rounded disabled:opacity-50 transition-colors">
+                    {submitting ? 'Signing in...' : 'Sign In'}
+                  </button>
+                </form>
+                <div className="flex justify-between mt-3">
+                  <button onClick={() => { setAuthMode('choose'); setLoginError('') }} className="text-gray-500 hover:text-gray-300 font-mono text-xs">Back</button>
+                  <button onClick={() => { setAuthMode('forgot'); setLoginError('') }} className="text-amber-600 hover:text-amber-400 font-mono text-xs">Forgot password?</button>
+                </div>
+              </div>
+            )}
+            {authMode === 'register' && (
+              <div className="max-w-xs mx-auto">
+                <h2 className="text-amber-400 font-mono font-bold text-lg mb-4 text-center">Create Account</h2>
+                <form onSubmit={handleRegister} className="space-y-3">
+                  <input
+                    type="text" placeholder="Display Name" value={nameInput}
+                    onChange={e => setNameInput(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#111] border border-[#444] rounded font-mono text-sm text-gray-200 focus:border-amber-600 focus:outline-none"
+                    autoFocus
+                  />
+                  <input
+                    type="email" placeholder="Email" value={emailInput}
+                    onChange={e => setEmailInput(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#111] border border-[#444] rounded font-mono text-sm text-gray-200 focus:border-amber-600 focus:outline-none"
+                  />
+                  <input
+                    type="password" placeholder="Password (10+ chars, mixed case, digit, special)" value={passwordInput}
+                    onChange={e => setPasswordInput(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#111] border border-[#444] rounded font-mono text-sm text-gray-200 focus:border-amber-600 focus:outline-none"
+                  />
+                  {loginError && <p className="text-red-400 font-mono text-xs">{loginError}</p>}
+                  <button type="submit" disabled={submitting}
+                    className="w-full py-2 bg-amber-700 hover:bg-amber-600 text-white font-mono text-sm rounded disabled:opacity-50 transition-colors">
+                    {submitting ? 'Creating...' : 'Create Account'}
+                  </button>
+                </form>
+                <div className="mt-3">
+                  <button onClick={() => { setAuthMode('choose'); setLoginError('') }} className="text-gray-500 hover:text-gray-300 font-mono text-xs">Back</button>
+                </div>
+              </div>
+            )}
+            {authMode === 'forgot' && (
+              <div className="max-w-xs mx-auto">
+                <h2 className="text-amber-400 font-mono font-bold text-lg mb-4 text-center">Reset Password</h2>
+                {forgotSent ? (
+                  <p className="text-green-400 font-mono text-sm text-center">If an account exists with that email, a reset link has been sent.</p>
+                ) : (
+                  <form onSubmit={handleForgotPassword} className="space-y-3">
+                    <input
+                      type="email" placeholder="Email" value={emailInput}
+                      onChange={e => setEmailInput(e.target.value)}
+                      className="w-full px-3 py-2 bg-[#111] border border-[#444] rounded font-mono text-sm text-gray-200 focus:border-amber-600 focus:outline-none"
+                      autoFocus
+                    />
+                    {loginError && <p className="text-red-400 font-mono text-xs">{loginError}</p>}
+                    <button type="submit" disabled={submitting}
+                      className="w-full py-2 bg-amber-700 hover:bg-amber-600 text-white font-mono text-sm rounded disabled:opacity-50 transition-colors">
+                      {submitting ? 'Sending...' : 'Send Reset Link'}
+                    </button>
+                  </form>
+                )}
+                <div className="mt-3">
+                  <button onClick={() => { setAuthMode('choose'); setLoginError(''); setForgotSent(false) }} className="text-gray-500 hover:text-gray-300 font-mono text-xs">Back</button>
+                </div>
               </div>
             )}
           </div>
@@ -197,6 +340,17 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
         {/* Saved characters — only show when authenticated */}
         {isLoggedIn && (
           <>
+            {user?.account?.emailVerified === false && (
+              <div className="bg-[#1a1a1a] border border-yellow-800 rounded-lg p-4 mb-4">
+                <p className="text-yellow-400 font-mono text-sm font-bold mb-1">Email not verified</p>
+                <p className="text-gray-400 font-mono text-xs mb-3">
+                  Check your email for a verification link or code. You must verify your email before creating or playing characters.
+                </p>
+                <p className="text-gray-500 font-mono text-xs">
+                  Click your name in the top-right corner to enter a verification code or resend the email.
+                </p>
+              </div>
+            )}
             {loading ? (
               <div className="text-gray-500 font-mono text-center py-4">
                 {backendUp ? 'Loading characters...' : (
@@ -215,11 +369,14 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
                   {players.map(p => (
                     <button
                       key={p.id}
-                      onClick={() => onSelectCharacter({
-                        firstName: p.firstName, lastName: p.lastName,
-                        race: p.race, gender: p.gender,
-                      })}
-                      className="w-full flex items-center justify-between bg-[#111] border border-[#333] hover:border-amber-600 rounded-lg px-5 py-4 text-left transition-colors group cursor-pointer"
+                      onClick={() => {
+                        if (user?.account?.emailVerified === false) return
+                        onSelectCharacter({
+                          firstName: p.firstName, lastName: p.lastName,
+                          race: p.race, gender: p.gender,
+                        })
+                      }}
+                      className={`w-full flex items-center justify-between bg-[#111] border border-[#333] rounded-lg px-5 py-4 text-left transition-colors group ${user?.account?.emailVerified === false ? 'opacity-50 cursor-not-allowed' : 'hover:border-amber-600 cursor-pointer'}`}
                     >
                       <div>
                         <div className="text-amber-400 font-mono font-bold text-lg group-hover:text-amber-300">
@@ -259,8 +416,8 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
               </div>
             ) : null}
 
-            {/* New character button — only when backend is available */}
-            {!loading && backendUp && (
+            {/* New character button — only when backend is available and email verified */}
+            {!loading && backendUp && user?.account?.emailVerified !== false && (
               <button
                 onClick={onNewCharacter}
                 className="w-full py-4 bg-[#111] border-2 border-dashed border-[#444] hover:border-amber-600 rounded-lg text-gray-400 hover:text-amber-400 font-mono text-lg transition-colors cursor-pointer"
@@ -278,13 +435,57 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
         )}
         <div className="mt-6 text-center">
           <button onClick={onVersionNotes} className="text-gray-600 hover:text-amber-400 text-xs font-mono">
-            Version 10.0.5 &mdash; Version Notes
+            Version 11.2.0 &mdash; Version Notes
           </button>
           <span className="text-gray-700 mx-2">|</span>
           <a href="/api-docs" className="text-gray-600 hover:text-amber-400 text-xs font-mono">
             API Documentation
           </a>
+          <span className="text-gray-700 mx-2">|</span>
+          <button onClick={() => setShowMudInfo(true)} className="text-gray-600 hover:text-amber-400 text-xs font-mono">
+            MUD Client Access
+          </button>
+          <br className="sm:hidden" />
+          <span className="text-gray-700 mx-2 hidden sm:inline">|</span>
+          <a href="https://www.metavert.io/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-amber-400 text-xs font-mono">
+            Privacy Policy
+          </a>
+          <span className="text-gray-700 mx-2">|</span>
+          <a href="https://www.metavert.io/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-amber-400 text-xs font-mono">
+            Terms of Service
+          </a>
         </div>
+
+        {/* MUD Client info modal */}
+        {showMudInfo && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={() => setShowMudInfo(false)}>
+            <div className="bg-[#1a1a1a] border border-amber-900 rounded-lg p-6 max-w-lg" onClick={e => e.stopPropagation()}>
+              <h3 className="text-amber-400 font-mono font-bold text-lg mb-3">Connect with a MUD Client</h3>
+              <p className="text-gray-300 font-mono text-sm mb-4">
+                You can play Legends of Future Past using any standard MUD client (Mudlet, TinTin++, etc.) or a terminal.
+              </p>
+              <div className="bg-black border border-[#444] rounded p-4 font-mono text-sm mb-4">
+                <div className="text-gray-400 mb-1">Telnet:</div>
+                <div className="text-green-400 select-all mb-1">telnet lofp.metavert.io 4000</div>
+                <div className="text-gray-500 text-xs mb-3">Unencrypted. Use port 4001 with SSL/TLS for a secure connection.</div>
+                <div className="text-gray-400 mb-1">SSH:</div>
+                <div className="text-green-400 select-all mb-3">ssh -p 4022 play@lofp.metavert.io</div>
+                <div className="text-gray-400 mb-1">Mudlet / other MUD clients:</div>
+                <div className="text-gray-300 text-xs">Server: <span className="text-green-400 select-all">lofp.metavert.io</span></div>
+                <div className="text-gray-300 text-xs">Port: <span className="text-green-400 select-all">4000</span> (plain) or <span className="text-green-400 select-all">4001</span> (SSL/TLS &mdash; check &ldquo;Secure&rdquo; in Mudlet)</div>
+              </div>
+              <p className="text-gray-500 font-mono text-xs mb-4">
+                Log in with the same email and password you use on this site. You'll need to set a password in Account Settings if you only use Google login.
+              </p>
+              <div className="text-right">
+                <button onClick={() => setShowMudInfo(false)}
+                  className="px-4 py-2 bg-[#333] hover:bg-[#444] text-gray-300 font-mono text-sm rounded">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* API Key modal */}
         {apiKeyModal && (

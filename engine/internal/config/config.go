@@ -13,6 +13,7 @@ type Config struct {
 	MongoDB MongoDBConfig `yaml:"mongodb"`
 	Game    GameConfig    `yaml:"game"`
 	Auth    AuthConfig    `yaml:"auth"`
+	Email   EmailConfig   `yaml:"email"`
 }
 
 type AuthConfig struct {
@@ -20,9 +21,19 @@ type AuthConfig struct {
 	JWTSecret      string `yaml:"jwt_secret"`
 }
 
+type EmailConfig struct {
+	ResendAPIKey string `yaml:"resend_api_key"`
+	FromAddress  string `yaml:"from_address"`
+}
+
 type ServerConfig struct {
-	Port        int    `yaml:"port"`
-	FrontendURL string `yaml:"frontend_url"`
+	Port           int    `yaml:"port"`
+	TelnetPort     int    `yaml:"telnet_port"`
+	TelnetTLSPort  int    `yaml:"telnet_tls_port"`
+	TelnetTLSCert  string `yaml:"telnet_tls_cert"`
+	TelnetTLSKey   string `yaml:"telnet_tls_key"`
+	SSHPort        int    `yaml:"ssh_port"`
+	FrontendURL    string `yaml:"frontend_url"`
 }
 
 type MongoDBConfig struct {

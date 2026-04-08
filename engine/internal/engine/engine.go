@@ -369,6 +369,11 @@ type CommandResult struct {
 	PromptIndicators string   `json:"promptIndicators,omitempty"`
 	PlayerState      *Player  `json:"playerState,omitempty"`
 
+	// GMCP: room exits as direction→roomNumber map for automapper
+	RoomExits   map[string]int `json:"-"`
+	RoomTerrain string         `json:"-"`
+	RoomRegion  int            `json:"-"`
+
 	// Multiplayer: messages broadcast to others in the same room.
 	// OldRoom is set on movement to broadcast departure to the room left.
 	RoomBroadcast []string `json:"-"`
@@ -655,6 +660,8 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	case "LAY":
 		player.Position = 2
 		return e.doPositionWithScripts(ctx, player, verb, "You lie down.", fmt.Sprintf("%s lies down.", player.FirstName))
+	case "PRAY":
+		return e.doPray(player)
 	case "BRIEF":
 		player.BriefMode = true
 		return &CommandResult{Messages: []string{"Brief mode on."}}
@@ -703,17 +710,18 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	case "EXPERIENCE", "EXP":
 		// Recalc to make sure BP is current
 		recalcBuildPoints(player)
-		earned, needed := xpProgressInLevel(player)
-		progress := 0
-		if needed > 0 {
-			progress = earned * 100 / needed
+		totalBP := player.BuildPoints
+		spentBP := playerBPSpent(player)
+		unspentBP := totalBP - spentBP
+		if unspentBP < 0 {
+			unspentBP = 0
 		}
+		xpUntilNext := xpUntilNextBuildPoint(player)
 		return &CommandResult{Messages: []string{
-			fmt.Sprintf("Level: %d", player.Level),
 			fmt.Sprintf("Experience: %d", player.Experience),
-			fmt.Sprintf("Build Points: %d / %d (for level %d)", player.BuildPoints, buildPointsForLevel(player.Level), player.Level),
-			fmt.Sprintf("Next level at %d build points (%d%% progress)", buildPointsForLevel(player.Level+1), progress),
-			fmt.Sprintf("XP per build point: %d", getXPPerBP(player.Level)),
+			fmt.Sprintf("Build Points to date: %d", totalBP),
+			fmt.Sprintf("Unspent Build Points: %d", unspentBP),
+			fmt.Sprintf("Experience Points until next Build Point: %d", xpUntilNext),
 		}}
 	case "INFO":
 		return e.doInfo(player)
@@ -721,6 +729,8 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		return &CommandResult{Messages: []string{"The sun hangs in an uncertain sky. Time flows strangely in the Shattered Realms."}}
 	case "WHISPER":
 		return e.doWhisper(player, args, input)
+	case "CONTACT":
+		return e.doContact(player, args, input)
 	case "YELL":
 		return e.doYell(player, args, input)
 	case "GIVE":
@@ -743,10 +753,80 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 			"- Check your STATUS, HEALTH, INVENTORY, and WEALTH",
 			"- Type HELP for a full command list",
 		}}
+	case "HOLD":
+		// HOLD <player> → group hold; otherwise fallthrough to emote
+		if len(args) > 0 {
+			target := strings.ToLower(strings.Join(args, " "))
+			if found := e.findPlayerInRoom(player, target); found != nil {
+				return e.doHold(player, found)
+			}
+		}
+		return e.processEmote(player, verb, args)
+	case "SING":
+		// If args provided, treat as SAY variant with sing/sings
+		if len(args) > 0 {
+			text := extractOriginalArgs(input)
+			adverb := ""
+			if player.SpeechAdverb != "" {
+				adverb = player.SpeechAdverb + " "
+			}
+			return &CommandResult{
+				Messages:      []string{fmt.Sprintf("You %ssing, \"%s\"", adverb, text)},
+				RoomBroadcast: []string{fmt.Sprintf("%s %ssings, \"%s\"", player.FirstName, adverb, text)},
+			}
+		}
+		return e.processEmote(player, verb, args)
+	case "PLAY":
+		// If wielding an instrument, produce special music output
+		if player.Wielded != nil {
+			wDef := e.items[player.Wielded.Archetype]
+			if wDef != nil {
+				wieldedNoun := strings.ToLower(e.getItemNounName(wDef))
+				wieldedFullName := e.formatItemName(wDef, player.Wielded.Adj1, player.Wielded.Adj2, player.Wielded.Adj3)
+				instruments := []string{"harp", "lyre", "violin", "flute", "drum", "horn", "lute"}
+				for _, inst := range instruments {
+					if strings.Contains(wieldedNoun, inst) || strings.Contains(strings.ToLower(wieldedFullName), inst) {
+						return &CommandResult{
+							Messages:      []string{fmt.Sprintf("You play your %s, filling the air with beautiful music.", wieldedFullName)},
+							RoomBroadcast: []string{fmt.Sprintf("%s plays %s, filling the air with beautiful music.", player.FirstName, wieldedFullName)},
+						}
+					}
+				}
+			}
+		}
+		return e.processEmote(player, verb, args)
+	case "TAP":
+		// If wielding a staff in a dark room, produce light flavor text
+		if player.Wielded != nil {
+			wDef := e.items[player.Wielded.Archetype]
+			if wDef != nil {
+				wieldedNoun := strings.ToLower(e.getItemNounName(wDef))
+				wieldedFullName := e.formatItemName(wDef, player.Wielded.Adj1, player.Wielded.Adj2, player.Wielded.Adj3)
+				if strings.Contains(wieldedNoun, "staff") || strings.Contains(strings.ToLower(wieldedFullName), "staff") {
+					room := e.rooms[player.RoomNumber]
+					isDark := room != nil && (room.Terrain == "CAVE" || room.Terrain == "DEEPCAVE" || room.Terrain == "UNDERGROUND")
+					if isDark {
+						return &CommandResult{
+							Messages: []string{
+								"You rap your staff on the ground.",
+								"A small orb of light appears and floats beside you.",
+								// NOTE: full light system integration pending — this is flavor text only for now
+							},
+							RoomBroadcast: []string{fmt.Sprintf("%s raps %s staff on the ground. A small orb of light appears.", player.FirstName, player.Possessive())},
+						}
+					}
+				}
+			}
+		}
+		// If args provided, check item interaction first
+		if len(args) > 0 {
+			return e.doItemInteraction(ctx, player, "TAP", args)
+		}
+		return e.processEmote(player, verb, args)
 	// Roleplay verbs — dispatched via emote table
 	case "SMILE", "BOW", "CURTSEY", "CURTSY", "WAVE", "NOD", "LAUGH", "CHUCKLE",
 		"GRIN", "FROWN", "SIGH", "SHRUG", "WINK", "CRY", "DANCE",
-		"HUG", "KISS", "POKE", "TICKLE", "SLAP", "HOWL", "SING",
+		"HUG", "KISS", "POKE", "TICKLE", "SLAP", "HOWL",
 		"PACE", "FIDGET", "SHIVER", "SNORT", "GROAN", "MUMBLE",
 		"BABBLE", "BEAM", "SWOON", "TOAST", "SHUDDER", "POINT",
 		"KICK", "KNOCK", "PET", "PUNCH", "SPIT",
@@ -759,7 +839,7 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		"ARCH", "RAISE", "HEAD", "SCRATCH", "CLAP",
 		// Additional emotes
 		"LICK", "NIBBLE", "BARK", "CLAW", "CURSE", "DUCK", "HISS",
-		"HOLD", "HULA", "JIG", "MOAN", "MASSAGE", "PINCH", "PLAY",
+		"HULA", "JIG", "MOAN", "MASSAGE", "PINCH",
 		"PURR", "ROAR", "SNARL", "SNUGGLE", "WAG", "WAIT", "WRITE",
 		"YOWL", "THUMP", "APPLAUD", "PEER", "GRUNT", "DIP",
 		"HANDRAISE", "HANDSHAKE", "HEADSHAKE", "PICK", "GESTURE",
@@ -834,7 +914,12 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 			}
 		}
 		return e.doItemInteraction(ctx, player, verb, args)
-	case "PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "DIG", "USE":
+	case "PULL", "PUSH", "RUB", "TOUCH", "DIG", "USE":
+		return e.doItemInteraction(ctx, player, verb, args)
+	case "TURN":
+		if result := e.doTurnPage(ctx, player, args); result != nil {
+			return result
+		}
 		return e.doItemInteraction(ctx, player, verb, args)
 	case "RECALL":
 		if len(args) == 0 {
@@ -881,8 +966,10 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		return e.doAnalyze(ctx, player, args)
 	case "WEAVE":
 		return e.doCraft(ctx, player, args) // weave uses same craft logic at LOOM
-	case "WORK", "REPAIR":
-		return &CommandResult{Messages: []string{fmt.Sprintf("[%s system coming soon.]", strings.Title(strings.ToLower(verb)))}}
+	case "WORK":
+		return e.doWork(ctx, player, args)
+	case "REPAIR":
+		return e.doRepair(ctx, player, args)
 	// === MOVEMENT/STEALTH ===
 	case "HIDE":
 		return e.doHide(ctx, player)
@@ -915,7 +1002,7 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	case "PUT", "PLACE":
 		return &CommandResult{Messages: []string{"[PUT system coming soon.]"}} // TODO: implement item placement
 	case "FILL":
-		return &CommandResult{Messages: []string{"[FILL system coming soon.]"}} // TODO: liquid transfer
+		return e.doFill(ctx, player, args)
 	case "MARK":
 		return e.doMark(ctx, player, args)
 	case "UNDRESS":
@@ -1038,7 +1125,7 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 			RoomBroadcast: []string{fmt.Sprintf("%s retreats.", player.FirstName)},
 		}
 	case "GUARD":
-		return &CommandResult{Messages: []string{"[Guard coming soon.]"}}
+		return e.doGuard(player, args)
 	case "BACKSTAB":
 		if !player.Hidden {
 			return &CommandResult{Messages: []string{"You must be hidden to backstab!"}}
@@ -1076,7 +1163,7 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	case "PROJECT":
 		return e.doProjectPsi(ctx, player, args)
 	case "CHANT":
-		return &CommandResult{Messages: []string{"[Scroll casting coming soon.]"}}
+		return e.doChant(ctx, player, args)
 	case "COMMAND":
 		return &CommandResult{Messages: []string{"[Summoned creature commands coming soon.]"}}
 	case "MASTER":
@@ -1087,13 +1174,13 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		return &CommandResult{Messages: []string{"[Weapon specialization coming soon.]"}}
 	// === SKILL-BASED (TODO: implement) ===
 	case "DISARM":
-		return &CommandResult{Messages: []string{"[Trap disarming coming soon.]"}} // TODO: detect/disarm traps, requires Trap & Poison skill
+		return e.doDisarm(ctx, player, args)
 	case "STEAL", "FILCH", "ROB":
 		return &CommandResult{Messages: []string{"[Stealing coming soon.]"}} // TODO: pick pockets, requires Legerdemain
 	case "STALK":
 		return &CommandResult{Messages: []string{"[Stalking coming soon.]"}} // TODO: secretly follow someone
 	case "TEACH":
-		return &CommandResult{Messages: []string{"[Teaching coming soon.]"}} // TODO: teach a skill to others in room
+		return e.doTeach(ctx, player, args)
 	case "SELFTRAIN":
 		return &CommandResult{Messages: []string{"[Self-training coming soon.]"}} // TODO: train self at +1 cost
 	case "UNLEARN":
@@ -1123,7 +1210,26 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	case "CALL":
 		return &CommandResult{Messages: []string{"[Aelfen familiar coming soon.]"}} // TODO: call woodland creature
 	case "TRANSFORM":
-		return &CommandResult{Messages: []string{"[Form transformation coming soon.]"}} // TODO: wolfling wolf form, mist/slime form
+		if player.Race != RaceWolfling {
+			return &CommandResult{Messages: []string{"Only wolflings can transform."}}
+		}
+		player.RoundTimeExpiry = time.Now().Add(7 * time.Second)
+		if player.WolfForm {
+			// Wolf → human
+			player.WolfForm = false
+			e.SavePlayer(ctx, player)
+			return &CommandResult{
+				Messages:      []string{"You howl in pain as your body undergoes a metamorphosis and resumes humanoid form.", "[Round: 7 sec]"},
+				RoomBroadcast: []string{fmt.Sprintf("A wolf shudders and transforms, resuming the shape of %s. Where the wolf stood, %s rises in humanoid form.", player.FirstName, player.Pronoun())},
+			}
+		}
+		// Human → wolf
+		player.WolfForm = true
+		e.SavePlayer(ctx, player)
+		return &CommandResult{
+			Messages:      []string{"You groan in pain as your body undergoes a metamorphosis and assumes the form of a wolf.", "[Round: 7 sec]"},
+			RoomBroadcast: []string{fmt.Sprintf("Without warning, %s howls and collapses to the ground, shaking. Undergoing a terrible transformation, %s changes shape into that of a wolf!", player.FirstName, player.Pronoun())},
+		}
 	case "MOLD":
 		return &CommandResult{Messages: []string{"[Gem molding coming soon.]"}} // TODO: highlander gem improvement
 	case "DISGUISE":
@@ -1152,10 +1258,18 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 		return &CommandResult{Messages: []string{"[Organization enrollment coming soon.]"}} // TODO: join open org
 	case "INITIATE":
 		return &CommandResult{Messages: []string{"[Initiation coming soon.]"}} // TODO: initiate player into org
-	case "JOIN", "FOLLOW":
-		return &CommandResult{Messages: []string{"[Group system coming soon.]"}} // TODO: join party, follow player
-	case "LEAVE", "DISBAND":
-		return &CommandResult{Messages: []string{"[Group system coming soon.]"}} // TODO: leave group
+	case "FOLLOW":
+		return e.doFollow(player, args)
+	case "JOIN":
+		// JOIN with args → group follow; JOIN alone → old stub
+		if len(args) > 0 {
+			return e.doFollow(player, args)
+		}
+		return &CommandResult{Messages: []string{"Follow whom?"}}
+	case "LEAVE":
+		return e.doLeave(player)
+	case "DISBAND":
+		return e.doDisband(player)
 	case "TEND":
 		return e.doTend(ctx, player, args)
 	case "BREAK":
@@ -1219,7 +1333,7 @@ var allVerbs = []string{
 	"OPEN", "CLOSE", "SIT", "STAND", "KNEEL", "LAY",
 	"BRIEF", "FULL", "PROMPT", "WHO", "SKILLS", "WEALTH",
 	"QUIT", "HELP", "ADVICE", "ASSIST", "ACT", "EMOTE", "RECITE", "READ", "CLIMB",
-	"PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "SEARCH", "DIG", "RECALL", "USE",
+	"PULL", "PUSH", "TURN", "RUB", "TAP", "TOUCH", "SEARCH", "DIG", "RECALL", "USE", "PRAY",
 	"CAST", "CONCENTRATE", "BUY", "SELL",
 	"DRINK", "SIP", "LIGHT", "EXTINGUISH", "DOUSE",
 	"FLIP", "LATCH", "UNLATCH",
@@ -1300,10 +1414,10 @@ var verbAliases = map[string]string{
 	"INV": "INVENTORY", "STAT": "STATUS", "UNUSE": "UNWIELD",
 	"DON": "WEAR", "EXIT": "QUIT", "SKILL": "SKILLS",
 	"WHI": "WHISPER", "THIN": "THINK", "CONTA": "CONTACT",
-	"DI": "DIAGNOSE", "TURN": "TWIRL",
+	"DI": "DIAGNOSE",
 	"ORDER": "BUY", "UNLIGHT": "EXTINGUISH", "IGNITE": "LIGHT",
 	"QUAFF": "DRINK", "SHOUT": "YELL", "A": "ATTACK",
-	"PLACE": "PUT",
+	"PLACE": "PUT", "TRANS": "TRANSFORM",
 }
 
 // resolveVerb resolves a typed verb to its canonical form.
@@ -1414,6 +1528,30 @@ func (e *GameEngine) doMove(ctx context.Context, player *Player, dir string) *Co
 	// Run IFENTRY scripts for the destination room
 	e.applyEntryScripts(ctx, player, dest, result)
 
+	// Group movement: if leader has followers, move them too
+	if player.IsGroupLeader && len(player.GroupMembers) > 0 && e.sessions != nil {
+		groupDir := dirName
+		for _, memberName := range player.GroupMembers {
+			for _, p := range e.sessions.OnlinePlayers() {
+				if p.FirstName == memberName && p.RoomNumber == oldRoom && !p.Dead {
+					p.RoomNumber = destNum
+					p.Submitting = false
+					e.disengageCombat(p)
+					e.SavePlayer(ctx, p)
+					// Send the follower a look at the new room
+					if e.sendToPlayer != nil {
+						followLook := e.doLook(p)
+						e.sendToPlayer(p.FirstName, followLook.Messages)
+					}
+					e.applyEntryScripts(ctx, p, dest, &CommandResult{})
+					break
+				}
+			}
+		}
+		result.OldRoomMsg = append(result.OldRoomMsg, fmt.Sprintf("%s's group goes %s.", player.FirstName, groupDir))
+		result.RoomBroadcast = append(result.RoomBroadcast, fmt.Sprintf("%s's group arrives.", player.FirstName))
+	}
+
 	return result
 }
 
@@ -1425,6 +1563,11 @@ func (e *GameEngine) EnterRoom(ctx context.Context, player *Player) *CommandResu
 		e.applyEntryScripts(ctx, player, room, result)
 	}
 	return result
+}
+
+// GetRoom returns the room struct for GMCP/protocol data. Returns nil if not found.
+func (e *GameEngine) GetRoom(roomNumber int) *gameworld.Room {
+	return e.rooms[roomNumber]
 }
 
 // applyEntryScripts runs IFENTRY scripts and merges results into the command result.
@@ -1521,7 +1664,11 @@ func (e *GameEngine) doLook(player *Player) *CommandResult {
 			case 4:
 				posDesc = " (flying)"
 			}
-			playersHere = append(playersHere, fmt.Sprintf("%s the %s%s", p.FullName(), p.RaceName(), posDesc))
+			if p.WolfForm {
+				playersHere = append(playersHere, "a wolf"+posDesc)
+			} else {
+				playersHere = append(playersHere, fmt.Sprintf("%s the %s%s", p.FullName(), p.RaceName(), posDesc))
+			}
 		}
 	}
 
@@ -1540,6 +1687,18 @@ func (e *GameEngine) doLook(player *Player) *CommandResult {
 		}
 	}
 	result.Exits = exits
+
+	// Populate GMCP room data
+	result.RoomExits = make(map[string]int)
+	for dir, roomNum := range room.Exits {
+		dirLower := strings.ToLower(dir)
+		if name, ok := dirNames[dir]; ok {
+			dirLower = name
+		}
+		result.RoomExits[dirLower] = roomNum
+	}
+	result.RoomTerrain = room.Terrain
+	result.RoomRegion = room.Region
 
 	// Build messages
 	var msgs []string
@@ -1778,6 +1937,8 @@ func (e *GameEngine) examinePlayer(observer *Player, target *Player) *CommandRes
 	msgs := []string{}
 	if isSelf {
 		msgs = append(msgs, "You examine yourself.")
+	} else if target.Title != "" {
+		msgs = append(msgs, fmt.Sprintf("Before you is %s %s.", target.Title, target.FullName()))
 	} else {
 		msgs = append(msgs, fmt.Sprintf("You look at %s.", target.FullName()))
 	}
@@ -1864,6 +2025,20 @@ func (e *GameEngine) examinePlayer(observer *Player, target *Player) *CommandRes
 	}
 	if target.Immobilized {
 		msgs = append(msgs, fmt.Sprintf("%s rooted to the spot.", pronoun))
+	}
+
+	// Guard status — check if someone is guarding this target
+	if e.sessions != nil {
+		for _, p := range e.sessions.OnlinePlayers() {
+			if p.GuardTarget == target.FirstName && p.RoomNumber == target.RoomNumber {
+				if isSelf {
+					msgs = append(msgs, fmt.Sprintf("You are being guarded by %s.", p.FirstName))
+				} else {
+					msgs = append(msgs, fmt.Sprintf("%s is being guarded by %s.", target.PronounCap(), p.FirstName))
+				}
+				break
+			}
+		}
 	}
 
 	// Active spell/psi effects
@@ -2379,13 +2554,63 @@ func (e *GameEngine) doInventory(player *Player) *CommandResult {
 }
 
 func (e *GameEngine) doStatus(player *Player) *CommandResult {
-	return &CommandResult{Messages: []string{
-		fmt.Sprintf("Name: %s", player.FullName()),
-		fmt.Sprintf("Race: %s   Gender: %s   Level: %d", player.RaceName(), genderName(player.Gender), player.Level),
+	recalcBuildPoints(player)
+
+	var msgs []string
+
+	// Organization line (if any)
+	if player.Organization > 0 {
+		orgName := organizationName(player.Organization)
+		if orgName != "" {
+			msgs = append(msgs, fmt.Sprintf("You are a member of the %s.", orgName))
+		}
+	}
+
+	msgs = append(msgs,
+		fmt.Sprintf("Name: %s   Race: %s   Gender: %s   Level: %d", player.FullName(), player.RaceName(), genderName(player.Gender), player.Level),
 		fmt.Sprintf("Strength: %d   Agility: %d   Quickness: %d", player.Strength, player.Agility, player.Quickness),
 		fmt.Sprintf("Constitution: %d   Perception: %d   Willpower: %d   Empathy: %d", player.Constitution, player.Perception, player.Willpower, player.Empathy),
-		fmt.Sprintf("Experience: %d   Build Points: %d", player.Experience, player.Experience/100),
-	}}
+	)
+
+	// Build points
+	totalBP := player.BuildPoints
+	spentBP := playerBPSpent(player)
+	unspentBP := totalBP - spentBP
+	if unspentBP < 0 {
+		unspentBP = 0
+	}
+	xpUntilNextBP := xpUntilNextBuildPoint(player)
+
+	msgs = append(msgs,
+		fmt.Sprintf("Build Points to date: %d", totalBP),
+		fmt.Sprintf("Unspent Build Points: %d", unspentBP),
+		fmt.Sprintf("Experience Points until next Build Point: %d", xpUntilNextBP),
+	)
+
+	// Attack/Defense modifiers
+	var weaponDef *gameworld.ItemDef
+	if player.Wielded != nil {
+		weaponDef = e.items[player.Wielded.Archetype]
+	}
+	atkRating := playerAttackRating(player, weaponDef)
+	defRating := playerDefenseRating(player)
+	stanceLabel := stanceNames[player.Stance]
+
+	msgs = append(msgs,
+		fmt.Sprintf("Current Attack Modifier: %d [%s]", atkRating, stanceLabel),
+		fmt.Sprintf("Current Defend Modifier: %d", defRating),
+	)
+
+	// Height/Weight/Load
+	heightFeet := player.Height / 12
+	heightInches := player.Height % 12
+	loadWeight := playerLoadWeight(player, e.items)
+	msgs = append(msgs,
+		fmt.Sprintf("Height: %d'%d   Weight: %d lbs", heightFeet, heightInches, player.Weight),
+		fmt.Sprintf("Load: %d lbs", loadWeight),
+	)
+
+	return &CommandResult{Messages: msgs}
 }
 
 func (e *GameEngine) doHealth(player *Player) *CommandResult {
@@ -2678,6 +2903,19 @@ func (e *GameEngine) doWhisper(player *Player, args []string, rawInput string) *
 		return &CommandResult{Messages: []string{"Whisper to whom?"}}
 	}
 	targetName := strings.ToLower(args[0])
+
+	// Proximity whisper: "whisper close ..." or "whisper those ..."
+	if targetName == "close" || targetName == "those" {
+		text := extractRawArgs(rawInput, 2)
+		if text == "" {
+			return &CommandResult{Messages: []string{"Whisper what?"}}
+		}
+		return &CommandResult{
+			Messages:      []string{fmt.Sprintf("You whisper to those close, \"%s\"", text)},
+			RoomBroadcast: []string{fmt.Sprintf("%s whispers to those close, \"%s\"", player.FirstName, text)},
+		}
+	}
+
 	found := e.findPlayerInRoom(player, targetName)
 	if found == nil {
 		return &CommandResult{Messages: []string{"You don't see that person here."}}
@@ -2720,6 +2958,251 @@ func (e *GameEngine) doYell(player *Player, args []string, rawInput string) *Com
 	return &CommandResult{
 		Messages:      []string{fmt.Sprintf("You %syell, \"%s\"", adverb, text)},
 		RoomBroadcast: []string{fmt.Sprintf("%s %syells, \"%s\"", player.FirstName, adverb, text)},
+	}
+}
+
+// doPray handles the PRAY command — triggers IFVERB PRAY scripts or generic prayer.
+func (e *GameEngine) doPray(player *Player) *CommandResult {
+	room := e.rooms[player.RoomNumber]
+	if room != nil {
+		sc := &ScriptContext{Player: player, Room: room, Engine: e}
+		for _, block := range room.Scripts {
+			if block.Type == "IFVERB" && len(block.Args) >= 2 {
+				if strings.ToUpper(block.Args[0]) == "PRAY" && block.Args[1] == "-1" {
+					sc.execBlock(block)
+				}
+			}
+		}
+		if len(sc.Messages) > 0 {
+			result := &CommandResult{Messages: sc.Messages}
+			if len(sc.RoomMsgs) > 0 {
+				result.RoomBroadcast = sc.RoomMsgs
+			}
+			return result
+		}
+	}
+	pronoun := "his"
+	if player.Gender == GenderFemale {
+		pronoun = "her"
+	}
+	return &CommandResult{
+		Messages:      []string{"You pray."},
+		RoomBroadcast: []string{fmt.Sprintf("%s bows %s head and prays.", player.FirstName, pronoun)},
+	}
+}
+
+// doContact handles the CONTACT command — psionic telepathic whisper.
+func (e *GameEngine) doContact(player *Player, args []string, rawInput string) *CommandResult {
+	if len(args) < 2 {
+		return &CommandResult{Messages: []string{"Contact whom with what message?"}}
+	}
+	targetName := strings.ToLower(args[0])
+	// Find the target among all online players (not just same room)
+	var found *Player
+	if e.sessions != nil {
+		for _, p := range e.sessions.OnlinePlayers() {
+			if p.FirstName == player.FirstName && p.LastName == player.LastName {
+				continue
+			}
+			if strings.HasPrefix(strings.ToLower(p.FirstName), targetName) {
+				found = p
+				break
+			}
+		}
+	}
+	if found == nil {
+		return &CommandResult{Messages: []string{"You cannot sense that person."}}
+	}
+	text := extractRawArgs(rawInput, 2)
+	if text == "" {
+		return &CommandResult{Messages: []string{"Contact whom with what message?"}}
+	}
+	player.RoundTimeExpiry = time.Now().Add(2 * time.Second)
+	return &CommandResult{
+		Messages:      []string{fmt.Sprintf("You contact %s with your thoughts.", found.FirstName), "[Round: 2 sec]"},
+		WhisperTarget: found.FirstName,
+		WhisperMsg:    fmt.Sprintf("You feel the touch of %s's mind: \"%s\"", player.FirstName, text),
+	}
+}
+
+// doGuard handles the GUARD command — protect another player.
+func (e *GameEngine) doGuard(player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		// Stop guarding
+		if player.GuardTarget == "" {
+			return &CommandResult{Messages: []string{"You are not guarding anyone."}}
+		}
+		old := player.GuardTarget
+		player.GuardTarget = ""
+		return &CommandResult{
+			Messages:      []string{"You stop guarding."},
+			RoomBroadcast: []string{fmt.Sprintf("%s stops guarding %s.", player.FirstName, old)},
+		}
+	}
+	target := strings.ToLower(strings.Join(args, " "))
+	found := e.findPlayerInRoom(player, target)
+	if found == nil {
+		return &CommandResult{Messages: []string{"They are not here."}}
+	}
+	player.GuardTarget = found.FirstName
+	return &CommandResult{
+		Messages:      []string{fmt.Sprintf("You are now guarding %s.", found.FirstName)},
+		RoomBroadcast: []string{fmt.Sprintf("%s is now guarding %s.", player.FirstName, found.FirstName)},
+	}
+}
+
+// doChant handles the CHANT command — scroll activation.
+func (e *GameEngine) doChant(ctx context.Context, player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		return &CommandResult{Messages: []string{"Chant what?"}}
+	}
+	target := strings.ToLower(strings.Join(args, " "))
+	// Strip "my " prefix
+	target = strings.TrimPrefix(target, "my ")
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
+
+	for i, ii := range player.Inventory {
+		itemDef := e.items[ii.Archetype]
+		if itemDef == nil {
+			continue
+		}
+		if !strings.Contains(strings.ToUpper(itemDef.Type), "SCROLL") {
+			continue
+		}
+		name := e.getItemNounName(itemDef)
+		if matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+			if skip > 0 {
+				skip--
+				continue
+			}
+			fullName := e.formatItemName(itemDef, ii.Adj1, ii.Adj2, ii.Adj3)
+			// Remove the scroll from inventory
+			player.Inventory = append(player.Inventory[:i], player.Inventory[i+1:]...)
+			player.RoundTimeExpiry = time.Now().Add(3 * time.Second)
+			e.SavePlayer(ctx, player)
+			return &CommandResult{
+				Messages: []string{
+					fmt.Sprintf("As you chant the scroll, it crumbles into dust..."),
+					"You feel the power of the scroll flow into you.",
+					"[Round: 3 sec]",
+				},
+				RoomBroadcast: []string{fmt.Sprintf("%s chants from %s which crumbles into dust.", player.FirstName, fullName)},
+			}
+		}
+	}
+	return &CommandResult{Messages: []string{"You don't have that."}}
+}
+
+// doFollow handles the FOLLOW command — join a group.
+func (e *GameEngine) doFollow(player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		return &CommandResult{Messages: []string{"Follow whom?"}}
+	}
+	target := strings.ToLower(strings.Join(args, " "))
+	found := e.findPlayerInRoom(player, target)
+	if found == nil {
+		return &CommandResult{Messages: []string{"They are not here."}}
+	}
+	if player.Following != "" {
+		return &CommandResult{Messages: []string{fmt.Sprintf("You are already following %s.", player.Following)}}
+	}
+	player.Following = found.FirstName
+	found.IsGroupLeader = true
+	// Add to leader's group members (avoid duplicates)
+	alreadyIn := false
+	for _, m := range found.GroupMembers {
+		if m == player.FirstName {
+			alreadyIn = true
+			break
+		}
+	}
+	if !alreadyIn {
+		found.GroupMembers = append(found.GroupMembers, player.FirstName)
+	}
+	return &CommandResult{
+		Messages:      []string{fmt.Sprintf("You are now following %s.", found.FirstName)},
+		RoomBroadcast: []string{fmt.Sprintf("%s is now following %s.", player.FirstName, found.FirstName)},
+	}
+}
+
+// doHold handles the HOLD command (group) — leader adds a member.
+func (e *GameEngine) doHold(player *Player, found *Player) *CommandResult {
+	if found.Following != "" {
+		return &CommandResult{Messages: []string{fmt.Sprintf("%s is already following someone.", found.FirstName)}}
+	}
+	found.Following = player.FirstName
+	player.IsGroupLeader = true
+	alreadyIn := false
+	for _, m := range player.GroupMembers {
+		if m == found.FirstName {
+			alreadyIn = true
+			break
+		}
+	}
+	if !alreadyIn {
+		player.GroupMembers = append(player.GroupMembers, found.FirstName)
+	}
+	return &CommandResult{
+		Messages:      []string{fmt.Sprintf("%s takes %s by the hand.", player.FirstName, found.FirstName)},
+		RoomBroadcast: []string{fmt.Sprintf("%s takes %s by the hand.", player.FirstName, found.FirstName)},
+	}
+}
+
+// doLeave handles the LEAVE command — stop following.
+func (e *GameEngine) doLeave(player *Player) *CommandResult {
+	if player.Following == "" {
+		return &CommandResult{Messages: []string{"You are not following anyone."}}
+	}
+	leaderName := player.Following
+	player.Following = ""
+	// Remove from leader's GroupMembers
+	if e.sessions != nil {
+		for _, p := range e.sessions.OnlinePlayers() {
+			if p.FirstName == leaderName {
+				for i, m := range p.GroupMembers {
+					if m == player.FirstName {
+						p.GroupMembers = append(p.GroupMembers[:i], p.GroupMembers[i+1:]...)
+						break
+					}
+				}
+				if len(p.GroupMembers) == 0 {
+					p.IsGroupLeader = false
+				}
+				break
+			}
+		}
+	}
+	return &CommandResult{
+		Messages:      []string{fmt.Sprintf("You stop following %s.", leaderName)},
+		RoomBroadcast: []string{fmt.Sprintf("%s stops following %s.", player.FirstName, leaderName)},
+	}
+}
+
+// doDisband handles the DISBAND command — leader disbands their group.
+func (e *GameEngine) doDisband(player *Player) *CommandResult {
+	if !player.IsGroupLeader || len(player.GroupMembers) == 0 {
+		return &CommandResult{Messages: []string{"You don't have a group to disband."}}
+	}
+	// Clear Following on all members
+	if e.sessions != nil {
+		for _, memberName := range player.GroupMembers {
+			for _, p := range e.sessions.OnlinePlayers() {
+				if p.FirstName == memberName {
+					p.Following = ""
+					if e.sendToPlayer != nil {
+						e.sendToPlayer(p.FirstName, []string{fmt.Sprintf("%s disbands the group.", player.FirstName)})
+					}
+					break
+				}
+			}
+		}
+	}
+	player.GroupMembers = nil
+	player.IsGroupLeader = false
+	return &CommandResult{
+		Messages:      []string{fmt.Sprintf("You disband your group.")},
+		RoomBroadcast: []string{fmt.Sprintf("%s disbands their group.", player.FirstName)},
 	}
 }
 
@@ -3081,8 +3564,10 @@ func (e *GameEngine) doBuy(ctx context.Context, player *Player, args []string) *
 		e.SavePlayer(ctx, player)
 
 		displayName := e.formatItemName(itemDef, item.Adj1, item.Adj2, item.Adj3)
-		priceStr := formatPrice(si.Price)
-		return &CommandResult{Messages: []string{fmt.Sprintf("You buy %s for %s.", displayName, priceStr)}}
+		return &CommandResult{
+			Messages:      []string{fmt.Sprintf("You hand over your money and retrieve your %s.", displayName)},
+			RoomBroadcast: []string{fmt.Sprintf("%s purchases the %s.", player.FirstName, displayName)},
+		}
 	}
 
 	return &CommandResult{Messages: []string{"That item is not for sale here."}}
@@ -3136,7 +3621,8 @@ func (e *GameEngine) doSell(ctx context.Context, player *Player, args []string) 
 			player.Copper += sellValue % 10
 			e.SavePlayer(ctx, player)
 			return &CommandResult{Messages: []string{
-				fmt.Sprintf("You sell %s for %s.", displayName, formatPrice(sellValue)),
+				fmt.Sprintf("The merchant inspects %s closely.", displayName),
+				fmt.Sprintf("The merchant takes the item and hands you %s.", formatPrice(sellValue)),
 			}}
 		}
 	}
@@ -4029,7 +4515,7 @@ func (e *GameEngine) IsFirstNameTaken(ctx context.Context, firstName string) (bo
 	}
 	coll := e.db.Collection("players")
 	count, err := coll.CountDocuments(ctx, bson.M{
-		"firstName": firstName,
+		"firstName": bson.M{"$regex": "^" + regexp.QuoteMeta(firstName) + "$", "$options": "i"},
 		"deletedAt": bson.M{"$exists": false},
 	})
 	if err != nil {
@@ -4514,6 +5000,83 @@ func genderName(g int) string {
 	}
 }
 
+// organizationName returns the display name for an organization number.
+func organizationName(org int) string {
+	names := map[int]string{
+		1:  "Adventurer's Guild",
+		2:  "Order of Paladins",
+		3:  "Mage's Guild",
+		4:  "Thieves' Guild",
+		5:  "Church of Gaea",
+		6:  "Church of Finvarra",
+		7:  "Church of Arawn",
+		8:  "Church of Duach",
+		9:  "Order of Rangers",
+		10: "Order of Druids",
+		11: "Church of Brigit",
+		12: "Order of Bards",
+	}
+	if n, ok := names[org]; ok {
+		return n
+	}
+	return ""
+}
+
+// playerBPSpent calculates total build points spent on skills.
+func playerBPSpent(player *Player) int {
+	total := 0
+	for skillID, rank := range player.Skills {
+		for r := 0; r < rank; r++ {
+			total += skillBPCost(skillID, r)
+		}
+	}
+	return total
+}
+
+// xpUntilNextBuildPoint returns remaining XP needed for the next BP.
+func xpUntilNextBuildPoint(player *Player) int {
+	rate := getXPPerBP(player.Level)
+	if rate <= 0 {
+		return 0
+	}
+	// Walk XP through levels to find leftover in current level
+	bp := 20
+	lvl := 1
+	xpRemaining := player.Experience
+
+	for lvl < 200 {
+		r := getXPPerBP(lvl)
+		targetBP := buildPointsForLevel(lvl + 1)
+		bpToNext := targetBP - bp
+		xpForLevel := bpToNext * r
+
+		if xpRemaining >= xpForLevel {
+			xpRemaining -= xpForLevel
+			bp = targetBP
+			lvl++
+		} else {
+			// Partial progress within level — find XP to next BP
+			if r > 0 {
+				partialXP := xpRemaining % r
+				return r - partialXP
+			}
+			return 0
+		}
+	}
+	return 0
+}
+
+// playerLoadWeight calculates total weight of carried items.
+func playerLoadWeight(player *Player, items map[int]*gameworld.ItemDef) int {
+	total := 0
+	for _, ii := range player.Inventory {
+		if def := items[ii.Archetype]; def != nil {
+			total += def.Weight
+		}
+	}
+	return total
+}
+
 // doSkin handles the SKIN command — skin a dead monster for components.
 func (e *GameEngine) doSkin(ctx context.Context, player *Player, args []string) *CommandResult {
 	if len(args) == 0 {
@@ -4595,4 +5158,303 @@ func (e *GameEngine) doSkin(ctx context.Context, player *Player, args []string) 
 	}
 
 	return &CommandResult{Messages: []string{"You don't see a dead creature to skin here."}}
+}
+
+// ---- TEACH command ----
+
+func (e *GameEngine) doTeach(ctx context.Context, player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		// Stop teaching
+		player.Teaching = 0
+		player.TeachingLevel = 0
+		return &CommandResult{Messages: []string{"You stop teaching."}}
+	}
+	skillNum, err := strconv.Atoi(args[0])
+	if err != nil || skillNum < 0 {
+		return &CommandResult{Messages: []string{"Unknown skill."}}
+	}
+	if skillNum == 0 {
+		player.Teaching = 0
+		player.TeachingLevel = 0
+		return &CommandResult{Messages: []string{"You stop teaching."}}
+	}
+	name, ok := SkillNames[skillNum]
+	if !ok {
+		return &CommandResult{Messages: []string{"Unknown skill."}}
+	}
+	teacherLevel := player.Skills[skillNum]
+	if teacherLevel < 1 {
+		return &CommandResult{Messages: []string{"You don't have any training in that skill."}}
+	}
+	player.Teaching = skillNum
+	player.TeachingLevel = teacherLevel
+	return &CommandResult{
+		Messages:      []string{fmt.Sprintf("You are now teaching %s (skill #%d, up to level %d).", name, skillNum, teacherLevel)},
+		RoomBroadcast: []string{fmt.Sprintf("%s begins teaching %s.", player.FirstName, name)},
+	}
+}
+
+// ---- FILL command ----
+
+func (e *GameEngine) doFill(ctx context.Context, player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		return &CommandResult{Messages: []string{"You don't have anything to fill."}}
+	}
+	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
+
+	// Find the container in player inventory (glass, cup, flask, mug, bottle, tankard, vial)
+	fillableNouns := map[string]bool{"glass": true, "cup": true, "flask": true, "mug": true, "bottle": true, "tankard": true, "vial": true, "goblet": true, "chalice": true, "stein": true}
+	var fillIdx int = -1
+	var fillItem *InventoryItem
+	var fillDef *gameworld.ItemDef
+	for i, ii := range player.Inventory {
+		itemDef := e.items[ii.Archetype]
+		if itemDef == nil {
+			continue
+		}
+		name := e.getItemNounName(itemDef)
+		if !matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+			continue
+		}
+		if skip > 0 {
+			skip--
+			continue
+		}
+		// Check if it's a fillable container type
+		if itemDef.Type == "LIQCONTAINER" || fillableNouns[strings.ToLower(name)] {
+			fillIdx = i
+			fillItem = &player.Inventory[i]
+			fillDef = itemDef
+			break
+		}
+	}
+	if fillIdx < 0 || fillItem == nil {
+		return &CommandResult{Messages: []string{"You don't have anything to fill."}}
+	}
+
+	// Find a source in the room (keg, barrel, fountain, well, spring, cauldron)
+	sourceNouns := map[string]bool{"keg": true, "barrel": true, "fountain": true, "well": true, "spring": true, "cauldron": true, "cask": true, "tap": true, "spigot": true}
+	room := e.rooms[player.RoomNumber]
+	if room == nil {
+		return &CommandResult{Messages: []string{"There is nothing to fill from here."}}
+	}
+	var sourceDef *gameworld.ItemDef
+	var sourceRI *gameworld.RoomItem
+	for i, ri := range room.Items {
+		itemDef := e.items[ri.Archetype]
+		if itemDef == nil {
+			continue
+		}
+		name := strings.ToLower(e.getItemNounName(itemDef))
+		if sourceNouns[name] || itemDef.Type == "LIQUID" || itemDef.Type == "LIQCONTAINER" {
+			sourceDef = itemDef
+			sourceRI = &room.Items[i]
+			break
+		}
+	}
+	if sourceDef == nil || sourceRI == nil {
+		return &CommandResult{Messages: []string{"There is nothing to fill from here."}}
+	}
+
+	// Determine the drink type from the source
+	drinkType := "water"
+	sourceName := strings.ToLower(e.getItemNounName(sourceDef))
+	if sourceRI.Extend != "" {
+		drinkType = strings.ToLower(sourceRI.Extend)
+	} else if strings.Contains(sourceName, "keg") || strings.Contains(sourceName, "barrel") || strings.Contains(sourceName, "cask") {
+		drinkType = "ale"
+	} else if strings.Contains(sourceName, "cauldron") {
+		drinkType = "broth"
+	}
+
+	// Fill the container — set Val2 to a default number of sips
+	fillItem.Val2 = 5
+	fillItem.State = "filled"
+	e.SavePlayer(ctx, player)
+
+	displayName := e.formatItemNameNoArticle(fillDef, fillItem.Adj1, fillItem.Adj2, fillItem.Adj3)
+	return &CommandResult{
+		Messages:      []string{fmt.Sprintf("You fill the %s with some %s.", displayName, drinkType)},
+		RoomBroadcast: []string{fmt.Sprintf("%s fills a %s with some %s.", player.FirstName, displayName, drinkType)},
+	}
+}
+
+// ---- DISARM command ----
+
+func (e *GameEngine) doDisarm(ctx context.Context, player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		return &CommandResult{Messages: []string{"Disarm what?"}}
+	}
+	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
+
+	room := e.rooms[player.RoomNumber]
+	if room == nil {
+		return &CommandResult{Messages: []string{"You can't do that here."}}
+	}
+
+	for i, ri := range room.Items {
+		itemDef := e.items[ri.Archetype]
+		if itemDef == nil {
+			continue
+		}
+		name := e.getItemNounName(itemDef)
+		if !matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
+			continue
+		}
+		if skip > 0 {
+			skip--
+			continue
+		}
+
+		// Check if item has a trap (Val4 > 0)
+		if ri.Val4 == 0 {
+			return &CommandResult{Messages: []string{"That doesn't appear to be trapped."}}
+		}
+
+		// Requires Trap & Poison Lore (skill #12)
+		trapSkill := player.Skills[12]
+		if trapSkill < 1 {
+			return &CommandResult{Messages: []string{"You have no training in Trap & Poison Lore."}}
+		}
+
+		// Skill check: base 20% + skill_level * 5%, capped at 95%
+		successChance := 20 + trapSkill*5
+		if successChance > 95 {
+			successChance = 95
+		}
+		roll := rand.Intn(100) + 1
+
+		// Apply round time (5 seconds)
+		player.RoundTimeExpiry = time.Now().Add(5 * time.Second)
+
+		if roll <= successChance {
+			// Success — remove the trap
+			room.Items[i].Val4 = 0
+			e.notifyRoomChange(RoomChange{RoomNumber: player.RoomNumber, Type: "item_update", ItemRef: ri.Ref, Item: &room.Items[i]})
+			return &CommandResult{
+				Messages:      []string{fmt.Sprintf("[Success: %d%%, Roll: %d] Success!", successChance, roll), "You carefully disarm the trap."},
+				RoomBroadcast: []string{fmt.Sprintf("%s carefully disarms a trap.", player.FirstName)},
+			}
+		}
+
+		// Failure — optionally trigger the trap
+		msgs := []string{fmt.Sprintf("[Success: %d%%, Roll: %d] Failure.", successChance, roll), "You are unable to disarm the trap."}
+		// Critical failure (roll > 90): trigger the trap
+		if roll > 90 {
+			trapMsgs := e.checkTrap(player, &room.Items[i])
+			if len(trapMsgs) > 0 {
+				msgs = append(msgs, trapMsgs...)
+				e.SavePlayer(ctx, player)
+				e.notifyRoomChange(RoomChange{RoomNumber: player.RoomNumber, Type: "item_update", ItemRef: ri.Ref, Item: &room.Items[i]})
+			}
+		}
+		return &CommandResult{Messages: msgs}
+	}
+	return &CommandResult{Messages: []string{"You don't see that here."}}
+}
+
+// ---- TURN command (book page-turning) ----
+
+func (e *GameEngine) doTurnPage(ctx context.Context, player *Player, args []string) *CommandResult {
+	if len(args) == 0 {
+		return nil // fall through to item interaction ("Turn what?")
+	}
+	target := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(target)
+	skip := ordSkip
+
+	// Check if the target word is "page" — shorthand for turning whatever book is around
+	isPageKeyword := (target == "page")
+
+	room := e.rooms[player.RoomNumber]
+
+	// Search room items for a book (Val2 > 0 indicates total pages)
+	if room != nil {
+		for i, ri := range room.Items {
+			itemDef := e.items[ri.Archetype]
+			if itemDef == nil {
+				continue
+			}
+			name := e.getItemNounName(itemDef)
+			if isPageKeyword {
+				// "turn page" — match any book in the room
+				if ri.Val2 <= 0 {
+					continue
+				}
+			} else {
+				if !matchesTarget(name, target, e.getAdjName(ri.Adj1)) {
+					continue
+				}
+			}
+			if skip > 0 {
+				skip--
+				continue
+			}
+			// Check if it's a book (has Val2 = total pages > 0)
+			if ri.Val2 <= 0 {
+				return nil // not a book, fall through to normal item interaction
+			}
+			// Increment page, wrap around
+			currentPage := ri.Val1
+			totalPages := ri.Val2
+			currentPage++
+			if currentPage > totalPages {
+				currentPage = 1
+			}
+			room.Items[i].Val1 = currentPage
+			e.notifyRoomChange(RoomChange{RoomNumber: player.RoomNumber, Type: "item_update", ItemRef: ri.Ref, Item: &room.Items[i]})
+			return &CommandResult{
+				Messages:      []string{"You carefully turn the page."},
+				RoomBroadcast: []string{fmt.Sprintf("%s turns a page.", player.FirstName)},
+			}
+		}
+	}
+
+	// Search player inventory
+	skip = ordSkip
+	for i, ii := range player.Inventory {
+		itemDef := e.items[ii.Archetype]
+		if itemDef == nil {
+			continue
+		}
+		name := e.getItemNounName(itemDef)
+		if isPageKeyword {
+			if ii.Val2 <= 0 {
+				continue
+			}
+		} else {
+			if !matchesTarget(name, target, e.getAdjName(ii.Adj1)) {
+				continue
+			}
+		}
+		if skip > 0 {
+			skip--
+			continue
+		}
+		if ii.Val2 <= 0 {
+			return nil // not a book, fall through
+		}
+		currentPage := ii.Val1
+		totalPages := ii.Val2
+		currentPage++
+		if currentPage > totalPages {
+			currentPage = 1
+		}
+		player.Inventory[i].Val1 = currentPage
+		e.SavePlayer(ctx, player)
+		return &CommandResult{
+			Messages:      []string{"You carefully turn the page."},
+			RoomBroadcast: []string{fmt.Sprintf("%s turns a page.", player.FirstName)},
+		}
+	}
+
+	if isPageKeyword {
+		return &CommandResult{Messages: []string{"You can't turn pages on that."}}
+	}
+
+	return nil // fall through to item interaction
 }

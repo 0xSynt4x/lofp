@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"sync"
@@ -15,6 +16,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/jonradoff/lofp/internal/auth"
 	"github.com/jonradoff/lofp/internal/capture"
+	"github.com/jonradoff/lofp/internal/email"
 	"github.com/jonradoff/lofp/internal/engine"
 	"github.com/jonradoff/lofp/internal/gamelog"
 	"github.com/jonradoff/lofp/internal/gameworld"
@@ -26,6 +28,7 @@ type Server struct {
 	engine      *engine.GameEngine
 	parsed      *gameworld.ParsedData
 	auth        *auth.Service
+	email       *email.Service
 	gamelog     *gamelog.Logger
 	hub         *hub.Hub
 	captures    *capture.Store
@@ -36,12 +39,22 @@ type Server struct {
 	frontendURL string
 	connsByIP   map[string]int // per-IP WebSocket connection count
 	connMu      sync.Mutex
+	rateLimits  map[string][]time.Time // per-IP rate limiting for auth endpoints
+	rateMu      sync.Mutex
+}
+
+// ClientConn abstracts the transport layer (WebSocket or Telnet).
+type ClientConn interface {
+	SendResult(result *engine.CommandResult) error
+	SendBroadcast(messages []string) error
+	SendTypedMessage(msgType string, payload interface{}) error // WS-specific; telnet may no-op
+	Close() error
+	RemoteAddr() string
 }
 
 type Session struct {
 	Player       *engine.Player
-	Conn         *websocket.Conn
-	mu           sync.Mutex
+	Conn         ClientConn
 	CaptureID    string    // active capture session ID, empty if not recording
 	lastCmdTime  time.Time // rate limiting: last command timestamp
 	cmdCount     int       // rate limiting: commands in current window
@@ -52,18 +65,98 @@ type Session struct {
 	quitSent     bool       // QUIT already broadcast departure
 }
 
+// wsConn wraps a gorilla WebSocket connection to implement ClientConn.
+type wsConn struct {
+	conn *websocket.Conn
+	mu   sync.Mutex
+}
 
-func NewServer(ge *engine.GameEngine, parsed *gameworld.ParsedData, authSvc *auth.Service, gl *gamelog.Logger, h *hub.Hub, cs *capture.Store, frontendURL string) *Server {
+func (w *wsConn) SendResult(result *engine.CommandResult) error {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	data, _ := json.Marshal(result)
+	return w.conn.WriteJSON(WSMessage{Type: "result", Data: data})
+}
+
+func (w *wsConn) SendBroadcast(messages []string) error {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	data, _ := json.Marshal(map[string]interface{}{"messages": messages})
+	return w.conn.WriteJSON(WSMessage{Type: "broadcast", Data: data})
+}
+
+func (w *wsConn) SendTypedMessage(msgType string, payload interface{}) error {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+	data, _ := json.Marshal(payload)
+	return w.conn.WriteJSON(WSMessage{Type: msgType, Data: data})
+}
+
+func (w *wsConn) Close() error {
+	return w.conn.Close()
+}
+
+func (w *wsConn) RemoteAddr() string {
+	return w.conn.RemoteAddr().String()
+}
+
+
+// getClientIP extracts the real client IP from the request, preferring
+// Fly-Client-IP (set by Fly.io proxy), then X-Forwarded-For, then RemoteAddr.
+func getClientIP(r *http.Request) string {
+	if ip := r.Header.Get("Fly-Client-IP"); ip != "" {
+		return strings.TrimSpace(ip)
+	}
+	if fwd := r.Header.Get("X-Forwarded-For"); fwd != "" {
+		return strings.TrimSpace(strings.Split(fwd, ",")[0])
+	}
+	// Strip port from RemoteAddr
+	addr := r.RemoteAddr
+	if idx := strings.LastIndex(addr, ":"); idx != -1 {
+		return addr[:idx]
+	}
+	return addr
+}
+
+// checkRateLimit enforces per-IP rate limiting. Returns true if the request is allowed.
+// maxAttempts is the number of allowed requests within the given window duration.
+func (s *Server) checkRateLimit(ip, endpoint string, maxAttempts int, window time.Duration) bool {
+	key := endpoint + ":" + ip
+	now := time.Now()
+	cutoff := now.Add(-window)
+
+	s.rateMu.Lock()
+	defer s.rateMu.Unlock()
+
+	// Prune old entries
+	timestamps := s.rateLimits[key]
+	valid := timestamps[:0]
+	for _, t := range timestamps {
+		if t.After(cutoff) {
+			valid = append(valid, t)
+		}
+	}
+	if len(valid) >= maxAttempts {
+		s.rateLimits[key] = valid
+		return false
+	}
+	s.rateLimits[key] = append(valid, now)
+	return true
+}
+
+func NewServer(ge *engine.GameEngine, parsed *gameworld.ParsedData, authSvc *auth.Service, emailSvc *email.Service, gl *gamelog.Logger, h *hub.Hub, cs *capture.Store, frontendURL string) *Server {
 	s := &Server{
 		engine:      ge,
 		parsed:      parsed,
 		auth:        authSvc,
+		email:       emailSvc,
 		gamelog:     gl,
 		hub:         h,
 		captures:    cs,
 		sessions:    make(map[string]*Session),
 		frontendURL: frontendURL,
 		connsByIP:   make(map[string]int),
+		rateLimits:  make(map[string][]time.Time),
 	}
 	s.upgrader = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
@@ -71,7 +164,17 @@ func NewServer(ge *engine.GameEngine, parsed *gameworld.ParsedData, authSvc *aut
 			if origin == "" {
 				return true // Allow non-browser clients
 			}
-			return strings.HasPrefix(origin, s.frontendURL)
+			// Parse both URLs and compare scheme+host exactly
+			originURL, err := url.Parse(origin)
+			if err != nil {
+				return false
+			}
+			allowed := strings.TrimRight(s.frontendURL, "/")
+			allowedURL, err := url.Parse(allowed)
+			if err != nil {
+				return false
+			}
+			return originURL.Scheme == allowedURL.Scheme && originURL.Host == allowedURL.Host
 		},
 	}
 	s.router = mux.NewRouter()
@@ -105,7 +208,7 @@ func NewServer(ge *engine.GameEngine, parsed *gameworld.ParsedData, authSvc *aut
 			if sess.Player == nil || sess.Player.RoomNumber != roomNumber {
 				continue
 			}
-			s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": messages})
+			s.sendBroadcast(sess, messages)
 		}
 		s.mu.RUnlock()
 	})
@@ -176,7 +279,16 @@ func (s *Server) setupRoutes() {
 
 	// Auth (public)
 	api.HandleFunc("/auth/google", s.handleGoogleAuth).Methods("POST")
+	api.HandleFunc("/auth/register", s.handleRegister).Methods("POST")
+	api.HandleFunc("/auth/login", s.handlePasswordLogin).Methods("POST")
+	api.HandleFunc("/auth/verify-email", s.handleVerifyEmail).Methods("POST")
+	api.HandleFunc("/auth/forgot-password", s.handleForgotPassword).Methods("POST")
+	api.HandleFunc("/auth/reset-password", s.handleResetPassword).Methods("POST")
+	api.HandleFunc("/auth/resend-verification", s.handleResendVerification).Methods("POST")
+	api.HandleFunc("/auth/verify-code", s.handleVerifyCode).Methods("POST")
 	api.HandleFunc("/auth/me", s.handleAuthMe).Methods("GET")
+	api.HandleFunc("/auth/me/name", s.handleUpdateName).Methods("PUT")
+	api.HandleFunc("/auth/me/password", s.handleUpdatePassword).Methods("PUT")
 
 	// Characters (authenticated)
 	api.HandleFunc("/characters", s.handleListCharacters).Methods("GET")
@@ -347,10 +459,7 @@ func (s *Server) handleEventsWS(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 	// Per-IP connection limiting
-	ip := r.RemoteAddr
-	if fwd := r.Header.Get("X-Forwarded-For"); fwd != "" {
-		ip = strings.Split(fwd, ",")[0]
-	}
+	ip := getClientIP(r)
 	s.connMu.Lock()
 	if s.connsByIP[ip] >= 5 { // max 5 connections per IP
 		s.connMu.Unlock()
@@ -383,11 +492,11 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 	defer conn.Close()
 	conn.SetReadLimit(65536)
 
-	session := &Session{Conn: conn}
+	session := &Session{Conn: &wsConn{conn: conn}}
 	var accountID, authName, authEmail string
 
 	// Send welcome
-	s.sendWSResult(session, &engine.CommandResult{
+	s.sendResult(session, &engine.CommandResult{
 		Messages: []string{
 			"",
 			"====================================",
@@ -417,7 +526,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			if s.auth != nil && authMsg.Token != "" {
 				claims, err := s.auth.ValidateJWTFull(authMsg.Token)
 				if err != nil {
-					s.sendWSMessage(session, "auth_result", map[string]interface{}{
+					session.Conn.SendTypedMessage("auth_result", map[string]interface{}{
 						"success": false,
 						"error":   "invalid token",
 					})
@@ -427,11 +536,11 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 				authName = claims.Name
 				authEmail = claims.Email
 				s.gamelog.Log(gamelog.EventLogin, claims.Name, claims.AccountID, claims.Email, 0, "")
-				s.sendWSMessage(session, "auth_result", map[string]interface{}{
+				session.Conn.SendTypedMessage("auth_result", map[string]interface{}{
 					"success": true,
 				})
 			} else {
-				s.sendWSMessage(session, "auth_result", map[string]interface{}{
+				session.Conn.SendTypedMessage("auth_result", map[string]interface{}{
 					"success": false,
 					"error":   "auth not configured",
 				})
@@ -446,12 +555,12 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			player, err := s.engine.ValidateAPIKey(ctx, keyMsg.Key)
 			if err != nil {
 				session.authFailures++
-				s.sendWSMessage(session, "auth_result", map[string]interface{}{
+				session.Conn.SendTypedMessage("auth_result", map[string]interface{}{
 					"success": false,
 					"error":   "invalid API key",
 				})
 				if session.authFailures >= 3 {
-					s.sendWSMessage(session, "error", map[string]interface{}{"message": "Too many failed auth attempts."})
+					session.Conn.SendTypedMessage("error", map[string]interface{}{"message": "Too many failed auth attempts."})
 					return // disconnect
 				}
 				continue
@@ -469,8 +578,8 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 				[]string{fmt.Sprintf("** %s has just entered the Realms.", player.FirstName)})
 			s.broadcastToRoom(player.RoomNumber, player.FirstName, []string{fmt.Sprintf("%s arrives.", player.FirstName)})
 			result := s.engine.EnterRoom(ctx, player)
-			s.sendWSResult(session, result)
-			s.sendWSMessage(session, "auth_result", map[string]interface{}{
+			s.sendResult(session, result)
+			session.Conn.SendTypedMessage("auth_result", map[string]interface{}{
 				"success":   true,
 				"character": player.FirstName,
 			})
@@ -481,37 +590,50 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			json.Unmarshal(msg.Data, &create)
 
 			ctx := context.Background()
+
+			// Block unverified accounts from creating/entering characters
+			if accountID != "" && s.auth != nil {
+				acct, err := s.auth.GetAccount(ctx, accountID)
+				if err == nil && !acct.EmailVerified && acct.GoogleID == "" {
+					session.Conn.SendTypedMessage("error", map[string]interface{}{
+						"message":    "Please verify your email address before playing.",
+						"needVerify": true,
+					})
+					continue
+				}
+			}
+
 			// Try to load existing character first (no validation needed for existing chars)
 			player, err := s.engine.LoadPlayer(ctx, create.FirstName, create.LastName)
 			if err != nil || player == nil {
 				// New character — validate name and limits
 				if err := engine.ValidateCharacterInput(create.FirstName, create.LastName, create.Race, create.Gender); err != nil {
-					s.sendWSMessage(session, "error", map[string]interface{}{"message": err.Error()})
+					session.Conn.SendTypedMessage("error", map[string]interface{}{"message": err.Error()})
 					continue
 				}
 				// Max 8 characters per account
 				existing, _ := s.engine.ListPlayersByAccount(ctx, accountID)
 				if len(existing) >= 8 {
-					s.sendWSMessage(session, "error", map[string]interface{}{"message": "You can have at most 8 characters per account."})
+					session.Conn.SendTypedMessage("error", map[string]interface{}{"message": "You can have at most 8 characters per account."})
 					continue
 				}
 				player = s.engine.CreateNewPlayer(ctx, create.FirstName, create.LastName, create.Race, create.Gender, accountID)
 				s.gamelog.Log(gamelog.EventCharacterCreate, player.FullName(), accountID,
 					fmt.Sprintf("Race: %s, Gender: %d", player.RaceName(), player.Gender),
 					player.RoomNumber, "")
-				s.sendWSResult(session, &engine.CommandResult{
+				s.sendResult(session, &engine.CommandResult{
 					Messages: []string{
 						fmt.Sprintf("Welcome to the Shattered Realms, %s the %s!", player.FullName(), player.RaceName()),
 						"",
 					},
 				})
 			} else if player.AccountID != accountID {
-				s.sendWSMessage(session, "error", map[string]interface{}{
+				session.Conn.SendTypedMessage("error", map[string]interface{}{
 					"message": fmt.Sprintf("The name '%s %s' is already taken. Please choose a different name.", create.FirstName, create.LastName),
 				})
 				continue
 			} else {
-				s.sendWSResult(session, &engine.CommandResult{
+				s.sendResult(session, &engine.CommandResult{
 					Messages: []string{
 						fmt.Sprintf("Welcome back, %s the %s!", player.FullName(), player.RaceName()),
 						"",
@@ -537,7 +659,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			s.broadcastToRoom(player.RoomNumber, player.FirstName, []string{fmt.Sprintf("%s arrives.", player.FirstName)})
 
 			result := s.engine.EnterRoom(ctx, player)
-			s.sendWSResult(session, result)
+			s.sendResult(session, result)
 			if len(result.GMBroadcast) > 0 {
 				s.broadcastToGMs(result.GMBroadcast)
 			}
@@ -558,7 +680,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			} else if id != "" {
 				session.CaptureID = id
 				log.Printf("capture: started %s for %s", id, session.Player.FullName())
-				s.sendWSMessage(session, "capture_status", map[string]interface{}{"recording": true, "id": id})
+				session.Conn.SendTypedMessage("capture_status", map[string]interface{}{"recording": true, "id": id})
 			}
 			continue
 
@@ -566,14 +688,14 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			if session.CaptureID != "" {
 				ctx := context.Background()
 				s.captures.Stop(ctx, session.CaptureID)
-				s.sendWSMessage(session, "capture_status", map[string]interface{}{"recording": false})
+				session.Conn.SendTypedMessage("capture_status", map[string]interface{}{"recording": false})
 				session.CaptureID = ""
 			}
 			continue
 
 		case "command":
 			if session.Player == nil {
-				s.sendWSResult(session, &engine.CommandResult{
+				s.sendResult(session, &engine.CommandResult{
 					Messages: []string{"You must create a character first."},
 				})
 				continue
@@ -589,7 +711,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			}
 			session.cmdCount++
 			if session.cmdCount > 4 {
-				s.sendWSResult(session, &engine.CommandResult{
+				s.sendResult(session, &engine.CommandResult{
 					Messages: []string{"[Slow down! Too many commands.]"},
 				})
 				continue
@@ -602,7 +724,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			}
 			session.cmdTimes = append(recentCmds, now)
 			if len(session.cmdTimes) > 10 {
-				s.sendWSResult(session, &engine.CommandResult{
+				s.sendResult(session, &engine.CommandResult{
 					Messages: []string{"[Slow down! Too many commands.]"},
 				})
 				continue
@@ -614,7 +736,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 			result := s.engine.ProcessCommand(ctx, session.Player, cmd.Input)
 			result.PlayerState = session.Player
 			result.PromptIndicators = session.Player.PromptIndicators()
-			s.sendWSResult(session, result)
+			s.sendResult(session, result)
 
 			// Capture input and output
 			if session.CaptureID != "" {
@@ -641,7 +763,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 				}
 				session.chatTimes = recent
 				if len(session.chatTimes) >= 5 {
-					s.sendWSResult(session, &engine.CommandResult{
+					s.sendResult(session, &engine.CommandResult{
 						Messages: []string{"[You are sending messages too quickly. Please wait.]"},
 					})
 					continue
@@ -649,69 +771,7 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 				session.chatTimes = append(session.chatTimes, now)
 			}
 
-			// Sanitize all outgoing messages (strip HTML tags for defense in depth)
-			sanitizeMessages(result.Messages)
-			sanitizeMessages(result.RoomBroadcast)
-			sanitizeMessages(result.OldRoomMsg)
-			sanitizeMessages(result.TargetMsg)
-			sanitizeMessages(result.GlobalBroadcast)
-			sanitizeMessages(result.GMBroadcast)
-
-			// Broadcast to others in the room (excluding emote target if they get a special message)
-			if len(result.RoomBroadcast) > 0 {
-				if result.TargetName != "" {
-					s.broadcastToRoom(session.Player.RoomNumber, session.Player.FirstName, result.RoomBroadcast, result.TargetName)
-				} else {
-					s.broadcastToRoom(session.Player.RoomNumber, session.Player.FirstName, result.RoomBroadcast)
-				}
-			}
-			// Send second-person message to emote target
-			if result.TargetName != "" && len(result.TargetMsg) > 0 {
-				s.sendToPlayer(result.TargetName, result.TargetMsg)
-			}
-			// Broadcast departure to old room (movement)
-			if result.OldRoom > 0 && len(result.OldRoomMsg) > 0 {
-				s.broadcastToRoom(result.OldRoom, session.Player.FirstName, result.OldRoomMsg)
-				// Update cross-machine presence with new room
-				s.hub.UpdatePlayerRoom(session.Player.FirstName, session.Player.RoomNumber)
-			}
-			// Whisper to specific target
-			if result.WhisperTarget != "" && result.WhisperMsg != "" {
-				s.sendToPlayer(result.WhisperTarget, []string{result.WhisperMsg})
-			}
-			// Global broadcast (e.g. quit)
-			if len(result.GlobalBroadcast) > 0 {
-				s.broadcastGlobal(session.Player.FirstName, result.GlobalBroadcast)
-				if result.Quit {
-					session.quitSent = true
-				}
-			}
-			// GM broadcast
-			if len(result.GMBroadcast) > 0 {
-				s.broadcastToGMs(result.GMBroadcast)
-			}
-			// Log event (e.g., REPORT)
-			if result.LogEventType != "" {
-				s.gamelog.Log(gamelog.EventType(result.LogEventType), session.Player.FullName(), "",
-					result.LogEventDetail, session.Player.RoomNumber, "")
-			}
-			// Telepathy broadcast — send to all players with TelepathyActive
-			if result.TelepathyMsg != "" {
-				telepathyLines := []string{
-					fmt.Sprintf("You feel the touch of %s's mind:", result.TelepathySender),
-					fmt.Sprintf("\"%s\"", result.TelepathyMsg),
-				}
-				s.mu.RLock()
-				for _, sess := range s.sessions {
-					if sess.Player == nil || sess.Player.FirstName == result.TelepathySender {
-						continue
-					}
-					if sess.Player.TelepathyActive {
-						s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": telepathyLines})
-					}
-				}
-				s.mu.RUnlock()
-			}
+			s.dispatchCommandResult(session, result)
 			_ = playerRoom
 		}
 	}
@@ -740,32 +800,87 @@ func (s *Server) handleGameWS(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Server) sendWSResult(session *Session, result *engine.CommandResult) {
-	session.mu.Lock()
-	defer session.mu.Unlock()
-	data, _ := json.Marshal(result)
-	msg := WSMessage{Type: "result", Data: data}
-	session.Conn.WriteJSON(msg)
-}
+// dispatchCommandResult handles all broadcast routing after a command is processed.
+// Shared by both WebSocket and Telnet command loops.
+func (s *Server) dispatchCommandResult(session *Session, result *engine.CommandResult) {
+	// Sanitize all outgoing messages (strip HTML tags for defense in depth)
+	sanitizeMessages(result.Messages)
+	sanitizeMessages(result.RoomBroadcast)
+	sanitizeMessages(result.OldRoomMsg)
+	sanitizeMessages(result.TargetMsg)
+	sanitizeMessages(result.GlobalBroadcast)
+	sanitizeMessages(result.GMBroadcast)
 
-func (s *Server) sendWSMessage(session *Session, msgType string, payload interface{}) {
-	session.mu.Lock()
-	defer session.mu.Unlock()
-	data, _ := json.Marshal(payload)
-	msg := WSMessage{Type: msgType, Data: data}
-	session.Conn.WriteJSON(msg)
-
-	// Capture broadcast messages
-	if session.CaptureID != "" && msgType == "broadcast" {
-		if m, ok := payload.(map[string]interface{}); ok {
-			if msgs, ok := m["messages"].([]string); ok {
-				var lines []capture.Line
-				for _, text := range msgs {
-					lines = append(lines, capture.Line{Time: time.Now(), Type: "broadcast", Text: text})
-				}
-				go s.captures.AppendLines(context.Background(), session.CaptureID, lines)
+	// Broadcast to others in the room (excluding emote target if they get a special message)
+	if len(result.RoomBroadcast) > 0 {
+		if result.TargetName != "" {
+			s.broadcastToRoom(session.Player.RoomNumber, session.Player.FirstName, result.RoomBroadcast, result.TargetName)
+		} else {
+			s.broadcastToRoom(session.Player.RoomNumber, session.Player.FirstName, result.RoomBroadcast)
+		}
+	}
+	// Send second-person message to emote target
+	if result.TargetName != "" && len(result.TargetMsg) > 0 {
+		s.sendToPlayer(result.TargetName, result.TargetMsg)
+	}
+	// Broadcast departure to old room (movement)
+	if result.OldRoom > 0 && len(result.OldRoomMsg) > 0 {
+		s.broadcastToRoom(result.OldRoom, session.Player.FirstName, result.OldRoomMsg)
+		s.hub.UpdatePlayerRoom(session.Player.FirstName, session.Player.RoomNumber)
+	}
+	// Whisper to specific target
+	if result.WhisperTarget != "" && result.WhisperMsg != "" {
+		s.sendToPlayer(result.WhisperTarget, []string{result.WhisperMsg})
+	}
+	// Global broadcast (e.g. quit)
+	if len(result.GlobalBroadcast) > 0 {
+		s.broadcastGlobal(session.Player.FirstName, result.GlobalBroadcast)
+		if result.Quit {
+			session.quitSent = true
+		}
+	}
+	// GM broadcast
+	if len(result.GMBroadcast) > 0 {
+		s.broadcastToGMs(result.GMBroadcast)
+	}
+	// Log event (e.g., REPORT)
+	if result.LogEventType != "" {
+		s.gamelog.Log(gamelog.EventType(result.LogEventType), session.Player.FullName(), "",
+			result.LogEventDetail, session.Player.RoomNumber, "")
+	}
+	// Telepathy broadcast
+	if result.TelepathyMsg != "" {
+		telepathyLines := []string{
+			fmt.Sprintf("You feel the touch of %s's mind:", result.TelepathySender),
+			fmt.Sprintf("\"%s\"", result.TelepathyMsg),
+		}
+		s.mu.RLock()
+		for _, sess := range s.sessions {
+			if sess.Player == nil || sess.Player.FirstName == result.TelepathySender {
+				continue
+			}
+			if sess.Player.TelepathyActive {
+				s.sendBroadcast(sess, telepathyLines)
 			}
 		}
+		s.mu.RUnlock()
+	}
+}
+
+func (s *Server) sendResult(session *Session, result *engine.CommandResult) {
+	session.Conn.SendResult(result)
+}
+
+func (s *Server) sendBroadcast(session *Session, messages []string) {
+	session.Conn.SendBroadcast(messages)
+
+	// Capture broadcast messages
+	if session.CaptureID != "" {
+		var lines []capture.Line
+		for _, text := range messages {
+			lines = append(lines, capture.Line{Time: time.Now(), Type: "broadcast", Text: text})
+		}
+		go s.captures.AppendLines(context.Background(), session.CaptureID, lines)
 	}
 }
 
@@ -782,7 +897,7 @@ func (s *Server) broadcastToRoom(roomNumber int, excludeName string, messages []
 		if isExcluded(sess.Player.FirstName, allExcludes) {
 			continue
 		}
-		s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": messages})
+		s.sendBroadcast(sess, messages)
 	}
 	s.mu.RUnlock()
 
@@ -799,7 +914,7 @@ func (s *Server) sendToPlayer(firstName string, messages []string) {
 	// Try local first
 	s.mu.RLock()
 	if sess, ok := s.sessions[firstName]; ok {
-		s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": messages})
+		s.sendBroadcast(sess, messages)
 	}
 	s.mu.RUnlock()
 
@@ -817,7 +932,7 @@ func (s *Server) broadcastGlobal(excludeName string, messages []string) {
 		if sess.Player == nil || sess.Player.FirstName == excludeName {
 			continue
 		}
-		s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": messages})
+		s.sendBroadcast(sess, messages)
 	}
 	s.mu.RUnlock()
 
@@ -834,7 +949,7 @@ func (s *Server) broadcastToGMs(messages []string) {
 		if sess.Player == nil || !sess.Player.IsGM {
 			continue
 		}
-		s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": messages})
+		s.sendBroadcast(sess, messages)
 	}
 	s.mu.RUnlock()
 
@@ -858,25 +973,25 @@ func (s *Server) deliverRemoteEvent(event *hub.Event) {
 			if isExcluded(sess.Player.FirstName, event.ExcludePlayers) {
 				continue
 			}
-			s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": event.Messages})
+			s.sendBroadcast(sess, event.Messages)
 		}
 	case "global_broadcast":
 		for _, sess := range s.sessions {
 			if sess.Player == nil || isExcluded(sess.Player.FirstName, event.ExcludePlayers) {
 				continue
 			}
-			s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": event.Messages})
+			s.sendBroadcast(sess, event.Messages)
 		}
 	case "send_to_player":
 		if sess, ok := s.sessions[event.TargetPlayer]; ok {
-			s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": event.Messages})
+			s.sendBroadcast(sess, event.Messages)
 		}
 	case "gm_broadcast":
 		for _, sess := range s.sessions {
 			if sess.Player == nil || !sess.Player.IsGM {
 				continue
 			}
-			s.sendWSMessage(sess, "broadcast", map[string]interface{}{"messages": event.Messages})
+			s.sendBroadcast(sess, event.Messages)
 		}
 	case "room_state_change":
 		// Apply remote room state change to local game engine
@@ -1277,6 +1392,16 @@ func (s *Server) handleCreateCharacter(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "unauthorized", 401)
 		return
 	}
+	// Block unverified accounts
+	if s.auth != nil {
+		acct, err := s.auth.GetAccount(r.Context(), accountID)
+		if err == nil && !acct.EmailVerified && acct.GoogleID == "" {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(403)
+			json.NewEncoder(w).Encode(map[string]string{"error": "Please verify your email address before creating a character."})
+			return
+		}
+	}
 	// Trim whitespace from names
 	req.FirstName = strings.TrimSpace(req.FirstName)
 	req.LastName = strings.TrimSpace(req.LastName)
@@ -1400,17 +1525,6 @@ func (s *Server) handleAdminRecoverCharacter(w http.ResponseWriter, r *http.Requ
 	json.NewEncoder(w).Encode(player)
 }
 
-func (s *Server) handleGetCharacter(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	player, err := s.engine.GetPlayer(r.Context(), vars["firstName"])
-	if err != nil {
-		http.Error(w, "player not found", 404)
-		return
-	}
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(player)
-}
-
 func (s *Server) handleToggleGM(w http.ResponseWriter, r *http.Request) {
 	if s.requireAdmin(w, r) == nil {
 		return
@@ -1496,6 +1610,263 @@ func (s *Server) handleGoogleAuth(w http.ResponseWriter, r *http.Request) {
 		"token":   jwt,
 		"account": account,
 	})
+}
+
+func (s *Server) handleRegister(w http.ResponseWriter, r *http.Request) {
+	if s.auth == nil {
+		http.Error(w, "auth not configured", 500)
+		return
+	}
+	if !s.checkRateLimit(getClientIP(r), "register", 5, time.Minute) {
+		http.Error(w, "too many registration attempts, try again later", 429)
+		return
+	}
+	var req struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+		Name     string `json:"name"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "invalid request", 400)
+		return
+	}
+	account, verifyToken, verifyCode, err := s.auth.RegisterWithPassword(r.Context(), req.Email, req.Password, req.Name)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+	// Send verification email
+	if s.email != nil && s.email.Enabled() {
+		if err := s.email.SendVerification(account.Email, verifyToken, verifyCode); err != nil {
+			log.Printf("Failed to send verification email to %s: %v", account.Email, err)
+		}
+	}
+	// Issue JWT (account is usable immediately, but email unverified)
+	token, err := s.auth.IssueJWT(account)
+	if err != nil {
+		http.Error(w, "token error", 500)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"token":   token,
+		"account": account,
+	})
+}
+
+func (s *Server) handlePasswordLogin(w http.ResponseWriter, r *http.Request) {
+	if s.auth == nil {
+		http.Error(w, "auth not configured", 500)
+		return
+	}
+	if !s.checkRateLimit(getClientIP(r), "login", 10, time.Minute) {
+		http.Error(w, "too many login attempts, try again later", 429)
+		return
+	}
+	var req struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "invalid request", 400)
+		return
+	}
+	account, err := s.auth.LoginWithPassword(r.Context(), req.Email, req.Password)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(401)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+	token, err := s.auth.IssueJWT(account)
+	if err != nil {
+		http.Error(w, "token error", 500)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"token":   token,
+		"account": account,
+	})
+}
+
+func (s *Server) handleVerifyEmail(w http.ResponseWriter, r *http.Request) {
+	if s.auth == nil {
+		http.Error(w, "auth not configured", 500)
+		return
+	}
+	var req struct {
+		Token string `json:"token"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "invalid request", 400)
+		return
+	}
+	if err := s.auth.VerifyEmail(r.Context(), req.Token); err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "verified"})
+}
+
+func (s *Server) handleForgotPassword(w http.ResponseWriter, r *http.Request) {
+	if s.auth == nil {
+		http.Error(w, "auth not configured", 500)
+		return
+	}
+	if !s.checkRateLimit(getClientIP(r), "forgot-password", 3, time.Hour) {
+		http.Error(w, "too many password reset attempts, try again later", 429)
+		return
+	}
+	var req struct {
+		Email string `json:"email"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "invalid request", 400)
+		return
+	}
+	account, token, err := s.auth.CreatePasswordResetToken(r.Context(), req.Email)
+	if err != nil {
+		// Don't reveal errors (prevent email enumeration)
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+		return
+	}
+	if account != nil && token != "" && s.email != nil && s.email.Enabled() {
+		if err := s.email.SendPasswordReset(account.Email, token); err != nil {
+			log.Printf("Failed to send password reset email to %s: %v", account.Email, err)
+		}
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+}
+
+func (s *Server) handleResetPassword(w http.ResponseWriter, r *http.Request) {
+	if s.auth == nil {
+		http.Error(w, "auth not configured", 500)
+		return
+	}
+	var req struct {
+		Token    string `json:"token"`
+		Password string `json:"password"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "invalid request", 400)
+		return
+	}
+	if err := s.auth.ResetPassword(r.Context(), req.Token, req.Password); err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "password_reset"})
+}
+
+func (s *Server) handleResendVerification(w http.ResponseWriter, r *http.Request) {
+	if s.auth == nil {
+		http.Error(w, "auth not configured", 500)
+		return
+	}
+	var req struct {
+		Email string `json:"email"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "invalid request", 400)
+		return
+	}
+	account, token, code, err := s.auth.ResendVerification(r.Context(), req.Email)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+	if s.email != nil && s.email.Enabled() {
+		if err := s.email.SendVerification(account.Email, token, code); err != nil {
+			log.Printf("Failed to send verification email to %s: %v", account.Email, err)
+		}
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "sent"})
+}
+
+func (s *Server) handleVerifyCode(w http.ResponseWriter, r *http.Request) {
+	if s.auth == nil {
+		http.Error(w, "auth not configured", 500)
+		return
+	}
+	if !s.checkRateLimit(getClientIP(r), "verify-code", 10, time.Minute) {
+		http.Error(w, "too many verification attempts, try again later", 429)
+		return
+	}
+	var req struct {
+		Code string `json:"code"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "invalid request", 400)
+		return
+	}
+	if err := s.auth.VerifyEmailByCode(r.Context(), req.Code); err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "verified"})
+}
+
+func (s *Server) handleUpdateName(w http.ResponseWriter, r *http.Request) {
+	accountID := s.getAccountID(r)
+	if accountID == "" {
+		http.Error(w, "unauthorized", 401)
+		return
+	}
+	var req struct {
+		Name string `json:"name"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "invalid request", 400)
+		return
+	}
+	if err := s.auth.UpdateAccountName(r.Context(), accountID, req.Name); err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "updated"})
+}
+
+func (s *Server) handleUpdatePassword(w http.ResponseWriter, r *http.Request) {
+	accountID := s.getAccountID(r)
+	if accountID == "" {
+		http.Error(w, "unauthorized", 401)
+		return
+	}
+	var req struct {
+		Password string `json:"password"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "invalid request", 400)
+		return
+	}
+	if err := s.auth.SetPassword(r.Context(), accountID, req.Password); err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(400)
+		json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{"status": "updated"})
 }
 
 func (s *Server) handleAuthMe(w http.ResponseWriter, r *http.Request) {

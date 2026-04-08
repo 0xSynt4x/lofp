@@ -24,6 +24,28 @@ primary_region = "ord"
     method = "GET"
     path = "/healthz"
 
+[[services]]
+  protocol = "tcp"
+  internal_port = 4000
+
+  [[services.ports]]
+    port = 4000
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 4000
+
+  [[services.ports]]
+    port = 4001
+    handlers = ["tls"]
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 4022
+
+  [[services.ports]]
+    port = 4022
+
 [[vm]]
   memory = "512mb"
   cpu_kind = "shared"

@@ -116,6 +116,23 @@ type Player struct {
 	TelepathyExpiry time.Time `bson:"telepathyExpiry,omitempty" json:"telepathyExpiry,omitempty"`
 	Emotional       bool      `bson:"emotional,omitempty" json:"emotional,omitempty"`
 
+	// Crafting state (transient)
+	CraftingItem string `bson:"-" json:"-"` // what they're making (e.g., "greatsword")
+	CraftingMetal string `bson:"-" json:"-"` // what material (e.g., "copper")
+	CraftingStep int    `bson:"-" json:"-"` // 0=not crafting, 1=planned, 2=heated, 3=hammered, 4=quenched, 5=buffed, 6=done
+
+	// Teaching: skill being taught to others (transient)
+	Teaching      int `bson:"-" json:"-"` // skill number being taught (0 = not teaching)
+	TeachingLevel int `bson:"-" json:"-"` // max level to teach up to (teacher's own level)
+
+	// Guard: who this player is guarding (transient)
+	GuardTarget string `bson:"-" json:"-"`
+
+	// Group system (transient)
+	Following     string   `bson:"-" json:"-"` // who this player is following
+	GroupMembers  []string `bson:"-" json:"-"` // if this player is a leader, who's in their group
+	IsGroupLeader bool     `bson:"-" json:"-"`
+
 	// Teleport marks (1-10) → room number
 	Marks map[int]int `bson:"marks,omitempty" json:"marks,omitempty"`
 
@@ -176,6 +193,9 @@ type Player struct {
 	GMHat      bool `bson:"gmHat,omitempty" json:"gmHat,omitempty"`        // visible as GM on WHO list
 	GMHidden   bool `bson:"gmHidden,omitempty" json:"gmHidden,omitempty"`  // hidden from WHO list
 	GMInvis    bool `bson:"gmInvis,omitempty" json:"gmInvis,omitempty"`    // invisible to players
+
+	// Player title (e.g., "the Baroness") — shown on LOOK/EXAMINE
+	Title string `bson:"title,omitempty" json:"title,omitempty"`
 
 	CreatedAt time.Time  `bson:"createdAt" json:"createdAt"`
 	UpdatedAt time.Time  `bson:"updatedAt" json:"updatedAt"`
@@ -244,7 +264,7 @@ func (p *Player) Objective() string {
 
 // PromptIndicators returns the status code string for prompt mode.
 // Each condition maps to a letter: ! bleeding, s sitting, S stunned,
-// D diseased, P poisoned, J joined, K kneeling, L laying, R roundtime,
+// D diseased, J group-joined, P pressed/combat-joined, K kneeling, L laying, R roundtime,
 // H hidden/invisible, U unconscious, I immobilized, DEAD dead.
 func (p *Player) PromptIndicators() string {
 	if !p.PromptMode {
@@ -267,10 +287,13 @@ func (p *Player) PromptIndicators() string {
 		codes = append(codes, 'D')
 	}
 	if p.Poisoned {
-		codes = append(codes, 'P')
+		codes = append(codes, 'p')
+	}
+	if p.Following != "" {
+		codes = append(codes, 'J')
 	}
 	if p.Joined {
-		codes = append(codes, 'J')
+		codes = append(codes, 'P')
 	}
 	if p.Position == 3 { // kneeling
 		codes = append(codes, 'K')
@@ -295,7 +318,12 @@ func (p *Player) PromptIndicators() string {
 
 // RaceName returns the string name of the player's race.
 func (p *Player) RaceName() string {
-	if name, ok := RaceNames[p.Race]; ok {
+	return RaceNameByID(p.Race)
+}
+
+// RaceNameByID returns the race name for a given race ID.
+func RaceNameByID(race int) string {
+	if name, ok := RaceNames[race]; ok {
 		return name
 	}
 	return "Unknown"

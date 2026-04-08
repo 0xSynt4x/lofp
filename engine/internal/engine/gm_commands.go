@@ -174,6 +174,8 @@ func (e *GameEngine) processGMCommand(ctx context.Context, player *Player, verb 
 			return &CommandResult{Messages: []string{"Script tracing ON. You will see debug output for script execution."}}
 		}
 		return &CommandResult{Messages: []string{"Script tracing OFF."}}
+	case "@TITLE":
+		return e.gmTitle(ctx, player, args, rawInput)
 	case "@VERB", "@VERBS":
 		return e.gmVerbs()
 	default:
@@ -238,6 +240,7 @@ func (e *GameEngine) gmHelp() *CommandResult {
 		"@snd <text>            - Echo text in current room",
 		"@spawn <monster#>      - Generate monster (active)",
 		"@speech <name> <verb>  - Set speech pattern (e.g. says grimly)",
+		"@title <name> <title>  - Set player title (e.g. the Baroness)",
 		"@unlock <item>         - Unlock item silently",
 		"@whisper <name> <text> - Whisper to player anywhere",
 		"@who                   - List all players with details",
@@ -613,6 +616,43 @@ func (e *GameEngine) gmSpeech(ctx context.Context, player *Player, args []string
 	target.SpeechAdverb = speechVerb
 	e.SavePlayer(ctx, target)
 	return &CommandResult{Messages: []string{fmt.Sprintf("Speech pattern for %s set to: %s %ss", target.FirstName, target.FirstName, speechVerb)}}
+}
+
+func (e *GameEngine) gmTitle(ctx context.Context, player *Player, args []string, rawInput string) *CommandResult {
+	if len(args) < 2 {
+		return &CommandResult{Messages: []string{"Usage: @title <player> <title>  (e.g., @title Moryan the Baroness)  Use 'clear' to remove."}}
+	}
+	targetName := args[0]
+
+	// Find target player (online first, then DB)
+	var target *Player
+	if e.sessions != nil {
+		for _, p := range e.sessions.OnlinePlayers() {
+			if strings.HasPrefix(strings.ToLower(p.FirstName), strings.ToLower(targetName)) {
+				target = p
+				break
+			}
+		}
+	}
+	if target == nil {
+		if dbPlayer, err := e.resolvePlayerByName(ctx, targetName); err == nil {
+			target = dbPlayer
+		}
+	}
+	if target == nil {
+		return &CommandResult{Messages: []string{fmt.Sprintf("Player '%s' not found.", targetName)}}
+	}
+
+	title := extractRawArgs(rawInput, 2) // everything after @title <player>
+	if strings.ToLower(title) == "clear" || title == "" {
+		target.Title = ""
+		e.SavePlayer(ctx, target)
+		return &CommandResult{Messages: []string{fmt.Sprintf("Title cleared for %s.", target.FirstName)}}
+	}
+
+	target.Title = title
+	e.SavePlayer(ctx, target)
+	return &CommandResult{Messages: []string{fmt.Sprintf("Title for %s set to: %s", target.FirstName, title)}}
 }
 
 func (e *GameEngine) gmSetLine(ctx context.Context, player *Player, args []string, rawInput string, lineNum int) *CommandResult {
@@ -1504,7 +1544,7 @@ var allGMVerbs = []string{
 	"@FIND", "@LIST", "@EXAMINE", "@GLOSSARY", "@PEEK", "@SET", "@RND",
 	"@OPEN", "@CLOSE", "@LOCK", "@UNLOCK",
 	"@GOPLR", "@YANK", "@WHISPER", "@EDPLAYER", "@EDPL", "@EDS", "@EDSK", "@LSK", "@GRANTSP", "@PSI", "@MLIST",
-	"@ECHOPLR", "@EXCLUDE", "@SPEECH", "@LINE1", "@LINE2", "@LINE3", "@VERB", "@VERBS", "@TRACE",
+	"@ECHOPLR", "@EXCLUDE", "@SPEECH", "@TITLE", "@LINE1", "@LINE2", "@LINE3", "@VERB", "@VERBS", "@TRACE",
 	"@ENTRY", "@EXIT", "@SUGGEST", "@MSG", "@SAVE", "@RESTORE", "@REGISTER",
 	"@ASSIST?", "@OLDCOMP", "@EDITEM", "@EDN", "@GET", "@LOOK",
 	"@QUEUE", "@UNQUEUE",

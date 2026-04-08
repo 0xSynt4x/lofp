@@ -3,6 +3,7 @@ package gamelog
 import (
 	"context"
 	"log"
+	"regexp"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -94,7 +95,7 @@ func (l *Logger) Query(ctx context.Context, eventFilter string, playerFilter str
 		filter["event"] = eventFilter
 	}
 	if playerFilter != "" {
-		filter["player"] = bson.M{"$regex": playerFilter, "$options": "i"}
+		filter["player"] = bson.M{"$regex": regexp.QuoteMeta(playerFilter), "$options": "i"}
 	}
 	if limit <= 0 || limit > 500 {
 		limit = 100

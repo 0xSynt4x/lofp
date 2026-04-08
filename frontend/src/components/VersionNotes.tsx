@@ -9,6 +9,132 @@ export default function VersionNotes({ onBack }: { onBack: () => void }) {
 
         <div className="space-y-6 text-sm">
           <section>
+            <h2 className="text-amber-400 text-lg font-bold mb-1">v11.2.0 &mdash; April 8, 2026</h2>
+            <p className="text-gray-400 mb-3">Authentic gameplay restoration from original 1990s session captures. Major new systems.</p>
+
+            <div className="space-y-4 mb-8">
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Output Authenticity</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>3rd-person combat now shows simplified format (Hit! Awesome damage) matching original</li>
+                  <li>Spell casting: Spectacular success (roll 1), Extreme failure (roll 100)</li>
+                  <li>Weapon elemental procs show severity + body part damage lines</li>
+                  <li>Merchant flavor text: &ldquo;The merchant inspects...&rdquo; for sell, &ldquo;You hand over your money...&rdquo; for buy</li>
+                  <li>Search output corrected with round timer</li>
+                  <li>Prompt flags: P for combat, J for group, moved before &gt;</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">New Commands</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>PRAY &mdash; temple interaction, triggers deity scripts</li>
+                  <li>CONTACT &mdash; targeted psionic telepathy</li>
+                  <li>GUARD &mdash; protect another player, redirects attacks</li>
+                  <li>CHANT &mdash; activate scrolls</li>
+                  <li>TEACH &mdash; share skills with other players</li>
+                  <li>FILL &mdash; fill glasses from kegs, barrels, fountains</li>
+                  <li>DISARM &mdash; disarm traps with Trap &amp; Poison Lore skill</li>
+                  <li>SING &mdash; dedicated song verb with message text</li>
+                  <li>PLAY &mdash; instrument-specific music when wielding an instrument</li>
+                  <li>TURN PAGE &mdash; multi-page book support</li>
+                  <li>Whisper to those close &mdash; proximity whisper</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Group System</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>FOLLOW/JOIN &mdash; follow another player</li>
+                  <li>HOLD &mdash; leader adds member to group</li>
+                  <li>DISBAND/LEAVE &mdash; dissolve or leave groups</li>
+                  <li>Group movement: followers travel with leader automatically</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Crafting &amp; Weaponsmithing</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Full CRAFT &rarr; WORK forging cycle: heat, hammer, quench, buff, sharpen</li>
+                  <li>Material difficulty system: copper (easiest) through exotic metals</li>
+                  <li>Enchantment I spell (#202): +10 edge on non-magical weapons</li>
+                  <li>REPAIR command for damaged weapons at forges</li>
+                  <li>Crafting awards XP based on material difficulty</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Roleplay Features</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Wolfling TRANSFORM: assume wolf form and back</li>
+                  <li>Player titles (Lord, Baroness, etc.) shown in LOOK, set via @title</li>
+                  <li>TAP staff for light in dark rooms</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Security</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Per-IP rate limiting on all auth endpoints</li>
+                  <li>Fixed IP spoofing via X-Forwarded-For (uses Fly-Client-IP)</li>
+                  <li>WebSocket origin check hardened to exact match</li>
+                  <li>JWT secret validation at startup</li>
+                  <li>Case-insensitive character name uniqueness</li>
+                </ul>
+              </div>
+            </div>
+
+            <h2 className="text-amber-400 text-lg font-bold mb-1">v11.1.0 &mdash; April 8, 2026</h2>
+            <p className="text-gray-400 mb-3">MUD client protocol support, mobile fixes, rich prompts.</p>
+
+            <div className="space-y-4 mb-8">
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">MUD Client Protocols</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>GMCP support: Char.Vitals, Char.Status, Char.Stats, Room.Info (powers Mudlet automapper)</li>
+                  <li>MCCP2 compression for reduced bandwidth</li>
+                  <li>MSSP game metadata for MUD directory listings</li>
+                  <li>MSDP variable reporting for TinTin++ compatibility</li>
+                  <li>MXP clickable exits and items in supported clients</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Interface</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Rich status prompt in telnet/SSH: color-coded BP, Mana, Psi, Fatigue</li>
+                  <li>Simple prompt when GMCP is active (client renders gauges)</li>
+                  <li>Fixed character creation screen on mobile/small screens</li>
+                  <li>Added Privacy Policy and Terms of Service links</li>
+                </ul>
+              </div>
+            </div>
+
+            <h2 className="text-amber-400 text-lg font-bold mb-1">v11.0.0 &mdash; April 8, 2026</h2>
+            <p className="text-gray-400 mb-3">Telnet &amp; SSH access, email/password authentication, account management.</p>
+
+            <div className="space-y-4 mb-8">
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">MUD Client Access</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Connect via telnet: <span className="text-green-400">lofp.metavert.io</span> port <span className="text-green-400">4000</span></li>
+                  <li>Connect via SSH: <span className="text-green-400">ssh -p 4022 lofp.metavert.io</span></li>
+                  <li>Works with Mudlet, TinTin++, and any standard MUD client</li>
+                  <li>Full ANSI color support, character creation and selection via text menus</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Email/Password Authentication</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Create an account with email and password (in addition to Google login)</li>
+                  <li>Link Google login to an existing email/password account (and vice versa)</li>
+                  <li>Email verification for new accounts</li>
+                  <li>Forgot password / password reset via email</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Account Management</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Account settings modal (click your name in the top-right corner)</li>
+                  <li>Change display name, change password, resend verification email</li>
+                </ul>
+              </div>
+            </div>
+
             <h2 className="text-amber-400 text-lg font-bold mb-1">v10.0.5 &mdash; April 6, 2026</h2>
             <p className="text-gray-400 mb-3">GM tools, combat polish, and multiplayer fixes.</p>
 

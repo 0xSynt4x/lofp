@@ -15,6 +15,7 @@ import (
 	"github.com/jonradoff/lofp/internal/auth"
 	"github.com/jonradoff/lofp/internal/capture"
 	"github.com/jonradoff/lofp/internal/config"
+	"github.com/jonradoff/lofp/internal/email"
 	"github.com/jonradoff/lofp/internal/engine"
 	"github.com/jonradoff/lofp/internal/gamelog"
 	"github.com/jonradoff/lofp/internal/gameworld"
@@ -97,24 +98,56 @@ func main() {
 	// Create cross-machine hub
 	h := hub.New(db, machineID)
 
-	// Create auth service
+	// Create auth service (needed for email/password login, Google OAuth, JWT validation)
 	var authSvc *auth.Service
-	if cfg.Auth.GoogleClientID != "" {
+	if cfg.Auth.JWTSecret != "" {
 		authSvc = auth.NewService(db, cfg.Auth.GoogleClientID, cfg.Auth.JWTSecret)
-		log.Printf("Google OAuth enabled (client ID: %s...)", cfg.Auth.GoogleClientID[:min(20, len(cfg.Auth.GoogleClientID))])
+		if cfg.Auth.GoogleClientID != "" {
+			log.Printf("Google OAuth enabled (client ID: %s...)", cfg.Auth.GoogleClientID[:min(20, len(cfg.Auth.GoogleClientID))])
+		}
+		log.Println("Auth service enabled (email/password + JWT)")
 	} else {
-		log.Println("Google OAuth not configured (set GOOGLE_CLIENT_ID to enable)")
+		log.Println("Auth service not configured (set JWT_SECRET to enable)")
+	}
+
+	// Create email service
+	emailSvc := email.New(cfg.Email.ResendAPIKey, cfg.Email.FromAddress, cfg.Server.FrontendURL)
+	if emailSvc.Enabled() {
+		log.Println("Email service enabled (Resend)")
+	} else {
+		log.Println("Email service not configured (set RESEND_API_KEY to enable)")
 	}
 
 	// Create capture store
 	cs := capture.NewStore(db)
 
 	// Create API server
-	srv := api.NewServer(ge, parsed, authSvc, gl, h, cs, cfg.Server.FrontendURL)
+	srv := api.NewServer(ge, parsed, authSvc, emailSvc, gl, h, cs, cfg.Server.FrontendURL)
 	h.Start()
 	ge.StartTimeCycle()
 	ge.StartCEventLoop()
 	ge.StartMonsterLoop()
+
+	// Start telnet server (for MUD clients)
+	if cfg.Server.TelnetPort > 0 {
+		telnetAddr := fmt.Sprintf(":%d", cfg.Server.TelnetPort)
+		go srv.ListenTelnet(telnetAddr)
+		log.Printf("Telnet server starting on %s", telnetAddr)
+	}
+
+	// Start TLS telnet server
+	if cfg.Server.TelnetTLSPort > 0 && cfg.Server.TelnetTLSCert != "" && cfg.Server.TelnetTLSKey != "" {
+		tlsAddr := fmt.Sprintf(":%d", cfg.Server.TelnetTLSPort)
+		go srv.ListenTelnetTLS(tlsAddr, cfg.Server.TelnetTLSCert, cfg.Server.TelnetTLSKey)
+		log.Printf("Telnet TLS server starting on %s", tlsAddr)
+	}
+
+	// Start SSH server (for MUD clients with SSH)
+	if cfg.Server.SSHPort > 0 {
+		sshAddr := fmt.Sprintf(":%d", cfg.Server.SSHPort)
+		go srv.ListenSSH(sshAddr)
+		log.Printf("SSH server starting on %s", sshAddr)
+	}
 
 	addr := fmt.Sprintf(":%d", cfg.Server.Port)
 	log.Printf("Legends of Future Past server starting on %s", addr)

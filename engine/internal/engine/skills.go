@@ -137,8 +137,19 @@ func (e *GameEngine) doTrainWithBP(ctx context.Context, player *Player, args []s
 			player.Skills = make(map[int]int)
 		}
 		currentLvl := player.Skills[ts.SkillID]
-		if currentLvl >= ts.MaxLevel {
-			return &CommandResult{Messages: []string{fmt.Sprintf("You have reached the maximum %s training available here (%d).", name, ts.MaxLevel)}}
+
+		// Determine effective max level: room trainer or a teacher in the room
+		effectiveMax := ts.MaxLevel
+		if e.sessions != nil {
+			for _, p := range e.sessions.OnlinePlayers() {
+				if p.RoomNumber == player.RoomNumber && p.Teaching == ts.SkillID && p.TeachingLevel > effectiveMax {
+					effectiveMax = p.TeachingLevel
+				}
+			}
+		}
+
+		if currentLvl >= effectiveMax {
+			return &CommandResult{Messages: []string{fmt.Sprintf("You have reached the maximum %s training available here (%d).", name, effectiveMax)}}
 		}
 
 		// Check prerequisites

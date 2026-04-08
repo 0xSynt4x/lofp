@@ -153,6 +153,20 @@ func (e *GameEngine) weatherMod(roomNum int) int {
 	return 0
 }
 
+// joinWithAnd joins a list of strings with commas and "and" before the last element.
+func joinWithAnd(items []string) string {
+	switch len(items) {
+	case 0:
+		return ""
+	case 1:
+		return items[0]
+	case 2:
+		return items[0] + " and " + items[1]
+	default:
+		return strings.Join(items[:len(items)-1], ", ") + " and " + items[len(items)-1]
+	}
+}
+
 // ---- Damage severity tiers (from original session capture) ----
 
 var severityTiers = []struct {
@@ -171,6 +185,24 @@ func damageSeverity(dmg int) string {
 		}
 	}
 	return "Devastating"
+}
+
+// simplifiedDamageTier returns a simplified damage description for third-person room broadcasts.
+func simplifiedDamageTier(dmg int) string {
+	switch {
+	case dmg <= 5:
+		return "Minor damage"
+	case dmg <= 12:
+		return "Good damage"
+	case dmg <= 20:
+		return "Major damage"
+	case dmg <= 30:
+		return "Massive damage"
+	case dmg <= 45:
+		return "Devastating damage"
+	default:
+		return "Awesome damage"
+	}
 }
 
 // ---- Attack verb by weapon type (from session capture) ----
@@ -699,7 +731,6 @@ func (e *GameEngine) doAttackMonster(ctx context.Context, player *Player, target
 
 	selfVerb, thirdVerb, dmgNoun := attackVerb(weaponDef)
 	weaponName := e.weaponDisplayName(player, weaponDef)
-	pronoun := player.Possessive()
 
 	result := &CommandResult{}
 	var msgs []string
@@ -760,15 +791,22 @@ func (e *GameEngine) doAttackMonster(ctx context.Context, player *Player, target
 		// Weapon elemental crit / slayer bonus
 		if critDmg, critType := weaponCritDamage(player.Wielded, weaponDef, def); critDmg > 0 {
 			dmg += critDmg
+			critPart := randomBodyPart(def.BodyType)
+			critSeverity := damageSeverity(critDmg)
+			weaponNoun := strings.ToLower(e.nouns[weaponDef.NameID])
 			switch critType {
 			case "fire":
-				msgs = append(msgs, fmt.Sprintf(" The %s radiates intense heat! [%d Damage]", strings.ToLower(e.nouns[weaponDef.NameID]), critDmg))
+				msgs = append(msgs, fmt.Sprintf(" The %s radiates intense heat!", weaponNoun))
+				msgs = append(msgs, fmt.Sprintf(" %s burn to %s. [%d Damage]", critSeverity, critPart, critDmg))
 			case "cold":
-				msgs = append(msgs, fmt.Sprintf(" The %s radiates intense cold! [%d Damage]", strings.ToLower(e.nouns[weaponDef.NameID]), critDmg))
+				msgs = append(msgs, fmt.Sprintf(" The %s radiates intense cold!", weaponNoun))
+				msgs = append(msgs, fmt.Sprintf(" %s freeze to %s. [%d Damage]", critSeverity, critPart, critDmg))
 			case "lightning":
-				msgs = append(msgs, fmt.Sprintf(" The %s crackles with electricity! [%d Damage]", strings.ToLower(e.nouns[weaponDef.NameID]), critDmg))
+				msgs = append(msgs, fmt.Sprintf(" The %s crackles with electricity!", weaponNoun))
+				msgs = append(msgs, fmt.Sprintf(" %s shock to %s. [%d Damage]", critSeverity, critPart, critDmg))
 			case "slayer":
-				msgs = append(msgs, fmt.Sprintf(" Your weapon resonates against its foe! [%d Damage]", critDmg))
+				msgs = append(msgs, fmt.Sprintf(" Your weapon resonates against its foe!"))
+				msgs = append(msgs, fmt.Sprintf(" %s strike to %s. [%d Damage]", critSeverity, critPart, critDmg))
 			}
 		}
 
@@ -779,9 +817,11 @@ func (e *GameEngine) doAttackMonster(ctx context.Context, player *Player, target
 			msgs = append(msgs, " Your weapon delivers its venom!")
 		}
 
+		wasStunned := false
 		if excellent && !killed {
 			if rand.Intn(100) < 30 {
 				msgs = append(msgs, " It is stunned!")
+				wasStunned = true
 			}
 		}
 
@@ -797,10 +837,24 @@ func (e *GameEngine) doAttackMonster(ctx context.Context, player *Player, target
 			player.Joined = false
 		}
 
-		result.RoomBroadcast = []string{fmt.Sprintf("%s %s at %s%s with %s %s.", player.FirstName, thirdVerb, article, name, pronoun, weaponName)}
+		// Build simplified 3rd-person broadcast
+		broadcastMsg := fmt.Sprintf("%s %s at %s%s. %s %s", player.FirstName, thirdVerb, article, name, hitLabel, simplifiedDamageTier(dmg))
+		if wasStunned {
+			broadcastMsg += ", stun"
+		}
+		broadcastMsg += "."
+		if killed {
+			deathText := def.TextOverrides["TEXD"]
+			if deathText != "" {
+				broadcastMsg += fmt.Sprintf(" It %s", deathText)
+			} else {
+				broadcastMsg += " It collapses, dead."
+			}
+		}
+		result.RoomBroadcast = []string{broadcastMsg}
 	} else {
 		msgs = append(msgs, fmt.Sprintf(" [ToHit: %d, Roll: %d] Miss.", toHit, roll))
-		result.RoomBroadcast = []string{fmt.Sprintf("%s %s at %s%s but misses.", player.FirstName, thirdVerb, article, name)}
+		result.RoomBroadcast = []string{fmt.Sprintf("%s %s at %s%s. Miss.", player.FirstName, thirdVerb, article, name)}
 	}
 
 	result.Messages = msgs
@@ -870,6 +924,22 @@ func (e *GameEngine) doBackstab(ctx context.Context, player *Player, target stri
 func (e *GameEngine) monsterAttackPlayer(inst *MonsterInstance, def *gameworld.MonsterDef, player *Player) (playerMsgs []string, roomMsgs []string) {
 	if player.Dead || !inst.Alive {
 		return nil, nil
+	}
+
+	// Guard redirect: if someone is guarding this player, redirect the attack
+	if e.sessions != nil {
+		for _, guard := range e.sessions.OnlinePlayers() {
+			if guard.GuardTarget == player.FirstName && guard.RoomNumber == player.RoomNumber && !guard.Dead {
+				guardMsg := fmt.Sprintf("%s steps forward in defense of %s!", guard.FirstName, player.FirstName)
+				roomMsgs = append(roomMsgs, guardMsg)
+				if e.sendToPlayer != nil {
+					e.sendToPlayer(player.FirstName, []string{guardMsg})
+					e.sendToPlayer(guard.FirstName, []string{guardMsg})
+				}
+				// Redirect to the guard
+				return e.monsterAttackPlayer(inst, def, guard)
+			}
+		}
 	}
 
 	name := FormatMonsterName(def, e.monAdjs)
@@ -958,7 +1028,6 @@ func (e *GameEngine) monsterAttackPlayer(inst *MonsterInstance, def *gameworld.M
 		}
 
 		playerMsgs = append(playerMsgs, fmt.Sprintf(" %s %s to %s. [%d Damage]", severity, monDmgNoun, part, dmg))
-		roomMsgs = append(roomMsgs, fmt.Sprintf("%s%s attacks %s!", capArt, name, player.FirstName))
 
 		// Monster poison/disease/fatigue on hit
 		if def.PoisonChance > 0 && rand.Intn(100) < def.PoisonChance {
@@ -981,6 +1050,8 @@ func (e *GameEngine) monsterAttackPlayer(inst *MonsterInstance, def *gameworld.M
 			playerMsgs = append(playerMsgs, " You feel your life force being drained!")
 		}
 
+		// Build simplified 3rd-person broadcast for monster attack
+		monBroadcast := fmt.Sprintf("%s%s %s %s. %s %s.", capArt, name, monVerb, player.FirstName, hitLabel, simplifiedDamageTier(dmg))
 		if player.BodyPoints <= 0 {
 			// Arena prevents full death
 			if e.isArenaRoom(player.RoomNumber) {
@@ -990,11 +1061,13 @@ func (e *GameEngine) monsterAttackPlayer(inst *MonsterInstance, def *gameworld.M
 				playerMsgs = append(playerMsgs, fmt.Sprintf(" %s%s slays %s.", capArt, name, player.FirstName))
 				deathMsgs := e.handlePlayerDeath(player, name)
 				playerMsgs = append(playerMsgs, deathMsgs...)
-				roomMsgs = append(roomMsgs, fmt.Sprintf("%s%s slays %s!", capArt, name, player.FirstName))
+				monBroadcast += fmt.Sprintf(" %s%s slays %s!", capArt, name, player.FirstName)
 			}
 		}
+		roomMsgs = append(roomMsgs, monBroadcast)
 	} else {
 		playerMsgs = append(playerMsgs, fmt.Sprintf(" [ToHit: %d, Roll: %d] Miss.", toHit, roll))
+		roomMsgs = append(roomMsgs, fmt.Sprintf("%s%s %s %s. Miss.", capArt, name, monVerb, player.FirstName))
 	}
 
 	return playerMsgs, roomMsgs
@@ -1309,7 +1382,7 @@ func (e *GameEngine) doSearchMonster(ctx context.Context, player *Player, args [
 
 		displayName := FormatMonsterName(def, e.monAdjs)
 		var msgs []string
-		msgs = append(msgs, fmt.Sprintf("You search %s%s...", articleFor(displayName, def.Unique), displayName))
+		msgs = append(msgs, fmt.Sprintf("You search %s%s.", articleFor(displayName, def.Unique), displayName))
 
 		// Treasure based on monster's Treasure level
 		if def.Treasure > 0 {
@@ -1333,18 +1406,22 @@ func (e *GameEngine) doSearchMonster(ctx context.Context, player *Player, args [
 				found = append(found, fmt.Sprintf("%d copper", copper))
 			}
 			if len(found) > 0 {
-				msgs = append(msgs, fmt.Sprintf("You find %s!", strings.Join(found, ", ")))
+				msgs = append(msgs, fmt.Sprintf("You find %s.", joinWithAnd(found)))
 			} else {
-				msgs = append(msgs, "You find nothing of value.")
+				msgs = append(msgs, "You find nothing.")
 			}
 		} else {
-			msgs = append(msgs, "You find nothing of value.")
+			msgs = append(msgs, "You find nothing.")
 		}
+
+		// Search roundtime
+		player.RoundTimeExpiry = time.Now().Add(5 * time.Second)
+		msgs = append(msgs, " [Round: 5 sec]")
 
 		e.SavePlayer(ctx, player)
 		return &CommandResult{
 			Messages:      msgs,
-			RoomBroadcast: []string{fmt.Sprintf("%s searches %s %s.", player.FirstName, articleFor(displayName, def.Unique), displayName)},
+			RoomBroadcast: []string{fmt.Sprintf("%s searches %s%s.", player.FirstName, articleFor(displayName, def.Unique), displayName)},
 			PlayerState:   player,
 		}
 	}

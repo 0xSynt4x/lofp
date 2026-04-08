@@ -36,5 +36,5 @@ COPY --from=frontend /build/dist static/
 ENV LOFP_CONFIG=config/prod.yaml
 ENV LOFP_STATIC_DIR=/app/static
 
-EXPOSE 8080
+EXPOSE 8080 4000 4001 4022
 CMD ["./lofp"]

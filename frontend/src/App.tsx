@@ -7,14 +7,19 @@ import VersionNotes from './components/VersionNotes'
 import APIDocs from './components/APIDocs'
 import CaptureModal from './components/CaptureModal'
 import CaptureViewer from './components/CaptureViewer'
+import VerifyEmail from './components/VerifyEmail'
+import ResetPassword from './components/ResetPassword'
+import AccountModal from './components/AccountModal'
 
-type View = 'menu' | 'create' | 'play' | 'admin' | 'version' | 'capture_view' | 'api_docs'
+type View = 'menu' | 'create' | 'play' | 'admin' | 'version' | 'capture_view' | 'api_docs' | 'verify_email' | 'reset_password'
 
 // Check if URL points to a specific view
 function initialViewFromURL(): View {
   const path = window.location.pathname
   if (path === '/version-notes' || path === '/version-notes/') return 'version'
   if (path === '/api-docs' || path === '/api-docs/') return 'api_docs'
+  if (path === '/verify-email' || path === '/verify-email/') return 'verify_email'
+  if (path === '/reset-password' || path === '/reset-password/') return 'reset_password'
   return 'menu'
 }
 
@@ -33,18 +38,23 @@ export interface AuthUser {
     name: string
     picture: string
     isAdmin: boolean
+    emailVerified?: boolean
   }
 }
 
 interface AuthContextType {
   user: AuthUser | null
   login: (credential: string) => Promise<void>
+  loginWithPassword: (email: string, password: string) => Promise<void>
+  register: (email: string, password: string, name: string) => Promise<void>
   logout: () => void
 }
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   login: async () => {},
+  loginWithPassword: async () => {},
+  register: async () => {},
   logout: () => {},
 })
 
@@ -60,6 +70,10 @@ function App() {
       window.history.pushState({}, '', '/version-notes')
     } else if (v === 'api_docs') {
       window.history.pushState({}, '', '/api-docs')
+    } else if (v === 'verify_email') {
+      // keep URL as-is (has token param)
+    } else if (v === 'reset_password') {
+      // keep URL as-is (has token param)
     } else if (window.location.pathname !== '/') {
       window.history.pushState({}, '', '/')
     }
@@ -69,6 +83,7 @@ function App() {
   const [user, setUser] = useState<AuthUser | null>(null)
   const [authLoading, setAuthLoading] = useState(true)
   const [showCaptureModal, setShowCaptureModal] = useState(false)
+  const [showAccountModal, setShowAccountModal] = useState(false)
   const [captureRecording, setCaptureRecording] = useState(false)
   const [viewCaptureId, setViewCaptureId] = useState('')
   const wsRef = useRef<WebSocket | null>(null)
@@ -89,7 +104,6 @@ function App() {
     if (stored) {
       try {
         const parsed = JSON.parse(stored)
-        // Verify token is still valid, but keep it if server is unreachable
         fetch('/api/auth/me', {
           headers: { Authorization: `Bearer ${parsed.token}` },
         }).then(r => {
@@ -100,14 +114,11 @@ function App() {
               localStorage.setItem('lofp_auth', JSON.stringify(refreshed))
             })
           } else if (r.status === 401 || r.status === 403) {
-            // Token is genuinely invalid/expired — clear it
             localStorage.removeItem('lofp_auth')
           } else {
-            // Server error — keep the stored session
             setUser(parsed)
           }
         }).catch(() => {
-          // Network error (server restarting) — keep the stored session
           setUser(parsed)
         }).finally(() => setAuthLoading(false))
       } catch {
@@ -119,6 +130,12 @@ function App() {
     }
   }, [])
 
+  const setAuthUser = (data: { token: string; account: AuthUser['account'] }) => {
+    const authUser: AuthUser = { token: data.token, account: data.account }
+    setUser(authUser)
+    localStorage.setItem('lofp_auth', JSON.stringify(authUser))
+  }
+
   const login = async (credential: string) => {
     const resp = await fetch('/api/auth/google', {
       method: 'POST',
@@ -129,10 +146,33 @@ function App() {
       const errData = await resp.json().catch(() => null)
       throw new Error(errData?.error || `Login failed (${resp.status})`)
     }
-    const data = await resp.json()
-    const authUser: AuthUser = { token: data.token, account: data.account }
-    setUser(authUser)
-    localStorage.setItem('lofp_auth', JSON.stringify(authUser))
+    setAuthUser(await resp.json())
+  }
+
+  const loginWithPassword = async (email: string, password: string) => {
+    const resp = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => null)
+      throw new Error(errData?.error || `Login failed (${resp.status})`)
+    }
+    setAuthUser(await resp.json())
+  }
+
+  const register = async (email: string, password: string, name: string) => {
+    const resp = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, name }),
+    })
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => null)
+      throw new Error(errData?.error || `Registration failed (${resp.status})`)
+    }
+    setAuthUser(await resp.json())
   }
 
   const logout = () => {
@@ -164,7 +204,7 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, loginWithPassword, register, logout }}>
       <div className="h-screen flex flex-col bg-[#0a0a0a]">
         <div className="flex items-center justify-between px-4 py-2 bg-[#1a1a2e] border-b border-[#333]">
           <h1
@@ -210,10 +250,14 @@ function App() {
             )}
             {user && (
               <div className="flex items-center gap-2 ml-3 pl-3 border-l border-[#444]">
-                {user.account.picture && (
-                  <img src={user.account.picture} alt="" className="w-6 h-6 rounded-full" />
-                )}
-                <span className="text-gray-400 text-xs font-mono">{user.account.name}</span>
+                <img src={user.account.picture || '/default-avatar.svg'} alt="" className="w-6 h-6 rounded-full" />
+                <button
+                  onClick={() => setShowAccountModal(true)}
+                  className="text-gray-400 hover:text-amber-400 text-xs font-mono underline decoration-dotted cursor-pointer"
+                >
+                  {user.account.name}
+                  {user.account.emailVerified === false && <span className="text-yellow-500 ml-1" title="Email not verified">!</span>}
+                </button>
                 <button
                   onClick={logout}
                   className="text-gray-500 hover:text-gray-300 text-xs font-mono"
@@ -239,6 +283,8 @@ function App() {
           {view === 'version' && <VersionNotes onBack={() => setView('menu')} />}
           {view === 'api_docs' && <APIDocs onBack={() => setView('menu')} />}
           {view === 'capture_view' && <CaptureViewer captureId={viewCaptureId} onBack={() => setView('play')} />}
+          {view === 'verify_email' && <VerifyEmail onBack={() => setView('menu')} />}
+          {view === 'reset_password' && <ResetPassword onBack={() => setView('menu')} />}
         </div>
         {showCaptureModal && (
           <CaptureModal
@@ -247,6 +293,9 @@ function App() {
             onClose={() => setShowCaptureModal(false)}
             onViewCapture={(id) => { setViewCaptureId(id); setShowCaptureModal(false); setView('capture_view') }}
           />
+        )}
+        {showAccountModal && (
+          <AccountModal onClose={() => setShowAccountModal(false)} />
         )}
       </div>
     </AuthContext.Provider>
