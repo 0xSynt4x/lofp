@@ -9,25 +9,37 @@ export default function VersionNotes({ onBack }: { onBack: () => void }) {
 
         <div className="space-y-6 text-sm">
           <section>
-            <h2 className="text-amber-400 text-lg font-bold mb-1">v11.2.3 &mdash; April 11, 2026</h2>
-            <p className="text-gray-400 mb-3">GM server banner, announcement fixes, weather descriptions, room script fix.</p>
+            <h2 className="text-amber-400 text-lg font-bold mb-1">v11.3 &mdash; April 11, 2026</h2>
+            <p className="text-gray-400 mb-3">Mobile improvements, GM server banner, announcement fixes, weather descriptions.</p>
 
             <div className="space-y-4 mb-8">
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Mobile UI</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li>Responsive layout throughout — status bar, nav, admin panel, character creation all adapt to small screens</li>
+                  <li>Send button (↵) visible on touch devices</li>
+                  <li>Keyboard dismissed after each command so the screen zooms back out on iOS</li>
+                  <li>Predictive text / QuickType bar suppressed — no more autocorrect mangling game commands</li>
+                  <li>Input font-size set to 16px on mobile, preventing iOS auto-zoom on focus</li>
+                  <li>Mobile browser chrome accounted for with <code className="text-amber-300">dvh</code> viewport units</li>
+                  <li>Login/logout messages now off by default for new characters</li>
+                </ul>
+              </div>
               <div>
                 <h3 className="text-green-400 font-bold mb-1">GM Server Banner</h3>
                 <ul className="text-gray-300 space-y-1 ml-4 list-disc">
                   <li><code className="text-amber-300">@banner &lt;text&gt;</code> — broadcast a notice to all online players and set a login banner</li>
                   <li><code className="text-amber-300">@banner</code> (no args) — clear the banner</li>
-                  <li>Banner displays prominently on the web login screen and in the telnet login menu</li>
-                  <li>Stored in-memory (works even if MongoDB is offline) with MongoDB as backup across restarts</li>
+                  <li>Banner displays on the web login screen and in the telnet/SSH login menu</li>
+                  <li>Stored in-memory with MongoDB backup across restarts</li>
                 </ul>
               </div>
               <div>
                 <h3 className="text-green-400 font-bold mb-1">Fixes</h3>
                 <ul className="text-gray-300 space-y-1 ml-4 list-disc">
-                  <li><code className="text-amber-300">@announce</code> now actually broadcasts to all online players (was only echoing to the sender)</li>
-                  <li>Weather room descriptions now show prose (e.g. "Heavy snow swirls down...") instead of "The weather is Heavy Snow"</li>
-                  <li>Rare Weapons Exchange parlor door can now be opened with GO as well as PUSH</li>
+                  <li><code className="text-amber-300">@announce</code> now broadcasts to all online players (was only echoing to the sender)</li>
+                  <li>Weather room descriptions now show prose instead of "The weather is Heavy Snow"</li>
+                  <li>Rare Weapons Exchange parlor door now works with GO as well as PUSH</li>
                 </ul>
               </div>
             </div>

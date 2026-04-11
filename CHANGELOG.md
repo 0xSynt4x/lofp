@@ -1,11 +1,19 @@
 # Changelog
 
-## v11.2.3 — 2026-04-11
+## v11.3 — 2026-04-11
+
+### Mobile UI
+- Responsive layout throughout — status bar, nav, admin panel, character creation all adapt to small screens
+- Send button (↵) visible on touch devices; keyboard dismissed after each command so iOS zooms back out
+- Predictive text / QuickType bar suppressed — autocorrect no longer mangles game commands
+- Input font-size 16px on mobile, preventing iOS auto-zoom on focus
+- `dvh` viewport units account for mobile browser chrome
+- Login/logout messages off by default for new characters
 
 ### GM Server Banner
 - `@banner <text>` — set a login banner and broadcast notice to all online players
 - `@banner` (no args) — clears the banner silently
-- Banner displayed prominently on web login screen and telnet login menu
+- Banner displayed on web login screen and telnet/SSH login menu
 - In-memory primary storage (works even if MongoDB is offline); persisted to MongoDB as backup for restarts
 
 ### Fixes

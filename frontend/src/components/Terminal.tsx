@@ -160,6 +160,8 @@ export default function Terminal({ character, onQuit, wsRefOut, onCaptureStatus 
       data: { input: cmd },
     }))
     setInput('')
+    // On touch devices, blur after send so iOS zooms back out
+    if (isTouchDevice()) inputRef.current?.blur()
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -236,6 +238,9 @@ export default function Terminal({ character, onQuit, wsRefOut, onCaptureStatus 
           type="text"
           inputMode="text"
           enterKeyHint="send"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -244,7 +249,7 @@ export default function Terminal({ character, onQuit, wsRefOut, onCaptureStatus 
         />
         {/* Send button — visible only on touch devices */}
         <button
-          className="sm:hidden ml-2 px-3 py-1 bg-amber-700 text-white font-mono text-sm rounded active:bg-amber-600"
+          className="sm:hidden ml-2 px-3 py-1 bg-amber-700 text-white font-mono text-sm rounded active:bg-amber-600 flex-shrink-0"
           onPointerDown={e => { e.preventDefault(); sendCommand(input) }}
         >
           ↵
