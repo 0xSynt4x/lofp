@@ -405,6 +405,18 @@ func (s *Server) handleSSHSession(channel ssh.Channel, remoteAddr string) {
 func (s *Server) sshAuthenticate(sc *sshConn) (*auth.Account, *engine.Player) {
 	ctx := context.Background()
 
+	// Show active banner before login menu
+	if s.engine != nil {
+		if banner := s.engine.GetBanner(); banner != "" {
+			sc.writeLine("")
+			sc.writeLine(ansiYellow + "╔══════════════════════════════════════════════════════════════╗" + ansiReset)
+			sc.writeLine(ansiYellow + "║  SERVER NOTICE                                               ║" + ansiReset)
+			sc.writeLine(ansiYellow + "║  " + ansiBold + banner + ansiReset + ansiYellow + strings.Repeat(" ", max(0, 60-len(banner))) + "║" + ansiReset)
+			sc.writeLine(ansiYellow + "╚══════════════════════════════════════════════════════════════╝" + ansiReset)
+			sc.writeLine("")
+		}
+	}
+
 	for attempts := 0; attempts < 3; attempts++ {
 		sc.writeLine("Login options:")
 		sc.writeLine("  1) Sign in with email/password")
