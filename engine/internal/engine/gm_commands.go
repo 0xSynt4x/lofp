@@ -65,7 +65,9 @@ func (e *GameEngine) processGMCommand(ctx context.Context, player *Player, verb 
 		text := extractRawArgs(rawInput, 1)
 		return &CommandResult{Messages: []string{text}}
 	case "@ANNOUNCE":
-		return e.gmAnnounce(args, rawInput)
+		return e.gmAnnounce(player, args, rawInput)
+	case "@BANNER":
+		return e.gmBanner(player, args, rawInput)
 	case "@WHO":
 		return e.gmWho(ctx)
 	case "@LWHO":
@@ -416,15 +418,16 @@ func (e *GameEngine) gmExp(ctx context.Context, player *Player, args []string) *
 	if len(args) < 2 {
 		return &CommandResult{Messages: []string{"Usage: @exp <name> <points>"}}
 	}
-	target, err := e.resolvePlayerByName(ctx, args[0])
+	target, err := e.resolvePlayerArg(ctx, args)
 	if err != nil {
 		return &CommandResult{Messages: []string{err.Error()}}
 	}
-	pts, err := strconv.Atoi(args[1])
+	pts, err := strconv.Atoi(args[len(args)-1])
 	if err != nil {
 		return &CommandResult{Messages: []string{"Invalid point amount."}}
 	}
 	target.Experience += pts
+	recalcBuildPoints(target)
 	e.SavePlayer(ctx, target)
 	return &CommandResult{Messages: []string{fmt.Sprintf("Granted %d experience to %s. Total: %d", pts, target.FullName(), target.Experience)}}
 }
@@ -1348,17 +1351,54 @@ func (e *GameEngine) gmWhisper(args []string, rawInput string) *CommandResult {
 	return &CommandResult{Messages: []string{fmt.Sprintf("You whisper to %s: %s", args[0], text)}}
 }
 
-func (e *GameEngine) gmAnnounce(args []string, rawInput string) *CommandResult {
+func (e *GameEngine) gmAnnounce(player *Player, args []string, rawInput string) *CommandResult {
 	if len(args) < 2 {
 		return &CommandResult{Messages: []string{"Usage: @announce <mode> <message>"}}
 	}
 	mode := args[0]
 	text := extractRawArgs(rawInput, 2)
-	modeStr := "global"
-	if mode == "2" {
-		modeStr = "mindlink"
+
+	var msg string
+	switch mode {
+	case "0":
+		// Mindlink — psionic-style broadcast
+		msg = fmt.Sprintf("A mindlink announcement resonates in your mind: %s", text)
+	default:
+		// Mode 1 (and anything else) — global announcement
+		msg = fmt.Sprintf("[Global Announcement] %s", text)
 	}
-	return &CommandResult{Messages: []string{fmt.Sprintf("[%s announcement] %s", modeStr, text)}}
+
+	// Deliver to all online players except the sender (who gets it via CommandResult)
+	if e.sessions != nil && e.sendToPlayer != nil {
+		for _, p := range e.sessions.OnlinePlayers() {
+			if p.FirstName != player.FirstName {
+				e.sendToPlayer(p.FirstName, []string{msg})
+			}
+		}
+	}
+
+	return &CommandResult{Messages: []string{msg}}
+}
+
+func (e *GameEngine) gmBanner(player *Player, args []string, rawInput string) *CommandResult {
+	if len(args) == 0 {
+		// Clear banner
+		e.SetBanner("")
+		return &CommandResult{Messages: []string{"Login banner cleared."}}
+	}
+	text := extractRawArgs(rawInput, 1)
+	e.SetBanner(text)
+
+	// Broadcast notice to all online players
+	notice := fmt.Sprintf("[Server Notice] %s", text)
+	if e.sessions != nil && e.sendToPlayer != nil {
+		for _, p := range e.sessions.OnlinePlayers() {
+			if p.FirstName != player.FirstName {
+				e.sendToPlayer(p.FirstName, []string{notice})
+			}
+		}
+	}
+	return &CommandResult{Messages: []string{notice, fmt.Sprintf("Banner set: %s", text)}}
 }
 
 func (e *GameEngine) gmEdPlayer(ctx context.Context, args []string) *CommandResult {
@@ -1387,7 +1427,7 @@ func (e *GameEngine) gmEds(ctx context.Context, args []string) *CommandResult {
 	if len(args) < 3 {
 		return &CommandResult{Messages: []string{"Usage: @eds <name> <skill#> <level>"}}
 	}
-	target, err := e.resolvePlayerByName(ctx, args[0])
+	target, err := e.resolvePlayerArg(ctx, args)
 	if err != nil {
 		return &CommandResult{Messages: []string{err.Error()}}
 	}
@@ -1411,7 +1451,7 @@ func (e *GameEngine) gmGrantSp(ctx context.Context, args []string) *CommandResul
 	if len(args) < 2 {
 		return &CommandResult{Messages: []string{"Usage: @grantsp <name> <spell>"}}
 	}
-	target, err := e.resolvePlayerByName(ctx, args[0])
+	target, err := e.resolvePlayerArg(ctx, args)
 	if err != nil {
 		return &CommandResult{Messages: []string{err.Error()}}
 	}
@@ -1422,7 +1462,7 @@ func (e *GameEngine) gmPsi(ctx context.Context, args []string) *CommandResult {
 	if len(args) < 2 {
 		return &CommandResult{Messages: []string{"Usage: @psi <name> <discipline#>"}}
 	}
-	target, err := e.resolvePlayerByName(ctx, args[0])
+	target, err := e.resolvePlayerArg(ctx, args)
 	if err != nil {
 		return &CommandResult{Messages: []string{err.Error()}}
 	}
@@ -1539,7 +1579,7 @@ func (e *GameEngine) GetPlayer(ctx context.Context, firstName string) (*Player, 
 var allGMVerbs = []string{
 	"@HELP", "@GO", "@ADDITEM", "@DELETE", "@RDATA", "@HEAL", "@KILL", "@EXP",
 	"@GM", "@RFLAG", "@HIDE", "@UNHIDE", "@INVIS", "@VIS",
-	"@SND", "@ANNOUNCE", "@WHO", "@LWHO", "@NUM", "@QSTAT", "@PINV",
+	"@SND", "@ANNOUNCE", "@BANNER", "@WHO", "@LWHO", "@NUM", "@QSTAT", "@PINV",
 	"@GENMON", "@SPAWN", "@ACTIVATE", "@SEDATE", "@ZAP",
 	"@FIND", "@LIST", "@EXAMINE", "@GLOSSARY", "@PEEK", "@SET", "@RND",
 	"@OPEN", "@CLOSE", "@LOCK", "@UNLOCK",

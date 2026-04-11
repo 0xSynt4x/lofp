@@ -49,8 +49,16 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
   const [submitting, setSubmitting] = useState(false)
   const [forgotSent, setForgotSent] = useState(false)
   const [showMudInfo, setShowMudInfo] = useState(false)
+  const [banner, setBanner] = useState('')
 
   const isLoggedIn = !!user
+
+  useEffect(() => {
+    fetch('/api/banner')
+      .then(r => r.ok ? r.json() : { banner: '' })
+      .then(data => setBanner(data.banner || ''))
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -208,6 +216,14 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
             The Shattered Realms of Andor await your return...
           </p>
         </div>
+
+        {/* Server banner */}
+        {banner && (
+          <div className="mb-6 border border-yellow-600 bg-yellow-950/40 rounded-lg px-5 py-4">
+            <div className="text-yellow-400 font-mono text-xs font-bold uppercase tracking-widest mb-1">Server Notice</div>
+            <div className="text-yellow-200 font-mono text-sm">{banner}</div>
+          </div>
+        )}
 
         {/* Login prompt */}
         {!isLoggedIn && (
@@ -435,7 +451,7 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
         )}
         <div className="mt-6 text-center">
           <button onClick={onVersionNotes} className="text-gray-600 hover:text-amber-400 text-xs font-mono">
-            Version 11.2.2 &mdash; Version Notes
+            Version 11.2.3 &mdash; Version Notes
           </button>
           <span className="text-gray-700 mx-2">|</span>
           <a href="/manual" className="text-gray-600 hover:text-amber-400 text-xs font-mono">

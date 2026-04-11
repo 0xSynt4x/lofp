@@ -136,6 +136,7 @@ type GameEngine struct {
 	NamedVars       map[string]int // VARIABLE-defined global named variables (DANWATER, etc.)
 	namedVarNames   map[string]bool // set of valid named variable names
 	Events          *EventBus
+	Banner          string // active login banner; in-memory so it works even if MongoDB is down
 }
 
 // SetSessionProvider sets the session provider (called by API layer after init).
@@ -161,6 +162,49 @@ func (e *GameEngine) SetLocalRoomBroadcast(fn LocalRoomBroadcastFunc) {
 // SetSendToPlayer sets the function for sending targeted messages from background tasks.
 func (e *GameEngine) SetSendToPlayer(fn PlayerMessageFunc) {
 	e.sendToPlayer = fn
+}
+
+// GetBanner returns the current login banner (empty if none).
+func (e *GameEngine) GetBanner() string {
+	return e.Banner
+}
+
+// SetBanner sets the in-memory banner and persists it to MongoDB (best-effort).
+func (e *GameEngine) SetBanner(text string) {
+	e.Banner = text
+	go e.saveBanner(text)
+}
+
+// LoadBanner loads the banner from MongoDB on startup (best-effort; in-memory is authoritative at runtime).
+func (e *GameEngine) LoadBanner() {
+	if e.db == nil {
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	var doc struct {
+		Text string `bson:"text"`
+	}
+	err := e.db.Collection("game_state").FindOne(ctx, bson.M{"_id": "banner"}).Decode(&doc)
+	if err == nil && doc.Text != "" {
+		e.Banner = doc.Text
+		log.Printf("Loaded login banner: %q", e.Banner)
+	}
+}
+
+func (e *GameEngine) saveBanner(text string) {
+	if e.db == nil {
+		return
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if text == "" {
+		e.db.Collection("game_state").DeleteOne(ctx, bson.M{"_id": "banner"})
+	} else {
+		opts := options.Replace().SetUpsert(true)
+		e.db.Collection("game_state").ReplaceOne(ctx, bson.M{"_id": "banner"},
+			bson.M{"_id": "banner", "text": text}, opts)
+	}
 }
 
 // notifyRoomChange fires the callback if set.
@@ -613,7 +657,7 @@ func (e *GameEngine) ProcessCommand(ctx context.Context, player *Player, input s
 	switch verb {
 	case "LOOK", "EXAMINE", "INSPECT":
 		if len(args) == 0 {
-			return e.doLook(player)
+			return e.doLookFull(player)
 		}
 		return e.doLookAt(player, args)
 	case "GO":
@@ -1658,6 +1702,20 @@ func (e *GameEngine) applyEntryScripts(ctx context.Context, player *Player, room
 
 	// Check if hostile monsters should aggro on the player entering the room
 	go e.monsterCheckAggro(player, room.Number)
+}
+
+// doLookFull always shows the full room description (explicit LOOK command).
+func (e *GameEngine) doLookFull(player *Player) *CommandResult {
+	room := e.rooms[player.RoomNumber]
+	if room == nil {
+		return &CommandResult{Messages: []string{"You are in a void."}}
+	}
+	result := e.doLook(player)
+	// Always include the full description regardless of BriefMode
+	if !player.Dead && result.RoomDesc == "" {
+		result.RoomDesc = room.Description
+	}
+	return result
 }
 
 func (e *GameEngine) doLook(player *Player) *CommandResult {

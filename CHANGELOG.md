@@ -1,5 +1,18 @@
 # Changelog
 
+## v11.2.3 — 2026-04-11
+
+### GM Server Banner
+- `@banner <text>` — set a login banner and broadcast notice to all online players
+- `@banner` (no args) — clears the banner silently
+- Banner displayed prominently on web login screen and telnet login menu
+- In-memory primary storage (works even if MongoDB is offline); persisted to MongoDB as backup for restarts
+
+### Fixes
+- `@announce` now broadcasts to all online players (was only echoing back to the sender)
+- Weather room descriptions now show prose instead of "The weather is Heavy Snow"
+- Rare Weapons Exchange parlor door now works with GO as well as PUSH (`modern_fixes.scr`)
+
 ## v11.2.2 — 2026-04-09
 
 ### Game Calendar & Seasons

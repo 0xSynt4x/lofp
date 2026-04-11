@@ -283,6 +283,7 @@ func (s *Server) setupRoutes() {
 	// REST endpoints
 	api := s.router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/health", s.handleHealth).Methods("GET")
+	api.HandleFunc("/banner", s.handleBanner).Methods("GET")
 
 	// Auth (public)
 	api.HandleFunc("/auth/google", s.handleGoogleAuth).Methods("POST")
@@ -1101,6 +1102,15 @@ func isExcluded(name string, excludes []string) bool {
 
 func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+}
+
+func (s *Server) handleBanner(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	banner := ""
+	if s.engine != nil {
+		banner = s.engine.GetBanner()
+	}
+	json.NewEncoder(w).Encode(map[string]string{"banner": banner})
 }
 
 func (s *Server) handleHealthz(w http.ResponseWriter, r *http.Request) {

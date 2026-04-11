@@ -125,6 +125,7 @@ func main() {
 
 	// Create API server
 	srv := api.NewServer(ge, parsed, authSvc, emailSvc, gl, h, cs, cfg.Server.FrontendURL)
+	ge.LoadBanner()
 	h.Start()
 	ge.StartTimeCycle()
 	ge.StartWeatherCycle()

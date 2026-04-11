@@ -86,6 +86,24 @@ func (e *GameEngine) GetWeatherDesc(region int) string {
 	return "Clear"
 }
 
+// weatherRoomDesc maps weather state IDs to immersive room description lines.
+var weatherRoomDesc = map[int]string{
+	1:  "A few white clouds drift lazily across an otherwise blue sky.",
+	2:  "The sky above is heavy with gray clouds, blocking out the sun.",
+	3:  "A light rain falls steadily, pattering softly on the ground.",
+	4:  "A steady rain comes down, soaking everything in sight.",
+	5:  "Heavy rain lashes down, driven by gusting winds.",
+	6:  "Thunder rumbles overhead and lightning flickers through the roiling storm clouds.",
+	7:  "A powerful gale tears through, bending trees and howling between every gap.",
+	8:  "A furious hurricane rages, the wind a deafening roar and the rain nearly horizontal.",
+	9:  "Chunks of ice clatter down from a bruised sky, bouncing off the ground in every direction.",
+	10: "Wet sleet stings any exposed skin, half-rain half-ice, coating surfaces in a thin glaze.",
+	11: "Light snowflakes drift down from gray clouds, dusting the ground in white.",
+	12: "Snow falls steadily, blanketing everything in a deepening layer of white.",
+	13: "Heavy snow swirls down in thick curtains, making it hard to see far.",
+	14: "A howling blizzard rages, the world reduced to a churning wall of white.",
+}
+
 // GetRoomWeather returns a weather line for an outdoor room, or "" for indoor.
 func (e *GameEngine) GetRoomWeather(roomNum int) string {
 	room := e.rooms[roomNum]
@@ -96,11 +114,17 @@ func (e *GameEngine) GetRoomWeather(roomNum int) string {
 		return ""
 	}
 	region := room.Region
-	desc := e.GetWeatherDesc(region)
-	if desc == "" || desc == "Sunny" || desc == "Clear" {
+	state, ok := e.RegionWeather[region]
+	if !ok {
+		state = 0
+	}
+	if state == 0 { // Sunny — no extra line
 		return ""
 	}
-	return "The weather is " + desc + "."
+	if desc, ok := weatherRoomDesc[state]; ok {
+		return desc
+	}
+	return ""
 }
 
 // isOutdoorTerrain returns true if the terrain type is outdoors.
@@ -158,11 +182,12 @@ func (e *GameEngine) advanceWeather() {
 			msg := weatherTransitionMessages[[2]int{oldState, newState}]
 			if msg == "" {
 				// Generic fallback
-				newName := WeatherNames[newState]
-				if newName == "Sunny" {
+				if newState == 0 {
 					msg = "The skies clear."
+				} else if desc, ok := weatherRoomDesc[newState]; ok {
+					msg = desc
 				} else {
-					msg = "The weather changes to " + newName + "."
+					msg = "The weather shifts."
 				}
 			}
 

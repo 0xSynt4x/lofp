@@ -9,6 +9,31 @@ export default function VersionNotes({ onBack }: { onBack: () => void }) {
 
         <div className="space-y-6 text-sm">
           <section>
+            <h2 className="text-amber-400 text-lg font-bold mb-1">v11.2.3 &mdash; April 11, 2026</h2>
+            <p className="text-gray-400 mb-3">GM server banner, announcement fixes, weather descriptions, room script fix.</p>
+
+            <div className="space-y-4 mb-8">
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">GM Server Banner</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li><code className="text-amber-300">@banner &lt;text&gt;</code> — broadcast a notice to all online players and set a login banner</li>
+                  <li><code className="text-amber-300">@banner</code> (no args) — clear the banner</li>
+                  <li>Banner displays prominently on the web login screen and in the telnet login menu</li>
+                  <li>Stored in-memory (works even if MongoDB is offline) with MongoDB as backup across restarts</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-green-400 font-bold mb-1">Fixes</h3>
+                <ul className="text-gray-300 space-y-1 ml-4 list-disc">
+                  <li><code className="text-amber-300">@announce</code> now actually broadcasts to all online players (was only echoing to the sender)</li>
+                  <li>Weather room descriptions now show prose (e.g. "Heavy snow swirls down...") instead of "The weather is Heavy Snow"</li>
+                  <li>Rare Weapons Exchange parlor door can now be opened with GO as well as PUSH</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section>
             <h2 className="text-amber-400 text-lg font-bold mb-1">v11.2.2 &mdash; April 9, 2026</h2>
             <p className="text-gray-400 mb-3">Game-time calendar, passive regeneration, seasonal world.</p>
 

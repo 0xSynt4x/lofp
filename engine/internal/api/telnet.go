@@ -1103,6 +1103,18 @@ func (s *Server) handleTelnetConn(rawConn net.Conn, isTLS bool) {
 func (s *Server) telnetAuthenticate(tc *telnetConn) (account *auth.Account, player *engine.Player, isBot bool) {
 	ctx := context.Background()
 
+	// Show active banner before login menu
+	if s.engine != nil {
+		if banner := s.engine.GetBanner(); banner != "" {
+			tc.writeLine("")
+			tc.writeLine(ansiYellow + "╔══════════════════════════════════════════════════════════════╗" + ansiReset)
+			tc.writeLine(ansiYellow + "║  SERVER NOTICE                                               ║" + ansiReset)
+			tc.writeLine(ansiYellow + "║  " + ansiBold + banner + ansiReset + ansiYellow + strings.Repeat(" ", max(0, 60-len(banner))) + "║" + ansiReset)
+			tc.writeLine(ansiYellow + "╚══════════════════════════════════════════════════════════════╝" + ansiReset)
+			tc.writeLine("")
+		}
+	}
+
 	for attempts := 0; attempts < 3; attempts++ {
 		tc.writeLine("Login options:")
 		tc.writeLine("  1) Sign in with email/password")
