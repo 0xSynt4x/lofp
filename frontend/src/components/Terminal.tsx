@@ -161,7 +161,13 @@ export default function Terminal({ character, onQuit, wsRefOut, onCaptureStatus 
     }))
     setInput('')
     // On touch devices, blur after send so iOS zooms back out
-    if (isTouchDevice()) inputRef.current?.blur()
+    // On non-touch devices, explicitly refocus — some Chrome builds (Windows, Android)
+    // lose focus during the React re-render when new output lines are added
+    if (isTouchDevice()) {
+      inputRef.current?.blur()
+    } else {
+      inputRef.current?.focus()
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
