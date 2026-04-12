@@ -11,7 +11,7 @@ CALL 33
 *DESCRIPTION_START
 This room is paneled from floor to ceiling in the finest mirmach. Plush leather chairs give the weapons aficionado a place to rest and chat on their favorite subject. On one wall, a portrait of the High Lord of the Crimson Band shows him with a bejeweled greatsword at his side. He was a very big customer of this shop. There is a parchment sign tacked to the wall.
 *DESCRIPTION_END
-ITEM 0 350 ADJ1=535 ADJ2=143
+ITEM 0 350 ADJ1=535 ADJ2=143 VAL2=259
 ITEM 1 345 ADJ1=482
 ITEM 2 204 ADJ1=361
 ITEM 3 86 ADJ1=239 ADJ2=180

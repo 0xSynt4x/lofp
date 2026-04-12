@@ -1355,12 +1355,14 @@ func (e *GameEngine) doStance(player *Player, stance int) *CommandResult {
 // ---- Search Dead Monster for Loot ----
 
 func (e *GameEngine) doSearchMonster(ctx context.Context, player *Player, args []string) *CommandResult {
-	target := strings.ToLower(strings.Join(args, " "))
+	rawTarget := strings.ToLower(strings.Join(args, " "))
+	target, ordSkip := parseOrdinal(rawTarget)
 
 	if e.monsterMgr == nil {
 		return nil
 	}
 
+	matchCount := 0
 	monsters := e.monsterMgr.AllMonstersInRoom(player.RoomNumber)
 	for _, inst := range monsters {
 		if inst.Alive {
@@ -1373,6 +1375,10 @@ func (e *GameEngine) doSearchMonster(ctx context.Context, player *Player, args [
 		name := strings.ToLower(FormatMonsterName(def, e.monAdjs))
 		noun := strings.ToLower(def.Name)
 		if !strings.HasPrefix(name, target) && !strings.HasPrefix(noun, target) {
+			continue
+		}
+		matchCount++
+		if matchCount <= ordSkip {
 			continue
 		}
 
