@@ -48,7 +48,6 @@ export interface AuthUser {
 
 interface AuthContextType {
   user: AuthUser | null
-  login: (credential: string) => Promise<void>
   loginWithPassword: (email: string, password: string) => Promise<void>
   register: (email: string, password: string, name: string) => Promise<void>
   logout: () => void
@@ -56,7 +55,6 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
-  login: async () => {},
   loginWithPassword: async () => {},
   register: async () => {},
   logout: () => {},
@@ -141,19 +139,6 @@ function App() {
     localStorage.setItem('lofp_auth', JSON.stringify(authUser))
   }
 
-  const login = async (credential: string) => {
-    const resp = await fetch('/api/auth/google', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ credential }),
-    })
-    if (!resp.ok) {
-      const errData = await resp.json().catch(() => null)
-      throw new Error(errData?.error || `Login failed (${resp.status})`)
-    }
-    setAuthUser(await resp.json())
-  }
-
   const loginWithPassword = async (email: string, password: string) => {
     const resp = await fetch('/api/auth/login', {
       method: 'POST',
@@ -209,7 +194,7 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, loginWithPassword, register, logout }}>
+    <AuthContext.Provider value={{ user, loginWithPassword, register, logout }}>
       {/* h-dvh accounts for mobile browser chrome (address bar) shrinking the viewport */}
       <div className="h-dvh flex flex-col bg-[#0a0a0a]">
         <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#1a1a2e] border-b border-[#333] min-h-0">

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { GoogleLogin } from '@react-oauth/google'
 import type { Character } from '../App'
 import { useAuth } from '../App'
 
@@ -7,8 +6,6 @@ const RACE_NAMES: Record<number, string> = {
   1: 'Human', 2: 'Aelfen', 3: 'Highlander', 4: 'Wolfling',
   5: 'Murg', 6: 'Drakin', 7: 'Mechanoid', 8: 'Ephemeral',
 }
-
-const GOOGLE_ENABLED = !!import.meta.env.VITE_GOOGLE_CLIENT_ID
 
 interface SavedPlayer {
   id: string
@@ -32,7 +29,7 @@ interface Props {
 }
 
 export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionNotes }: Props) {
-  const { user, login, loginWithPassword, register } = useAuth()
+  const { user, loginWithPassword, register } = useAuth()
   const [players, setPlayers] = useState<SavedPlayer[]>([])
   const [loading, setLoading] = useState(true)
   const [backendUp, setBackendUp] = useState(true)
@@ -176,16 +173,6 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
     setSubmitting(false)
   }
 
-  const handleGoogleSuccess = async (credentialResponse: { credential?: string }) => {
-    if (!credentialResponse.credential) return
-    try {
-      setLoginError('')
-      await login(credentialResponse.credential)
-    } catch (err) {
-      setLoginError(err instanceof Error ? err.message : 'Login failed. Please try again.')
-    }
-  }
-
   return (
     <div className="flex items-start justify-center h-full p-4 sm:p-8 overflow-y-auto">
       <div className="max-w-2xl w-full">
@@ -249,23 +236,6 @@ export default function MainMenu({ onNewCharacter, onSelectCharacter, onVersionN
                   >
                     创建账户
                   </button>
-                  {GOOGLE_ENABLED && (
-                    <>
-                      <div className="flex items-center gap-3 w-full my-1">
-                        <div className="flex-1 border-t border-[#333]" />
-                        <span className="text-gray-600 font-mono text-xs">或</span>
-                        <div className="flex-1 border-t border-[#333]" />
-                      </div>
-                      <GoogleLogin
-                        onSuccess={handleGoogleSuccess}
-                        onError={() => setLoginError('Login failed.')}
-                        theme="filled_black"
-                        size="large"
-                        shape="rectangular"
-                        text="signin_with"
-                      />
-                    </>
-                  )}
                 </div>
                 {loginError && (
                   <p className="text-red-400 font-mono text-xs mt-3">{loginError}</p>
