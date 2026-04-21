@@ -117,7 +117,7 @@ export default function AccountModal({ onClose }: Props) {
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50" onClick={onClose}>
       <div className="bg-[#1a1a1a] border border-[#444] rounded-lg p-6 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-amber-400 font-mono font-bold text-lg">Account Settings</h2>
+          <h2 className="text-amber-400 font-mono font-bold text-lg">账户设置</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-300 text-lg">&times;</button>
         </div>
 
@@ -125,20 +125,20 @@ export default function AccountModal({ onClose }: Props) {
         <div className="flex gap-1 mb-4 border-b border-[#333] pb-2">
           <button onClick={() => { setTab('info'); setError(''); setMessage('') }}
             className={`px-3 py-1 text-xs font-mono rounded-t ${tab === 'info' ? 'bg-[#333] text-amber-400' : 'text-gray-500 hover:text-gray-300'}`}>
-            Info
+            信息
           </button>
           <button onClick={() => { setTab('name'); setError(''); setMessage('') }}
             className={`px-3 py-1 text-xs font-mono rounded-t ${tab === 'name' ? 'bg-[#333] text-amber-400' : 'text-gray-500 hover:text-gray-300'}`}>
-            Name
+            名称
           </button>
           <button onClick={() => { setTab('password'); setError(''); setMessage('') }}
             className={`px-3 py-1 text-xs font-mono rounded-t ${tab === 'password' ? 'bg-[#333] text-amber-400' : 'text-gray-500 hover:text-gray-300'}`}>
-            Password
+            密码
           </button>
           {!isVerified && (
             <button onClick={() => { setTab('verify'); setError(''); setMessage('') }}
               className={`px-3 py-1 text-xs font-mono rounded-t ${tab === 'verify' ? 'bg-[#333] text-amber-400' : 'text-yellow-500 hover:text-yellow-300 animate-pulse'}`}>
-              Verify Email
+              验证邮箱
             </button>
           )}
         </div>
@@ -146,25 +146,25 @@ export default function AccountModal({ onClose }: Props) {
         {/* Tab content */}
         {tab === 'info' && (
           <div className="space-y-2 font-mono text-sm">
-            <div><span className="text-gray-500">Email:</span> <span className="text-gray-300">{user?.account?.email}</span></div>
-            <div><span className="text-gray-500">Name:</span> <span className="text-gray-300">{user?.account?.name}</span></div>
+            <div><span className="text-gray-500">邮箱:</span> <span className="text-gray-300">{user?.account?.email}</span></div>
+            <div><span className="text-gray-500">名称:</span> <span className="text-gray-300">{user?.account?.name}</span></div>
             <div>
-              <span className="text-gray-500">Email verified:</span>{' '}
+              <span className="text-gray-500">邮箱已验证:</span>{' '}
               {isVerified
-                ? <span className="text-green-400">Yes</span>
-                : <span className="text-yellow-400">No — <button onClick={() => setTab('verify')} className="underline hover:text-yellow-300">verify now</button></span>
+                ? <span className="text-green-400">是</span>
+                : <span className="text-yellow-400">否 — <button onClick={() => setTab('verify')} className="underline hover:text-yellow-300">立即验证</button></span>
               }
             </div>
             <div className="flex items-center gap-2 mt-2">
               <img src={user?.account?.picture || '/default-avatar.svg'} alt="" className="w-8 h-8 rounded-full" />
               {user?.account?.picture
-                ? <span className="text-gray-500 text-xs">Google linked</span>
-                : <span className="text-gray-500 text-xs">Email/password account</span>
+                ? <span className="text-gray-500 text-xs">已关联 Google</span>
+                : <span className="text-gray-500 text-xs">邮箱/密码账户</span>
               }
             </div>
             <div className="pt-3 mt-3 border-t border-[#333]">
               <button onClick={logout} className="text-red-400 hover:text-red-300 text-xs font-mono">
-                Sign Out
+                登出
               </button>
             </div>
           </div>
@@ -173,13 +173,13 @@ export default function AccountModal({ onClose }: Props) {
         {tab === 'name' && (
           <form onSubmit={handleUpdateName} className="space-y-3">
             <input type="text" value={newName} onChange={e => setNewName(e.target.value)}
-              placeholder="Display name"
+              placeholder="显示名称"
               className="w-full px-3 py-2 bg-[#111] border border-[#444] rounded font-mono text-sm text-gray-200 focus:border-amber-600 focus:outline-none" />
             {error && <p className="text-red-400 font-mono text-xs">{error}</p>}
             {message && <p className="text-green-400 font-mono text-xs">{message}</p>}
             <button type="submit" disabled={submitting}
               className="w-full py-2 bg-amber-700 hover:bg-amber-600 text-white font-mono text-sm rounded disabled:opacity-50">
-              {submitting ? 'Updating...' : 'Update Name'}
+              {submitting ? '更新中...' : '更新名称'}
             </button>
           </form>
         )}
@@ -188,20 +188,20 @@ export default function AccountModal({ onClose }: Props) {
           <form onSubmit={handleUpdatePassword} className="space-y-3">
             {user?.account?.picture && (
               <p className="text-gray-500 font-mono text-xs">
-                Set a password to enable login via telnet or SSH MUD clients.
+                设置密码以启用 telnet 或 SSH MUD 客户端登录。
               </p>
             )}
             <input type="password" value={password} onChange={e => setPassword(e.target.value)}
-              placeholder="New password (10+ chars, mixed case, digit, special)"
+              placeholder="新密码 (10+ 字符, 大小写混合, 数字, 特殊字符)"
               className="w-full px-3 py-2 bg-[#111] border border-[#444] rounded font-mono text-sm text-gray-200 focus:border-amber-600 focus:outline-none" />
             <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}
-              placeholder="Confirm new password"
+              placeholder="确认新密码"
               className="w-full px-3 py-2 bg-[#111] border border-[#444] rounded font-mono text-sm text-gray-200 focus:border-amber-600 focus:outline-none" />
             {error && <p className="text-red-400 font-mono text-xs">{error}</p>}
             {message && <p className="text-green-400 font-mono text-xs">{message}</p>}
             <button type="submit" disabled={submitting}
               className="w-full py-2 bg-amber-700 hover:bg-amber-600 text-white font-mono text-sm rounded disabled:opacity-50">
-              {submitting ? 'Updating...' : 'Update Password'}
+              {submitting ? '更新中...' : '更新密码'}
             </button>
           </form>
         )}
@@ -209,23 +209,23 @@ export default function AccountModal({ onClose }: Props) {
         {tab === 'verify' && (
           <div className="space-y-3">
             <p className="text-gray-400 font-mono text-sm">
-              Enter the verification code from your email, or click below to resend.
+              输入邮件中的验证码，或点击下方重新发送。
             </p>
             <form onSubmit={handleVerifyCode} className="space-y-3">
               <input type="text" value={verifyCode} onChange={e => setVerifyCode(e.target.value.toUpperCase())}
-                placeholder="Verification code (e.g. ABCD1234)"
+                placeholder="验证码 (例如 ABCD1234)"
                 className="w-full px-3 py-2 bg-[#111] border border-[#444] rounded font-mono text-sm text-gray-200 focus:border-amber-600 focus:outline-none tracking-widest text-center text-lg"
                 maxLength={8} autoFocus />
               {error && <p className="text-red-400 font-mono text-xs">{error}</p>}
               {message && <p className="text-green-400 font-mono text-xs">{message}</p>}
               <button type="submit" disabled={submitting || verifyCode.length < 8}
                 className="w-full py-2 bg-amber-700 hover:bg-amber-600 text-white font-mono text-sm rounded disabled:opacity-50">
-                {submitting ? 'Verifying...' : 'Verify'}
+                {submitting ? '验证中...' : '验证'}
               </button>
             </form>
             <button onClick={handleResendVerification} disabled={submitting}
               className="w-full py-2 bg-[#222] hover:bg-[#333] text-gray-400 font-mono text-xs rounded border border-[#444] disabled:opacity-50">
-              Resend verification email
+              重新发送验证邮件
             </button>
           </div>
         )}

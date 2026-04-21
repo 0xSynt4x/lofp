@@ -13,7 +13,7 @@ export default function VerifyEmail({ onBack }: Props) {
     const token = params.get('token')
     if (!token) {
       setStatus('error')
-      setError('Missing verification token.')
+      setError('缺少验证令牌。')
       return
     }
     fetch('/api/auth/verify-email', {
@@ -26,11 +26,11 @@ export default function VerifyEmail({ onBack }: Props) {
       } else {
         const data = await r.json().catch(() => null)
         setStatus('error')
-        setError(data?.error || 'Verification failed.')
+        setError(data?.error || '验证失败。')
       }
     }).catch(() => {
       setStatus('error')
-      setError('Network error.')
+      setError('网络错误。')
     })
   }, [])
 
@@ -38,23 +38,23 @@ export default function VerifyEmail({ onBack }: Props) {
     <div className="flex items-center justify-center h-full p-8">
       <div className="max-w-md w-full text-center">
         {status === 'verifying' && (
-          <p className="text-gray-400 font-mono">Verifying your email...</p>
+          <p className="text-gray-400 font-mono">正在验证你的邮箱...</p>
         )}
         {status === 'success' && (
           <div>
-            <p className="text-green-400 font-mono text-lg mb-4">Email verified!</p>
-            <p className="text-gray-400 font-mono text-sm mb-6">Your account is now fully active.</p>
+            <p className="text-green-400 font-mono text-lg mb-4">邮箱已验证！</p>
+            <p className="text-gray-400 font-mono text-sm mb-6">你的账户现已完全激活。</p>
             <button onClick={onBack} className="px-6 py-2 bg-amber-700 hover:bg-amber-600 text-white font-mono rounded">
-              Continue to Login
+              继续登录
             </button>
           </div>
         )}
         {status === 'error' && (
           <div>
-            <p className="text-red-400 font-mono text-lg mb-4">Verification Failed</p>
+            <p className="text-red-400 font-mono text-lg mb-4">验证失败</p>
             <p className="text-gray-400 font-mono text-sm mb-6">{error}</p>
             <button onClick={onBack} className="px-6 py-2 bg-[#333] hover:bg-[#444] text-gray-300 font-mono rounded">
-              Back to Menu
+              返回菜单
             </button>
           </div>
         )}

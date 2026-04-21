@@ -2,52 +2,52 @@ import { useState } from 'react'
 
 const RACES = [
   {
-    id: 1, name: 'Human',
+    id: 1, name: '人类',
     stats: 'STR 30-100  AGI 30-100  QUI 30-100  CON 30-100  PER 30-100  WIL 40-110  EMP 30-100',
-    desc: 'The elder race of the Shattered Realms. Humans have existed since time out of mind and tend to excel at any skill they pursue, attributed to their superior willpower. Cybernetic technology was originally developed for humans, so they may employ any such device. They get along with other races as well as they get along with each other.',
-    ability: 'Can use all cybernetic implants.',
+    desc: '破碎疆域的古老种族。人类自远古以来便已存在，凭借强大的意志力在各种技能上都能有所成就。赛博格技术最初是为人类开发的，因此他们可以使用任何此类装置。和其他种族相处的方式，就和他们彼此相处的方式一样。',
+    ability: '可以使用所有赛博格植入物。',
   },
   {
-    id: 2, name: 'Aelfen',
+    id: 2, name: '精灵',
     stats: 'STR 20-90  AGI 40-110  QUI 40-110  CON 1-70  PER 40-110  WIL 30-100  EMP 40-110',
-    desc: 'Tall, slender humanoids with pretty features and pointed ears. Quick, agile and with heightened senses from living in the woodlands. They may live for centuries and are extremely resistant to natural diseases. Carefree and aloof with mercurial tempers, they are lovers of beauty and the arts.',
-    ability: 'CALL — summon a woodland creature to serve you (wilderness only).',
+    desc: '身材高挑纤细的类人生物，拥有美丽的容貌和尖耳朵。生活在林地中，敏捷迅速，感官敏锐。寿命可达数百年，对自然疾病具有极强的抵抗力。无忧无虑且超然物外，性情反复无常，是美与艺术的爱好者。',
+    ability: 'CALL — 召唤林地生物为你服务（仅限野外）。',
   },
   {
-    id: 3, name: 'Highlander',
+    id: 3, name: '高地人',
     stats: 'STR 40-110  AGI 20-90  QUI 20-90  CON 50-120  PER 30-100  WIL 30-100  EMP 10-80',
-    desc: 'Short, rugged mountain folk known as Children of the Stone. Strong, enduring, and especially resistant to magic. They see well in darkness and are comfortable with technological implements. Their women can be quite attractive, and they certainly do not have beards.',
-    ability: 'BLEND into cave/mountain terrain. At level 5: MOLD gemstones into more valuable gems.',
+    desc: '被称为石之子民的矮壮山地民族。强壮、坚韧，尤其对魔法具有抵抗力。在黑暗中视物清晰，熟练使用科技装置。他们的女性可以非常迷人，而且肯定没有胡子。',
+    ability: 'BLEND — 融入洞穴/山地地形。5级时：MOLD — 将宝石塑造成更有价值的宝石。',
   },
   {
-    id: 4, name: 'Wolfling',
+    id: 4, name: '狼人',
     stats: 'STR 30-100  AGI 40-110  QUI 40-110  CON 30-100  PER 40-110  WIL 30-100  EMP 30-100',
-    desc: 'Strong humanoids of medium height with distinctly lupine features. They can travel long distances without fatigue and see at night as well as in day. A proud, noble race where honor is extremely important. Calling a wolfling a werewolf is a dangerous proposition.',
-    ability: 'TRANSFORM into giant wolf form — fight with claws and teeth, travel long distances.',
+    desc: '中等身材的强壮类人生物，拥有明显的狼类特征。可以长途跋涉而不觉疲惫，夜间视力如同白昼。骄傲而高贵的种族，荣誉极为重要。称呼狼人为狼人是危险的举动。',
+    ability: 'TRANSFORM — 变成巨狼形态——用爪牙战斗，长途跋涉。',
   },
   {
-    id: 5, name: 'Murg',
+    id: 5, name: '穆格',
     stats: 'STR 40-110  AGI 30-100  QUI 30-100  CON 40-110  PER 40-110  WIL 20-90  EMP 20-90',
-    desc: 'Burly humanoids naturally endowed with a desire to compete. Powerful limbs make them skilled climbers. Their eyes can see nearly as well in darkness as daylight. Compulsive practical jokers, they find themselves extremely funny. Broken into clans that constantly fight each other.',
-    ability: 'FRENZY — strike with greater ferocity; continue fighting even below 0 HP until death.',
+    desc: '天生具有竞争欲望的魁梧类人生物。强壮的四肢使他们成为熟练的攀爬者。在黑暗中视力几乎和白天一样好。忍不住要恶作剧，他们觉得自己非常有趣。分裂成不断互相争斗的氏族。',
+    ability: 'FRENZY — 更凶猛地攻击；在生命值低于0时继续战斗直到死亡。',
   },
   {
-    id: 6, name: 'Drakin',
+    id: 6, name: '龙人',
     stats: 'STR 40-110  AGI 10-80  QUI 40-110  CON 40-110  PER 30-100  WIL 30-100  EMP 40-110',
-    desc: 'Dragon-folk covered with tough scales, powerful jaws, reptilian tails and large bat-like wings. They move with lightning speed when necessary. Their culture developed its own school of fighting with unique weapons: katana, wakizashi, sai, kusari-gama, nunchaku, bo-stick, naginata, shuriken. Never wear armor.',
-    ability: 'FLY with their wings. Unique drakin weapon style combinable with two-weapon fighting.',
+    desc: '身覆坚硬鳞片的龙族后裔，拥有有力的下颚、爬行类的尾巴和巨大的蝙蝠状翅膀。必要时可以闪电般快速移动。他们的文化发展出独特的武斗流派和武器：武士刀、短刀、叉、锁镰、双节棍、棍棒、长柄刀、手里剑。绝不穿盔甲。',
+    ability: 'FLY — 用翅膀飞行。独特的龙人武器风格，可与双武器战斗结合。',
   },
   {
-    id: 7, name: 'Mechanoid',
+    id: 7, name: '机械体',
     stats: 'STR 40-110  AGI 30-100  QUI 30-100  CON 40-110  PER 40-110  WIL 30-100  EMP 1-60',
-    desc: 'Machines imbued with an ephemeral spirit. Regenerating living tissue covers their mechanical bodies. The least empathic of all races, making the worst spellcasters, but they can turn emotions on and off at will to channel skills to maximum effectiveness. Pragmatic and logical to annoyance.',
-    ability: 'EMOTE/UNEMOTE — toggle emotional state for precision skill use.',
+    desc: '被注入了飘渺灵魂的机器。再生活组织覆盖着他们的机械身躯。是所有种族中最缺乏同理心的，使其成为最差的施法者，但他们可以随意开关情绪以最大化技能效果。务实且理性到令人厌烦的程度。',
+    ability: 'EMOTE/UNEMOTE — 切换情绪状态以精确使用技能。',
   },
   {
-    id: 8, name: 'Ephemeral',
+    id: 8, name: '虚影',
     stats: 'STR n/a  AGI 30-100  QUI 50-120  CON 1-10  PER 30-100  WIL 30-100  EMP 30-100',
-    desc: 'Wispy apparitions that do not exist completely in the physical plane. Non-magical weapons cannot harm them except when they attack, which draws them onto the physical plane. They cannot manipulate heavy objects. Natural telepaths who usually devote their lives to scholarly pursuits.',
-    ability: 'Immune to non-magical weapons (except when attacking). Natural telepathy. See in darkness.',
+    desc: '不能完全存在于物质层面的飘渺幽灵。非魔法武器无法伤害他们，除非他们进行攻击——这会将他们拉入物质层面。他们无法操控重物。天生的心灵感应者，通常致力于学术追求。',
+    ability: '对非魔法武器免疫（攻击时除外）。天生心灵感应。黑暗中视物。',
   },
 ]
 
@@ -73,55 +73,55 @@ export default function CharacterCreate({ onCreated, onOpenManual }: Props) {
     <div className="flex items-start sm:items-center justify-center h-full pt-4 px-4 pb-4 sm:p-8 overflow-y-auto">
       <div className="max-w-3xl w-full bg-[#111] border border-[#333] rounded-lg p-4 sm:p-8">
         <h2 className="text-amber-400 text-2xl font-mono mb-1 text-center">
-          Create Your Character
+          创建你的角色
         </h2>
         <p className="text-gray-500 text-sm font-mono mb-6 text-center">
-          Choose wisely — your race and abilities will shape your destiny in the Shattered Realms
+          谨慎选择——你的种族和能力将决定你在破碎疆域中的命运
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name */}
           <div className="bg-[#0a0a0a] border border-amber-900/50 rounded-lg p-3 mb-2">
             <p className="text-gray-400 text-xs font-mono leading-relaxed">
-              Legends is a roleplaying game &mdash; please choose a name that fits the fantasy setting.
-              Avoid modern names, pop culture references, or joke names.{' '}
+              Legends 是一个角色扮演游戏——请选择适合奇幻设定的名字。
+              避免现代名字、流行文化引用或玩笑名字.{' '}
               <button type="button" onClick={onOpenManual} className="text-amber-500 hover:text-amber-400 underline cursor-pointer">
-                Read more about roleplaying &rarr;
+                了解更多关于角色扮演的信息 &rarr;
               </button>
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-400 text-sm font-mono mb-1">First Name</label>
+              <label className="block text-gray-400 text-sm font-mono mb-1">名</label>
               <input
                 type="text"
                 value={firstName}
                 onChange={e => setFirstName(e.target.value)}
                 maxLength={15}
                 className="w-full bg-[#0a0a0a] border border-[#444] rounded px-3 py-2 text-gray-200 font-mono focus:border-amber-500 focus:outline-none"
-                placeholder="Balthazar"
+                placeholder="巴尔萨泽"
                 autoFocus
               />
             </div>
             <div>
-              <label className="block text-gray-400 text-sm font-mono mb-1">Last Name</label>
+              <label className="block text-gray-400 text-sm font-mono mb-1">姓</label>
               <input
                 type="text"
                 value={lastName}
                 onChange={e => setLastName(e.target.value)}
                 maxLength={15}
                 className="w-full bg-[#0a0a0a] border border-[#444] rounded px-3 py-2 text-gray-200 font-mono focus:border-amber-500 focus:outline-none"
-                placeholder="Thinvar"
+                placeholder="辛瓦尔"
               />
-              <p className="text-gray-600 text-[10px] font-mono mt-1">Hyphens and accents permitted in last name</p>
+              <p className="text-gray-600 text-[10px] font-mono mt-1">姓氏允许使用连字符和重音符号</p>
             </div>
           </div>
 
           {/* Gender */}
           <div>
-            <label className="block text-gray-400 text-sm font-mono mb-1">Gender</label>
+            <label className="block text-gray-400 text-sm font-mono mb-1">性别</label>
             <div className="flex gap-4">
-              {[{ v: 0, l: 'Male' }, { v: 1, l: 'Female' }].map(g => (
+              {[{ v: 0, l: '男性' }, { v: 1, l: '女性' }].map(g => (
                 <button
                   key={g.v}
                   type="button"
@@ -136,7 +136,7 @@ export default function CharacterCreate({ onCreated, onOpenManual }: Props) {
 
           {/* Race selection */}
           <div>
-            <label className="block text-gray-400 text-sm font-mono mb-2">Race</label>
+            <label className="block text-gray-400 text-sm font-mono mb-2">种族</label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
               {RACES.map(r => (
                 <button
@@ -172,7 +172,7 @@ export default function CharacterCreate({ onCreated, onOpenManual }: Props) {
             disabled={!firstName.trim() || !lastName.trim()}
             className="w-full py-3 bg-amber-700 hover:bg-amber-600 disabled:bg-gray-700 disabled:text-gray-500 text-white font-mono rounded text-lg transition-colors cursor-pointer"
           >
-            Enter the Shattered Realms
+            进入破碎疆域
           </button>
         </form>
       </div>

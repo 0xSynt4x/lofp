@@ -3,8 +3,8 @@ export default function VersionNotes({ onBack }: { onBack: () => void }) {
     <div className="flex items-start justify-center h-full p-8 overflow-y-auto">
       <div className="max-w-3xl w-full font-mono">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-amber-500 text-2xl font-bold">Version Notes</h1>
-          <button onClick={onBack} className="text-gray-400 hover:text-white text-sm">&larr; Back</button>
+          <h1 className="text-amber-500 text-2xl font-bold">版本说明</h1>
+          <button onClick={onBack} className="text-gray-400 hover:text-white text-sm">&larr; 返回</button>
         </div>
 
         <div className="space-y-6 text-sm">

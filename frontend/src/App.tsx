@@ -203,7 +203,7 @@ function App() {
   if (authLoading) {
     return (
       <div className="h-screen flex items-center justify-center bg-[#0a0a0a]">
-        <div className="text-gray-500 font-mono">Loading...</div>
+        <div className="text-gray-500 font-mono">加载中...</div>
       </div>
     )
   }
@@ -235,20 +235,20 @@ function App() {
               onClick={() => setView('menu')}
               className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded font-mono min-h-[36px] ${view === 'menu' ? 'bg-amber-700 text-white' : 'text-gray-400 hover:text-white'}`}
             >
-              Menu
+              菜单
             </button>
             <button
               onClick={() => character ? setView('play') : null}
               className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded font-mono min-h-[36px] ${view === 'play' ? 'bg-amber-700 text-white' : 'text-gray-400 hover:text-white'} ${!character ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
             >
-              Play
+              游玩
             </button>
             {user?.account?.isAdmin && (
               <button
                 onClick={() => setView('admin')}
                 className={`hidden sm:block px-2 sm:px-3 py-1 text-xs sm:text-sm rounded font-mono min-h-[36px] ${view === 'admin' ? 'bg-amber-700 text-white' : 'text-gray-400 hover:text-white'}`}
               >
-                Admin
+                管理
               </button>
             )}
             {character?.isGM && (
@@ -264,14 +264,14 @@ function App() {
                 onClick={() => setShowCaptureModal(true)}
                 className={`hidden sm:block px-2 sm:px-3 py-1 text-xs sm:text-sm rounded font-mono min-h-[36px] ${captureRecording ? 'bg-red-700 text-white animate-pulse' : 'text-gray-400 hover:text-white'}`}
               >
-                {captureRecording ? '● Rec' : 'Capture'}
+                {captureRecording ? '● 录制' : '录制'}
               </button>
             )}
             <button
               onClick={() => setShowManual(!showManual)}
               className={`hidden sm:block px-2 sm:px-3 py-1 text-xs sm:text-sm rounded font-mono min-h-[36px] ${showManual ? 'bg-amber-700 text-white' : 'text-gray-400 hover:text-white'}`}
             >
-              Manual
+              手册
             </button>
             {user && (
               <div className="flex items-center gap-1 sm:gap-2 ml-1 sm:ml-3 pl-1 sm:pl-3 border-l border-[#444]">
@@ -294,7 +294,7 @@ function App() {
                   onClick={logout}
                   className="hidden sm:block text-gray-500 hover:text-gray-300 text-xs font-mono min-h-[36px] px-1"
                 >
-                  Logout
+                  登出
                 </button>
               </div>
             )}
