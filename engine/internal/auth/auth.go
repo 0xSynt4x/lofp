@@ -446,16 +446,11 @@ func (s *Service) RegisterWithPassword(ctx context.Context, email, password, dis
 		return nil, "", "", fmt.Errorf("failed to hash password: %w", err)
 	}
 
-	verifyToken := generateToken()
-	verifyCode := generateCode()
 	account := Account{
 		Email:         email,
 		Name:          displayName,
 		PasswordHash:  hash,
-		EmailVerified: false,
-		VerifyToken:   verifyToken,
-		VerifyCode:    verifyCode,
-		VerifyExpiry:  time.Now().Add(24 * time.Hour),
+		EmailVerified: true, // 开发模式：跳过邮箱验证
 		CreatedAt:     time.Now(),
 		UpdatedAt:     time.Now(),
 	}
@@ -471,7 +466,7 @@ func (s *Service) RegisterWithPassword(ctx context.Context, email, password, dis
 	if oid, ok := result.InsertedID.(bson.ObjectID); ok {
 		account.ID = oid
 	}
-	return &account, verifyToken, verifyCode, nil
+	return &account, "", "", nil
 }
 
 // LoginWithPassword authenticates by email and password, returning the account.
